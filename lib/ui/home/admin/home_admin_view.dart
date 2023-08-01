@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/home/admin/components/account_manager/account_manager_view.dart';
 
 import 'components/list_item.dart';
 import 'home_admin_controller.dart';
@@ -18,6 +19,7 @@ class HomeAdmin extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           LeftMenu(controller: _controller),
+          Expanded(child: AccountManagerView()),
         ],
       ),
     );
