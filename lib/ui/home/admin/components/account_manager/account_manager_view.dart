@@ -49,8 +49,8 @@ class AccountManagerView extends StatelessWidget {
               ),
             ),
             Container(
-              color: Colors.white54,
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+              color: Colors.blue,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -93,7 +93,7 @@ class AccountManagerView extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                padding: const EdgeInsets.all(16),
+                // padding: const EdgeInsets.all(16),
                 color: Colors.white54,
                 child: ListView.builder(
                   // physics: const NeverScrollableScrollPhysics(),

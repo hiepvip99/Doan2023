@@ -43,16 +43,17 @@ class LeftMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-          border: Border.all(width: 2, color: Colors.grey.shade300)),
+      decoration: const BoxDecoration(
+          border: Border(right: BorderSide(width: 1, color: Colors.grey))),
       constraints: const BoxConstraints(maxWidth: 300),
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'shoe store',
+                'Shoe store',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(
@@ -78,8 +79,8 @@ class LeftMenu extends StatelessWidget {
                             menuList[index].title,
                             style: TextStyle(
                                 color: controller.indexSelected.value == index
-                                    ? Colors.blue.shade900
-                                    : Colors.grey.shade600,
+                                    ? Colors.black
+                                    : Colors.grey,
                                 fontSize: 16),
                           )
                         ],
@@ -94,7 +95,8 @@ class LeftMenu extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Divider(
-                  thickness: 0.5,
+                  // thickness: 1,
+                  height: 1,
                   color: Colors.grey,
                 ),
               ),
@@ -124,8 +126,8 @@ class LeftMenu extends StatelessWidget {
                             style: TextStyle(
                                 color: controller.indexSelected.value ==
                                         index + (menuList.length - 2)
-                                    ? Colors.blue.shade900
-                                    : Colors.grey.shade600,
+                                    ? Colors.black
+                                    : Colors.grey,
                                 fontSize: 16),
                           )
                         ],
