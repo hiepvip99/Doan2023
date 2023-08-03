@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/component_common/textfield_common.dart';
 
 import 'account_manager_controller.dart';
 
@@ -16,7 +17,7 @@ class AccountManagerView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -31,15 +32,18 @@ class AccountManagerView extends StatelessWidget {
                   const SizedBox(
                     width: 50,
                   ),
-                  const Expanded(
-                      flex: 7,
-                      child: TextField(
-                        decoration: InputDecoration(
-                            label: Text('Tìm kiếm'),
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.all(8),
-                            isDense: true),
-                      )),
+                  Expanded(
+                    flex: 7,
+                    // child: TextField(
+                    //   decoration: InputDecoration(
+                    //       label: Text('Tìm kiếm'),
+                    //       border: OutlineInputBorder(),
+                    //       contentPadding: EdgeInsets.all(8),
+                    //       isDense: true),
+                    // ),
+                    child: TextFieldCommon(
+                        label: 'Tìm kiếm', controller: TextEditingController()),
+                  ),
                   const SizedBox(
                     width: 50,
                   ),

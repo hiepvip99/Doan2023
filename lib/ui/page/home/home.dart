@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:web_app/ui/home/admin/home_admin_view.dart';
+import 'package:web_app/ui/page/home/admin/home_admin_view.dart';
 
 import '../login/login.dart';
 

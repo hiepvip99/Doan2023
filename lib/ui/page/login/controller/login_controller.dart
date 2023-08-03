@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:web_app/model/network/login_model.dart';
 import 'package:web_app/ui/dialog/dialog_common.dart';
 
-import '../../../service/local/save_data.dart';
-import '../../../service/network/login_service.dart';
+import '../../../../service/local/save_data.dart';
+import '../../../../service/network/login_service.dart';
 import '../../home/home.dart';
 
 class LoginController extends GetxController {

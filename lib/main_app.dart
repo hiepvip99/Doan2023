@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_app/service/local/setting_data.dart';
 import 'package:web_app/ui/dialog/dialog_common.dart';
-import 'package:web_app/ui/home/admin/home_admin_view.dart';
-import 'package:web_app/ui/home/home.dart';
+import 'package:web_app/ui/page/home/admin/home_admin_view.dart';
+import 'package:web_app/ui/page/home/home.dart';
 
 import 'app_page.dart';
 import 'config_theme.dart';
-import 'ui/login/login.dart';
+import 'ui/page/login/login.dart';
 // import 'ui/product/product_s.dart';
 
 class MainApp extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:web_app/ui/login/controller/login_controller.dart';
+import 'package:web_app/ui/page/login/controller/login_controller.dart';
 // import 'package:hive_flutter/hive_flutter.dart';
 
 import '../home/home.dart';

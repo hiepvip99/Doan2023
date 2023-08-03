@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:web_app/ui/home/admin/components/account_manager/account_manager_view.dart';
+import 'package:web_app/ui/page/home/admin/components/account_manager/account_manager_view.dart';
 
 import 'components/list_item.dart';
 import 'components/manufacturers_manager/manufacturers_manager_view.dart';
