@@ -1,0 +1,30 @@
+{
+  "product_id": "1",
+  "product_name": "Giầy thể thao trẻ trung",
+  "manufacturer_id": "1",
+  "gender": "Nam",
+  "product_colors": [
+    {
+      "product_color_id": "1",
+      "color_id": "1",
+      "price": "500000"
+    },
+    {
+      "product_color_id": "2",
+      "color_id": "2",
+      "price": "600000"
+    }
+  ],
+  "product_sizes": [
+    {
+      "product_size_id": "1",
+      "size_id": "1",
+      "quantity": "10"
+    },
+    {
+      "product_size_id": "2",
+      "size_id": "2",
+      "quantity": "25"
+    }
+  ]
+}
