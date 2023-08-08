@@ -21,6 +21,12 @@ class DialogCommon {
     ));
   }
 
+  Future<void> showDialogWithBody({required Widget bodyDialog}) async {
+    Get.dialog(Center(
+      child: bodyDialog,
+    ));
+  }
+
   void dismiss() async {
     if (Get.isDialogOpen ?? false) {
       Get.back(closeOverlays: true);

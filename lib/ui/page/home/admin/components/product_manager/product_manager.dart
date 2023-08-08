@@ -1,19 +1,10 @@
-// ignore_for_file: invalid_use_of_protected_member
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:web_app/ui/component_common/textfield_common.dart';
 
-import 'account_manager_controller.dart';
-import 'components/dialog_account.dart';
+import '../../../../../component_common/textfield_common.dart';
 
-class AccountManagerView extends StatelessWidget {
-  AccountManagerView({super.key});
+class ProductManagerView extends StatelessWidget {
+  const ProductManagerView({super.key});
 
-  final AccountManagerController controller =
-      Get.find<AccountManagerController>();
-
-  static const router = '/AccountManager';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +26,6 @@ class AccountManagerView extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 7,
-                    // child: TextField(
-                    //   decoration: InputDecoration(
-                    //       label: Text('Tìm kiếm'),
-                    //       border: OutlineInputBorder(),
-                    //       contentPadding: EdgeInsets.all(8),
-                    //       isDense: true),
-                    // ),
                     child: TextFieldCommon(
                         label: 'Tìm kiếm', controller: TextEditingController()),
                   ),
@@ -50,7 +34,7 @@ class AccountManagerView extends StatelessWidget {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        DialogAccount().showDialogAdd();
+                        // DialogAccount().showDialogAdd();
                       },
                       child: const Text('Thêm tài khoản')),
                 ],
@@ -106,7 +90,7 @@ class AccountManagerView extends StatelessWidget {
                 child: ListView.builder(
                   // physics: const NeverScrollableScrollPhysics(),
                   // shrinkWrap: true,
-                  itemCount: controller.accountList.value.length,
+                  // itemCount: controller.accountList.value.length,
                   itemBuilder: (context, index) => Container(
                     color: index % 2 == 0 ? Colors.white : Colors.blue.shade100,
                     child: Padding(
@@ -114,56 +98,56 @@ class AccountManagerView extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(
-                            child: Text(
-                              '${controller.accountList.value[index].id}',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              controller.accountList.value[index].userName,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              controller.accountList.value[index].fullName,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              controller.accountList.value[index].email,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              controller.accountList.value[index].role > 0
-                                  ? 'User'
-                                  : 'Admin',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ElevatedButton(
-                                  onPressed: () {}, child: const Text('Sửa')),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red),
-                                  onPressed: () {
-                                    DialogAccount()
-                                        .showDeleteConfirmation(context);
-                                  },
-                                  child: const Text('Xóa')),
-                            ],
-                          ),
+                          // Expanded(
+                          //   child: Text(
+                          //     '${controller.accountList.value[index].id}',
+                          //     overflow: TextOverflow.ellipsis,
+                          //   ),
+                          // ),
+                          // Expanded(
+                          //   child: Text(
+                          //     controller.accountList.value[index].userName,
+                          //     overflow: TextOverflow.ellipsis,
+                          //   ),
+                          // ),
+                          // Expanded(
+                          //   child: Text(
+                          //     controller.accountList.value[index].fullName,
+                          //     overflow: TextOverflow.ellipsis,
+                          //   ),
+                          // ),
+                          // Expanded(
+                          //   child: Text(
+                          //     controller.accountList.value[index].email,
+                          //     overflow: TextOverflow.ellipsis,
+                          //   ),
+                          // ),
+                          // Expanded(
+                          //   child: Text(
+                          //     controller.accountList.value[index].role > 0
+                          //         ? 'User'
+                          //         : 'Admin',
+                          //     overflow: TextOverflow.ellipsis,
+                          //   ),
+                          // ),
+                          // Row(
+                          //   mainAxisSize: MainAxisSize.min,
+                          //   children: [
+                          //     ElevatedButton(
+                          //         onPressed: () {}, child: const Text('Sửa')),
+                          //     const SizedBox(
+                          //       width: 8,
+                          //     ),
+                          //     ElevatedButton(
+                          //         style: ElevatedButton.styleFrom(
+                          //             backgroundColor: Colors.red),
+                          //         onPressed: () {
+                          //           DialogAccount()
+                          //               .showDeleteConfirmation(context);
+                          //         },
+                          //         child: const Text('Xóa')),
+                          //   ],
+                          // ),
                         ],
                       ),
                     ),
