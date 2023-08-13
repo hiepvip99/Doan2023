@@ -60,7 +60,6 @@ CREATE TABLE `colors` (
 
 CREATE TABLE `images` (
   `image_id` int(11) NOT NULL,
-  `product_id` int(11) DEFAULT NULL,
   `image_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -198,8 +197,7 @@ ALTER TABLE `colors`
 -- Chỉ mục cho bảng `images`
 --
 ALTER TABLE `images`
-  ADD PRIMARY KEY (`image_id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD PRIMARY KEY (`image_id`);
 
 --
 -- Chỉ mục cho bảng `manufacturers`
@@ -333,12 +331,6 @@ ALTER TABLE `users`
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
-
---
--- Các ràng buộc cho bảng `images`
---
-ALTER TABLE `images`
-  ADD CONSTRAINT `images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
 
 --
 -- Các ràng buộc cho bảng `orders`
