@@ -44,7 +44,7 @@ class ProductManagerView extends StatelessWidget {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        // DialogAccount().showDialogAdd();
+                        controller.showAdd(context);
                       },
                       child: const Text('Thêm sản phẩm')),
                 ],
@@ -116,13 +116,14 @@ class ProductManagerView extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                '${controller.productList.value[index].id}',
+                                '${controller.productList.value[index].id ?? 0}',
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             CachedNetworkImage(
                                 imageUrl:
-                                    controller.productList.value[index].image,
+                                    controller.productList.value[index].image ??
+                                        '',
                                 width: 100,
                                 fit: BoxFit.cover,
                                 filterQuality: FilterQuality.low),
@@ -131,19 +132,19 @@ class ProductManagerView extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                controller.productList.value[index].name,
+                                controller.productList.value[index].name ?? '',
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             Expanded(
                               child: Text(
-                                '${controller.productList.value[index].quatity}',
+                                '${controller.productList.value[index].quatity ?? 0}',
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             Expanded(
                               child: Text(
-                                '${controller.productList.value[index].price} đ',
+                                '${controller.productList.value[index].price ?? 0} đ',
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
@@ -159,10 +160,15 @@ class ProductManagerView extends StatelessWidget {
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.red),
                                     onPressed: () {
+                                      if (controller
+                                              .productList.value[index].id !=
+                                          null) {
                                       controller.showDelete(
                                           controller
-                                              .productList.value[index].id,
-                                          context);
+                                              .productList.value[index].id!,
+                                          context,
+                                        );
+                                      }
                                     },
                                     child: const Text('Xóa')),
                               ],

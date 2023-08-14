@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../component_common/close_button.dart';
 import '../../../../../../component_common/delete_body_dialog_common.dart';
 import '../../../../../../component_common/textfield_common.dart';
 import '../../../../../../dialog/dialog_common.dart';
@@ -8,43 +9,18 @@ import '../../../../../../dialog/dialog_common.dart';
 class DialogAccount {
   void showDialogAccount(Widget body, String title) {
     Get.find<DialogCommon>().showDialogWithBody(
-      bodyDialog: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 600, maxHeight: 400),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(title),
-                      InkWell(
-                        borderRadius: BorderRadius.circular(100),
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.clear,
-                          ),
-                        ),
-                        onTap: () => Get.back(),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  body,
-                ],
-              ),
-            ),
+      title: 'Thêm tài khoản',
+      bodyDialog: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        // mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(
+            height: 16,
           ),
-        ),
+          body,
+        ],
       ),
+      
     );
   }
 

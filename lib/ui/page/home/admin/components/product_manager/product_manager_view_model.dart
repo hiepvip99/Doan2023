@@ -5,7 +5,7 @@ import 'package:web_app/ui/page/home/admin/components/product_manager/components
 
 class ProductManagerViewModel extends GetxController {
   RxList<ProductModel> productList = RxList([]);
-
+  Rx<ProductModel> itemAdd = Rx(ProductModel());
   @override
   void onInit() {
     // TODO: implement onInit
@@ -139,29 +139,33 @@ class ProductManagerViewModel extends GetxController {
   }
 
   void showDelete(int id, BuildContext context) {
-    DialogProduct()
+    DialogProduct(viewModel: this)
         .showDeleteConfirmation(context, id, () => removeProduct(id));
+  }
+
+  void showAdd(BuildContext context) {
+    DialogProduct(viewModel: this).addProductDialog(context, itemAdd);
   }
 }
 
 class ProductModel {
-  int id;
-  String image;
-  String name;
-  int price;
-  int manufacturerId;
-  String gender;
-  int quatity;
-  List<int> colorId;
+  int? id;
+  String? image;
+  String? name;
+  int? price;
+  int? manufacturerId;
+  String? gender;
+  int? quatity;
+  List<int>? colorId;
   ProductModel({
-    required this.id,
-    required this.image,
-    required this.name,
-    required this.price,
-    required this.manufacturerId,
-    required this.gender,
-    required this.quatity,
-    required this.colorId,
+    this.id,
+    this.image,
+    this.name,
+    this.price,
+    this.manufacturerId,
+    this.gender,
+    this.quatity,
+    this.colorId,
   });
 }
 

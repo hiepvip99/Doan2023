@@ -4,6 +4,8 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
+import '../component_common/close_button.dart';
+
 class DialogCommon {
   // DialogCommon._privateConstructor();
 
@@ -21,9 +23,35 @@ class DialogCommon {
     ));
   }
 
-  Future<void> showDialogWithBody({required Widget bodyDialog}) async {
+  Future<void> showDialogWithBody(
+      {required Widget bodyDialog,
+      double? width,
+      double? height,
+      EdgeInsets? padding,
+      String? title}) async {
     Get.dialog(Center(
-      child: bodyDialog,
+      child: ConstrainedBox(
+        constraints:
+            BoxConstraints(maxWidth: width ?? 600, maxHeight: height ?? 400),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Scaffold(
+            body: Padding(
+              padding: padding ??
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [Text(title ?? ''), const CloseButtonCommon()],
+                  ),
+                  bodyDialog,
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     ));
   }
 

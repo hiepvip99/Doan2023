@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TextFieldCommon extends StatelessWidget {
   const TextFieldCommon(
       {super.key,
-      required this.label,
+      this.label,
       required this.controller,
       this.contentPadding,
       this.requiredInput = false});
