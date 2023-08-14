@@ -1,10 +1,20 @@
+// ignore_for_file: invalid_use_of_protected_member
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:web_app/ui/page/home/admin/components/product_manager/components/dialog_product.dart';
 
 import '../../../../../component_common/textfield_common.dart';
+import 'product_manager_view_model.dart';
 
 class ProductManagerView extends StatelessWidget {
-  const ProductManagerView({super.key});
+  ProductManagerView({super.key});
 
+  final ProductManagerViewModel controller =
+      Get.find<ProductManagerViewModel>();
+
+  static const router = '/AccountManager';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +28,7 @@ class ProductManagerView extends StatelessWidget {
               child: Row(
                 children: [
                   const Text(
-                    'Danh sách tài khoản:',
+                    'Danh sách sản phẩm:',
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(
@@ -36,7 +46,7 @@ class ProductManagerView extends StatelessWidget {
                       onPressed: () {
                         // DialogAccount().showDialogAdd();
                       },
-                      child: const Text('Thêm tài khoản')),
+                      child: const Text('Thêm sản phẩm')),
                 ],
               ),
             ),
@@ -52,27 +62,31 @@ class ProductManagerView extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      'Ảnh',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
                   Expanded(
                     child: Text(
-                      'Tài khoản',
+                      'Tên Sản Phẩm',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Expanded(
                     child: Text(
-                      'Họ và Tên',
+                      'Số lượng còn lại',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Expanded(
                     child: Text(
-                      'Email',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Phân quyền',
+                      'Giá',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -87,68 +101,74 @@ class ProductManagerView extends StatelessWidget {
               child: Container(
                 // padding: const EdgeInsets.all(16),
                 color: Colors.white54,
-                child: ListView.builder(
-                  // physics: const NeverScrollableScrollPhysics(),
-                  // shrinkWrap: true,
-                  // itemCount: controller.accountList.value.length,
-                  itemBuilder: (context, index) => Container(
-                    color: index % 2 == 0 ? Colors.white : Colors.blue.shade100,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Expanded(
-                          //   child: Text(
-                          //     '${controller.accountList.value[index].id}',
-                          //     overflow: TextOverflow.ellipsis,
-                          //   ),
-                          // ),
-                          // Expanded(
-                          //   child: Text(
-                          //     controller.accountList.value[index].userName,
-                          //     overflow: TextOverflow.ellipsis,
-                          //   ),
-                          // ),
-                          // Expanded(
-                          //   child: Text(
-                          //     controller.accountList.value[index].fullName,
-                          //     overflow: TextOverflow.ellipsis,
-                          //   ),
-                          // ),
-                          // Expanded(
-                          //   child: Text(
-                          //     controller.accountList.value[index].email,
-                          //     overflow: TextOverflow.ellipsis,
-                          //   ),
-                          // ),
-                          // Expanded(
-                          //   child: Text(
-                          //     controller.accountList.value[index].role > 0
-                          //         ? 'User'
-                          //         : 'Admin',
-                          //     overflow: TextOverflow.ellipsis,
-                          //   ),
-                          // ),
-                          // Row(
-                          //   mainAxisSize: MainAxisSize.min,
-                          //   children: [
-                          //     ElevatedButton(
-                          //         onPressed: () {}, child: const Text('Sửa')),
-                          //     const SizedBox(
-                          //       width: 8,
-                          //     ),
-                          //     ElevatedButton(
-                          //         style: ElevatedButton.styleFrom(
-                          //             backgroundColor: Colors.red),
-                          //         onPressed: () {
-                          //           DialogAccount()
-                          //               .showDeleteConfirmation(context);
-                          //         },
-                          //         child: const Text('Xóa')),
-                          //   ],
-                          // ),
-                        ],
+                child: Obx(
+                  () => ListView.builder(
+                    // physics: const NeverScrollableScrollPhysics(),
+                    // shrinkWrap: true,
+                    itemCount: controller.productList.value.length,
+                    itemBuilder: (context, index) => Container(
+                      color:
+                          index % 2 == 0 ? Colors.white : Colors.blue.shade100,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '${controller.productList.value[index].id}',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            CachedNetworkImage(
+                                imageUrl:
+                                    controller.productList.value[index].image,
+                                width: 100,
+                                fit: BoxFit.cover,
+                                filterQuality: FilterQuality.low),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: Text(
+                                controller.productList.value[index].name,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${controller.productList.value[index].quatity}',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                '${controller.productList.value[index].price} đ',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ElevatedButton(
+                                    onPressed: () {}, child: const Text('Sửa')),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red),
+                                    onPressed: () {
+                                      controller.showDelete(
+                                          controller
+                                              .productList.value[index].id,
+                                          context);
+                                    },
+                                    child: const Text('Xóa')),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

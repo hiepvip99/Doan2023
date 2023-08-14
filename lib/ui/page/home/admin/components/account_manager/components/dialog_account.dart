@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../component_common/delete_body_dialog_common.dart';
 import '../../../../../../component_common/textfield_common.dart';
 import '../../../../../../dialog/dialog_common.dart';
 
@@ -93,37 +94,6 @@ class DialogAccount {
           },
         );
       },
-    );
-  }
-}
-
-class DeleteItemDialog extends StatelessWidget {
-  final String itemName;
-  final VoidCallback onDelete;
-
-  const DeleteItemDialog({
-    super.key,
-    required this.itemName,
-    required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Xóa $itemName?'),
-      content: Text('Bạn có chắc muốn xóa $itemName không?'),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop(); // Đóng Dialog
-          },
-          child: Text('Hủy'),
-        ),
-        ElevatedButton(
-          onPressed: onDelete,
-          child: Text('Xóa'),
-        ),
-      ],
     );
   }
 }
