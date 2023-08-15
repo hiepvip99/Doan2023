@@ -34,70 +34,6 @@ class DialogProduct {
   }
 
   void addProductDialog(BuildContext context, Rx<ProductModel> itemAdd) {
-    // showDialog(
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return SizedBox(
-    //       width: 600,
-    //       height: 400,
-    //       child: Scaffold(
-    //         body: Column(
-    //           children: [
-    //             const Row(
-    //               children: [
-    //                 Text('Ảnh:'),
-    //                 SizedBox(
-    //                   width: 100,
-    //                   height: 100,
-    //                 )
-    //                 // Image.memory(),
-    //               ],
-    //             ),
-    //             // Image.memory(),
-    //             const Row(
-    //               children: [
-    //                 Text('Nhà sản xuất:'),
-    //                 Expanded(child: DropdownButtonCommon()),
-    //               ],
-    //             ),
-    //             Row(
-    //               children: [
-    //                 const Text('Tên sản phẩm:'),
-    //                 Expanded(
-    //                     child: TextFieldCommon(
-    //                         controller: TextEditingController()))
-    //               ],
-    //             ),
-    //             const Row(
-    //               children: [
-    //                 Text('Màu sắc:'),
-    //                 Expanded(child: DropdownButtonCommon()),
-    //               ],
-    //             ),
-    //             const Row(
-    //               children: [
-    //                 Text('Số lượng:'),
-    //                 Expanded(child: DropdownButtonCommon()),
-    //               ],
-    //             ),
-    //             const Row(
-    //               children: [
-    //                 Text('Giá:'),
-    //                 Expanded(child: DropdownButtonCommon()),
-    //               ],
-    //             ),
-    //             const Row(
-    //               children: [
-    //                 Text('Giới tính:'),
-    //                 Expanded(child: DropdownButtonCommon()),
-    //               ],
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
     Get.find<DialogCommon>().showDialogWithBody(
       height: 450,
       width: 650,
@@ -145,7 +81,7 @@ class DialogProduct {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('Màu sắc:'),
-                DropdownButtonCommon(),
+                DropDownMutltiSelection(),
               ],
             ),
             const SizedBox(
