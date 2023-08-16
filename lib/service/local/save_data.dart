@@ -1,32 +1,32 @@
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DataLocal {
+  // DataLocal._();
   static const String _keyAccountId = 'account_id';
   static const String _keyRole = 'role';
+  static final _sharePreference = Get.find<SharedPreferences>();
 
-  Future<void> saveRole(int role) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_keyRole, role);
+  static Future<void> saveRole(int role) async {
+    await _sharePreference.setInt(_keyRole, role);
   }
 
-  Future<int?> getRole() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(_keyRole);
+  static int? getRole() {
+    return _sharePreference.getInt(_keyRole);
   }
 
-  Future<void> saveAccountId(String accountId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_keyAccountId, accountId);
+  static Future<void> saveAccountId(String accountId) async {
+    await _sharePreference.setString(_keyAccountId, accountId);
   }
 
-  Future<String?> getAccountId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_keyAccountId);
+  static String? getAccountId() {
+    return _sharePreference.getString(_keyAccountId);
   }
 
-  Future<void> deleteAccountId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_keyAccountId, '');
+  static Future<bool> deleteAccount() async {
+    // await _sharePreference.setString(_keyAccountId, '');
+    await _sharePreference.remove(_keyRole);
+    return await _sharePreference.remove(_keyAccountId);
   }
 }
 

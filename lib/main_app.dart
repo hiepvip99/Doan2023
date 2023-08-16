@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:web_app/service/local/setting_data.dart';
-import 'package:web_app/ui/dialog/dialog_common.dart';
 import 'package:web_app/ui/page/home/admin/home_admin_view.dart';
-import 'package:web_app/ui/page/home/home.dart';
+import 'package:web_app/ui/page/home/user/home_user.dart';
 
 import 'app_page.dart';
 import 'config_theme.dart';
-import 'ui/page/login/login.dart';
+import 'service/local/setting_data.dart';
+import 'ui/dialog/dialog_common.dart';
+import 'ui/page/login/login_view.dart';
 // import 'ui/product/product_s.dart';
 
 class MainApp extends StatelessWidget {
-  MainApp({super.key});
+  MainApp({super.key, required this.role});
 
   final RxInt modeTheme = 0.obs;
+  final int role;
 
-  @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
-      onInit: () => initApp(),
-      getPages: appPage,
-      themeMode: getTheme(modeTheme.value),
-      darkTheme: darkTheme,
-      theme: lightTheme,
-      initialRoute: HomeAdmin.router,
-      // home: const Home(),
-    );
+  String? getInitRoute() {
+    switch (role) {
+      case -1:
+        return Login.route;
+      case 0:
+        return Login.route;
+      case 1:
+        return HomeUser.route;
+      default:
+        return Login.route;
+    }
   }
 
   ThemeMode getTheme(int value) {
@@ -41,7 +42,7 @@ class MainApp extends StatelessWidget {
     }
   }
 
-  void initApp() async {
+  void onInit() async {
     inject();
 
     /// 0 light 1 dark 2 system
@@ -50,5 +51,18 @@ class MainApp extends StatelessWidget {
 
   void inject() {
     Get.lazyPut(() => DialogCommon());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      onInit: () => onInit(),
+      getPages: appPage,
+      themeMode: getTheme(modeTheme.value),
+      darkTheme: darkTheme,
+      theme: lightTheme,
+      initialRoute: getInitRoute(),
+      // home: const Home(),
+    );
   }
 }

@@ -4,13 +4,14 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:web_app/model/network/login_model.dart';
 import 'package:web_app/ui/dialog/dialog_common.dart';
+import 'package:web_app/ui/page/home/admin/home_admin_view.dart';
 
-import '../../../../service/local/save_data.dart';
-import '../../../../service/network/login_service.dart';
-import '../../home/home.dart';
+import '../../../service/local/save_data.dart';
+import '../../../service/network/login_service.dart';
+import '../home/home.dart';
+import '../home/user/home_user.dart';
 
 class LoginController extends GetxController {
-  DataLocal dataLocal = DataLocal();
   LoginService loginService = LoginService();
   RxBool statusLogin = false.obs;
   RxBool isRoleAdmin = false.obs;
@@ -22,8 +23,8 @@ class LoginController extends GetxController {
   }
 
   Future<void> checkStatusAndRoleLogin() async {
-    final accountId = await dataLocal.getAccountId();
-    final role = await dataLocal.getRole();
+    final accountId = DataLocal.getAccountId();
+    final role = DataLocal.getRole();
     if (accountId != '') {
       statusLogin.value = true;
       // -1 chua login
@@ -50,17 +51,21 @@ class LoginController extends GetxController {
       // 0 admin
       // 1 user
       print(value.toString());
-      await dataLocal.saveRole(value?.role ?? -1);
-      await dataLocal.saveAccountId(value?.userId ?? '');
-      final accId = await dataLocal.getAccountId() ?? '';
-      final role = await dataLocal.getRole() ?? -1;
+      await DataLocal.saveRole(value?.role ?? -1);
+      await DataLocal.saveAccountId(value?.userId ?? '');
+      final accId = DataLocal.getAccountId() ?? '';
+      final role = DataLocal.getRole() ?? -1;
       if (kDebugMode) {
         print('account id: $accId');
         print('role : $role');
       }
       if (value != null) {
         if (accId.trim().isNotEmpty && role > -1) {
-          Get.off(() => const Home());
+          if (role == 0) {
+            Get.offNamed(HomeAdmin.route);
+          } else {
+            Get.offNamed(HomeUser.route);
+          }
         } else {
           if (value.validations != null) {
             String errorMsg = '';
@@ -96,7 +101,7 @@ class LoginController extends GetxController {
   }
 
   Future<void> logoutApp(String userName, String password) async {
-    await dataLocal.deleteAccountId();
+    await DataLocal.deleteAccount();
     await checkStatusAndRoleLogin();
   }
 }

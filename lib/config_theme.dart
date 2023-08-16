@@ -63,7 +63,7 @@ final ThemeData lightTheme = ThemeData(
     error: Colors.red, // sử dụng màu đỏ cho thông báo lỗi
     brightness: Brightness.light,
   ),
-  textButtonTheme: TextButtonThemeData(
+  textButtonTheme: const TextButtonThemeData(
       style:
           ButtonStyle(foregroundColor: MaterialStatePropertyAll(Colors.black))),
   textTheme: const TextTheme(

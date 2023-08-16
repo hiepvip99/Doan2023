@@ -11,7 +11,7 @@ import 'home_admin_controller.dart';
 
 class HomeAdmin extends StatelessWidget {
   HomeAdmin({super.key});
-  static const router = '/HomeAdmin';
+  static const route = '/HomeAdmin';
 
   final _controller = Get.find<HomeAdminController>();
 
