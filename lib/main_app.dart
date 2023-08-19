@@ -21,7 +21,7 @@ class MainApp extends StatelessWidget {
       case -1:
         return Login.route;
       case 0:
-        return Login.route;
+        return HomeAdmin.route;
       case 1:
         return HomeUser.route;
       default:

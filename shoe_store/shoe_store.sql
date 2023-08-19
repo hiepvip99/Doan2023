@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th8 01, 2023 lúc 04:11 PM
+-- Thời gian đã tạo: Th8 19, 2023 lúc 04:44 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -39,7 +39,10 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`account_id`, `username`, `password`, `role`) VALUES
-(1, 'admin', 'admin', 0);
+(1, 'admin', 'admin', 0),
+(2, 'user', 'user', 1),
+(3, 'testaddacc', 'user', 1),
+(6, 'test', 'user', 1);
 
 -- --------------------------------------------------------
 
@@ -51,6 +54,14 @@ CREATE TABLE `colors` (
   `color_id` int(11) NOT NULL,
   `color_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `colors`
+--
+
+INSERT INTO `colors` (`color_id`, `color_name`) VALUES
+(1, 'Trắng xanh dương'),
+(2, 'Đen xanh lục');
 
 -- --------------------------------------------------------
 
@@ -92,8 +103,15 @@ CREATE TABLE `orders` (
   `account_id` int(11) NOT NULL,
   `order_date` datetime NOT NULL,
   `total_price` decimal(10,2) NOT NULL,
-  `status` varchar(255) NOT NULL
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `account_id`, `order_date`, `total_price`, `status`) VALUES
+(1, 1, '2023-08-10 15:35:40', 1000000.00, 0);
 
 -- --------------------------------------------------------
 
@@ -110,6 +128,13 @@ CREATE TABLE `order_items` (
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `order_items`
+--
+
+INSERT INTO `order_items` (`order_item_id`, `order_id`, `product_id`, `color_id`, `size_id`, `quantity`) VALUES
+(1, 1, 2, 1, 5, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -122,6 +147,14 @@ CREATE TABLE `products` (
   `manufacturer_id` int(11) DEFAULT NULL,
   `gender` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `products`
+--
+
+INSERT INTO `products` (`product_id`, `product_name`, `manufacturer_id`, `gender`) VALUES
+(1, 'Giầy thể thao trẻ trung', 1, 'Nam'),
+(2, 'Giầy đá bóng', 1, 'Nam');
 
 -- --------------------------------------------------------
 
@@ -136,6 +169,15 @@ CREATE TABLE `product_colors` (
   `price` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `product_colors`
+--
+
+INSERT INTO `product_colors` (`product_color_id`, `product_id`, `color_id`, `price`) VALUES
+(1, 1, 1, 500000.00),
+(2, 1, 2, 600000.00),
+(3, 2, 2, 300000.00);
+
 -- --------------------------------------------------------
 
 --
@@ -149,6 +191,15 @@ CREATE TABLE `product_sizes` (
   `quantity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `product_sizes`
+--
+
+INSERT INTO `product_sizes` (`product_size_id`, `product_id`, `size_id`, `quantity`) VALUES
+(1, 1, 4, 10),
+(2, 1, 5, 20),
+(3, 2, 7, 33);
+
 -- --------------------------------------------------------
 
 --
@@ -160,6 +211,22 @@ CREATE TABLE `sizes` (
   `size_name` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `sizes`
+--
+
+INSERT INTO `sizes` (`size_id`, `size_name`) VALUES
+(1, '36'),
+(2, '37'),
+(3, '38'),
+(4, '39'),
+(5, '40'),
+(6, '41'),
+(7, '42'),
+(8, '43'),
+(9, '44'),
+(10, '45');
+
 -- --------------------------------------------------------
 
 --
@@ -168,14 +235,19 @@ CREATE TABLE `sizes` (
 
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `full_name` varchar(255) NOT NULL,
   `phone_number` varchar(20) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
   `account_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `users`
+--
+
+INSERT INTO `users` (`user_id`, `email`, `full_name`, `phone_number`, `address`, `account_id`) VALUES
+(1, 'aaa@gmail.com', 'aaaaaaa', NULL, 'ha noi', 1);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -266,13 +338,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `colors`
 --
 ALTER TABLE `colors`
-  MODIFY `color_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `color_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `images`
@@ -290,43 +362,43 @@ ALTER TABLE `manufacturers`
 -- AUTO_INCREMENT cho bảng `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `order_items`
 --
 ALTER TABLE `order_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `product_colors`
 --
 ALTER TABLE `product_colors`
-  MODIFY `product_color_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_color_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `product_sizes`
 --
 ALTER TABLE `product_sizes`
-  MODIFY `product_size_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_size_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `sizes`
 --
 ALTER TABLE `sizes`
-  MODIFY `size_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `size_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
