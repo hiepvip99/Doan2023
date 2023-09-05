@@ -20,7 +20,8 @@ class DialogCommon {
       child: SpinKitThreeBounce(
         color: Color.fromARGB(255, 255, 255, 255),
       ),
-    ));
+        ),
+        barrierDismissible: false);
   }
 
   Future<void> showDialogWithBody(

@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'service/netcommon/dio_service.dart';
+
 class Injection {
   Injection._();
 
@@ -34,7 +36,7 @@ class Injection {
     // Get.lazyPut(() => ShelterDataServiceImpl(), fenix: true);
     // Get.lazyPut(() => MunicipalServiceImpl(), fenix: true);
     // Get.lazyPut(() => MunicipalCodeServiceImpl(), fenix: true);
-    // Get.lazyPut(() => DioService(), fenix: true);
+    Get.lazyPut(() => DioService(), fenix: true);
     // Get.lazyPut(() => ChatServiceImpl(), fenix: true);
     // Get.lazyPut(() => EvacuationServiceImpl(), fenix: true);
     // Get.lazyPut(() => StaffServiceImpl(), fenix: true);

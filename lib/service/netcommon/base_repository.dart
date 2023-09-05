@@ -16,6 +16,7 @@ import '../base_entity.dart';
 // import '../data/storage/store_global.dart';
 // import '../models/network/base_entity.dart';
 import '../network.dart';
+import 'dio_service.dart';
 // import '../presentations/components/dialog_common.dart';
 // import '../services/common/dio_service.dart';
 // import '../utilities/enums.dart';
@@ -53,7 +54,7 @@ class BaseRepository extends BaseRepositoryInterface {
     DialogCommon dialogCommon = Get.find<DialogCommon>();
     try {
       dynamic response;
-      Dio _dio = Dio();
+      _dio = Get.find<DioService>().get();
       // _dio.options.connectTimeout = const Duration(seconds: 30);
       _dio.options.headers['X-Request-By'] = 'api';
       if (data is FormData) {
@@ -73,6 +74,12 @@ class BaseRepository extends BaseRepositoryInterface {
       switch (method) {
         case HttpMethod.get:
           // if (hasNetwork()) {
+          if (!(onBackground ?? false)) {
+            if (showLoading ?? true) {
+              dialogCommon.showLoadingDialog();
+            }
+          }
+          await Future.delayed(const Duration(seconds: 1));
           if (queryParameters is Map<String, dynamic>?) {
             response = await _dio.get(url, queryParameters: queryParameters);
             // unawaited(saveToCache(url, jsonDecode(response.toString())));
@@ -97,12 +104,27 @@ class BaseRepository extends BaseRepositoryInterface {
           response = await _dio.post(url, data: data);
           break;
         case HttpMethod.put:
+          if (!(onBackground ?? false)) {
+            if (showLoading ?? true) {
+              dialogCommon.showLoadingDialog();
+            }
+          }
           response = await _dio.put(url, data: data);
           break;
         case HttpMethod.delete:
+          if (!(onBackground ?? false)) {
+            if (showLoading ?? true) {
+              dialogCommon.showLoadingDialog();
+            }
+          }
           response = await _dio.delete(url, data: data);
           break;
         case HttpMethod.path:
+          if (!(onBackground ?? false)) {
+            if (showLoading ?? true) {
+              dialogCommon.showLoadingDialog();
+            }
+          }
           response = await _dio.patch(url, data: data);
           break;
       }
@@ -124,7 +146,7 @@ class BaseRepository extends BaseRepositoryInterface {
         if (res == null) {
           return null;
         }
-        final response = jsonDecode(res.toString()) as Map<String, dynamic?>;
+        final response = jsonDecode(res.toString()) as Map<String, dynamic>;
         final status = response['status'];
         if (status is int) {
           final message = response['message'] ?? '';
@@ -144,7 +166,7 @@ class BaseRepository extends BaseRepositoryInterface {
         print(ex);
       }
     } finally {
-      if ((showLoading ?? true) && (method == HttpMethod.post)) {
+      if (showLoading ?? true) {
         dialogCommon.dismiss();
       }
     }

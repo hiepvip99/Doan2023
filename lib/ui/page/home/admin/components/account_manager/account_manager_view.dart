@@ -104,68 +104,76 @@ class AccountManagerView extends StatelessWidget {
               child: Container(
                 // padding: const EdgeInsets.all(16),
                 color: Colors.white54,
-                child: ListView.builder(
-                  // physics: const NeverScrollableScrollPhysics(),
-                  // shrinkWrap: true,
-                  itemCount: controller.accountList.value.length,
-                  itemBuilder: (context, index) => Container(
-                    color: index % 2 == 0 ? Colors.white : Colors.blue.shade100,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              '${controller.accountList.value[index].id}',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              controller.accountList.value[index].userName,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              controller.accountList.value[index].fullName,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              controller.accountList.value[index].email,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              controller.accountList.value[index].role > 0
-                                  ? 'User'
-                                  : 'Admin',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ElevatedButton(
-                                  onPressed: () {}, child: const Text('Sửa')),
-                              const SizedBox(
-                                width: 8,
+                child: Obx(
+                  () => ListView.builder(
+                    // physics: const NeverScrollableScrollPhysics(),
+                    // shrinkWrap: true,
+                    itemCount: controller.accountList.value.length,
+                    itemBuilder: (context, index) => Container(
+                      color:
+                          index % 2 == 0 ? Colors.white : Colors.blue.shade100,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '${controller.accountList.value[index].id}',
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red),
-                                  onPressed: () {
-                                    DialogAccount()
-                                        .showDeleteConfirmation(context);
-                                  },
-                                  child: const Text('Xóa')),
-                            ],
-                          ),
-                        ],
+                            ),
+                            Expanded(
+                              child: Text(
+                                controller.accountList.value[index].username ??
+                                    '',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                controller.accountList.value[index]
+                                        .customerName ??
+                                    '',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                controller.accountList.value[index].email ?? '',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Expanded(
+                              child: Text(
+                                controller.getDecentralization(controller
+                                        .accountList
+                                        .value[index]
+                                        .decentralizationId) ??
+                                    '',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ElevatedButton(
+                                    onPressed: () {}, child: const Text('Sửa')),
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red),
+                                    onPressed: () {
+                                      DialogAccount()
+                                          .showDeleteConfirmation(context);
+                                    },
+                                    child: const Text('Xóa')),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

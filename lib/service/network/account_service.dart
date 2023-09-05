@@ -4,20 +4,25 @@ import '../netcommon/base_repository.dart';
 import '../network.dart';
 
 class AccountService {
-  final String _path = 'shoe_store/account.php';
-  Future<AccountModel?> getAllAccount() async {
-    final repo = BaseRepository(url: domain + _path, method: HttpMethod.post);
+  final String _allAccountPath = 'api/account/getall';
+  final String _accountById = 'api/account/get_by_id';
+  Future<AccountsManagerModel?> getAllAccount(
+      {int? currentPage, int? step}) async {
+    final repo =
+        BaseRepository(url: domain + _allAccountPath, method: HttpMethod.get);
     final response = await repo.queryByPath(
-      (e) => AccountModel.fromJson(e),
+      (e) => AccountsManagerModel.fromJson(e),
     );
     return response;
   }
 
-  Future<AccountModel?> getAccountById(int id) async {
-    final repo = BaseRepository(url: domain + _path, method: HttpMethod.post);
+  Future<AccountsManagerModel?> getAccountById(int id) async {
+    final repo =
+        BaseRepository(url: domain + _accountById, method: HttpMethod.get);
     final queryParameter = <String, dynamic>{};
-    queryParameter['account_id'] = id;
-    final response = await repo.queryByPath((e) => AccountModel.fromJson(e),
+    queryParameter['accountId'] = id;
+    final response = await repo.queryByPath(
+        (e) => AccountsManagerModel.fromJson(e),
         queryParameters: queryParameter);
     return response;
   }
