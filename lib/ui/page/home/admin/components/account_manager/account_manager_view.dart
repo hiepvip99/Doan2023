@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/component_common/paginator_common.dart';
 import 'package:web_app/ui/component_common/textfield_common.dart';
 
 import 'account_manager_controller.dart';
@@ -18,7 +19,7 @@ class AccountManagerView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -169,6 +170,13 @@ class AccountManagerView extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+            ),
+            Obx(
+              () => PaginatorCommon(
+                totalPage: controller.totalPage.value,
+                initPage: controller.currentPage.value - 1,
+                onPageChangeCallBack: (index) => controller.onPageChange(index),
               ),
             ),
           ],

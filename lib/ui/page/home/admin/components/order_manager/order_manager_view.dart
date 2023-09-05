@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../component_common/paginator_common.dart';
 import '../../../../../component_common/textfield_common.dart';
 import 'order_manager_view_model.dart';
 
@@ -170,6 +171,13 @@ class OrderManagerView extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+            ),
+            Obx(
+              () => PaginatorCommon(
+                totalPage: controller.totalPage.value,
+                initPage: controller.currentPage.value - 1,
+                onPageChangeCallBack: (index) => controller.onPageChange(index),
               ),
             ),
           ],

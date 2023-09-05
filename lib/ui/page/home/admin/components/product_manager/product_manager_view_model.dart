@@ -6,6 +6,14 @@ import 'package:web_app/ui/page/home/admin/components/product_manager/components
 class ProductManagerViewModel extends GetxController {
   RxList<ProductModel> productList = RxList([]);
   Rx<ProductModel> itemAdd = Rx(ProductModel());
+  RxInt currentPage = 1.obs;
+  RxInt totalPage = 10.obs;
+
+  void onPageChange(int index) {
+    currentPage.value = index + 1;
+    print(currentPage.value);
+  }
+  
   @override
   void onInit() {
     // TODO: implement onInit

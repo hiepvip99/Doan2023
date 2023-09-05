@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_app/ui/page/home/admin/components/product_manager/components/dialog_product.dart';
 
+import '../../../../../component_common/paginator_common.dart';
 import '../../../../../component_common/textfield_common.dart';
 import 'product_manager_view_model.dart';
 
@@ -179,6 +180,13 @@ class ProductManagerView extends StatelessWidget {
                     ),
                   ),
                 ),
+              ),
+            ),
+            Obx(
+              () => PaginatorCommon(
+                totalPage: controller.totalPage.value,
+                initPage: controller.currentPage.value - 1,
+                onPageChangeCallBack: (index) => controller.onPageChange(index),
               ),
             ),
           ],

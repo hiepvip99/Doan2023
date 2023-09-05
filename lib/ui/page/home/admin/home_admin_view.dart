@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get/get.dart';
 
 import 'components/account_manager/account_manager_view.dart';
@@ -14,21 +15,53 @@ class HomeAdmin extends StatelessWidget {
   static const route = '/HomeAdmin';
 
   final _controller = Get.find<HomeAdminController>();
+  final GlobalKey<SliderDrawerState> _key = GlobalKey<SliderDrawerState>();
 
   @override
   Widget build(BuildContext context) {
+    // return Scaffold(
+    //   backgroundColor: Colors.white,
+    //   body: Row(
+    //     crossAxisAlignment: CrossAxisAlignment.stretch,
+    //     children: [
+    //       LeftMenu(controller: _controller),
+    //       // Expanded(child: AccountManagerView()),
+    //       // Expanded(child: ManufacturersManagerView()),
+    //       Expanded(child: getRightBody()),
+    //     ],
+    //   ),
+    // );
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        body: SliderDrawer(
+      key: _key,
+      isDraggable: false,
+      sliderCloseSize: 70,
+      sliderOpenSize: 270,
+      appBar: const SizedBox(),
+      // appBar: const SliderAppBar(
+      //     appBarColor: Colors.white,
+      //     title: Text('title',
+      //         style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700))),
+      slider: LeftMenu(
+        onCloseOrOpenDrawer: () {
+          if (_key.currentState?.isDrawerOpen == true) {
+            _key.currentState?.closeSlider();
+          } else {
+            _key.currentState?.openSlider();
+          }
+          // _key.currentState?.openOrClose();
+        },
+        controller: _controller,
+      ),
+      child: Row(
         children: [
-          LeftMenu(controller: _controller),
-          // Expanded(child: AccountManagerView()),
-          // Expanded(child: ManufacturersManagerView()),
           Expanded(child: getRightBody()),
+          const SizedBox(
+            width: 70,
+          )
         ],
       ),
-    );
+    ));
   }
 
   Widget getRightBody() {

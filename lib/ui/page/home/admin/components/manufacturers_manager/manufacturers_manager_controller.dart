@@ -3,6 +3,15 @@ import 'package:get/get.dart';
 
 class ManufacturersManagerController extends GetxController {
   RxList<ManufacturersModel> listmanufacturers = RxList([]);
+
+  RxInt currentPage = 1.obs;
+  RxInt totalPage = 10.obs;
+
+  void onPageChange(int index) {
+    currentPage.value = index + 1;
+    print(currentPage.value);
+  }
+  
   @override
   void onInit() {
     // TODO: implement onInit

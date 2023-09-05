@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../component_common/paginator_common.dart';
 import 'manufacturers_manager_controller.dart';
 
 class ManufacturersManagerView extends StatelessWidget {
@@ -14,7 +15,7 @@ class ManufacturersManagerView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -123,6 +124,15 @@ class ManufacturersManagerView extends StatelessWidget {
                 ),
               ),
             ),
+            Obx(
+              () => PaginatorCommon(
+                totalPage: _controller.totalPage.value,
+                initPage: _controller.currentPage.value - 1,
+                onPageChangeCallBack: (index) =>
+                    _controller.onPageChange(index),
+              ),
+            ),
+            
           ],
         ),
       ),

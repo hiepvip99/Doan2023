@@ -1,41 +1,55 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../home_admin_controller.dart';
+import 'togee_button.dart';
 
 class LeftMenu extends StatelessWidget {
-  LeftMenu({super.key, required this.controller});
+  final Function() onCloseOrOpenDrawer;
+  LeftMenu({
+    super.key,
+    required this.controller,
+    required this.onCloseOrOpenDrawer,
+  });
 
   final List<ItemMenu> menuList = [
     ItemMenu(
+      icon: Icons.manage_accounts,
       title: 'Quản lý tài khoản',
     ),
     ItemMenu(
+      icon: Icons.precision_manufacturing,
       title: 'Quản lý nhà sản xuất',
     ),
     ItemMenu(
+      icon: Icons.inventory,
       title: 'Quản lý sản phẩm',
     ),
     ItemMenu(
+      icon: Icons.description,
       title: 'Quản lý đơn hàng',
     ),
     ItemMenu(
+      icon: Icons.show_chart,
       title: 'Thống kê',
     ),
     ItemMenu(
+      icon: Icons.loyalty,
       title: 'Chương trình ưu đãi',
     ),
     ItemMenu(
+      icon: Icons.groups,
       title: 'Khách hàng thân thiết',
     ),
     ItemMenu(
+      icon: Icons.settings,
       title: 'Cài đặt',
     ),
-    ItemMenu(
-      title: 'Đăng xuất',
-    ),
+    // ItemMenu(
+    //   icon: Icons.logout,
+    //   title: 'Đăng xuất',
+    // ),
   ];
 
   final HomeAdminController controller;
@@ -50,7 +64,7 @@ class LeftMenu extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 'Shoe store',
@@ -62,10 +76,12 @@ class LeftMenu extends StatelessWidget {
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: menuList.length - 2,
+                itemCount: menuList.length - 1,
                 itemBuilder: (context, index) => Obx(
                   () => GestureDetector(
-                    onTap: () => {controller.indexSelected.value = index},
+                    onTap: () => {
+                      controller.indexSelected.value = index,
+                    },
                     child: Container(
                       color: controller.indexSelected.value == index
                           ? Colors.blue.shade100
@@ -75,13 +91,25 @@ class LeftMenu extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            menuList[index].title,
-                            style: TextStyle(
-                                color: controller.indexSelected.value == index
-                                    ? Colors.black
-                                    : Colors.grey,
-                                fontSize: 16),
+                          Icon(menuList[index].icon),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Expanded(
+                            child: Tooltip(
+                              message: menuList[index].title,
+                              waitDuration: const Duration(seconds: 1),
+                              child: Text(
+                                menuList[index].title,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color:
+                                        controller.indexSelected.value == index
+                                            ? Colors.black
+                                            : Colors.grey,
+                                    fontSize: 16),
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -92,28 +120,25 @@ class LeftMenu extends StatelessWidget {
               const SizedBox(
                 height: 36,
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Divider(
-                  // thickness: 1,
-                  height: 1,
-                  color: Colors.grey,
-                ),
+              const Divider(
+                // thickness: 1,
+                height: 1,
+                color: Colors.grey,
               ),
               const SizedBox(
                 height: 36,
               ),
               ...List.generate(
-                2,
+                1,
                 (index) => GestureDetector(
                   onTap: () => {
                     controller.indexSelected.value =
-                        index + (menuList.length - 2)
+                        index + (menuList.length - 1)
                   },
                   child: Obx(
                     () => Container(
                       color: controller.indexSelected.value ==
-                              (index + (menuList.length - 2))
+                              (index + (menuList.length - 1))
                           ? Colors.blue.shade100
                           : Colors.white,
                       padding: const EdgeInsets.symmetric(
@@ -121,14 +146,25 @@ class LeftMenu extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            menuList[index + (menuList.length - 2)].title,
-                            style: TextStyle(
-                                color: controller.indexSelected.value ==
-                                        index + (menuList.length - 2)
-                                    ? Colors.black
-                                    : Colors.grey,
-                                fontSize: 16),
+                          Icon(menuList[index + (menuList.length - 1)].icon),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Expanded(
+                            child: Tooltip(
+                              message:
+                                  menuList[index + (menuList.length - 1)].title,
+                              waitDuration: const Duration(seconds: 1),
+                              child: Text(
+                                menuList[index + (menuList.length - 1)].title,
+                                style: TextStyle(
+                                    color: controller.indexSelected.value ==
+                                            index + (menuList.length - 1)
+                                        ? Colors.black
+                                        : Colors.grey,
+                                    fontSize: 16),
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -136,6 +172,9 @@ class LeftMenu extends StatelessWidget {
                   ),
                 ),
               ),
+              DrawerToggleButton(callBack: () {
+                onCloseOrOpenDrawer();
+              }),
             ],
           ),
         ),
@@ -146,7 +185,9 @@ class LeftMenu extends StatelessWidget {
 
 class ItemMenu {
   String title;
+  IconData icon;
   ItemMenu({
     required this.title,
+    required this.icon,
   });
 }
