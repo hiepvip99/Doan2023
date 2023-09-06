@@ -65,7 +65,7 @@ class MyDropdownButton2StateFull extends StatefulWidget {
   final double? scrollbarThickness;
   final bool? scrollbarAlwaysShow;
   final Offset? offset;
-  final Color? colorBorder = Colors.grey.withOpacity(0.8);
+  final Color? colorBorder = Colors.black;
 
   /// VietND: #589: fix item for all dropdown
   final double? borderRadius;
@@ -96,8 +96,7 @@ class CustomDropdownButton2 extends State<MyDropdownButton2StateFull>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-        child: DropdownButtonHideUnderline(
+    return DropdownButtonHideUnderline(
       child: ButtonTheme(
         alignedDropdown: true,
         child: DropdownButton2(
@@ -153,7 +152,7 @@ class CustomDropdownButton2 extends State<MyDropdownButton2StateFull>
               child: Text(
                 widget.hint,
                 maxLines: null,
-                style: const TextStyle(color: Colors.black54),
+                style: const TextStyle(color: Colors.black),
               ),
             ),
             value: widget.value,
@@ -167,7 +166,7 @@ class CustomDropdownButton2 extends State<MyDropdownButton2StateFull>
                               child: Text(
                             item,
                             maxLines: null,
-                            style: const TextStyle(color: Colors.black54),
+                            style: const TextStyle(color: Colors.black),
                           )),
                           // Visibility(
                           //   visible: widget.upSuffixIcon != null && widget.downSuffixIcon != null,
@@ -199,11 +198,11 @@ class CustomDropdownButton2 extends State<MyDropdownButton2StateFull>
               //     const EdgeInsets.only(left: 11, right: 18),
               decoration: widget.buttonDecoration ??
                   BoxDecoration(
+                    color: Colors.white,
                     borderRadius:
                         BorderRadius.circular(widget.borderRadius ?? 7),
                     border: Border.all(
-                      color: widget.colorBorder ??
-                          (_isExpanded ? Colors.blue : Colors.green),
+                      color: Colors.black,
                     ),
                   ),
               elevation: widget.buttonElevation,
@@ -216,13 +215,13 @@ class CustomDropdownButton2 extends State<MyDropdownButton2StateFull>
                 return Container(
                   constraints:
                       BoxConstraints(minHeight: widget.itemHeight ?? 44),
-                  color: Colors.blue.shade200,
+                  color: Colors.grey.shade300,
                   child: child,
                 );
               },
             )),
       ),
-    ));
+    );
   }
 }
 
@@ -250,7 +249,7 @@ Widget _buttonDropDown(AnimationController? animationController,
         Expanded(
             child: Text(
           overflow: TextOverflow.ellipsis,
-          style: const TextStyle(color: Colors.black54),
+          style: const TextStyle(color: Colors.black),
           widget.value ?? '',
           maxLines: widget.maxLineButton ?? 1,
         )),

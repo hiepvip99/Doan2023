@@ -3,13 +3,15 @@ import 'package:get/get.dart';
 import 'package:web_app/model/network/account_model.dart';
 import 'package:web_app/service/network/account_service.dart';
 
-class AccountManagerController extends GetxController {
+class AccountManagerViewModel extends GetxController {
   RxList<AccountInfo> accountList = RxList([]);
   RxList<Decentralization> decentralizationList = RxList([]);
   RxList<AccountStatus> accountStatusList = RxList([]);
   RxInt currentPage = 1.obs;
   RxInt totalPage = 10.obs;
   RxString selectedItem = '10'.obs;
+
+  AccountInfo accountRegister = AccountInfo();
 
   AccountService networkService = AccountService();
 

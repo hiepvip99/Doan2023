@@ -6,12 +6,14 @@ class TextFieldCommon extends StatelessWidget {
       this.label,
       required this.controller,
       this.contentPadding,
-      this.requiredInput = false});
+      this.requiredInput = false,
+      this.isTextPassword});
 
   final String? label;
   final TextEditingController controller;
   final EdgeInsets? contentPadding;
   final bool requiredInput;
+  final bool? isTextPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,11 @@ class TextFieldCommon extends StatelessWidget {
               label: label != null ? Text(label!) : null,
               border: const OutlineInputBorder(),
               contentPadding: contentPadding ?? const EdgeInsets.all(12),
-              isDense: true),
+            isDense: true,
+          ),
+          obscureText: isTextPassword == true,
+          enableSuggestions: !(isTextPassword == true),
+          autocorrect: !(isTextPassword == true),
         ),
         Visibility(
           visible: requiredInput,

@@ -24,6 +24,7 @@ class DeleteItemDialog extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: onDelete,
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
           child: const Text('Xóa'),
         ),
       ],

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/model/network/account_model.dart';
 
 import '../../../../../../component_common/close_button.dart';
 import '../../../../../../component_common/delete_body_dialog_common.dart';
 import '../../../../../../component_common/my_dropdown_button2.dart';
 import '../../../../../../component_common/textfield_common.dart';
 import '../../../../../../dialog/dialog_common.dart';
+import '../account_manager_controller.dart';
 
 class DialogAccount {
+  final AccountManagerViewModel viewModel = Get.find<AccountManagerViewModel>();
   void showDialogAccount(Widget body, String title) {
     Get.find<DialogCommon>().showDialogWithBody(
-      title: 'Thêm tài khoản',
+      title: title /*  'Thêm tài khoản' */,
       bodyDialog: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        // mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(
             height: 16,
@@ -25,33 +27,51 @@ class DialogAccount {
   }
 
   void showDialogAdd() {
+    AccountInfo accountRegister = AccountInfo();
+    TextEditingController txtUsername = TextEditingController();
+    TextEditingController txtPassword = TextEditingController();
     showDialogAccount(
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFieldCommon(
-                requiredInput: true,
-                label: 'Tên Tài khoản',
-                controller: TextEditingController()),
+            const Text('Tên Tài khoản'),
             const SizedBox(
               height: 16,
             ),
-            TextFieldCommon(
-                requiredInput: true,
-                label: 'Mật khẩu',
-                controller: TextEditingController()),
+            TextFieldCommon(controller: txtUsername),
+            const SizedBox(
+              height: 16,
+            ),
+            const Text('Mật khẩu'),
+            const SizedBox(
+              height: 16,
+            ),
+            TextFieldCommon(isTextPassword: true, controller: txtPassword),
             const SizedBox(
               height: 16,
             ),
             Row(
               children: [
-                const Text('Phân quyền'),
+                const SizedBox(width: 100, child: Text('Phân quyền')),
                 const SizedBox(
                   width: 10,
                 ),
                 DropDownCustom(
-                  initValue: 'Admin',
-                  listItem: const ['Admin', 'User'],
-                  onChangeDropDown: (value) {},
+                  initValue: viewModel.decentralizationList
+                      .map((element) => element.name ?? "")
+                      .toList()
+                      .first,
+                  listItem: viewModel.decentralizationList
+                      .map((element) => element.name ?? "")
+                      .toList(),
+                  onChangeDropDown: (value) {
+                    final int index = viewModel.decentralizationList
+                        .indexWhere((element) => element.name == value);
+                    if (index != -1) {
+                      accountRegister.decentralizationId =
+                          viewModel.decentralizationList[index].id;
+                    }
+                  },
                 ),
               ],
             ),
@@ -60,21 +80,40 @@ class DialogAccount {
             ),
             Row(
               children: [
-                const Text('Trạng thái'),
+                const SizedBox(width: 100, child: Text('Trạng thái')),
                 const SizedBox(
                   width: 10,
                 ),
                 DropDownCustom(
-                  initValue: 'Active',
-                  listItem: const [
-                    'Active',
-                    'Inactive',
-                    'Locked',
-                    'Pending',
-                    'Closed'
-                  ],
-                  onChangeDropDown: (value) {},
+                  initValue: viewModel.accountStatusList
+                      .map((element) => element.name ?? "")
+                      .toList()
+                      .first,
+                  listItem: viewModel.accountStatusList
+                      .map((element) => element.name ?? "")
+                      .toList(),
+                  onChangeDropDown: (value) {
+                    final int index = viewModel.accountStatusList
+                        .indexWhere((element) => element.name == value);
+                    if (index != -1) {
+                      accountRegister.statusId =
+                          viewModel.accountStatusList[index].id;
+                    }
+                  },
                 ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      print(
+                          "accountRegister.decentralizationId = ${accountRegister.decentralizationId}");
+                      print(
+                          "accountRegister.statusId = ${accountRegister.statusId}");
+                    },
+                    child: const Text('Submit')),
               ],
             ),
           ],

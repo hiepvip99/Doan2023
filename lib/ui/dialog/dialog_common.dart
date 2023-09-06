@@ -44,7 +44,13 @@ class DialogCommon {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text(title ?? ''), const CloseButtonCommon()],
+                    children: [
+                      Text(
+                        title ?? '',
+                        style: Theme.of(Get.context!).textTheme.headlineSmall,
+                      ),
+                      const CloseButtonCommon()
+                    ],
                   ),
                   bodyDialog,
                 ],

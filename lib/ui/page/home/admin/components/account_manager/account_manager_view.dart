@@ -12,8 +12,7 @@ import 'components/dialog_account.dart';
 class AccountManagerView extends StatelessWidget {
   AccountManagerView({super.key});
 
-  final AccountManagerController controller =
-      Get.find<AccountManagerController>();
+  final AccountManagerViewModel viewModel = Get.find<AccountManagerViewModel>();
 
   static const router = '/AccountManager';
   @override
@@ -61,12 +60,12 @@ class AccountManagerView extends StatelessWidget {
                   Obx(
                     () => MyDropdownButton2StateFull(
                       hint: '',
-                      value: controller.selectedItem.value,
+                      value: viewModel.selectedItem.value,
                       itemHeight: 20,
                       dropdownItems: ["10", "20", "30", "50", "100", "500"],
                       onChanged: (value) {
                         if (value != null) {
-                          controller.onStepChange(value);
+                          viewModel.onStepChange(value);
                         }
                       },
                     ),
@@ -125,7 +124,7 @@ class AccountManagerView extends StatelessWidget {
                   () => ListView.builder(
                     // physics: const NeverScrollableScrollPhysics(),
                     // shrinkWrap: true,
-                    itemCount: controller.accountList.value.length,
+                    itemCount: viewModel.accountList.value.length,
                     itemBuilder: (context, index) => Container(
                       color:
                           index % 2 == 0 ? Colors.white : Colors.blue.shade100,
@@ -136,20 +135,20 @@ class AccountManagerView extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                '${controller.accountList.value[index].id}',
+                                '${viewModel.accountList.value[index].id}',
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             Expanded(
                               child: Text(
-                                controller.accountList.value[index].username ??
+                                viewModel.accountList.value[index].username ??
                                     '',
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             Expanded(
                               child: Text(
-                                controller.accountList.value[index]
+                                viewModel.accountList.value[index]
                                         .customerName ??
                                     '',
                                 overflow: TextOverflow.ellipsis,
@@ -157,13 +156,13 @@ class AccountManagerView extends StatelessWidget {
                             ),
                             Expanded(
                               child: Text(
-                                controller.accountList.value[index].email ?? '',
+                                viewModel.accountList.value[index].email ?? '',
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             Expanded(
                               child: Text(
-                                controller.getDecentralization(controller
+                                viewModel.getDecentralization(viewModel
                                         .accountList
                                         .value[index]
                                         .decentralizationId) ??
@@ -199,9 +198,9 @@ class AccountManagerView extends StatelessWidget {
             ),
             Obx(
               () => PaginatorCommon(
-                totalPage: controller.totalPage.value,
-                initPage: controller.currentPage.value - 1,
-                onPageChangeCallBack: (index) => controller.onPageChange(index),
+                totalPage: viewModel.totalPage.value,
+                initPage: viewModel.currentPage.value - 1,
+                onPageChangeCallBack: (index) => viewModel.onPageChange(index),
               ),
             ),
           ],

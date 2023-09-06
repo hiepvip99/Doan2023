@@ -10,7 +10,7 @@ class HomeAdminBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => HomeAdminController());
-    Get.lazyPut(() => AccountManagerController());
+    Get.lazyPut(() => AccountManagerViewModel());
     Get.lazyPut(() => ManufacturersManagerController());
     Get.lazyPut(() => ProductManagerViewModel());
     Get.lazyPut(() => OrderManagerViewModel());
