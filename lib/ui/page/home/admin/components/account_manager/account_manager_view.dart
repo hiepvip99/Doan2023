@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/component_common/my_dropdown_button2.dart';
 import 'package:web_app/ui/component_common/paginator_common.dart';
 import 'package:web_app/ui/component_common/textfield_common.dart';
 
@@ -54,6 +55,22 @@ class AccountManagerView extends StatelessWidget {
                         DialogAccount().showDialogAdd();
                       },
                       child: const Text('Thêm tài khoản')),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  Obx(
+                    () => MyDropdownButton2StateFull(
+                      hint: '',
+                      value: controller.selectedItem.value,
+                      itemHeight: 20,
+                      dropdownItems: ["10", "20", "30", "50", "100", "500"],
+                      onChanged: (value) {
+                        if (value != null) {
+                          controller.onStepChange(value);
+                        }
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -71,7 +88,7 @@ class AccountManagerView extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      'Tài khoản',
+                      'Tên Tài khoản',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

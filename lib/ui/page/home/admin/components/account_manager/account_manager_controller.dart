@@ -9,6 +9,7 @@ class AccountManagerController extends GetxController {
   RxList<AccountStatus> accountStatusList = RxList([]);
   RxInt currentPage = 1.obs;
   RxInt totalPage = 10.obs;
+  RxString selectedItem = '10'.obs;
 
   AccountService networkService = AccountService();
 
@@ -16,6 +17,12 @@ class AccountManagerController extends GetxController {
     currentPage.value = index + 1;
     getAccountList();
     print(currentPage.value);
+  }
+
+  void onStepChange(String? value) {
+    selectedItem.value = value ?? '10';
+    currentPage.value = 1;
+    getAccountList();
   }
 
   @override
@@ -34,12 +41,17 @@ class AccountManagerController extends GetxController {
   }
 
   Future<void> getAccountList() async {
-    await networkService.getAllAccount().then((value) {
+    await networkService
+        .getAllAccount(
+            currentPage: currentPage.value,
+            step: int.tryParse(selectedItem.value))
+        .then((value) {
       if (value != null) {
         accountList.clear();
         accountList.value = value.data ?? [];
         decentralizationList.value = value.decentralization ?? [];
         accountStatusList.value = value.accountStatus ?? [];
+        totalPage.value = value.totalPage ?? 1;
       }
     });
   }

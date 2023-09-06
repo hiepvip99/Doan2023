@@ -4,6 +4,7 @@ class AccountsManagerModel extends BaseEntity {
   List<AccountInfo>? data;
   List<Decentralization>? decentralization;
   List<AccountStatus>? accountStatus;
+  int? totalPage;
 
   AccountsManagerModel({this.data, this.decentralization, this.accountStatus});
 
@@ -13,6 +14,11 @@ class AccountsManagerModel extends BaseEntity {
       json['data'].forEach((v) {
         data!.add(AccountInfo.fromJson(v));
       });
+    }
+    if (json['totalPages'] is int) {
+      totalPage = json['totalPages'];
+    } else if (json['totalPages'] is String) {
+      totalPage = int.tryParse(json['totalPages']);
     }
     if (json['decentralization'] != null) {
       decentralization = <Decentralization>[];
