@@ -11,7 +11,7 @@ import '../netcommon/base_repository.dart';
 class LoginService {
   final String _path = 'shoe_store/login.php';
   Future<LoginModel?> loginApp(LoginModel data) async {
-    final repo = BaseRepository(url: domain + _path, method: HttpMethod.post);
+    final repo = BaseRepository(path: domain + _path, method: HttpMethod.post);
     final formData = FormData.fromMap(data.toJson());
     final response =
         await repo.queryByPath((e) => LoginModel.fromJson(e), data: formData);

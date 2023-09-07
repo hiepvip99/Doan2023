@@ -35,6 +35,7 @@ class DialogProduct {
 
   void addProductDialog(BuildContext context, Rx<ProductModel> itemAdd) {
     Get.find<DialogCommon>().showDialogWithBody(
+      context,
       height: 450,
       width: 650,
       bodyDialog: SingleChildScrollView(

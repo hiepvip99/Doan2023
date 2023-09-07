@@ -1,18 +1,25 @@
 import 'package:web_app/service/base_entity.dart';
 
 class AccountsManagerModel extends BaseEntity {
-  List<AccountInfo>? data;
+  List<AccountInfo>? accounts;
   List<Decentralization>? decentralization;
   List<AccountStatus>? accountStatus;
   int? totalPage;
 
-  AccountsManagerModel({this.data, this.decentralization, this.accountStatus});
+  // Model add / update / delete;
+  AccountInfo? accountEdit;
+
+  AccountsManagerModel(
+      {this.accounts,
+      this.decentralization,
+      this.accountStatus,
+      this.accountEdit});
 
   AccountsManagerModel.fromJson(Map<dynamic, dynamic> json) {
     if (json['data'] != null) {
-      data = <AccountInfo>[];
+      accounts = <AccountInfo>[];
       json['data'].forEach((v) {
-        data!.add(AccountInfo.fromJson(v));
+        accounts!.add(AccountInfo.fromJson(v));
       });
     }
     if (json['totalPages'] is int) {
@@ -35,17 +42,28 @@ class AccountsManagerModel extends BaseEntity {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (accounts != null) {
+      data['data'] = this.accounts!.map((v) => v.toJson()).toList();
     }
-    if (this.decentralization != null) {
+    if (decentralization != null) {
       data['decentralization'] =
-          this.decentralization!.map((v) => v.toJson()).toList();
+          decentralization!.map((v) => v.toJson()).toList();
     }
-    if (this.accountStatus != null) {
-      data['account_status'] =
-          this.accountStatus!.map((v) => v.toJson()).toList();
+    if (accountStatus != null) {
+      data['account_status'] = accountStatus!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+
+  Map<String, dynamic> toJsonEditAccount() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (accountEdit != null) {
+      data['id'] = accountEdit?.id;
+      data['username'] = accountEdit?.username;
+      data['password'] = accountEdit?.password;
+      data['decentralization_id'] = accountEdit?.decentralizationId;
+      data['status_id'] = accountEdit?.statusId;
     }
     return data;
   }
@@ -86,16 +104,16 @@ class AccountInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['username'] = this.username;
-    data['password'] = this.password;
-    data['decentralization_id'] = this.decentralizationId;
-    data['status_id'] = this.statusId;
-    data['customer_name'] = this.customerName;
-    data['phone_number'] = this.phoneNumber;
-    data['date_of_birth'] = this.dateOfBirth;
-    data['email'] = this.email;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['username'] = username;
+    data['password'] = password;
+    data['decentralization_id'] = decentralizationId;
+    data['status_id'] = statusId;
+    data['customer_name'] = customerName;
+    data['phone_number'] = phoneNumber;
+    data['date_of_birth'] = dateOfBirth;
+    data['email'] = email;
     return data;
   }
 }
@@ -112,9 +130,9 @@ class Decentralization {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
     return data;
   }
 }
@@ -131,9 +149,9 @@ class AccountStatus {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
     return data;
   }
 }

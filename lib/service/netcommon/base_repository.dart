@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' hide Response, FormData;
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web_app/constant.dart';
 
 import '../../ui/dialog/dialog_common.dart';
 import '../base_entity.dart';
@@ -35,11 +36,11 @@ abstract class BaseRepositoryInterface {
 
 class BaseRepository extends BaseRepositoryInterface {
   BaseRepository({
-    required this.url,
+    required this.path,
     required this.method,
   });
 
-  late String url;
+  late String path;
   late HttpMethod method;
   late Dio _dio;
 
@@ -52,6 +53,7 @@ class BaseRepository extends BaseRepositoryInterface {
       bool? showLoading = true,
       bool? showError = true}) async {
     DialogCommon dialogCommon = Get.find<DialogCommon>();
+    String url = domain + path;
     try {
       dynamic response;
       _dio = Get.find<DioService>().get();
@@ -74,12 +76,6 @@ class BaseRepository extends BaseRepositoryInterface {
       switch (method) {
         case HttpMethod.get:
           // if (hasNetwork()) {
-          if (!(onBackground ?? false)) {
-            if (showLoading ?? true) {
-              dialogCommon.showLoadingDialog();
-            }
-          }
-          await Future.delayed(const Duration(seconds: 1));
           if (queryParameters is Map<String, dynamic>?) {
             response = await _dio.get(url, queryParameters: queryParameters);
             // unawaited(saveToCache(url, jsonDecode(response.toString())));
@@ -166,7 +162,7 @@ class BaseRepository extends BaseRepositoryInterface {
         print(ex);
       }
     } finally {
-      if (showLoading ?? true) {
+      if ((showLoading ?? true) && (method != HttpMethod.get)) {
         dialogCommon.dismiss();
       }
     }

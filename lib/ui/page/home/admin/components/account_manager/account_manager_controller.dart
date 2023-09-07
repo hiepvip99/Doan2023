@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_app/model/network/account_model.dart';
 import 'package:web_app/service/network/account_service.dart';
+import 'package:web_app/ui/dialog/dialog_common.dart';
 
 class AccountManagerViewModel extends GetxController {
   RxList<AccountInfo> accountList = RxList([]);
@@ -10,8 +12,9 @@ class AccountManagerViewModel extends GetxController {
   RxInt currentPage = 1.obs;
   RxInt totalPage = 10.obs;
   RxString selectedItem = '10'.obs;
+  RxBool loading = false.obs;
 
-  AccountInfo accountRegister = AccountInfo();
+  // AccountInfo accountRegister = AccountInfo();
 
   AccountService networkService = AccountService();
 
@@ -43,6 +46,7 @@ class AccountManagerViewModel extends GetxController {
   }
 
   Future<void> getAccountList() async {
+    loading.value = true;
     await networkService
         .getAllAccount(
             currentPage: currentPage.value,
@@ -50,12 +54,13 @@ class AccountManagerViewModel extends GetxController {
         .then((value) {
       if (value != null) {
         accountList.clear();
-        accountList.value = value.data ?? [];
+        accountList.value = value.accounts ?? [];
         decentralizationList.value = value.decentralization ?? [];
         accountStatusList.value = value.accountStatus ?? [];
         totalPage.value = value.totalPage ?? 1;
       }
     });
+    loading.value = false;
   }
 
   String? getDecentralization(int? id) {
@@ -65,5 +70,39 @@ class AccountManagerViewModel extends GetxController {
       return "";
     }
     return dataInList[0].name;
+  }
+
+  Future<void> deleteAccount(
+      AccountInfo accountDelete, BuildContext context) async {
+    await networkService
+        .deleteAccount(AccountsManagerModel(accountEdit: accountDelete))
+        .then((value) async {
+      if (value?.statusCode == 200) {
+        getAccountList();
+        await Get.find<DialogCommon>().showAlertDialog(
+            context: context,
+            title: 'Xóa thành công account có id: ${accountDelete.id}');
+      } else {
+        Get.find<DialogCommon>()
+            .showAlertDialog(context: context, title: 'Lỗi xóa account');
+      }
+    });
+  }
+
+  Future<void> addAccount(AccountInfo account, BuildContext context) async {
+    await networkService
+        .addAccount(AccountsManagerModel(accountEdit: account))
+        .then((value) {
+      if (value?.statusCode == 200) {
+        Get.find<DialogCommon>().showAlertDialog(
+            context: context,
+            title:
+                'Thêm thành công account ${account.username} có id: ${account.id}');
+        getAccountList();
+      } else {
+        Get.find<DialogCommon>()
+            .showAlertDialog(context: context, title: 'Lỗi thêm account');
+      }
+    });
   }
 }

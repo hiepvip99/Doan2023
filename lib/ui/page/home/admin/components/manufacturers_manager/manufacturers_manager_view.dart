@@ -3,13 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../../component_common/my_dropdown_button2.dart';
 import '../../../../../component_common/paginator_common.dart';
 import 'manufacturers_manager_controller.dart';
 
 class ManufacturersManagerView extends StatelessWidget {
   ManufacturersManagerView({super.key});
 
-  final _controller = Get.find<ManufacturersManagerController>();
+  final viewModel = Get.find<ManufacturersManagerController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +45,22 @@ class ManufacturersManagerView extends StatelessWidget {
                   ),
                   ElevatedButton(
                       onPressed: () {}, child: const Text('Thêm nhà sản xuất')),
+                  const SizedBox(
+                    width: 50,
+                  ),
+                  Obx(
+                    () => MyDropdownButton2StateFull(
+                      hint: '',
+                      value: viewModel.selectedItem.value,
+                      itemHeight: 20,
+                      dropdownItems: ["10", "20", "30", "50", "100", "500"],
+                      onChanged: (value) {
+                        if (value != null) {
+                          viewModel.onStepChange(value);
+                        }
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -80,7 +97,7 @@ class ManufacturersManagerView extends StatelessWidget {
                 child: ListView.builder(
                   // physics: const NeverScrollableScrollPhysics(),
                   // shrinkWrap: true,
-                  itemCount: _controller.listmanufacturers.value.length,
+                  itemCount: viewModel.listmanufacturers.value.length,
                   itemBuilder: (context, index) => Container(
                     color: index % 2 == 0 ? Colors.white : Colors.blue.shade100,
                     child: Padding(
@@ -91,13 +108,13 @@ class ManufacturersManagerView extends StatelessWidget {
                           SizedBox(
                             width: 80,
                             child: Text(
-                              '${_controller.listmanufacturers.value[index].id}',
+                              '${viewModel.listmanufacturers.value[index].id}',
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           Expanded(
                             child: Text(
-                              _controller.listmanufacturers.value[index]
+                              viewModel.listmanufacturers.value[index]
                                   .manufacturersName,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -126,10 +143,10 @@ class ManufacturersManagerView extends StatelessWidget {
             ),
             Obx(
               () => PaginatorCommon(
-                totalPage: _controller.totalPage.value,
-                initPage: _controller.currentPage.value - 1,
+                totalPage: viewModel.totalPage.value,
+                initPage: viewModel.currentPage.value - 1,
                 onPageChangeCallBack: (index) =>
-                    _controller.onPageChange(index),
+                    viewModel.onPageChange(index),
               ),
             ),
             

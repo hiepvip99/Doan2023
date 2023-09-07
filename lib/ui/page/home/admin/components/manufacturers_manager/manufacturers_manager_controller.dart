@@ -6,10 +6,16 @@ class ManufacturersManagerController extends GetxController {
 
   RxInt currentPage = 1.obs;
   RxInt totalPage = 10.obs;
+  RxString selectedItem = '10'.obs;
 
   void onPageChange(int index) {
     currentPage.value = index + 1;
     print(currentPage.value);
+  }
+
+  void onStepChange(String? value) {
+    selectedItem.value = value ?? '10';
+    currentPage.value = 1;
   }
   
   @override

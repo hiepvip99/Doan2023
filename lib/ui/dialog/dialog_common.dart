@@ -16,55 +16,59 @@ class DialogCommon {
   bool isShowDialog = false;
 
   Future<void> showLoadingDialog() async {
-    Get.dialog(const Center(
-      child: SpinKitThreeBounce(
-        color: Color.fromARGB(255, 255, 255, 255),
-      ),
+    Get.dialog(
+        const Center(
+          child: SpinKitThreeBounce(
+            color: Color.fromARGB(255, 255, 255, 255),
+          ),
         ),
         barrierDismissible: false);
   }
 
-  Future<void> showDialogWithBody(
+  Future<void> showDialogWithBody(BuildContext context,
       {required Widget bodyDialog,
       double? width,
       double? height,
       EdgeInsets? padding,
       String? title}) async {
-    Get.dialog(Center(
-      child: ConstrainedBox(
-        constraints:
-            BoxConstraints(maxWidth: width ?? 600, maxHeight: height ?? 400),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: Scaffold(
-            body: Padding(
-              padding: padding ??
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        title ?? '',
-                        style: Theme.of(Get.context!).textTheme.headlineSmall,
-                      ),
-                      const CloseButtonCommon()
-                    ],
-                  ),
-                  bodyDialog,
-                ],
+    showDialog(
+      builder: (context) => Center(
+        child: ConstrainedBox(
+          constraints:
+              BoxConstraints(maxWidth: width ?? 600, maxHeight: height ?? 400),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Scaffold(
+              body: Padding(
+                padding: padding ??
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          title ?? '',
+                          style: Theme.of(Get.context!).textTheme.headlineSmall,
+                        ),
+                        const CloseButtonCommon()
+                      ],
+                    ),
+                    bodyDialog,
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
-    ));
+      context: context,
+    );
   }
 
   void dismiss() async {
     if (Get.isDialogOpen ?? false) {
-      Get.back(closeOverlays: true);
+      Get.back();
     }
   }
 
@@ -85,25 +89,18 @@ class DialogCommon {
     String closeText = 'Đóng',
     double marginBottom = 0,
   }) async {
-    await showDialog(
-      context: context,
-      barrierColor: const Color(0xFF000000).withOpacity(0.5),
-      builder: (context) => Column(
-        children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [BackButton()],
+    showDialogWithBody(context,
+        width: 300,
+        height: 200,
+        bodyDialog: Center(
+          child: Text(
+            title,
+            style: const TextStyle(fontSize: 20),
           ),
-          Container(
-            height: 300,
-            width: 350,
-            margin: EdgeInsets.only(bottom: marginBottom),
-            child: Center(
-              child: Text(title),
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
+    // await Future.delayed(
+    //   const Duration(seconds: 3),
+    //   () => dismiss(),
+    // );
   }
 }

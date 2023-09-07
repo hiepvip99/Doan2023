@@ -44,14 +44,15 @@ class AccountManagerView extends StatelessWidget {
                     //       isDense: true),
                     // ),
                     child: TextFieldCommon(
-                        label: 'Tìm kiếm', controller: TextEditingController()),
+                        hintText: 'Tìm kiếm',
+                        controller: TextEditingController()),
                   ),
                   const SizedBox(
                     width: 50,
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        DialogAccount().showDialogAdd();
+                        DialogAccount().showDialogAdd(context);
                       },
                       child: const Text('Thêm tài khoản')),
                   const SizedBox(
@@ -121,7 +122,11 @@ class AccountManagerView extends StatelessWidget {
                 // padding: const EdgeInsets.all(16),
                 color: Colors.white54,
                 child: Obx(
-                  () => ListView.builder(
+                  () => viewModel.loading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
                     // physics: const NeverScrollableScrollPhysics(),
                     // shrinkWrap: true,
                     itemCount: viewModel.accountList.value.length,
@@ -183,7 +188,17 @@ class AccountManagerView extends StatelessWidget {
                                         backgroundColor: Colors.red),
                                     onPressed: () {
                                       DialogAccount()
-                                          .showDeleteConfirmation(context);
+                                                .showDeleteConfirmation(
+                                              context,
+                                              viewModel
+                                                  .accountList.value[index].id,
+                                              viewModel.accountList.value[index]
+                                                  .username,
+                                              () => viewModel.deleteAccount(
+                                                  viewModel
+                                                      .accountList.value[index],
+                                                  context),
+                                            );
                                     },
                                     child: const Text('Xóa')),
                               ],

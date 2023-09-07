@@ -4,6 +4,7 @@ import 'package:web_app/model/network/account_model.dart';
 
 import '../../../../../../component_common/close_button.dart';
 import '../../../../../../component_common/delete_body_dialog_common.dart';
+import '../../../../../../component_common/input_text_with_title.dart';
 import '../../../../../../component_common/my_dropdown_button2.dart';
 import '../../../../../../component_common/textfield_common.dart';
 import '../../../../../../dialog/dialog_common.dart';
@@ -11,8 +12,9 @@ import '../account_manager_controller.dart';
 
 class DialogAccount {
   final AccountManagerViewModel viewModel = Get.find<AccountManagerViewModel>();
-  void showDialogAccount(Widget body, String title) {
+  void showDialogAccount(Widget body, String title, BuildContext context) {
     Get.find<DialogCommon>().showDialogWithBody(
+      context,
       title: title /*  'Thêm tài khoản' */,
       bodyDialog: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -26,22 +28,17 @@ class DialogAccount {
     );
   }
 
-  void showDialogAdd() {
-    AccountInfo accountRegister = AccountInfo();
+  void showDialogAdd(BuildContext context) {
+    AccountInfo accountRegister =
+        AccountInfo(decentralizationId: 1, statusId: 1);
     TextEditingController txtUsername = TextEditingController();
     TextEditingController txtPassword = TextEditingController();
     showDialogAccount(
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Tên Tài khoản'),
-            const SizedBox(
-              height: 16,
-            ),
-            TextFieldCommon(controller: txtUsername),
-            const SizedBox(
-              height: 16,
-            ),
+            InputTextWithTitle(
+                textEditingController: txtUsername, title: 'Tên tài khoản'),
             const Text('Mật khẩu'),
             const SizedBox(
               height: 16,
@@ -108,26 +105,32 @@ class DialogAccount {
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      print(
-                          "accountRegister.decentralizationId = ${accountRegister.decentralizationId}");
-                      print(
-                          "accountRegister.statusId = ${accountRegister.statusId}");
+                      accountRegister.username = txtUsername.text.trim();
+                      accountRegister.password = txtPassword.text.trim();
+                      viewModel.addAccount(accountRegister, Get.context!);
+                      // print(
+                      //     "accountRegister.decentralizationId = ${accountRegister.decentralizationId}");
+                      // print(
+                      //     "accountRegister.statusId = ${accountRegister.statusId}");
                     },
                     child: const Text('Submit')),
               ],
             ),
           ],
         ),
-        'Thêm tài khoản');
+        'Thêm tài khoản',
+        context);
   }
 
-  void showDeleteConfirmation(BuildContext context) {
+  void showDeleteConfirmation(
+      BuildContext context, int? id, String? username, Function() onDelete) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return DeleteItemDialog(
-          itemName: 'Item 1',
+          itemName: 'tài khoản: $username có id là: $id',
           onDelete: () {
+            onDelete();
             // Xử lý xóa item ở đây
             Navigator.of(context).pop(); // Đóng dialog sau khi xóa
           },

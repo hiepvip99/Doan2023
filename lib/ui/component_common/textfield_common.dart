@@ -4,12 +4,14 @@ class TextFieldCommon extends StatelessWidget {
   const TextFieldCommon(
       {super.key,
       this.label,
+      this.hintText,
       required this.controller,
       this.contentPadding,
       this.requiredInput = false,
       this.isTextPassword});
 
   final String? label;
+  final String? hintText;
   final TextEditingController controller;
   final EdgeInsets? contentPadding;
   final bool requiredInput;
@@ -20,10 +22,13 @@ class TextFieldCommon extends StatelessWidget {
     return Stack(
       children: [
         TextField(
+          controller: controller,
           decoration: InputDecoration(
-              // suffixText: requiredInput ? '*' : null,
-              // suffixStyle:
-              //     requiredInput ? const TextStyle(color: Colors.red) : null,
+            hintText: hintText,
+            focusedBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black)),
+            enabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black)),
               label: label != null ? Text(label!) : null,
               border: const OutlineInputBorder(),
               contentPadding: contentPadding ?? const EdgeInsets.all(12),
