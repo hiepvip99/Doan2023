@@ -38,7 +38,7 @@ class DialogCommon {
       builder: (context) => Center(
         child: ConstrainedBox(
           constraints:
-              BoxConstraints(maxWidth: width ?? 600, maxHeight: height ?? 400),
+              BoxConstraints(maxWidth: width ?? 700, maxHeight: height ?? 500),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Scaffold(
@@ -46,6 +46,7 @@ class DialogCommon {
                 padding: padding ??
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

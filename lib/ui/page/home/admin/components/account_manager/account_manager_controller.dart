@@ -12,6 +12,7 @@ class AccountManagerViewModel extends GetxController {
   RxInt currentPage = 1.obs;
   RxInt totalPage = 1.obs;
   RxString selectedItem = '10'.obs;
+  RxString keyword = ''.obs;
   RxBool loading = false.obs;
 
   // AccountInfo accountRegister = AccountInfo();
@@ -50,7 +51,8 @@ class AccountManagerViewModel extends GetxController {
     await networkService
         .getAllAccount(
             currentPage: currentPage.value,
-            step: int.tryParse(selectedItem.value))
+            step: int.tryParse(selectedItem.value),
+            keyword: keyword.value)
         .then((value) {
       if (value != null) {
         accountList.clear();

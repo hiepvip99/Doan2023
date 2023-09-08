@@ -2,15 +2,48 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/page/home/admin/components/manufacturers_manager/components/dialog_manufacturer.dart';
 
+import '../../../../../../constant.dart';
 import '../../../../../component_common/my_dropdown_button2.dart';
 import '../../../../../component_common/paginator_common.dart';
+import '../../../../../component_common/textfield_common.dart';
+import '../../../../../dialog/dialog_common.dart';
 import 'manufacturers_manager_controller.dart';
 
-class ManufacturersManagerView extends StatelessWidget {
+class ManufacturersManagerView extends StatefulWidget {
   ManufacturersManagerView({super.key});
 
-  final viewModel = Get.find<ManufacturersManagerController>();
+  @override
+  State<ManufacturersManagerView> createState() =>
+      _ManufacturersManagerViewState();
+}
+
+class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
+  final viewModel = Get.find<ManufacturersViewModel>();
+
+  final dialog = DialogManufacturer();
+
+  final TextEditingController txtSearch = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    txtSearch.addListener(() {
+      final text = txtSearch.text.trim();
+      print('text:' + text);
+      viewModel.keyword.value = text;
+      viewModel.getManufacturerList();
+    });
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    // This also removes the _printLatestValue listener.
+    txtSearch.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +64,24 @@ class ManufacturersManagerView extends StatelessWidget {
                   const SizedBox(
                     width: 50,
                   ),
-                  const Expanded(
-                      flex: 7,
-                      child: TextField(
-                        decoration: InputDecoration(
-                            label: Text('Tìm kiếm'),
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.all(8),
-                            isDense: true),
-                      )),
+                  Expanded(
+                    child: TextFieldCommon(
+                      hintText: 'Tìm kiếm',
+                      controller: txtSearch,
+                      // onChanged: (value) {
+                      //   viewModel.keyword.value = txtSearch.text.trim();
+                      //   viewModel.getManufacturerList();
+                      // },
+                    ),
+                  ),
                   const SizedBox(
                     width: 50,
                   ),
                   ElevatedButton(
-                      onPressed: () {}, child: const Text('Thêm nhà sản xuất')),
+                      onPressed: () {
+                        dialog.showAddDialog(context);
+                      },
+                      child: const Text('Thêm nhà sản xuất')),
                   const SizedBox(
                     width: 50,
                   ),
@@ -53,7 +90,7 @@ class ManufacturersManagerView extends StatelessWidget {
                       hint: '',
                       value: viewModel.selectedItem.value,
                       itemHeight: 20,
-                      dropdownItems: ["10", "20", "30", "50", "100", "500"],
+                      dropdownItems: pageStep,
                       onChanged: (value) {
                         if (value != null) {
                           viewModel.onStepChange(value);
@@ -132,7 +169,12 @@ class ManufacturersManagerView extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            dialog.showUpdateDialog(
+                                                context,
+                                                viewModel.manufacturerList
+                                                    .value[index]);
+                                          },
                                           child: const Text('Sửa')),
                                       const SizedBox(
                                         width: 8,
@@ -140,27 +182,42 @@ class ManufacturersManagerView extends StatelessWidget {
                                       ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.red),
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Get.find<DialogCommon>()
+                                                .showDeleteConfirmation(
+                                              context,
+                                              viewModel.manufacturerList
+                                                  .value[index].id,
+                                              viewModel.manufacturerList
+                                                  .value[index].name,
+                                              () => viewModel
+                                                  .deleteManufacturer(viewModel
+                                                      .manufacturerList
+                                                      .value[index]),
+                                            );
+                                          },
                                           child: const Text('Xóa')),
                                     ],
                                   ),
                                 ],
                               ),
-                      ),
-                    ),
-                  ),
+                            ),
+                          ),
+                        ),
                 ),
               ),
             ),
             Obx(
-              () => PaginatorCommon(
-                totalPage: viewModel.totalPage.value,
-                initPage: viewModel.currentPage.value - 1,
-                onPageChangeCallBack: (index) =>
-                    viewModel.onPageChange(index),
+              () => Visibility(
+                visible: !viewModel.loading.value,
+                child: PaginatorCommon(
+                  totalPage: viewModel.totalPage.value,
+                  initPage: viewModel.currentPage.value - 1,
+                  onPageChangeCallBack: (index) =>
+                      viewModel.onPageChange(index),
+                ),
               ),
             ),
-            
           ],
         ),
       ),

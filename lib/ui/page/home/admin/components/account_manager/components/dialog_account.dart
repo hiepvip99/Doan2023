@@ -182,6 +182,7 @@ class DialogAccount {
                         if (_formKey.currentState!.validate()) {
                           accountRegister.username = txtUsername.text.trim();
                           accountRegister.password = txtPassword.text.trim();
+                          Get.back();
                           viewModel.addAccount(accountRegister, context);
                         }
 
@@ -325,6 +326,7 @@ class DialogAccount {
                           if (_formKey.currentState!.validate()) {
                             account.username = txtUsername.text.trim();
                             account.password = txtPassword.text.trim();
+                            Get.back();
                             viewModel.updateAccount(account, context);
                           }
 

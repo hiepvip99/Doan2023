@@ -6,14 +6,13 @@ import 'package:web_app/ui/dialog/dialog_common.dart';
 import '../../../../../../model/network/manufacturer_model.dart';
 import '../../../../../../service/network/manufacturer_service.dart';
 
-class ManufacturersManagerController extends GetxController {
+class ManufacturersViewModel extends GetxController {
   RxList<Manufacturer> manufacturerList = RxList([]);
-
   RxInt currentPage = 1.obs;
   RxInt totalPage = 1.obs;
   RxString selectedItem = '10'.obs;
-
   RxBool loading = false.obs;
+  RxString keyword = ''.obs;
 
   ManufacturerService networkService = ManufacturerService();
 
@@ -46,7 +45,8 @@ class ManufacturersManagerController extends GetxController {
     await networkService
         .getAllManufacturer(
             currentPage: currentPage.value,
-            step: int.tryParse(selectedItem.value) ?? 10)
+            step: int.tryParse(selectedItem.value) ?? 10,
+            keyword: keyword.value)
         .then((value) {
       if (value != null) {
         manufacturerList.clear();
@@ -57,45 +57,56 @@ class ManufacturersManagerController extends GetxController {
     loading.value = false;
   }
 
-  Future<void> addManufacturer(Manufacturer data, BuildContext context) async {
+  Future<void> addManufacturer(
+    Manufacturer data,
+  ) async {
     loading.value = true;
     await networkService
         .addManufacturer(ManufacturerManagerModel(manufacturerObj: data))
         .then((value) {
       if (value != null) {
         if (value.statusCode == 200) {
-          dialog.showSuccessDialog(context, "Thêm nhà sản xuất thành công");
+          dialog.showSuccessDialog(
+              Get.context!, "Thêm nhà sản xuất thành công");
         }
+        getManufacturerList();
       }
     });
     loading.value = false;
   }
 
   Future<void> updateManufacturer(
-      Manufacturer data, BuildContext context) async {
+    Manufacturer data,
+  ) async {
     loading.value = true;
     await networkService
         .updateManufacturer(ManufacturerManagerModel(manufacturerObj: data))
         .then((value) {
       if (value != null) {
         if (value.statusCode == 200) {
-          dialog.showSuccessDialog(context, "Sửa nhà sản xuất thành công");
+          if (Get.isDialogOpen == true) {
+            Get.back();
+          }
+          dialog.showSuccessDialog(Get.context!, "Sửa nhà sản xuất thành công");
         }
+        getManufacturerList();
       }
     });
     loading.value = false;
   }
 
   Future<void> deleteManufacturer(
-      Manufacturer data, BuildContext context) async {
+    Manufacturer data,
+  ) async {
     loading.value = true;
     await networkService
         .deleteManufacturer(ManufacturerManagerModel(manufacturerObj: data))
         .then((value) {
       if (value != null) {
         if (value.statusCode == 200) {
-          dialog.showSuccessDialog(context, "Xóa nhà sản xuất thành công");
+          dialog.showSuccessDialog(Get.context!, "Xóa nhà sản xuất thành công");
         }
+        getManufacturerList();
       }
     });
     loading.value = false;

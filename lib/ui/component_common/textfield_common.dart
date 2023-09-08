@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFieldCommon extends StatelessWidget {
-  const TextFieldCommon(
-      {super.key,
-      this.label,
-      this.hintText,
-      required this.controller,
-      this.contentPadding,
-      this.requiredInput = false,
-      this.isTextPassword,
-      this.validator});
+  const TextFieldCommon({
+    super.key,
+    this.label,
+    this.hintText,
+    required this.controller,
+    this.contentPadding,
+    this.requiredInput = false,
+    this.isTextPassword,
+    this.validator,
+    this.inputFormatters,
+    // this.onChanged,
+  });
 
   final String? label;
   final String? hintText;
@@ -18,6 +22,8 @@ class TextFieldCommon extends StatelessWidget {
   final bool requiredInput;
   final bool? isTextPassword;
   final String? Function(String? value)? validator;
+  final List<TextInputFormatter>? inputFormatters;
+  // final Function(String value)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +42,7 @@ class TextFieldCommon extends StatelessWidget {
             contentPadding: contentPadding ?? const EdgeInsets.all(12),
             isDense: true,
           ),
+          // inputFormatters: inputFormatters,
           validator: validator,
           obscureText: isTextPassword == true,
           enableSuggestions: !(isTextPassword == true),

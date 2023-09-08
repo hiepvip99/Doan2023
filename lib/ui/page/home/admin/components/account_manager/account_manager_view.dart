@@ -7,16 +7,43 @@ import 'package:web_app/ui/component_common/paginator_common.dart';
 import 'package:web_app/ui/component_common/textfield_common.dart';
 import 'package:web_app/ui/dialog/dialog_common.dart';
 
+import '../../../../../../constant.dart';
 import 'account_manager_controller.dart';
 import 'components/dialog_account.dart';
 
-class AccountManagerView extends StatelessWidget {
+class AccountManagerView extends StatefulWidget {
   AccountManagerView({super.key});
 
-  final AccountManagerViewModel viewModel = Get.find<AccountManagerViewModel>();
-final dialog = Get.find<DialogCommon>();
-
   static const router = '/AccountManager';
+
+  @override
+  State<AccountManagerView> createState() => _AccountManagerViewState();
+}
+
+class _AccountManagerViewState extends State<AccountManagerView> {
+  final AccountManagerViewModel viewModel = Get.find<AccountManagerViewModel>();
+
+  final TextEditingController txtSearch = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    txtSearch.addListener(() {
+      final text = txtSearch.text.trim();
+      print('text:' + text);
+      viewModel.keyword.value = text;
+      viewModel.getAccountList();
+    });
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    // This also removes the _printLatestValue listener.
+    txtSearch.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,8 +73,13 @@ final dialog = Get.find<DialogCommon>();
                     //       isDense: true),
                     // ),
                     child: TextFieldCommon(
-                        hintText: 'Tìm kiếm',
-                        controller: TextEditingController()),
+                      hintText: 'Tìm kiếm',
+                      controller: txtSearch,
+                      // onChanged: (value) {
+                      //   viewModel.keyword.value = txtSearch.text.trim();
+                      //   viewModel.getAccountList();
+                      // },
+                    ),
                   ),
                   const SizedBox(
                     width: 50,
@@ -65,7 +97,7 @@ final dialog = Get.find<DialogCommon>();
                       hint: '',
                       value: viewModel.selectedItem.value,
                       itemHeight: 20,
-                      dropdownItems: ["10", "20", "30", "50", "100", "500"],
+                      dropdownItems: pageStep,
                       onChanged: (value) {
                         if (value != null) {
                           viewModel.onStepChange(value);
@@ -129,58 +161,63 @@ final dialog = Get.find<DialogCommon>();
                           child: CircularProgressIndicator(),
                         )
                       : ListView.builder(
-                    // physics: const NeverScrollableScrollPhysics(),
-                    // shrinkWrap: true,
-                    itemCount: viewModel.accountList.value.length,
-                    itemBuilder: (context, index) => Container(
-                      color:
-                          index % 2 == 0 ? Colors.white : Colors.blue.shade100,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                '${viewModel.accountList.value[index].id}',
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                viewModel.accountList.value[index].username ??
-                                    '',
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                viewModel.accountList.value[index]
-                                        .customerName ??
-                                    '',
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                viewModel.accountList.value[index].email ?? '',
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                viewModel.getDecentralization(viewModel
-                                        .accountList
-                                        .value[index]
-                                        .decentralizationId) ??
-                                    '',
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ElevatedButton(
+                          // physics: const NeverScrollableScrollPhysics(),
+                          // shrinkWrap: true,
+                          itemCount: viewModel.accountList.value.length,
+                          itemBuilder: (context, index) => Container(
+                            color: index % 2 == 0
+                                ? Colors.white
+                                : Colors.blue.shade100,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      '${viewModel.accountList.value[index].id}',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      viewModel.accountList.value[index]
+                                              .username ??
+                                          '',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      viewModel.accountList.value[index]
+                                              .customerName ??
+                                          '',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      viewModel
+                                              .accountList.value[index].email ??
+                                          '',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      viewModel.getDecentralization(viewModel
+                                              .accountList
+                                              .value[index]
+                                              .decentralizationId) ??
+                                          '',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ElevatedButton(
                                           onPressed: () {
                                             DialogAccount().showDialogUpdate(
                                                 context,
@@ -188,14 +225,14 @@ final dialog = Get.find<DialogCommon>();
                                                     .accountList.value[index]);
                                           },
                                           child: const Text('Sửa')),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.red),
-                                    onPressed: () {
-                                            dialog
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.red),
+                                          onPressed: () {
+                                            Get.find<DialogCommon>()
                                                 .showDeleteConfirmation(
                                               context,
                                               viewModel
@@ -207,23 +244,27 @@ final dialog = Get.find<DialogCommon>();
                                                       .accountList.value[index],
                                                   context),
                                             );
-                                    },
-                                    child: const Text('Xóa')),
-                              ],
+                                          },
+                                          child: const Text('Xóa')),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                 ),
               ),
             ),
             Obx(
-              () => PaginatorCommon(
-                totalPage: viewModel.totalPage.value,
-                initPage: viewModel.currentPage.value - 1,
-                onPageChangeCallBack: (index) => viewModel.onPageChange(index),
+              () => Visibility(
+                visible: !viewModel.loading.value,
+                child: PaginatorCommon(
+                  totalPage: viewModel.totalPage.value,
+                  initPage: viewModel.currentPage.value - 1,
+                  onPageChangeCallBack: (index) =>
+                      viewModel.onPageChange(index),
+                ),
               ),
             ),
           ],
