@@ -10,7 +10,7 @@ class AccountManagerViewModel extends GetxController {
   RxList<Decentralization> decentralizationList = RxList([]);
   RxList<AccountStatus> accountStatusList = RxList([]);
   RxInt currentPage = 1.obs;
-  RxInt totalPage = 10.obs;
+  RxInt totalPage = 1.obs;
   RxString selectedItem = '10'.obs;
   RxBool loading = false.obs;
 
@@ -102,6 +102,22 @@ class AccountManagerViewModel extends GetxController {
       } else {
         Get.find<DialogCommon>()
             .showAlertDialog(context: context, title: 'Lỗi thêm account');
+      }
+    });
+  }
+
+  Future<void> updateAccount(AccountInfo account, BuildContext context) async {
+    await networkService
+        .updateAccount(AccountsManagerModel(accountEdit: account))
+        .then((value) {
+      if (value?.statusCode == 200) {
+        Get.find<DialogCommon>().showAlertDialog(
+            context: context,
+            title: 'Sửa thành công account có id: ${account.id}');
+        getAccountList();
+      } else {
+        Get.find<DialogCommon>()
+            .showAlertDialog(context: context, title: 'Lỗi sửa account');
       }
     });
   }

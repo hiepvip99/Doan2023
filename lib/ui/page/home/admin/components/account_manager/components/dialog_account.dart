@@ -28,115 +28,306 @@ class DialogAccount {
     );
   }
 
+  String? validateUserName(String value) {
+    if (value.isEmpty) {
+      return 'Vui lòng nhập username';
+    }
+    if (!isAlphanumeric(value) || value.contains(' ')) {
+      return 'Username chỉ được chứa chữ cái và số, không có khoảng trắng';
+    }
+    if (!isLength(value, 8, 20)) {
+      return 'Username phải có độ dài từ 8 đến 20 ký tự';
+    }
+    return null;
+  }
+
+  String? validatePassword(String value) {
+    if (value.isEmpty) {
+      return 'Vui lòng nhập mật khẩu';
+    }
+    if (!isLength(value, 8, 20)) {
+      return 'Mật khẩu phải có độ dài từ 8 đến 20 ký tự';
+    }
+    return null;
+  }
+
+  bool isLength(String value, int min, int max) {
+    final length = value.length;
+    return length >= min && length <= max;
+  }
+
+  bool isAlphanumeric(String value) {
+    final alphanumericRegex = RegExp(r'^[a-zA-Z0-9]+$');
+    return alphanumericRegex.hasMatch(value);
+  }
+
   void showDialogAdd(BuildContext context) {
     AccountInfo accountRegister =
         AccountInfo(decentralizationId: 1, statusId: 1);
     TextEditingController txtUsername = TextEditingController();
     TextEditingController txtPassword = TextEditingController();
+    TextEditingController txtConfirmPassword = TextEditingController();
+
+    final _formKey = GlobalKey<FormState>();
     showDialogAccount(
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            InputTextWithTitle(
-                textEditingController: txtUsername, title: 'Tên tài khoản'),
-            const Text('Mật khẩu'),
-            const SizedBox(
-              height: 16,
-            ),
-            TextFieldCommon(isTextPassword: true, controller: txtPassword),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
+        Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(width: 100, child: Text('Phân quyền')),
+                const Text('Tên tài khoản'),
                 const SizedBox(
-                  width: 10,
+                  height: 16,
                 ),
-                DropDownCustom(
-                  initValue: viewModel.decentralizationList
-                      .map((element) => element.name ?? "")
-                      .toList()
-                      .first,
-                  listItem: viewModel.decentralizationList
-                      .map((element) => element.name ?? "")
-                      .toList(),
-                  onChangeDropDown: (value) {
-                    final int index = viewModel.decentralizationList
-                        .indexWhere((element) => element.name == value);
-                    if (index != -1) {
-                      accountRegister.decentralizationId =
-                          viewModel.decentralizationList[index].id;
-                    }
+                TextFieldCommon(
+                  controller: txtUsername,
+                  validator: (value) {
+                    return validateUserName(value ?? '');
                   },
                 ),
-              ],
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            Row(
-              children: [
-                const SizedBox(width: 100, child: Text('Trạng thái')),
+                // InputTextWithTitle(
+                //     textEditingController: txtUsername, title: 'Tên tài khoản'),
+                const Text('Mật khẩu'),
                 const SizedBox(
-                  width: 10,
+                  height: 16,
                 ),
-                DropDownCustom(
-                  initValue: viewModel.accountStatusList
-                      .map((element) => element.name ?? "")
-                      .toList()
-                      .first,
-                  listItem: viewModel.accountStatusList
-                      .map((element) => element.name ?? "")
-                      .toList(),
-                  onChangeDropDown: (value) {
-                    final int index = viewModel.accountStatusList
-                        .indexWhere((element) => element.name == value);
-                    if (index != -1) {
-                      accountRegister.statusId =
-                          viewModel.accountStatusList[index].id;
-                    }
+                TextFieldCommon(
+                  isTextPassword: true,
+                  controller: txtPassword,
+                  validator: (value) {
+                    return validatePassword(value ?? '');
                   },
                 ),
+                const SizedBox(
+                  height: 16,
+                ),
+                const Text('Nhập Lại Mật khẩu'),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextFieldCommon(
+                  isTextPassword: true,
+                  controller: txtConfirmPassword,
+                  validator: (value) {
+                    validatePassword(value ?? '');
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Row(
+                  children: [
+                    const SizedBox(width: 100, child: Text('Phân quyền')),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    DropDownCustom(
+                      initValue: viewModel.decentralizationList
+                          .map((element) => element.name ?? "")
+                          .toList()
+                          .first,
+                      listItem: viewModel.decentralizationList
+                          .map((element) => element.name ?? "")
+                          .toList(),
+                      onChangeDropDown: (value) {
+                        final int index = viewModel.decentralizationList
+                            .indexWhere((element) => element.name == value);
+                        if (index != -1) {
+                          accountRegister.decentralizationId =
+                              viewModel.decentralizationList[index].id;
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Row(
+                  children: [
+                    const SizedBox(width: 100, child: Text('Trạng thái')),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    DropDownCustom(
+                      initValue: viewModel.accountStatusList
+                          .map((element) => element.name ?? "")
+                          .toList()
+                          .first,
+                      listItem: viewModel.accountStatusList
+                          .map((element) => element.name ?? "")
+                          .toList(),
+                      onChangeDropDown: (value) {
+                        final int index = viewModel.accountStatusList
+                            .indexWhere((element) => element.name == value);
+                        if (index != -1) {
+                          accountRegister.statusId =
+                              viewModel.accountStatusList[index].id;
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            accountRegister.username = txtUsername.text.trim();
+                            accountRegister.password = txtPassword.text.trim();
+                            viewModel.addAccount(accountRegister, context);
+                          }
+
+                          // print(
+                          //     "accountRegister.decentralizationId = ${accountRegister.decentralizationId}");
+                          // print(
+                          //     "accountRegister.statusId = ${accountRegister.statusId}");
+                        },
+                        child: const Text('Submit')),
+                  ],
+                ),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      accountRegister.username = txtUsername.text.trim();
-                      accountRegister.password = txtPassword.text.trim();
-                      viewModel.addAccount(accountRegister, Get.context!);
-                      // print(
-                      //     "accountRegister.decentralizationId = ${accountRegister.decentralizationId}");
-                      // print(
-                      //     "accountRegister.statusId = ${accountRegister.statusId}");
-                    },
-                    child: const Text('Submit')),
-              ],
-            ),
-          ],
+          ),
         ),
         'Thêm tài khoản',
         context);
   }
 
-  void showDeleteConfirmation(
-      BuildContext context, int? id, String? username, Function() onDelete) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return DeleteItemDialog(
-          itemName: 'tài khoản: $username có id là: $id',
-          onDelete: () {
-            onDelete();
-            // Xử lý xóa item ở đây
-            Navigator.of(context).pop(); // Đóng dialog sau khi xóa
-          },
-        );
-      },
-    );
+  void showDialogUpdate(BuildContext context, AccountInfo accUpdate) {
+    AccountInfo account = accUpdate;
+    TextEditingController txtUsername =
+        TextEditingController(text: account.username);
+    TextEditingController txtPassword = TextEditingController();
+    TextEditingController txtConfirmPassword = TextEditingController();
+
+    final _formKey = GlobalKey<FormState>();
+    showDialogAccount(
+        Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('Mật khẩu'),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextFieldCommon(
+                  isTextPassword: true,
+                  controller: txtPassword,
+                  // validator: (value) {
+                  //   return validatePassword(value ?? '');
+                  // },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                const Text('Nhập Lại Mật khẩu'),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextFieldCommon(
+                  isTextPassword: true,
+                  controller: txtConfirmPassword,
+                  validator: (value) {
+                    if (value != txtPassword.text) {
+                      return "Mật khẩu không khớp";
+                    }
+                    // validatePassword(value ?? '');
+                  },
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Row(
+                  children: [
+                    const SizedBox(width: 100, child: Text('Phân quyền')),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    DropDownCustom(
+                      initValue: viewModel.decentralizationList
+                              .where((value) =>
+                                  value.id == account.decentralizationId)
+                              .toList()[0]
+                              .name ??
+                          (viewModel.decentralizationList.first.name ?? ""),
+                      listItem: viewModel.decentralizationList
+                          .map((element) => element.name ?? "")
+                          .toList(),
+                      onChangeDropDown: (value) {
+                        final int index = viewModel.decentralizationList
+                            .indexWhere((element) => element.name == value);
+                        if (index != -1) {
+                          account.decentralizationId =
+                              viewModel.decentralizationList[index].id;
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Row(
+                  children: [
+                    const SizedBox(width: 100, child: Text('Trạng thái')),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    DropDownCustom(
+                      initValue: viewModel.accountStatusList
+                              .where((value) => value.id == account.statusId)
+                              .toList()[0]
+                              .name ??
+                          (viewModel.accountStatusList.first.name ??
+                              "") /* viewModel.accountStatusList
+                          .map((element) => element.name ?? "")
+                          .toList()
+                          .first */
+                      ,
+                      listItem: viewModel.accountStatusList
+                          .map((element) => element.name ?? "")
+                          .toList(),
+                      onChangeDropDown: (value) {
+                        final int index = viewModel.accountStatusList
+                            .indexWhere((element) => element.name == value);
+                        if (index != -1) {
+                          account.statusId =
+                              viewModel.accountStatusList[index].id;
+                        }
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            account.username = txtUsername.text.trim();
+                            account.password = txtPassword.text.trim();
+                            viewModel.updateAccount(account, context);
+                          }
+
+                          // print(
+                          //     "accountRegister.decentralizationId = ${accountRegister.decentralizationId}");
+                          // print(
+                          //     "accountRegister.statusId = ${accountRegister.statusId}");
+                        },
+                        child: const Text('Submit')),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        'Sửa tài khoản id = ${account.id}',
+        context);
   }
 }
 

@@ -8,7 +8,8 @@ class TextFieldCommon extends StatelessWidget {
       required this.controller,
       this.contentPadding,
       this.requiredInput = false,
-      this.isTextPassword});
+      this.isTextPassword,
+      this.validator});
 
   final String? label;
   final String? hintText;
@@ -16,12 +17,13 @@ class TextFieldCommon extends StatelessWidget {
   final EdgeInsets? contentPadding;
   final bool requiredInput;
   final bool? isTextPassword;
+  final String? Function(String? value)? validator;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        TextField(
+        TextFormField(
           controller: controller,
           decoration: InputDecoration(
             hintText: hintText,
@@ -29,11 +31,12 @@ class TextFieldCommon extends StatelessWidget {
                 borderSide: BorderSide(color: Colors.black)),
             enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black)),
-              label: label != null ? Text(label!) : null,
-              border: const OutlineInputBorder(),
-              contentPadding: contentPadding ?? const EdgeInsets.all(12),
+            label: label != null ? Text(label!) : null,
+            border: const OutlineInputBorder(),
+            contentPadding: contentPadding ?? const EdgeInsets.all(12),
             isDense: true,
           ),
+          validator: validator,
           obscureText: isTextPassword == true,
           enableSuggestions: !(isTextPassword == true),
           autocorrect: !(isTextPassword == true),

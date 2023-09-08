@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
 import '../component_common/close_button.dart';
+import '../component_common/delete_body_dialog_common.dart';
 
 class DialogCommon {
   // DialogCommon._privateConstructor();
@@ -79,6 +79,41 @@ class DialogCommon {
           context: context,
           title: 'Vui lòng kết nối với mạng để thực hiện tính năng này');
     }
+  }
+
+  Future<void> showSuccessDialog(BuildContext context, String message) async {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Thành công'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void showDeleteConfirmation(
+      BuildContext context, int? id, String? username, Function() onDelete) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DeleteItemDialog(
+          itemName: 'tài khoản: $username có id là: $id',
+          onDelete: () {
+            onDelete();
+            // Xử lý xóa item ở đây
+            Navigator.of(context).pop(); // Đóng dialog sau khi xóa
+          },
+        );
+      },
+    );
   }
 
   Future<void> showAlertDialog({

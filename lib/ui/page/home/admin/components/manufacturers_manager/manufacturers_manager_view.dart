@@ -94,47 +94,58 @@ class ManufacturersManagerView extends StatelessWidget {
               child: Container(
                 // padding: const EdgeInsets.all(16),
                 color: Colors.white54,
-                child: ListView.builder(
-                  // physics: const NeverScrollableScrollPhysics(),
-                  // shrinkWrap: true,
-                  itemCount: viewModel.listmanufacturers.value.length,
-                  itemBuilder: (context, index) => Container(
-                    color: index % 2 == 0 ? Colors.white : Colors.blue.shade100,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 80,
-                            child: Text(
-                              '${viewModel.listmanufacturers.value[index].id}',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              viewModel.listmanufacturers.value[index]
-                                  .manufacturersName,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ElevatedButton(
-                                  onPressed: () {}, child: const Text('Sửa')),
-                              const SizedBox(
-                                width: 8,
+                child: Obx(
+                  () => viewModel.loading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                          // physics: const NeverScrollableScrollPhysics(),
+                          // shrinkWrap: true,
+                          itemCount: viewModel.manufacturerList.value.length,
+                          itemBuilder: (context, index) => Container(
+                            color: index % 2 == 0
+                                ? Colors.white
+                                : Colors.blue.shade100,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                    width: 80,
+                                    child: Text(
+                                      '${viewModel.manufacturerList.value[index].id}',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      viewModel.manufacturerList.value[index]
+                                              .name ??
+                                          "",
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ElevatedButton(
+                                          onPressed: () {},
+                                          child: const Text('Sửa')),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.red),
+                                          onPressed: () {},
+                                          child: const Text('Xóa')),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red),
-                                  onPressed: () {},
-                                  child: const Text('Xóa')),
-                            ],
-                          ),
-                        ],
                       ),
                     ),
                   ),

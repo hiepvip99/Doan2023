@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 class OrderManagerViewModel extends GetxController {
   RxList<OrderModel> listOrder = RxList();
   RxInt currentPage = 1.obs;
-  RxInt totalPage = 10.obs;
+  RxInt totalPage = 1.obs;
 
   void onPageChange(int index) {
     currentPage.value = index + 1;

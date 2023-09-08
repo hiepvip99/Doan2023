@@ -76,6 +76,7 @@ class BaseRepository extends BaseRepositoryInterface {
       switch (method) {
         case HttpMethod.get:
           // if (hasNetwork()) {
+          await Future.delayed(const Duration(seconds: 1));
           if (queryParameters is Map<String, dynamic>?) {
             response = await _dio.get(url, queryParameters: queryParameters);
             // unawaited(saveToCache(url, jsonDecode(response.toString())));

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:web_app/ui/component_common/my_dropdown_button2.dart';
 import 'package:web_app/ui/component_common/paginator_common.dart';
 import 'package:web_app/ui/component_common/textfield_common.dart';
+import 'package:web_app/ui/dialog/dialog_common.dart';
 
 import 'account_manager_controller.dart';
 import 'components/dialog_account.dart';
@@ -13,6 +14,7 @@ class AccountManagerView extends StatelessWidget {
   AccountManagerView({super.key});
 
   final AccountManagerViewModel viewModel = Get.find<AccountManagerViewModel>();
+final dialog = Get.find<DialogCommon>();
 
   static const router = '/AccountManager';
   @override
@@ -179,7 +181,13 @@ class AccountManagerView extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 ElevatedButton(
-                                    onPressed: () {}, child: const Text('Sửa')),
+                                          onPressed: () {
+                                            DialogAccount().showDialogUpdate(
+                                                context,
+                                                viewModel
+                                                    .accountList.value[index]);
+                                          },
+                                          child: const Text('Sửa')),
                                 const SizedBox(
                                   width: 8,
                                 ),
@@ -187,7 +195,7 @@ class AccountManagerView extends StatelessWidget {
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.red),
                                     onPressed: () {
-                                      DialogAccount()
+                                            dialog
                                                 .showDeleteConfirmation(
                                               context,
                                               viewModel

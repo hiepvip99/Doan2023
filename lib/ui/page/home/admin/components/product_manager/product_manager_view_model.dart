@@ -7,7 +7,7 @@ class ProductManagerViewModel extends GetxController {
   RxList<ProductModel> productList = RxList([]);
   Rx<ProductModel> itemAdd = Rx(ProductModel());
   RxInt currentPage = 1.obs;
-  RxInt totalPage = 10.obs;
+  RxInt totalPage = 1.obs;
 
   void onPageChange(int index) {
     currentPage.value = index + 1;
