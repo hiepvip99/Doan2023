@@ -30,7 +30,10 @@ class DialogCommon {
       double? width,
       double? height,
       EdgeInsets? padding,
-      String? title}) async {
+    String? title,
+    /* String? titleButtonSubmit,
+    Function()? onSubmit, */
+  }) async {
     showDialog(
       builder: (context) => Center(
         child: ConstrainedBox(
@@ -54,7 +57,22 @@ class DialogCommon {
                         const CloseButtonCommon()
                       ],
                     ),
-                    bodyDialog,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            bodyDialog,
+                          ],
+                        ),
+                      ),
+                    ),
+                    // titleButtonSubmit != null
+                    //     ? ElevatedButton(
+                    //         onPressed:
+                    //             onSubmit != null ? () => onSubmit() : () {},
+                    //         child: Text(titleButtonSubmit))
+                    //     : const SizedBox()
                   ],
                 ),
               ),

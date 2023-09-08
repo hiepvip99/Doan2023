@@ -97,7 +97,7 @@ class AccountManagerViewModel extends GetxController {
         Get.find<DialogCommon>().showAlertDialog(
             context: context,
             title:
-                'Thêm thành công account ${account.username} có id: ${account.id}');
+                'Thêm thành công account ${account.username}');
         getAccountList();
       } else {
         Get.find<DialogCommon>()
