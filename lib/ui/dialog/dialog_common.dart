@@ -119,12 +119,17 @@ class DialogCommon {
   }
 
   void showDeleteConfirmation(
-      BuildContext context, int? id, String? username, Function() onDelete) {
+    BuildContext context,
+    Function() onDelete, {
+    String? text,
+    int? id,
+    String? username,
+  }) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return DeleteItemDialog(
-          itemName: 'tài khoản: $username có id là: $id',
+          itemName: text ?? 'tài khoản: $username có id là: $id',
           onDelete: () {
             onDelete();
             // Xử lý xóa item ở đây

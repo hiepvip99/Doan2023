@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import 'package:web_app/ui/component_common/textfield_common.dart';
 
+import '../../../../../../../model/network/product_manager_model.dart';
 import '../../../../../../component_common/close_button.dart';
 import '../../../../../../component_common/delete_body_dialog_common.dart';
 import '../../../../../../component_common/dropdown_button_common.dart';
@@ -16,24 +17,8 @@ class DialogProduct {
   DialogProduct({
     required this.viewModel,
   });
-  void showDeleteConfirmation(
-      BuildContext context, int id, Function() onDelete) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return DeleteItemDialog(
-          itemName: 'Sản phẩm có id: $id',
-          onDelete: () {
-            onDelete();
-            // Xử lý xóa item ở đây
-            Navigator.of(context).pop(); // Đóng dialog sau khi xóa
-          },
-        );
-      },
-    );
-  }
 
-  void addProductDialog(BuildContext context, Rx<ProductModel> itemAdd) {
+  void addProductDialog(BuildContext context, Rx<Product> itemAdd) {
     Get.find<DialogCommon>().showDialogWithBody(
       context,
       height: 450,

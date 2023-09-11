@@ -6,7 +6,7 @@ import 'components/account_manager/account_manager_view.dart';
 import 'components/list_item.dart';
 import 'components/manufacturers_manager/manufacturers_manager_view.dart';
 import 'components/order_manager/order_manager_view.dart';
-import 'components/product_manager/product_manager.dart';
+import 'components/product_manager/product_manager_view.dart';
 import 'components/statistical/statistical_view.dart';
 import 'home_admin_controller.dart';
 

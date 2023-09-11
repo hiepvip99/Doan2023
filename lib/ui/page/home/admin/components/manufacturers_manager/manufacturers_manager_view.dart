@@ -12,7 +12,7 @@ import '../../../../../dialog/dialog_common.dart';
 import 'manufacturers_manager_controller.dart';
 
 class ManufacturersManagerView extends StatefulWidget {
-  ManufacturersManagerView({super.key});
+  const ManufacturersManagerView({super.key});
 
   @override
   State<ManufacturersManagerView> createState() =>
@@ -186,10 +186,8 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                                             Get.find<DialogCommon>()
                                                 .showDeleteConfirmation(
                                               context,
-                                              viewModel.manufacturerList
-                                                  .value[index].id,
-                                              viewModel.manufacturerList
-                                                  .value[index].name,
+                                              text:
+                                                  'nhà sản xuất ${viewModel.manufacturerList.value[index].name} với id: ${viewModel.manufacturerList.value[index].id}',
                                               () => viewModel
                                                   .deleteManufacturer(viewModel
                                                       .manufacturerList

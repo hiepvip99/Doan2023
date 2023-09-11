@@ -235,10 +235,10 @@ class _AccountManagerViewState extends State<AccountManagerView> {
                                             Get.find<DialogCommon>()
                                                 .showDeleteConfirmation(
                                               context,
-                                              viewModel
+                                              id: viewModel
                                                   .accountList.value[index].id,
-                                              viewModel.accountList.value[index]
-                                                  .username,
+                                              username: viewModel.accountList
+                                                  .value[index].username,
                                               () => viewModel.deleteAccount(
                                                   viewModel
                                                       .accountList.value[index],
