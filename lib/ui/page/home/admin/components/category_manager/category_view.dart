@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/page/home/admin/components/category_manager/components/dialog_category.dart';
 import 'package:web_app/ui/page/home/admin/components/manufacturers_manager/components/dialog_manufacturer.dart';
 
 import '../../../../../../constant.dart';
@@ -9,20 +10,19 @@ import '../../../../../component_common/my_dropdown_button2.dart';
 import '../../../../../component_common/paginator_common.dart';
 import '../../../../../component_common/textfield_common.dart';
 import '../../../../../dialog/dialog_common.dart';
-import 'manufacturers_manager_view_model.dart';
+import 'category_view_model.dart';
 
-class ManufacturersManagerView extends StatefulWidget {
-  const ManufacturersManagerView({super.key});
+class CategoryManagerView extends StatefulWidget {
+  const CategoryManagerView({super.key});
 
   @override
-  State<ManufacturersManagerView> createState() =>
-      _ManufacturersManagerViewState();
+  State<CategoryManagerView> createState() => _CategoryManagerViewState();
 }
 
-class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
-  final viewModel = Get.find<ManufacturersViewModel>();
+class _CategoryManagerViewState extends State<CategoryManagerView> {
+  final viewModel = Get.find<CategoryViewModel>();
 
-  final dialog = DialogManufacturer();
+  final dialog = DialogCategory();
 
   final TextEditingController txtSearch = TextEditingController();
   @override
@@ -33,7 +33,7 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
       final text = txtSearch.text.trim();
       print('text:' + text);
       viewModel.keyword.value = text;
-      viewModel.getManufacturerList();
+      viewModel.getCategoryList();
     });
   }
 
@@ -58,7 +58,7 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
               child: Row(
                 children: [
                   const Text(
-                    'Danh sách nhà sản xuất:',
+                    'Danh sách danh mục:',
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(
@@ -81,7 +81,7 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                       onPressed: () {
                         dialog.showAddDialog(context);
                       },
-                      child: const Text('Thêm nhà sản xuất')),
+                      child: const Text('Thêm danh mục')),
                   const SizedBox(
                     width: 50,
                   ),
@@ -116,7 +116,7 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                   ),
                   Expanded(
                     child: Text(
-                      'Tên nhà sản xuất',
+                      'Tên danh mục',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -139,7 +139,7 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                       : ListView.builder(
                           // physics: const NeverScrollableScrollPhysics(),
                           // shrinkWrap: true,
-                          itemCount: viewModel.manufacturerList.value.length,
+                          itemCount: viewModel.categoryList.value.length,
                           itemBuilder: (context, index) => Container(
                             color: index % 2 == 0
                                 ? Colors.white
@@ -153,14 +153,14 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                                   SizedBox(
                                     width: 80,
                                     child: Text(
-                                      '${viewModel.manufacturerList.value[index].id}',
+                                      '${viewModel.categoryList.value[index].id}',
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      viewModel.manufacturerList.value[index]
-                                              .name ??
+                                      viewModel
+                                              .categoryList.value[index].name ??
                                           "",
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -172,8 +172,8 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                                           onPressed: () {
                                             dialog.showUpdateDialog(
                                                 context,
-                                                viewModel.manufacturerList
-                                                    .value[index]);
+                                                viewModel
+                                                    .categoryList.value[index]);
                                           },
                                           child: const Text('Sửa')),
                                       const SizedBox(
@@ -187,11 +187,8 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                                                 .showDeleteConfirmation(
                                               context,
                                               text:
-                                                  'nhà sản xuất ${viewModel.manufacturerList.value[index].name} với id: ${viewModel.manufacturerList.value[index].id}',
-                                              () => viewModel
-                                                  .deleteManufacturer(viewModel
-                                                      .manufacturerList
-                                                      .value[index]),
+                                                  'danh mục ${viewModel.categoryList.value[index].name} với id: ${viewModel.categoryList.value[index].id}',
+                                              () => null,
                                             );
                                           },
                                           child: const Text('Xóa')),

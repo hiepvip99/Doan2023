@@ -23,6 +23,10 @@ class LeftMenu extends StatelessWidget {
       title: 'Quản lý nhà sản xuất',
     ),
     ItemMenu(
+      icon: Icons.category,
+      title: 'Quản lý danh mục',
+    ),
+    ItemMenu(
       icon: Icons.inventory,
       title: 'Quản lý sản phẩm',
     ),

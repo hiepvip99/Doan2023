@@ -59,7 +59,7 @@ class Product {
   int? manufacturerId;
   int? categoryId;
   String? gender;
-  List<Colors>? colors;
+  List<ColorItemProduct>? colors;
   List<Sizes>? sizes;
 
   Product(
@@ -78,9 +78,9 @@ class Product {
     categoryId = json['category_id'];
     gender = json['gender'];
     if (json['colors'] != null) {
-      colors = <Colors>[];
+      colors = <ColorItemProduct>[];
       json['colors'].forEach((v) {
-        colors!.add(Colors.fromJson(v));
+        colors!.add(ColorItemProduct.fromJson(v));
       });
     }
     if (json['sizes'] != null) {
@@ -108,15 +108,16 @@ class Product {
   }
 }
 
-class Colors extends BaseEntity {
+class ColorItemProduct extends BaseEntity {
   int? productColorId;
   int? colorId;
   int? price;
   List<Images>? images;
 
-  Colors({this.productColorId, this.colorId, this.price, this.images});
+  ColorItemProduct(
+      {this.productColorId, this.colorId, this.price, this.images});
 
-  Colors.fromJson(Map<String, dynamic> json) {
+  ColorItemProduct.fromJson(Map<String, dynamic> json) {
     productColorId = json['product_color_id'];
     colorId = json['color_id'];
     price = json['price'];

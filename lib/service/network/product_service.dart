@@ -59,21 +59,21 @@ class ProductService {
     return response;
   }
 
-  Future<BaseEntity?> addColorProduct(Colors colorModel) async {
+  Future<BaseEntity?> addColorProduct(ColorItemProduct colorModel) async {
     final repo = BaseRepository(path: _colorProduct, method: HttpMethod.post);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         data: colorModel.toJson());
     return response;
   }
 
-  Future<BaseEntity?> updateColorProduct(Colors colorModel) async {
+  Future<BaseEntity?> updateColorProduct(ColorItemProduct colorModel) async {
     final repo = BaseRepository(path: _colorProduct, method: HttpMethod.put);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         data: colorModel.toJson());
     return response;
   }
 
-  Future<BaseEntity?> deleteColorProduct(Colors colorModel) async {
+  Future<BaseEntity?> deleteColorProduct(ColorItemProduct colorModel) async {
     final repo = BaseRepository(path: _colorProduct, method: HttpMethod.delete);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         data: colorModel.toJson());

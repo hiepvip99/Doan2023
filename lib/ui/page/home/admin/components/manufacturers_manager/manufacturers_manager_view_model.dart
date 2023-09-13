@@ -1,10 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_app/ui/dialog/dialog_common.dart';
 
 import '../../../../../../model/network/manufacturer_model.dart';
 import '../../../../../../service/network/manufacturer_service.dart';
+import '../product_manager/product_manager_view_model.dart';
 
 class ManufacturersViewModel extends GetxController {
   RxList<Manufacturer> manufacturerList = RxList([]);
@@ -60,7 +59,6 @@ class ManufacturersViewModel extends GetxController {
   Future<void> addManufacturer(
     Manufacturer data,
   ) async {
-    loading.value = true;
     await networkService
         .addManufacturer(ManufacturerManagerModel(manufacturerObj: data))
         .then((value) {
@@ -70,15 +68,14 @@ class ManufacturersViewModel extends GetxController {
               Get.context!, "Thêm nhà sản xuất thành công");
         }
         getManufacturerList();
+        Get.find<ProductManagerViewModel>().getInfomationForProduct();
       }
     });
-    loading.value = false;
   }
 
   Future<void> updateManufacturer(
     Manufacturer data,
   ) async {
-    loading.value = true;
     await networkService
         .updateManufacturer(ManufacturerManagerModel(manufacturerObj: data))
         .then((value) {
@@ -90,15 +87,14 @@ class ManufacturersViewModel extends GetxController {
           dialog.showSuccessDialog(Get.context!, "Sửa nhà sản xuất thành công");
         }
         getManufacturerList();
+        Get.find<ProductManagerViewModel>().getInfomationForProduct();
       }
     });
-    loading.value = false;
   }
 
   Future<void> deleteManufacturer(
     Manufacturer data,
   ) async {
-    loading.value = true;
     await networkService
         .deleteManufacturer(ManufacturerManagerModel(manufacturerObj: data))
         .then((value) {
@@ -107,9 +103,9 @@ class ManufacturersViewModel extends GetxController {
           dialog.showSuccessDialog(Get.context!, "Xóa nhà sản xuất thành công");
         }
         getManufacturerList();
+        Get.find<ProductManagerViewModel>().getInfomationForProduct();
       }
     });
-    loading.value = false;
   }
 }
 

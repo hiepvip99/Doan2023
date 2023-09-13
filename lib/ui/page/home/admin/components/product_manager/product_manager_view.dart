@@ -81,7 +81,7 @@ class ProductManagerView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: 100,
+                    width: 150,
                     child: Text(
                       'Ảnh',
                       overflow: TextOverflow.ellipsis,
@@ -145,43 +145,33 @@ class ProductManagerView extends StatelessWidget {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
-                                    CachedNetworkImage(
-                                      imageUrl: viewModel
-                                                  .productList
-                                                  .value[index]
-                                                  .colors
-                                                  ?.length !=
-                                              0
-                                          ? viewModel
-                                                      .productList
-                                                      .value[index]
-                                                      .colors
-                                                      ?.first
-                                                      .images
-                                                      ?.length !=
-                                                  0
-                                              ? domain +
-                                                  (viewModel
-                                                          .productList
-                                                          .value[index]
-                                                          .colors
-                                                          ?.first
-                                                          .images
-                                                          ?.first
-                                                          .url ??
-                                                      '')
-                                              : ''
-                                          : '',
-                                      width: 100,
-                                      height: 200,
-                                      fit: BoxFit.cover,
-                                      filterQuality: FilterQuality.low,
-                                      errorWidget: (context, url, error) =>
-                                          const SizedBox(
-                                              width: 100,
-                                              height: 200,
-                                              child: Icon(Icons.error)),
-                                    ),
+                                    ImageComponent(
+                                        imageUrl: viewModel
+                                                    .productList
+                                                    .value[index]
+                                                    .colors
+                                                    ?.length !=
+                                                0
+                                            ? viewModel
+                                                        .productList
+                                                        .value[index]
+                                                        .colors
+                                                        ?.first
+                                                        .images
+                                                        ?.length !=
+                                                    0
+                                                ? domain +
+                                                    (viewModel
+                                                            .productList
+                                                            .value[index]
+                                                            .colors
+                                                            ?.first
+                                                            .images
+                                                            ?.first
+                                                            .url ??
+                                                        '')
+                                                : ''
+                                            : ''),
                                     const SizedBox(
                                       width: 20,
                                     ),
@@ -261,6 +251,34 @@ class ProductManagerView extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ImageComponent extends StatelessWidget {
+  const ImageComponent({
+    super.key,
+    required this.imageUrl,
+  });
+
+  final String imageUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 150,
+      height: 150,
+      decoration:
+          BoxDecoration(border: Border.all(width: 1, color: Colors.black)),
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        width: 150,
+        height: 150,
+        fit: BoxFit.cover,
+        filterQuality: FilterQuality.low,
+        errorWidget: (context, url, error) =>
+            const SizedBox(width: 100, height: 200, child: Icon(Icons.error)),
       ),
     );
   }

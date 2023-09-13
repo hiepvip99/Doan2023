@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../../model/network/manufacturer_model.dart';
+import '../../../../../../../model/network/category_model.dart';
 import '../../../../../../component_common/textfield_common.dart';
 import '../../../../../../dialog/dialog_common.dart';
-import '../manufacturers_manager_view_model.dart';
+import '../category_view_model.dart';
 
-class DialogManufacturer {
-  final viewModel = Get.find<ManufacturersViewModel>();
+class DialogCategory {
+  final viewModel = Get.find<CategoryViewModel>();
 
   String? validateName(String value) {
     if (value.trim().isEmpty) {
@@ -18,7 +18,7 @@ class DialogManufacturer {
   }
 
   Future<void> showAddDialog(BuildContext context) async {
-    Manufacturer data = Manufacturer();
+    Category data = Category();
     TextEditingController txtName = TextEditingController();
 
     final formKey = GlobalKey<FormState>();
@@ -26,7 +26,7 @@ class DialogManufacturer {
     Get.find<DialogCommon>().showDialogWithBody(
       height: 200,
       context,
-      title: "Thêm nhà sản xuất" /*  'Thêm tài khoản' */,
+      title: "Thêm danh mục" /*  'Thêm tài khoản' */,
       bodyDialog: Form(
         key: formKey,
         child: Column(
@@ -55,7 +55,7 @@ class DialogManufacturer {
                       if (formKey.currentState!.validate()) {
                         data.name = txtName.text.trim();
                         Get.back();
-                        viewModel.addManufacturer(data);
+                        viewModel.addCategory(data);
                       }
                     },
                     child: const Text('Xác nhận')),
@@ -71,16 +71,15 @@ class DialogManufacturer {
   }
 
   Future<void> showUpdateDialog(
-      BuildContext context, Manufacturer itemUpdate) async {
-    Manufacturer manufacturer = itemUpdate;
-    TextEditingController txtName =
-        TextEditingController(text: manufacturer.name);
-    final _formKey = GlobalKey<FormState>();
+      BuildContext context, Category itemUpdate) async {
+    Category category = itemUpdate;
+    TextEditingController txtName = TextEditingController(text: category.name);
+    final formKey = GlobalKey<FormState>();
     Get.find<DialogCommon>().showDialogWithBody(
       context,
-      title: 'Sửa nhà sản xuất có id: ${itemUpdate.id}' /*  'Thêm tài khoản' */,
+      title: 'Sửa danh mục có id: ${itemUpdate.id}' /*  'Thêm tài khoản' */,
       bodyDialog: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -104,10 +103,10 @@ class DialogManufacturer {
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        manufacturer.name = txtName.text.trim();
+                      if (formKey.currentState!.validate()) {
+                        category.name = txtName.text.trim();
                         Get.back();
-                        viewModel.updateManufacturer(manufacturer);
+                        viewModel.updateCategory(category);
                       }
                     },
                     child: const Text('Xác nhận')),

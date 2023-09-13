@@ -112,4 +112,13 @@ final ThemeData lightTheme = ThemeData(
     buttonColor: Colors.blue,
     disabledColor: Colors.grey,
   ),
+  dropdownMenuTheme: const DropdownMenuThemeData(
+    menuStyle: MenuStyle(
+      maximumSize: MaterialStatePropertyAll(
+        Size(2000, 200),
+      ),
+      // maximumSize: MaterialStatePropertyAll<Size>(Size.infinite),
+      visualDensity: VisualDensity.standard,
+    ),
+  ),
 );

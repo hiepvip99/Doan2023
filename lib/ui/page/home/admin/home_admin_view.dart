@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/page/home/admin/components/category_manager/category_view.dart';
 
 import 'components/account_manager/account_manager_view.dart';
 import 'components/list_item.dart';
@@ -70,12 +71,14 @@ class HomeAdmin extends StatelessWidget {
         case 0:
           return AccountManagerView();
         case 1:
-          return ManufacturersManagerView();
+          return const ManufacturersManagerView();
         case 2:
-          return ProductManagerView();
+          return const CategoryManagerView();
         case 3:
-          return OrderManagerView();
+          return ProductManagerView();
         case 4:
+          return OrderManagerView();
+        case 5:
           return const LineChartSample1();
         // case 8:
         //   return const LineChartSample1();
