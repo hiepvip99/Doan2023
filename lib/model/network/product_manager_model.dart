@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:web_app/service/base_entity.dart';
 
 class ProductManagerModel extends BaseEntity {
@@ -14,7 +17,8 @@ class ProductManagerModel extends BaseEntity {
       this.step,
       this.totalPages,
       this.keyword,
-      this.product});
+      this.product,
+      this.item});
 
   ProductManagerModel.fromJson(Map<dynamic, dynamic> json) {
     super.mapping(json);
@@ -60,7 +64,7 @@ class Product {
   int? categoryId;
   String? gender;
   List<ColorItemProduct>? colors;
-  List<Sizes>? sizes;
+  List<SizeItemProduct>? sizes;
 
   Product(
       {this.id,
@@ -84,9 +88,9 @@ class Product {
       });
     }
     if (json['sizes'] != null) {
-      sizes = <Sizes>[];
+      sizes = <SizeItemProduct>[];
       json['sizes'].forEach((v) {
-        sizes!.add(Sizes.fromJson(v));
+        sizes!.add(SizeItemProduct.fromJson(v));
       });
     }
   }
@@ -143,8 +147,12 @@ class ColorItemProduct extends BaseEntity {
 
 class Images {
   String? url;
+  ColorItemProduct? infoUpload;
+  List<File>? listImageUpload;
+  int? productIdUpload;
 
-  Images({this.url});
+  Images(
+      {this.url, this.infoUpload, this.listImageUpload, this.productIdUpload});
 
   Images.fromJson(Map<String, dynamic> json) {
     url = json['url'];
@@ -155,17 +163,30 @@ class Images {
     data['url'] = url;
     return data;
   }
+
+  Map<String, dynamic> toUploadJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['color_id'] = infoUpload?.colorId;
+    data['product_id'] = productIdUpload;
+    if (listImageUpload != null) {
+      data['images'] = listImageUpload
+          ?.map((e) => MultipartFile.fromFileSync(e.path))
+          .toList();
+    }
+    return data;
+  }
 }
 
-class Sizes extends BaseEntity {
+class SizeItemProduct extends BaseEntity {
   int? productSizeId;
   int? sizeId;
   int? colorId;
   int? quantity;
 
-  Sizes({this.productSizeId, this.sizeId, this.colorId, this.quantity});
+  SizeItemProduct(
+      {this.productSizeId, this.sizeId, this.colorId, this.quantity});
 
-  Sizes.fromJson(Map<String, dynamic> json) {
+  SizeItemProduct.fromJson(Map<String, dynamic> json) {
     productSizeId = json['product_size_id'];
     sizeId = json['size_id'];
     colorId = json['color_id'];

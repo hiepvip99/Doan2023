@@ -1,4 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart' hide Color, Size;
 import 'package:get/get.dart';
 import 'package:web_app/service/network/manufacturer_service.dart';
@@ -33,6 +36,37 @@ class ProductManagerViewModel extends GetxController {
   ColorService colorNetworkService = ColorService();
   SizeService sizeNetworkService = SizeService();
   CategoryService categoryNetworkService = CategoryService();
+
+  RxList<File> filesPicked = RxList();
+
+  Future<void> pickImage(
+      int? productId, ColorItemProduct? colorItemProduct) async {
+    filesPicked.clear();
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(allowMultiple: true, type: FileType.image);
+    if (result != null) {
+      filesPicked.value = result.paths.map((path) => File(path ?? '')).toList();
+      await networkService
+          .uploadImages(Images(
+              infoUpload: colorItemProduct,
+              // ignore: invalid_use_of_protected_member
+              listImageUpload: filesPicked.value,
+              productIdUpload: productId))
+          .then((value) {
+        if (value?.statusCode == 200) {
+          Get.find<DialogCommon>().showAlertDialog(
+              context: Get.context!,
+              title: 'Upload ảnh thành công productId: $productId');
+          getAllProduct();
+        } else {
+          Get.find<DialogCommon>().showAlertDialog(
+              context: Get.context!, title: 'Lỗi upload image product');
+        }
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
 
   void onPageChange(int index) {
     currentPage.value = index + 1;
@@ -82,24 +116,70 @@ class ProductManagerViewModel extends GetxController {
     loading.value = false;
   }
 
+  Future<void> addProduct(Product addProduct) async {
+    loading.value = true;
+    await networkService
+        .addProduct(ProductManagerModel(item: addProduct))
+        .then((value) {
+      if (value?.statusCode == 200) {
+        Get.find<DialogCommon>().showAlertDialog(
+            context: Get.context!,
+            title: 'Thêm thành công product ${addProduct.name}');
+        getAllProduct();
+      } else {
+        Get.find<DialogCommon>()
+            .showAlertDialog(context: Get.context!, title: 'Lỗi thêm product');
+      }
+    });
+    loading.value = false;
+  }
+
+  Future<void> updateProduct(Product updateProduct) async {
+    loading.value = true;
+    await networkService
+        .updateProduct(ProductManagerModel(item: updateProduct))
+        .then((value) {
+      if (value?.statusCode == 200) {
+        Get.find<DialogCommon>().showAlertDialog(
+            context: Get.context!,
+            title: 'Sửa thành công product ${updateProduct.name}');
+        getAllProduct();
+      } else {
+        Get.find<DialogCommon>()
+            .showAlertDialog(context: Get.context!, title: 'Lỗi sửa product');
+      }
+    });
+    loading.value = false;
+  }
+
+  Future<void> deleteProduct(Product deleteProduct) async {
+    loading.value = true;
+    await networkService
+        .deleteProduct(ProductManagerModel(item: deleteProduct))
+        .then((value) {
+      if (value?.statusCode == 200) {
+        Get.find<DialogCommon>().showAlertDialog(
+            context: Get.context!,
+            title: 'Xóa thành công product ${deleteProduct.name}');
+        getAllProduct();
+      } else {
+        Get.find<DialogCommon>()
+            .showAlertDialog(context: Get.context!, title: 'Lỗi xóa product');
+      }
+    });
+    loading.value = false;
+  }
+
   // String? get
 
   void removeProduct(int id) {
     productList.removeWhere((element) => element.id == id);
   }
 
-  void showDelete(int id, BuildContext context) {
-    Get.find<DialogCommon>().showDeleteConfirmation(
-      context,
-      () => removeProduct(id),
-      text: 'sản phẩm có id: $id',
-    );
-  }
-
-  void showAdd(BuildContext context) {
-    // await getInfomationForProduct();
-    DialogProduct(viewModel: this).productDialog(context);
-  }
+  // void showAdd(BuildContext context) {
+  //   // await getInfomationForProduct();
+  //   DialogProduct(viewModel: this).productDialog(context);
+  // }
 }
 
 // class ProductModel {

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:web_app/service/base_entity.dart';
 
 import '../../model/network/product_manager_model.dart';
@@ -80,24 +81,30 @@ class ProductService {
     return response;
   }
 
-  Future<BaseEntity?> addSizeProduct(Sizes sizeModel) async {
+  Future<BaseEntity?> addSizeProduct(SizeItemProduct sizeModel) async {
     final repo = BaseRepository(path: _sizeProduct, method: HttpMethod.post);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         data: sizeModel.toJson());
     return response;
   }
 
-  Future<BaseEntity?> updateSizeProduct(Sizes sizeModel) async {
+  Future<BaseEntity?> updateSizeProduct(SizeItemProduct sizeModel) async {
     final repo = BaseRepository(path: _sizeProduct, method: HttpMethod.put);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         data: sizeModel.toJson());
     return response;
   }
 
-  Future<BaseEntity?> deleteSizeProduct(Sizes sizeModel) async {
+  Future<BaseEntity?> deleteSizeProduct(SizeItemProduct sizeModel) async {
     final repo = BaseRepository(path: _sizeProduct, method: HttpMethod.delete);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         data: sizeModel.toJson());
+    return response;
+  }
+  Future<BaseEntity?> uploadImages(Images imageUpload) async {
+    final repo = BaseRepository(path: _sizeProduct, method: HttpMethod.delete);
+    final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
+        data: FormData.fromMap(imageUpload.toUploadJson()));
     return response;
   }
 }

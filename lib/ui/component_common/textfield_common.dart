@@ -12,7 +12,8 @@ class TextFieldCommon extends StatelessWidget {
     this.isTextPassword,
     this.validator,
     this.inputFormatters,
-    // this.onChanged,
+    this.onChanged,
+    this.keyboardType,
   });
 
   final String? label;
@@ -23,7 +24,8 @@ class TextFieldCommon extends StatelessWidget {
   final bool? isTextPassword;
   final String? Function(String? value)? validator;
   final List<TextInputFormatter>? inputFormatters;
-  // final Function(String value)? onChanged;
+  final Function(String value)? onChanged;
+  final TextInputType? keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +44,13 @@ class TextFieldCommon extends StatelessWidget {
             contentPadding: contentPadding ?? const EdgeInsets.all(12),
             isDense: true,
           ),
-          // inputFormatters: inputFormatters,
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
           validator: validator,
           obscureText: isTextPassword == true,
           enableSuggestions: !(isTextPassword == true),
           autocorrect: !(isTextPassword == true),
+          onChanged: onChanged,
         ),
         Visibility(
           visible: requiredInput,

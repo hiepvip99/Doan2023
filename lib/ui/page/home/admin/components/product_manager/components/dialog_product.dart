@@ -1,9 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_is_empty
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart' hide Color;
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:web_app/model/network/category_model.dart';
 
+import 'package:web_app/model/network/category_model.dart';
 import 'package:web_app/ui/component_common/textfield_common.dart';
 
 import '../../../../../../../constant.dart';
@@ -25,7 +26,32 @@ class DialogProduct {
   List<String> genderList = ['Nam', 'Nữ'];
 
   void productDialog(BuildContext context, {Product? itemUpdate}) {
-    RxList<Color> colorSelected = RxList();
+    RxList<DataColor> colorSelected = RxList();
+    colorSelected.value = viewModel.colorList
+        .map((element) => DataColor(
+            color: element,
+            colorItemProduct: ColorItemProduct(),
+            sizeItemProduct: SizeItemProduct()))
+        .toList();
+    if (itemUpdate != null) {
+      for (var i = 0; i < colorSelected.length; i++) {
+        if (itemUpdate.colors != null) {
+          for (var j = 0; j < itemUpdate.colors!.length; j++) {
+            if (colorSelected[i].color.id == itemUpdate.colors![j].colorId) {
+              colorSelected[i].colorItemProduct = itemUpdate.colors![j];
+              colorSelected[i].isSelected = true;
+            }
+          }
+        }
+        if (itemUpdate.sizes != null) {
+          for (var element in itemUpdate.sizes!) {
+            if (element.colorId == colorSelected[i].color.id) {
+              colorSelected[i].sizeItemProduct = element;
+            }
+          }
+        }
+      }
+    }
     Product product = itemUpdate ??
         Product(
             manufacturerId: viewModel.manufacturerList.first.id,
@@ -33,8 +59,8 @@ class DialogProduct {
             categoryId: viewModel.categoryList.first.id,
             gender: genderList.first);
     TextEditingController txtName = TextEditingController(text: product.name);
-    TextEditingController txtQuantity = TextEditingController();
-    TextEditingController txtPrice = TextEditingController();
+    // TextEditingController txtQuantity = TextEditingController();
+    // TextEditingController txtPrice = TextEditingController();
     Get.find<DialogCommon>().showDialogWithBody(
       context,
       height: 600,
@@ -49,13 +75,21 @@ class DialogProduct {
                 const SizedBox(
                   width: 20,
                 ),
-                ImageComponent(
-                    imageUrl: domain +
-                        (product.colors?.length != 0
-                            ? product.colors?.first.images?.length != null
-                                ? product.colors?.first.images?.first.url ?? ''
-                                : ''
-                            : ''))
+                GestureDetector(
+                  onTap: () => viewModel.pickImage(
+                      product.id,
+                      product.colors?.length != 0
+                          ? product.colors?.first
+                          : null),
+                  child: ImageComponent(
+                      imageUrl: domain +
+                          (product.colors?.length != 0
+                              ? product.colors?.first.images?.length != null
+                                  ? product.colors?.first.images?.first.url ??
+                                      ''
+                                  : ''
+                              : '')),
+                )
                 // Image.memory(),
               ],
             ),
@@ -70,45 +104,25 @@ class DialogProduct {
                   width: 20,
                 ),
                 DropdownMenu<Manufacturer>(
-                    // menuHeight: 200,
-                    initialSelection: product.manufacturerId != null
-                        ? viewModel.manufacturerList
-                            .where((e) => e.id == product.manufacturerId)
-                            .toList()
-                            .first
-                        : viewModel.manufacturerList.first,
-                    onSelected: (Manufacturer? value) {
-                      if (value != null) {
-                        product.manufacturerId = value.id;
-                      }
-                    },
-                    dropdownMenuEntries: viewModel.manufacturerList
-                        .map<DropdownMenuEntry<Manufacturer>>(
-                            (Manufacturer value) {
+                  initialSelection: product.manufacturerId != null
+                      ? viewModel.manufacturerList
+                          .where((e) => e.id == product.manufacturerId)
+                          .toList()
+                          .first
+                      : viewModel.manufacturerList.first,
+                  onSelected: (Manufacturer? value) {
+                    if (value != null) {
+                      product.manufacturerId = value.id;
+                    }
+                  },
+                  dropdownMenuEntries: viewModel.manufacturerList
+                      .map<DropdownMenuEntry<Manufacturer>>(
+                    (Manufacturer value) {
                       return DropdownMenuEntry<Manufacturer>(
                           value: value, label: value.name ?? '');
-                    }).toList()),
-                // Obx(
-                //   () => DropDownCustom(
-                //     initValue: viewModel.manufacturerList
-                //             .where((value) =>
-                //                 value.id == itemAdd.value.manufacturerId)
-                //             .toList()[0]
-                //             .name ??
-                //         (viewModel.manufacturerList.first.name ?? ""),
-                //     listItem: viewModel.manufacturerList
-                //         .map((element) => element.name ?? "")
-                //         .toList(),
-                //     onChangeDropDown: (value) {
-                //       final int index = viewModel.manufacturerList
-                //           .indexWhere((element) => element.name == value);
-                //       if (index != -1) {
-                //         itemAdd.value.manufacturerId =
-                //             viewModel.manufacturerList[index].id;
-                //       }
-                //     },
-                //   ),
-                // ),
+                    },
+                  ).toList(),
+                ),
               ],
             ),
             const SizedBox(
@@ -150,14 +164,15 @@ class DialogProduct {
                   width: 20,
                 ),
                 SizedBox(
-                    width: 300,
-                    child: TextFieldCommon(controller: TextEditingController()))
+                    width: 300, child: TextFieldCommon(controller: txtName))
               ],
             ),
             const SizedBox(
               height: 10,
             ),
+
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox(width: 100, child: Text('Màu sắc:')),
@@ -168,72 +183,169 @@ class DialogProduct {
                   child: Obx(
                     () => Wrap(
                       // ignore: invalid_use_of_protected_member
-                      children: viewModel.colorList.value
-                          .map((e) => Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(
-                                    width: 150,
-                                    child: CheckboxListTile(
-                                      title: Tooltip(
-                                        message: e.name,
-                                        waitDuration:
-                                            const Duration(seconds: 1),
-                                        child: Text(
-                                          e.name ?? '',
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                      children: colorSelected.value
+                          .map(
+                            (e) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: 150,
+                                  child: CheckboxListTile(
+                                    title: Tooltip(
+                                      message: e.color.name,
+                                      waitDuration: const Duration(seconds: 1),
+                                      child: Text(
+                                        e.color.name ?? '',
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      value: colorSelected
-                                          .where(
-                                              (element) => e.id == element.id)
-                                          .toList()
-                                          .isNotEmpty,
-                                      onChanged: (value) {
-                                        if (value == true) {
-                                          colorSelected.add(e);
-                                        } else {
-                                          colorSelected.remove(e);
-                                        }
-                                      },
                                     ),
+                                    value: e.isSelected,
+                                    onChanged: (value) {
+                                      if (value != null) {
+                                        e.isSelected = value;
+                                        colorSelected.refresh();
+                                      }
+                                    },
                                   ),
-                                ],
-                              ))
+                                ),
+                                Visibility(
+                                  visible: e.isSelected,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 200,
+                                            child: Text(
+                                              'Số lượng của màu ${e.color.name}:',
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 300,
+                                            child: TextFieldCommon(
+                                              controller: TextEditingController(
+                                                  text:
+                                                      '${e.sizeItemProduct?.quantity ?? ''}'),
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              keyboardType: const TextInputType
+                                                  .numberWithOptions(),
+                                              onChanged: (value) {
+                                                e.sizeItemProduct!.quantity =
+                                                    int.tryParse(value);
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          SizedBox(
+                                            width: 200,
+                                            child: Text(
+                                                'Giá của màu ${e.color.name}:',
+                                                overflow:
+                                                    TextOverflow.ellipsis),
+                                          ),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 300,
+                                            child: TextFieldCommon(
+                                              controller: TextEditingController(
+                                                  text:
+                                                      '${e.colorItemProduct?.price ?? ''}'),
+                                              inputFormatters: [
+                                                FilteringTextInputFormatter
+                                                    .digitsOnly
+                                              ],
+                                              keyboardType: const TextInputType
+                                                  .numberWithOptions(),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
                           .toList(),
                     ),
                   ),
                 )
               ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                const SizedBox(width: 100, child: Text('Số lượng:')),
-                const SizedBox(
-                  width: 20,
-                ),
-                SizedBox(
-                    width: 300,
-                    child: TextFieldCommon(controller: TextEditingController()))
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                const SizedBox(width: 100, child: Text('Giá:')),
-                const SizedBox(
-                  width: 20,
-                ),
-                SizedBox(
-                    width: 300,
-                    child: TextFieldCommon(controller: TextEditingController()))
-              ],
-            ),
+            // Row(
+            //   children: [
+            //     const SizedBox(width: 100, child: Text('Size giầy:')),
+            //     const SizedBox(
+            //       width: 20,
+            //     ),
+            //     DropdownMenu<Category>(
+            //         initialSelection: product.categoryId != null
+            //             ? viewModel.categoryList
+            //                 .where((e) => e.id == product.categoryId)
+            //                 .toList()
+            //                 .first
+            //             : viewModel.categoryList.first,
+            //         onSelected: (Category? value) {
+            //           if (value != null) {
+            //             product.categoryId = value.id;
+            //           }
+            //         },
+            //         dropdownMenuEntries: viewModel.categoryList
+            //             .map<DropdownMenuEntry<Category>>((Category value) {
+            //           return DropdownMenuEntry<Category>(
+            //               value: value, label: value.name ?? '');
+            //         }).toList()),
+            //   ],
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // Row(
+            //   children: [
+            //     const SizedBox(width: 100, child: Text('Số lượng:')),
+            //     const SizedBox(
+            //       width: 20,
+            //     ),
+            //     SizedBox(
+            //         width: 300,
+            //         child: TextFieldCommon(controller: TextEditingController()))
+            //   ],
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // Row(
+            //   children: [
+            //     const SizedBox(width: 100, child: Text('Giá:')),
+            //     const SizedBox(
+            //       width: 20,
+            //     ),
+            //     SizedBox(
+            //         width: 300,
+            //         child: TextFieldCommon(controller: TextEditingController()))
+            //   ],
+            // ),
             const SizedBox(
               height: 10,
             ),
@@ -244,7 +356,7 @@ class DialogProduct {
                   width: 20,
                 ),
                 DropdownMenu<String>(
-                    initialSelection: genderList.first,
+                    initialSelection: product.gender ?? genderList.first,
                     onSelected: (String? value) {
                       if (value != null) {
                         product.gender = value;
@@ -272,11 +384,12 @@ class DialogProduct {
               children: [
                 ElevatedButton(
                     onPressed: () {
+                      // product.colors =
+                      product.name = txtName.text.trim();
                       if (itemUpdate != null) {
-                        // Todo: create code update product
-                        product;
+                        viewModel.updateProduct(product);
                       } else {
-                        // Todo: create code add product
+                        viewModel.addProduct(product);
                       }
                     },
                     child: const Text('Submit')),
@@ -287,4 +400,20 @@ class DialogProduct {
       ),
     );
   }
+}
+
+class DataColor {
+  Color color;
+  bool isSelected;
+  ColorItemProduct? colorItemProduct;
+  SizeItemProduct? sizeItemProduct;
+  DataColor({
+    required this.color,
+    this.isSelected = false,
+    this.colorItemProduct,
+    this.sizeItemProduct,
+  });
+  // tao tung gia voi so luong ne
+  // TextEditingController txtGia;
+  // TextEditingController txtSoluong;
 }

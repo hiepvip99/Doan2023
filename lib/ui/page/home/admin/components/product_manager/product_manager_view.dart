@@ -8,6 +8,8 @@ import 'package:web_app/constant.dart';
 import '../../../../../component_common/my_dropdown_button2.dart';
 import '../../../../../component_common/paginator_common.dart';
 import '../../../../../component_common/textfield_common.dart';
+import '../../../../../dialog/dialog_common.dart';
+import 'components/dialog_product.dart';
 import 'product_manager_view_model.dart';
 
 class ProductManagerView extends StatelessWidget {
@@ -46,7 +48,8 @@ class ProductManagerView extends StatelessWidget {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        viewModel.showAdd(context);
+                        DialogProduct(viewModel: viewModel)
+                            .productDialog(context);
                       },
                       child: const Text('Thêm sản phẩm')),
                   const SizedBox(
@@ -207,7 +210,14 @@ class ProductManagerView extends StatelessWidget {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         ElevatedButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              DialogProduct(
+                                                      viewModel: viewModel)
+                                                  .productDialog(context,
+                                                      itemUpdate: viewModel
+                                                          .productList
+                                                          .value[index]);
+                                            },
                                             child: const Text('Sửa')),
                                         const SizedBox(
                                           width: 8,
@@ -216,15 +226,15 @@ class ProductManagerView extends StatelessWidget {
                                             style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.red),
                                             onPressed: () {
-                                              if (viewModel.productList
-                                                      .value[index].id !=
-                                                  null) {
-                                                viewModel.showDelete(
-                                                  viewModel.productList
-                                                      .value[index].id!,
-                                                  context,
-                                                );
-                                              }
+                                              Get.find<DialogCommon>()
+                                                  .showDeleteConfirmation(
+                                                context,
+                                                text:
+                                                    'sản phẩm ${viewModel.manufacturerList.value[index].name} với id: ${viewModel.manufacturerList.value[index].id}',
+                                                () => viewModel.deleteProduct(
+                                                    viewModel.productList
+                                                        .value[index]),
+                                              );
                                             },
                                             child: const Text('Xóa')),
                                       ],
