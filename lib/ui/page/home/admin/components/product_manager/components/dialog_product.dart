@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_is_empty
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart' hide Color;
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart' hide Color, Size;
+import 'package:flutter/services.dart' hide Size;
 import 'package:get/get.dart';
 
 import 'package:web_app/model/network/category_model.dart';
@@ -11,6 +11,7 @@ import '../../../../../../../constant.dart';
 import '../../../../../../../model/network/color_model.dart';
 import '../../../../../../../model/network/manufacturer_model.dart';
 import '../../../../../../../model/network/product_manager_model.dart';
+import '../../../../../../../model/network/size_model.dart';
 import '../../../../../../component_common/dropdown_button_common.dart';
 import '../../../../../../dialog/dialog_common.dart';
 import '../../account_manager/components/dialog_account.dart';
@@ -26,31 +27,32 @@ class DialogProduct {
   List<String> genderList = ['Nam', 'Nữ'];
 
   void productDialog(BuildContext context, {Product? itemUpdate}) {
-    RxList<DataColor> colorSelected = RxList();
-    colorSelected.value = viewModel.colorList
-        .map((element) => DataColor(
-            color: element,
-            colorItemProduct: ColorItemProduct(),
-            sizeItemProduct: SizeItemProduct()))
-        .toList();
+    RxList<ColorItemProduct> colorSelected = RxList();
+    RxList<SizeItemProduct> sizeSelected = RxList();
+
     if (itemUpdate != null) {
-      for (var i = 0; i < colorSelected.length; i++) {
-        if (itemUpdate.colors != null) {
-          for (var j = 0; j < itemUpdate.colors!.length; j++) {
-            if (colorSelected[i].color.id == itemUpdate.colors![j].colorId) {
-              colorSelected[i].colorItemProduct = itemUpdate.colors![j];
-              colorSelected[i].isSelected = true;
-            }
-          }
-        }
-        if (itemUpdate.sizes != null) {
-          for (var element in itemUpdate.sizes!) {
-            if (element.colorId == colorSelected[i].color.id) {
-              colorSelected[i].sizeItemProduct = element;
-            }
-          }
-        }
+      if (itemUpdate.sizes != null) {
+        sizeSelected.value = itemUpdate.sizes!;
       }
+      // for (var i = 0; i < colorSelected.length; i++) {
+      // handle logic color
+      if (itemUpdate.colors != null) {
+        colorSelected.value = itemUpdate.colors!;
+        // for (var j = 0; j < itemUpdate.colors!.length; j++) {
+        //   if (colorSelected[i].color.id == itemUpdate.colors![j].colorId) {
+        //     colorSelected[i].colorItemProduct = itemUpdate.colors![j];
+        //     colorSelected[i].isSelected = true;
+        //   }
+        // }
+      }
+      // if (itemUpdate.sizes != null) {
+      //   for (var element in itemUpdate.sizes!) {
+      //     if (element.colorId == colorSelected[i].color.id) {
+      //       colorSelected[i].sizeItemProduct = element;
+      //     }
+      //   }
+      // }
+      // }
     }
     Product product = itemUpdate ??
         Product(
@@ -170,124 +172,283 @@ class DialogProduct {
             const SizedBox(
               height: 10,
             ),
+            Container(
+              color: Colors.blue.shade100,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(width: 100, child: Text('Màu sắc:')),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Expanded(
+                    child: Obx(
+                      () => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // ignore: invalid_use_of_protected_member
+                        children: viewModel.colorList.value.map(
+                          (e) {
+                            final colorProductExist = colorSelected
+                                .where((item) => item.colorId == e.id)
+                                .toList();
+                            final isSelected = colorProductExist.isNotEmpty;
 
+                            final price =
+                                isSelected ? colorProductExist.first.price : 0;
+                            return Card(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 8),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      width: 150,
+                                      child: CheckboxListTile(
+                                        title: Tooltip(
+                                          message: e.name,
+                                          waitDuration:
+                                              const Duration(seconds: 1),
+                                          child: Text(
+                                            e.name ?? '',
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                        value: isSelected,
+                                        onChanged: (value) {
+                                          if (value == true) {
+                                            colorSelected.add(ColorItemProduct(
+                                                colorId: e.id));
+                                          } else {
+                                            colorSelected.removeWhere(
+                                              (element) =>
+                                                  element.colorId == e.id,
+                                            );
+                                          }
+                                          colorSelected.refresh();
+                                        },
+                                      ),
+                                    ),
+                                    Visibility(
+                                      visible: isSelected,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              SizedBox(
+                                                width: 150,
+                                                child: Tooltip(
+                                                  waitDuration: const Duration(
+                                                      seconds: 1),
+                                                  message:
+                                                      'Giá của màu ${e.name}',
+                                                  child: Text(
+                                                      'Giá của màu ${e.name}:',
+                                                      overflow: TextOverflow
+                                                          .ellipsis),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              SizedBox(
+                                                width: 300,
+                                                child: TextFieldCommon(
+                                                  controller:
+                                                      TextEditingController(
+                                                          text:
+                                                              '${price ?? ''}'),
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                  onChanged: (value) {
+                                                    colorSelected
+                                                            .firstWhere(
+                                                                (element) =>
+                                                                    element
+                                                                        .colorId ==
+                                                                    e.id)
+                                                            .price =
+                                                        int.tryParse(value);
+                                                  },
+                                                  keyboardType:
+                                                      const TextInputType
+                                                          .numberWithOptions(),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ).toList(),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(width: 100, child: Text('Màu sắc:')),
+                const SizedBox(width: 100, child: Text('Size giầy:')),
                 const SizedBox(
                   width: 20,
                 ),
                 Expanded(
                   child: Obx(
-                    () => Wrap(
+                    () => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       // ignore: invalid_use_of_protected_member
-                      children: colorSelected.value
-                          .map(
-                            (e) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(
-                                  width: 150,
-                                  child: CheckboxListTile(
-                                    title: Tooltip(
-                                      message: e.color.name,
-                                      waitDuration: const Duration(seconds: 1),
-                                      child: Text(
-                                        e.color.name ?? '',
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
+                      children: viewModel.sizeList.value.map(
+                        (e) {
+                          final sizeProductExist = sizeSelected
+                              .where((item) => item.sizeId == e.id)
+                              .toList();
+                          final isSelected = sizeProductExist.isNotEmpty;
+                          final SizeItemProduct? sizevalueP =
+                              isSelected ? sizeProductExist.first : null;
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SizedBox(
+                                width: 150,
+                                child: CheckboxListTile(
+                                  title: Tooltip(
+                                    message: e.name,
+                                    waitDuration: const Duration(seconds: 1),
+                                    child: Text(
+                                      e.name ?? '',
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    value: e.isSelected,
-                                    onChanged: (value) {
-                                      if (value != null) {
-                                        e.isSelected = value;
-                                        colorSelected.refresh();
+                                  ),
+                                  value: isSelected,
+                                  onChanged: (value) {
+                                    if (value == true) {
+                                      for (var elementItem in colorSelected) {
+                                        sizeSelected.add(
+                                          SizeItemProduct(
+                                            sizeId: e.id,
+                                            colorId: elementItem.colorId,
+                                            quantity: 0,
+                                          ),
+                                        );
                                       }
+                                    } else {
+                                      sizeSelected.removeWhere(
+                                        (element) => element.sizeId == e.id,
+                                      );
+                                    }
+                                    sizeSelected.refresh();
+                                  },
+                                ),
+                              ),
+                              Visibility(
+                                visible: isSelected,
+                                child: Column(
+                                  children: colorSelected.map(
+                                    (item) {
+                                      final colorName = viewModel.colorList
+                                              .firstWhereOrNull((element) =>
+                                                  element.id == item.colorId)
+                                              ?.name ??
+                                          '';
+                                      // final sizeItem = sizeSelected.firstWhereOrNull((element) => element.colorId == item.colorId);
+                                      final quantity =
+                                          item.colorId == sizevalueP?.colorId
+                                              ? sizevalueP?.quantity
+                                              : 0;
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: 200,
+                                                child: Tooltip(
+                                                  waitDuration: const Duration(
+                                                      seconds: 1),
+                                                  message:
+                                                      'Số lượng của màu: $colorName với size = ${e.name}:',
+                                                  child: Text(
+                                                      'Số lượng của màu: $colorName với size = ${e.name}:',
+                                                      overflow: TextOverflow
+                                                          .ellipsis),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 20,
+                                              ),
+                                              SizedBox(
+                                                width: 300,
+                                                child: TextFieldCommon(
+                                                  controller:
+                                                      TextEditingController(
+                                                          text:
+                                                              '${quantity ?? 0}'),
+                                                  inputFormatters: [
+                                                    FilteringTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                  onChanged: (value) {
+                                                    // .quantity;
+                                                    sizeSelected
+                                                            .firstWhere(
+                                                              (element) =>
+                                                                  (element.colorId ==
+                                                                      item
+                                                                          .colorId) &&
+                                                                  (element.sizeId ==
+                                                                      e.id),
+                                                            )
+                                                            .quantity =
+                                                        int.tryParse(value);
+                                                    print(sizeSelected
+                                                        .firstWhere(
+                                                          (element) =>
+                                                              (element.colorId ==
+                                                                  item
+                                                                      .colorId) &&
+                                                              (element.sizeId ==
+                                                                  e.id),
+                                                        )
+                                                        .quantity);
+                                                  },
+                                                  keyboardType:
+                                                      const TextInputType
+                                                          .numberWithOptions(),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
                                     },
-                                  ),
+                                  ).toList(),
                                 ),
-                                Visibility(
-                                  visible: e.isSelected,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 200,
-                                            child: Text(
-                                              'Số lượng của màu ${e.color.name}:',
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          SizedBox(
-                                            width: 300,
-                                            child: TextFieldCommon(
-                                              controller: TextEditingController(
-                                                  text:
-                                                      '${e.sizeItemProduct?.quantity ?? ''}'),
-                                              inputFormatters: [
-                                                FilteringTextInputFormatter
-                                                    .digitsOnly
-                                              ],
-                                              keyboardType: const TextInputType
-                                                  .numberWithOptions(),
-                                              onChanged: (value) {
-                                                e.sizeItemProduct!.quantity =
-                                                    int.tryParse(value);
-                                              },
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 200,
-                                            child: Text(
-                                                'Giá của màu ${e.color.name}:',
-                                                overflow:
-                                                    TextOverflow.ellipsis),
-                                          ),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
-                                          SizedBox(
-                                            width: 300,
-                                            child: TextFieldCommon(
-                                              controller: TextEditingController(
-                                                  text:
-                                                      '${e.colorItemProduct?.price ?? ''}'),
-                                              inputFormatters: [
-                                                FilteringTextInputFormatter
-                                                    .digitsOnly
-                                              ],
-                                              keyboardType: const TextInputType
-                                                  .numberWithOptions(),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                          .toList(),
+                              ),
+                            ],
+                          );
+                        },
+                      ).toList(),
                     ),
                   ),
                 )
@@ -402,18 +563,22 @@ class DialogProduct {
   }
 }
 
-class DataColor {
-  Color color;
-  bool isSelected;
-  ColorItemProduct? colorItemProduct;
-  SizeItemProduct? sizeItemProduct;
-  DataColor({
-    required this.color,
-    this.isSelected = false,
-    this.colorItemProduct,
-    this.sizeItemProduct,
-  });
-  // tao tung gia voi so luong ne
-  // TextEditingController txtGia;
-  // TextEditingController txtSoluong;
-}
+// class DataColor {
+//   Color color;
+//   bool isSelected;
+//   ColorItemProduct colorItemProduct;
+//   DataColor({
+//     required this.color,
+//     this.isSelected = false,
+//     required this.colorItemProduct,
+//   });
+// }
+
+// class DataSize {
+//   Size size;
+//   bool isSelected;
+//   DataSize({
+//     required this.size,
+//     this.isSelected = false,
+//   });
+// }
