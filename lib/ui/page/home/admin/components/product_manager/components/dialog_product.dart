@@ -226,6 +226,11 @@ class DialogProduct {
                                               (element) =>
                                                   element.colorId == e.id,
                                             );
+                                            if (colorSelected.length == 0) {
+                                              sizeSelected.removeRange(
+                                                  0, sizeSelected.length);
+                                              sizeSelected.refresh();
+                                            }
                                           }
                                           colorSelected.refresh();
                                         },
@@ -321,7 +326,7 @@ class DialogProduct {
                           final isSelected = sizeProductExist.isNotEmpty;
                           final SizeItemProduct? sizevalueP =
                               isSelected ? sizeProductExist.first : null;
-                          return Column(
+                          return Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -350,7 +355,11 @@ class DialogProduct {
                                       }
                                     } else {
                                       sizeSelected.removeWhere(
-                                        (element) => element.sizeId == e.id,
+                                        (element) => (element.sizeId ==
+                                            e.id) /* &&
+                                            (element.colorId ==
+                                                sizevalueP?.colorId) */
+                                        ,
                                       );
                                     }
                                     sizeSelected.refresh();
@@ -368,10 +377,21 @@ class DialogProduct {
                                               ?.name ??
                                           '';
                                       // final sizeItem = sizeSelected.firstWhereOrNull((element) => element.colorId == item.colorId);
-                                      final quantity =
-                                          item.colorId == sizevalueP?.colorId
-                                              ? sizevalueP?.quantity
-                                              : 0;
+
+                                      final quantity = sizeSelected
+                                              .firstWhereOrNull(
+                                                (element) =>
+                                                    (element.colorId ==
+                                                        item.colorId) &&
+                                                    (element.sizeId == e.id),
+                                              )
+                                              ?.quantity
+                                              .toString() ??
+                                          '';
+                                      // final quantity =
+                                      //     item.colorId == sizevalueP?.colorId
+                                      //         ? sizevalueP?.quantity.toString()
+                                      //         : '';
                                       return Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -382,28 +402,27 @@ class DialogProduct {
                                           Row(
                                             children: [
                                               SizedBox(
-                                                width: 200,
+                                                width: 150,
                                                 child: Tooltip(
                                                   waitDuration: const Duration(
                                                       seconds: 1),
                                                   message:
-                                                      'Số lượng của màu: $colorName với size = ${e.name}:',
+                                                      'Số lượng=> $colorName & ${e.name}:',
                                                   child: Text(
-                                                      'Số lượng của màu: $colorName với size = ${e.name}:',
+                                                      'Số lượng=> $colorName & ${e.name}:',
                                                       overflow: TextOverflow
                                                           .ellipsis),
                                                 ),
                                               ),
                                               const SizedBox(
-                                                width: 20,
+                                                width: 10,
                                               ),
                                               SizedBox(
                                                 width: 300,
                                                 child: TextFieldCommon(
                                                   controller:
                                                       TextEditingController(
-                                                          text:
-                                                              '${quantity ?? 0}'),
+                                                          text: quantity),
                                                   inputFormatters: [
                                                     FilteringTextInputFormatter
                                                         .digitsOnly
