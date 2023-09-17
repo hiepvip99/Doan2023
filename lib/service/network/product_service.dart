@@ -10,6 +10,7 @@ class ProductService {
   final String _productById = 'api/product/shoeProductsById';
   final String _colorProduct = 'api/product/colorProduct';
   final String _sizeProduct = 'api/product/sizeProduct';
+  final String _uploadImage = 'api/product/uploadImage';
 
   Future<ProductManagerModel?> getAllProduct(
       {int? currentPage, int? step, String? keyword}) async {
@@ -102,7 +103,7 @@ class ProductService {
     return response;
   }
   Future<BaseEntity?> uploadImages(Images imageUpload) async {
-    final repo = BaseRepository(path: _sizeProduct, method: HttpMethod.delete);
+    final repo = BaseRepository(path: _uploadImage, method: HttpMethod.put);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         data: FormData.fromMap(imageUpload.toUploadJson()));
     return response;

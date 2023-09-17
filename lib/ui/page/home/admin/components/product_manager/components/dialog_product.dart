@@ -630,7 +630,11 @@ class DialogProduct {
                         const SizedBox(
                           height: 10,
                         ),
-                        const ChooseUploadImage()
+                        ChooseUploadImage(
+                          viewModel: viewModel,
+                          product: itemUpdate,
+                          colorItemProduct: e,
+                        )
                       ],
                     ),
                   );
@@ -645,7 +649,14 @@ class DialogProduct {
 class ChooseUploadImage extends StatefulWidget {
   const ChooseUploadImage({
     super.key,
+    required this.viewModel,
+    required this.product,
+    required this.colorItemProduct,
   });
+
+  final ProductManagerViewModel viewModel;
+  final Product product;
+  final ColorItemProduct colorItemProduct;
 
   @override
   State<ChooseUploadImage> createState() => _ChooseUploadImageState();
@@ -719,7 +730,16 @@ class _ChooseUploadImageState extends State<ChooseUploadImage> {
             height: 10,
           ),
           imageChoose.length > 0
-              ? ElevatedButton(onPressed: () {}, child: const Text('Upload'))
+              ? ElevatedButton(
+                  onPressed: () {
+                    final images = Images(
+                        productIdUpload: widget.product.id,
+                        infoUpload: widget.colorItemProduct,
+                        listImageUpload: imageChoose.value);
+
+                    widget.viewModel.uploadImage(images);
+                  },
+                  child: const Text('Upload'))
               : const SizedBox(),
         ],
       ),

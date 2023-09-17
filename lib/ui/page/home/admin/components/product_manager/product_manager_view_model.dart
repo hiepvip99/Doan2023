@@ -37,35 +37,35 @@ class ProductManagerViewModel extends GetxController {
   SizeService sizeNetworkService = SizeService();
   CategoryService categoryNetworkService = CategoryService();
 
-  RxList<File> filesPicked = RxList();
+  // RxList<File> filesPicked = RxList();
 
-  Future<void> pickImage(Product item, listImage) async {
-    filesPicked.clear();
-    FilePickerResult? result = await FilePicker.platform
-        .pickFiles(allowMultiple: true, type: FileType.image);
-    if (result != null) {
-      filesPicked.value = result.paths.map((path) => File(path ?? '')).toList();
-      // await networkService
-      //     .uploadImages(Images(
-      //         infoUpload: colorItemProduct,
-      //         // ignore: invalid_use_of_protected_member
-      //         listImageUpload: filesPicked.value,
-      //         productIdUpload: productId))
-      //     .then((value) {
-      //   if (value?.statusCode == 200) {
-      //     Get.find<DialogCommon>().showAlertDialog(
-      //         context: Get.context!,
-      //         title: 'Upload ảnh thành công productId: $productId');
-      //     getAllProduct();
-      //   } else {
-      //     Get.find<DialogCommon>().showAlertDialog(
-      //         context: Get.context!, title: 'Lỗi upload image product');
-      //   }
-      // });
-    } else {
-      // User canceled the picker
-    }
-  }
+  // Future<void> pickImage(Product item, listImage) async {
+  //   filesPicked.clear();
+  //   FilePickerResult? result = await FilePicker.platform
+  //       .pickFiles(allowMultiple: true, type: FileType.image);
+  //   if (result != null) {
+  //     filesPicked.value = result.paths.map((path) => File(path ?? '')).toList();
+  //     // await networkService
+  //     //     .uploadImages(Images(
+  //     //         infoUpload: colorItemProduct,
+  //     //         // ignore: invalid_use_of_protected_member
+  //     //         listImageUpload: filesPicked.value,
+  //     //         productIdUpload: productId))
+  //     //     .then((value) {
+  //     //   if (value?.statusCode == 200) {
+  //     //     Get.find<DialogCommon>().showAlertDialog(
+  //     //         context: Get.context!,
+  //     //         title: 'Upload ảnh thành công productId: $productId');
+  //     //     getAllProduct();
+  //     //   } else {
+  //     //     Get.find<DialogCommon>().showAlertDialog(
+  //     //         context: Get.context!, title: 'Lỗi upload image product');
+  //     //   }
+  //     // });
+  //   } else {
+  //     // User canceled the picker
+  //   }
+  // }
 
   void onPageChange(int index) {
     currentPage.value = index + 1;
@@ -84,6 +84,21 @@ class ProductManagerViewModel extends GetxController {
     super.onInit();
     getAllProduct();
     getInfomationForProduct();
+  }
+
+  Future<void> uploadImage(Images imageUploads) async {
+    networkService.uploadImages(imageUploads).then((value) {
+      if (value?.statusCode == 200) {
+        Get.find<DialogCommon>().showAlertDialog(
+            context: Get.context!,
+            title:
+                'Cập nhật hình ảnh cho sản phẩm có id:${imageUploads.productIdUpload} thành công');
+        getAllProduct();
+      } else {
+        Get.find<DialogCommon>()
+            .showAlertDialog(context: Get.context!, title: 'Lỗi cập nhật ảnh');
+      }
+    });
   }
 
   Future<void> getInfomationForProduct() async {
