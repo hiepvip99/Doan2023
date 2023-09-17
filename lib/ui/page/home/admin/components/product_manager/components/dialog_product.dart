@@ -1,5 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_is_empty
+// ignore_for_file: public_member_api_docs, sort_constructors_first, prefer_is_empty, invalid_use_of_protected_member
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart' hide Color, Size;
 import 'package:flutter/services.dart' hide Size;
 import 'package:get/get.dart';
@@ -31,13 +34,13 @@ class DialogProduct {
     RxList<SizeItemProduct> sizeSelected = RxList();
 
     if (itemUpdate != null) {
-      if (itemUpdate.sizes != null) {
-        sizeSelected.value = itemUpdate.sizes!;
-      }
       // for (var i = 0; i < colorSelected.length; i++) {
       // handle logic color
       if (itemUpdate.colors != null) {
         colorSelected.value = itemUpdate.colors!;
+        if (itemUpdate.sizes != null) {
+          sizeSelected.value = itemUpdate.sizes!;
+        }
         // for (var j = 0; j < itemUpdate.colors!.length; j++) {
         //   if (colorSelected[i].color.id == itemUpdate.colors![j].colorId) {
         //     colorSelected[i].colorItemProduct = itemUpdate.colors![j];
@@ -77,21 +80,13 @@ class DialogProduct {
                 const SizedBox(
                   width: 20,
                 ),
-                GestureDetector(
-                  onTap: () => viewModel.pickImage(
-                      product.id,
-                      product.colors?.length != 0
-                          ? product.colors?.first
-                          : null),
-                  child: ImageComponent(
-                      imageUrl: domain +
-                          (product.colors?.length != 0
-                              ? product.colors?.first.images?.length != null
-                                  ? product.colors?.first.images?.first.url ??
-                                      ''
-                                  : ''
-                              : '')),
-                )
+                ImageComponent(
+                    imageUrl: domain +
+                        (product.colors?.length != 0
+                            ? product.colors?.first.images?.length != 0
+                                ? product.colors?.first.images?.first.url ?? ''
+                                : ''
+                            : ''))
                 // Image.memory(),
               ],
             ),
@@ -209,8 +204,6 @@ class DialogProduct {
                                       child: CheckboxListTile(
                                         title: Tooltip(
                                           message: e.name,
-                                          waitDuration:
-                                              const Duration(seconds: 1),
                                           child: Text(
                                             e.name ?? '',
                                             overflow: TextOverflow.ellipsis,
@@ -250,8 +243,6 @@ class DialogProduct {
                                               SizedBox(
                                                 width: 150,
                                                 child: Tooltip(
-                                                  waitDuration: const Duration(
-                                                      seconds: 1),
                                                   message:
                                                       'Giá của màu ${e.name}',
                                                   child: Text(
@@ -335,7 +326,6 @@ class DialogProduct {
                                 child: CheckboxListTile(
                                   title: Tooltip(
                                     message: e.name,
-                                    waitDuration: const Duration(seconds: 1),
                                     child: Text(
                                       e.name ?? '',
                                       overflow: TextOverflow.ellipsis,
@@ -377,7 +367,6 @@ class DialogProduct {
                                               ?.name ??
                                           '';
                                       // final sizeItem = sizeSelected.firstWhereOrNull((element) => element.colorId == item.colorId);
-
                                       final quantity = sizeSelected
                                               .firstWhereOrNull(
                                                 (element) =>
@@ -404,8 +393,6 @@ class DialogProduct {
                                               SizedBox(
                                                 width: 150,
                                                 child: Tooltip(
-                                                  waitDuration: const Duration(
-                                                      seconds: 1),
                                                   message:
                                                       'Số lượng=> $colorName & ${e.name}:',
                                                   child: Text(
@@ -429,6 +416,24 @@ class DialogProduct {
                                                   ],
                                                   onChanged: (value) {
                                                     // .quantity;
+                                                    // sizeSelected.firstWhereOrNull((element) =>
+                                                    //             (element.colorId ==
+                                                    //                 item
+                                                    //                     .colorId) &&
+                                                    //             (element.sizeId ==
+                                                    //                 e.id)) ==
+                                                    //         null
+                                                    //     ? sizeSelected.add(
+                                                    //         SizeItemProduct(
+                                                    //           sizeId: e.id,
+                                                    //           colorId:
+                                                    //               item.colorId,
+                                                    //           quantity:
+                                                    //               int.tryParse(
+                                                    //                   value),
+                                                    //         ),
+                                                    //       )
+                                                    //     : null;
                                                     sizeSelected
                                                             .firstWhere(
                                                               (element) =>
@@ -565,6 +570,14 @@ class DialogProduct {
                 ElevatedButton(
                     onPressed: () {
                       // product.colors =
+                      // if (itemUpdate != null) {
+                      //   for (var element in colorSelected) {
+                      //     element.productId = itemUpdate.id;
+                      //   }
+                      // }
+                      product.colors = colorSelected.value;
+                      product.sizes = sizeSelected.value;
+
                       product.name = txtName.text.trim();
                       if (itemUpdate != null) {
                         viewModel.updateProduct(product);
@@ -577,6 +590,138 @@ class DialogProduct {
             )
           ],
         ),
+      ),
+    );
+  }
+
+  void updateImageDialog(
+      {required Product itemUpdate, required BuildContext context}) {
+    Get.find<DialogCommon>().showDialogWithBody(
+      context,
+      height: 600,
+      width: 800,
+      title: 'Cập nhật hình ảnh sản phẩm có id: ${itemUpdate.id}',
+      bodyDialog: Column(
+        children: itemUpdate.colors?.length != 0
+            ? itemUpdate.colors!.map(
+                (e) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border:
+                            Border.all(width: 1, color: Colors.grey.shade400)),
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                            "Màu sắc: ${viewModel.colorList.firstWhereOrNull((element) => element.id == e.colorId)?.name ?? ''}"),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Wrap(
+                          children: e.images?.length != 0
+                              ? e.images!
+                                  .map((e) => ImageComponent(
+                                      imageUrl: domain + (e.url ?? '')))
+                                  .toList()
+                              : [],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const ChooseUploadImage()
+                      ],
+                    ),
+                  );
+                },
+              ).toList()
+            : [],
+      ),
+    );
+  }
+}
+
+class ChooseUploadImage extends StatefulWidget {
+  const ChooseUploadImage({
+    super.key,
+  });
+
+  @override
+  State<ChooseUploadImage> createState() => _ChooseUploadImageState();
+}
+
+class _ChooseUploadImageState extends State<ChooseUploadImage> {
+  RxList<File> imageChoose = RxList();
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Card(
+            child: Wrap(
+              children: [
+                ...imageChoose.value.map(
+                  (element) => Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.blue)),
+                    width: 170,
+                    height: 170,
+                    child: Stack(
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.file(
+                              element,
+                              width: 150,
+                              height: 150,
+                            ),
+                          ),
+                        ),
+                        Positioned.fill(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(
+                                  onPressed: () => imageChoose.remove(element),
+                                  icon: const Icon(
+                                    Icons.clear,
+                                    color: Colors.red,
+                                  ))
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          ElevatedButton(
+              onPressed: () async {
+                FilePickerResult? result = await FilePicker.platform
+                    .pickFiles(allowMultiple: true, type: FileType.image);
+                if (result != null) {
+                  imageChoose.value =
+                      result.paths.map((path) => File(path ?? '')).toList();
+                }
+              },
+              child: const Text('Chọn ảnh')),
+          const SizedBox(
+            height: 10,
+          ),
+          imageChoose.length > 0
+              ? ElevatedButton(onPressed: () {}, child: const Text('Upload'))
+              : const SizedBox(),
+        ],
       ),
     );
   }

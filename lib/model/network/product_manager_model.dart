@@ -114,12 +114,17 @@ class Product {
 
 class ColorItemProduct extends BaseEntity {
   int? productColorId;
+  int? productId;
   int? colorId;
   int? price;
   List<Images>? images;
 
   ColorItemProduct(
-      {this.productColorId, this.colorId, this.price, this.images});
+      {this.productColorId,
+      this.colorId,
+      this.price,
+      this.images,
+      this.productId});
 
   ColorItemProduct.fromJson(Map<String, dynamic> json) {
     productColorId = json['product_color_id'];
@@ -139,7 +144,7 @@ class ColorItemProduct extends BaseEntity {
     data['color_id'] = colorId;
     data['price'] = price;
     if (images != null) {
-      data['images'] = images!.map((v) => v.toJson()).toList();
+      data['images'] = images!.map((v) => v.toUrlString()).toList();
     }
     return data;
   }
@@ -158,10 +163,8 @@ class Images {
     url = json['url'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['url'] = url;
-    return data;
+  String? toUrlString() {
+    return url;
   }
 
   Map<String, dynamic> toUploadJson() {

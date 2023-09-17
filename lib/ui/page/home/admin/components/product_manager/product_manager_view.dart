@@ -12,12 +12,38 @@ import '../../../../../dialog/dialog_common.dart';
 import 'components/dialog_product.dart';
 import 'product_manager_view_model.dart';
 
-class ProductManagerView extends StatelessWidget {
+class ProductManagerView extends StatefulWidget {
   ProductManagerView({super.key});
 
+  static const router = '/ProductManager';
+
+  @override
+  State<ProductManagerView> createState() => _ProductManagerViewState();
+}
+
+class _ProductManagerViewState extends State<ProductManagerView> {
   final ProductManagerViewModel viewModel = Get.find<ProductManagerViewModel>();
 
-  static const router = '/ProductManager';
+  final TextEditingController txtSearch = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    txtSearch.addListener(() {
+      final text = txtSearch.text.trim();
+      print('text:' + text);
+      viewModel.keyword.value = text;
+      viewModel.getAllProduct();
+    });
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    // This also removes the _printLatestValue listener.
+    txtSearch.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +67,7 @@ class ProductManagerView extends StatelessWidget {
                   Expanded(
                     flex: 7,
                     child: TextFieldCommon(
-                        label: 'Tìm kiếm', controller: TextEditingController()),
+                        label: 'Tìm kiếm', controller: txtSearch),
                   ),
                   const SizedBox(
                     width: 50,
@@ -77,11 +103,15 @@ class ProductManagerView extends StatelessWidget {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
+                  SizedBox(
+                    width: 50,
                     child: Text(
                       'ID',
                       overflow: TextOverflow.ellipsis,
                     ),
+                  ),
+                  SizedBox(
+                    width: 10,
                   ),
                   SizedBox(
                     width: 150,
@@ -142,11 +172,20 @@ class ProductManagerView extends StatelessWidget {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Expanded(
-                                      child: Text(
-                                        '${viewModel.productList.value[index].id ?? 0}',
-                                        overflow: TextOverflow.ellipsis,
+                                    SizedBox(
+                                      width: 50,
+                                      child: Tooltip(
+                                        message: viewModel
+                                            .productList.value[index].id
+                                            ?.toString(),
+                                        child: Text(
+                                          '${viewModel.productList.value[index].id ?? 0}',
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
                                     ),
                                     ImageComponent(
                                         imageUrl: viewModel
@@ -179,11 +218,15 @@ class ProductManagerView extends StatelessWidget {
                                       width: 20,
                                     ),
                                     Expanded(
-                                      child: Text(
-                                        viewModel.productList.value[index]
-                                                .name ??
-                                            '',
-                                        overflow: TextOverflow.ellipsis,
+                                      child: Tooltip(
+                                        message: viewModel
+                                            .productList.value[index].name,
+                                        child: Text(
+                                          viewModel.productList.value[index]
+                                                  .name ??
+                                              '',
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
                                     ),
                                     Expanded(
@@ -219,6 +262,20 @@ class ProductManagerView extends StatelessWidget {
                                                           .value[index]);
                                             },
                                             child: const Text('Sửa')),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              DialogProduct(
+                                                      viewModel: viewModel)
+                                                  .updateImageDialog(
+                                                itemUpdate: viewModel
+                                                    .productList.value[index],
+                                                context: context,
+                                              );
+                                            },
+                                            child: const Text('Cập nhật ảnh')),
                                         const SizedBox(
                                           width: 8,
                                         ),

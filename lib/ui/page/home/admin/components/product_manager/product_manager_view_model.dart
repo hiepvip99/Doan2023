@@ -39,30 +39,29 @@ class ProductManagerViewModel extends GetxController {
 
   RxList<File> filesPicked = RxList();
 
-  Future<void> pickImage(
-      int? productId, ColorItemProduct? colorItemProduct) async {
+  Future<void> pickImage(Product item, listImage) async {
     filesPicked.clear();
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(allowMultiple: true, type: FileType.image);
     if (result != null) {
       filesPicked.value = result.paths.map((path) => File(path ?? '')).toList();
-      await networkService
-          .uploadImages(Images(
-              infoUpload: colorItemProduct,
-              // ignore: invalid_use_of_protected_member
-              listImageUpload: filesPicked.value,
-              productIdUpload: productId))
-          .then((value) {
-        if (value?.statusCode == 200) {
-          Get.find<DialogCommon>().showAlertDialog(
-              context: Get.context!,
-              title: 'Upload ảnh thành công productId: $productId');
-          getAllProduct();
-        } else {
-          Get.find<DialogCommon>().showAlertDialog(
-              context: Get.context!, title: 'Lỗi upload image product');
-        }
-      });
+      // await networkService
+      //     .uploadImages(Images(
+      //         infoUpload: colorItemProduct,
+      //         // ignore: invalid_use_of_protected_member
+      //         listImageUpload: filesPicked.value,
+      //         productIdUpload: productId))
+      //     .then((value) {
+      //   if (value?.statusCode == 200) {
+      //     Get.find<DialogCommon>().showAlertDialog(
+      //         context: Get.context!,
+      //         title: 'Upload ảnh thành công productId: $productId');
+      //     getAllProduct();
+      //   } else {
+      //     Get.find<DialogCommon>().showAlertDialog(
+      //         context: Get.context!, title: 'Lỗi upload image product');
+      //   }
+      // });
     } else {
       // User canceled the picker
     }

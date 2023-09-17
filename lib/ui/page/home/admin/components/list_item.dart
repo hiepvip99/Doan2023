@@ -92,17 +92,16 @@ class LeftMenu extends StatelessWidget {
                           : Colors.white,
                       padding: const EdgeInsets.symmetric(
                           vertical: 16, horizontal: 16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(menuList[index].icon),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          Expanded(
-                            child: Tooltip(
-                              message: menuList[index].title,
-                              waitDuration: const Duration(seconds: 1),
+                      child: Tooltip(
+                        message: menuList[index].title,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(menuList[index].icon),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Expanded(
                               child: Text(
                                 menuList[index].title,
                                 overflow: TextOverflow.ellipsis,
@@ -113,9 +112,9 @@ class LeftMenu extends StatelessWidget {
                                             : Colors.grey,
                                     fontSize: 16),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -147,18 +146,16 @@ class LeftMenu extends StatelessWidget {
                           : Colors.white,
                       padding: const EdgeInsets.symmetric(
                           vertical: 16, horizontal: 16),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(menuList[index + (menuList.length - 1)].icon),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          Expanded(
-                            child: Tooltip(
-                              message:
-                                  menuList[index + (menuList.length - 1)].title,
-                              waitDuration: const Duration(seconds: 1),
+                      child: Tooltip(
+                        message: menuList[index + (menuList.length - 1)].title,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(menuList[index + (menuList.length - 1)].icon),
+                            const SizedBox(
+                              width: 16,
+                            ),
+                            Expanded(
                               child: Text(
                                 menuList[index + (menuList.length - 1)].title,
                                 style: TextStyle(
@@ -168,9 +165,9 @@ class LeftMenu extends StatelessWidget {
                                         : Colors.grey,
                                     fontSize: 16),
                               ),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
