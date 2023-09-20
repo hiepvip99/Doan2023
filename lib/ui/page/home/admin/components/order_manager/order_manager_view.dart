@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:web_app/ui/page/home/admin/components/order_manager/components/dialog_order.dart';
 
 import '../../../../../component_common/paginator_common.dart';
 import '../../../../../component_common/textfield_common.dart';
@@ -10,7 +12,7 @@ import 'order_manager_view_model.dart';
 class OrderManagerView extends StatelessWidget {
   OrderManagerView({super.key});
 
-  final OrderManagerViewModel controller = Get.find<OrderManagerViewModel>();
+  final OrderManagerViewModel viewModel = Get.find<OrderManagerViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,8 @@ class OrderManagerView extends StatelessWidget {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
+                  SizedBox(
+                    width: 50,
                     child: Text(
                       'ID',
                       overflow: TextOverflow.ellipsis,
@@ -68,7 +71,7 @@ class OrderManagerView extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      'Họ và tên(id tài khoản to get name)',
+                      'Người đặt',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -91,7 +94,7 @@ class OrderManagerView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    width: 207,
+                    width: 86,
                     child: Text('Chức năng'),
                   ),
                 ],
@@ -101,83 +104,110 @@ class OrderManagerView extends StatelessWidget {
               child: Container(
                 // padding: const EdgeInsets.all(16),
                 color: Colors.white54,
-                child: ListView.builder(
-                  // physics: const NeverScrollableScrollPhysics(),
-                  // shrinkWrap: true,
-                  itemCount: controller.listOrder.value.length,
-                  itemBuilder: (context, index) => Container(
-                    color: index % 2 == 0 ? Colors.white : Colors.blue.shade100,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              '${controller.listOrder.value[index].id}',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              '${controller.listOrder.value[index].accountId ?? 0}',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              controller.listOrder.value[index].date ?? '',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              '${controller.listOrder.value[index].totalPrice ?? 0}',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              '${controller.listOrder.value[index].status ?? 0}',
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ElevatedButton(
-                                  onPressed: () {}, child: const Text('Sửa')),
-                              const SizedBox(
-                                width: 8,
+                child: Obx(
+                  () => viewModel.loading.value
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                          // physics: const NeverScrollableScrollPhysics(),
+                          // shrinkWrap: true,
+                          itemCount: viewModel.listOrder.value.length,
+                          itemBuilder: (context, index) => Container(
+                            color: index % 2 == 0
+                                ? Colors.white
+                                : Colors.blue.shade100,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                    width: 50,
+                                    child: Text(
+                                      '${viewModel.listOrder.value[index].id}',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      viewModel.listOrder.value[index]
+                                              .customerInfo?.name ??
+                                          '',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      viewModel.listOrder.value[index]
+                                                  .orderDate !=
+                                              null
+                                          ? DateFormat('yyyy-MM-dd – HH:mm')
+                                              .format(viewModel.listOrder
+                                                      .value[index].orderDate ??
+                                                  DateTime(9999))
+                                          : '',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      '${viewModel.listOrder.value[index].totalPrice ?? 0}',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      '${viewModel.listStatusOrder.firstWhereOrNull((element) => viewModel.listOrder.value[index].statusId == element.id)?.name ?? 0}',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      // ElevatedButton(
+                                      //     onPressed: () {},
+                                      //     child: const Text('Sửa')),
+                                      // const SizedBox(
+                                      //   width: 8,
+                                      // ),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            DialogOrder().showDetailDialog(
+                                                context, index);
+                                          },
+                                          child: const Text('Chi tiết')),
+                                      const SizedBox(
+                                        width: 8,
+                                      ),
+                                      // ElevatedButton(
+                                      //     style: ElevatedButton.styleFrom(
+                                      //         backgroundColor: Colors.red),
+                                      //     onPressed: () {
+                                      //       // DialogAccount()
+                                      //       //     .showDeleteConfirmation(context);
+                                      //     },
+                                      //     child: const Text('Xóa')),
+                                    ],
+                                  ),
+                                ],
                               ),
-                              ElevatedButton(
-                                  onPressed: () {},
-                                  child: const Text('Chi tiết')),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red),
-                                  onPressed: () {
-                                    // DialogAccount()
-                                    //     .showDeleteConfirmation(context);
-                                  },
-                                  child: const Text('Xóa')),
-                            ],
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
                 ),
               ),
             ),
             Obx(
-              () => PaginatorCommon(
-                totalPage: controller.totalPage.value,
-                initPage: controller.currentPage.value - 1,
-                onPageChangeCallBack: (index) => controller.onPageChange(index),
+              () => Visibility(
+                visible: !viewModel.loading.value,
+                child: PaginatorCommon(
+                  totalPage: viewModel.totalPage.value,
+                  initPage: viewModel.currentPage.value - 1,
+                  onPageChangeCallBack: (index) =>
+                      viewModel.onPageChange(index),
+                ),
               ),
             ),
           ],

@@ -34,8 +34,8 @@ class DialogCommon {
     /* String? titleButtonSubmit,
     Function()? onSubmit, */
   }) async {
-    showDialog(
-      builder: (context) => Center(
+    Get.dialog(
+      Center(
         child: ConstrainedBox(
           constraints:
               BoxConstraints(maxWidth: width ?? 700, maxHeight: height ?? 500),
@@ -81,7 +81,7 @@ class DialogCommon {
           ),
         ),
       ),
-      context: context,
+      // context: context,
     );
   }
 
