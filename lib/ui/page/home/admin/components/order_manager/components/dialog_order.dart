@@ -102,21 +102,34 @@ class DialogOrder {
                   height: 10,
                 ),
                 Obx(
+                  () => Text(
+                      'Trạng thái đơn hàng: ${viewModel.listStatusOrder.firstWhereOrNull((element) => element.id == viewModel.listOrder.value[index].statusId)?.name ?? ''}'),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                
+                Obx(
                   () => Wrap(
                     runSpacing: 10,
                     spacing: 10,
                     children: viewModel.listStatusOrder
                         .map((e) => ElevatedButton(
-                              onPressed: ((e.id ?? 0) >
+                              onPressed: (((e.id ?? 1) - 1) ==
                                               (viewModel.listOrder.value[index]
                                                       .statusId ??
-                                                  0) &&
-                                          e.name != 'Đã hủy') ||
+                                                  1) &&
+                                          e.name != 'Đã hủy' &&
+                                          e.name != 'Trả hàng') ||
                                       ((viewModel.listOrder.value[index]
                                                       .statusId ??
-                                                  0) <=
+                                                  1) <=
                                               3 &&
-                                          e.name == 'Đã hủy')
+                                          e.name == 'Đã hủy') ||
+                                      (viewModel.listOrder.value[index]
+                                                  .statusId ==
+                                              6 &&
+                                          e.name == 'Trả hàng')
                                   ? () {
                                       // Order item = order;
 
