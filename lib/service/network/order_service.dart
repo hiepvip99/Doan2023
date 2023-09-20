@@ -5,6 +5,7 @@ import '../network.dart';
 
 class OrderService {
   final String _orderUrl = 'api/order/shoeOrders';
+  final String _statusOrderUrl = 'api/order/shoeOrders/status';
   final String _orderById = 'api/order/shoeOrderById';
 
   Future<OrderManagerModel?> getAllOrder(
@@ -61,7 +62,7 @@ class OrderService {
   }
 
   Future<BaseEntity?> changeStatus(Order orderModel) async {
-    final repo = BaseRepository(path: _orderUrl, method: HttpMethod.put);
+    final repo = BaseRepository(path: _statusOrderUrl, method: HttpMethod.put);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         // queryParameters: queryParameter,
         data: orderModel.toJson());
