@@ -77,11 +77,16 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                   const SizedBox(
                     width: 50,
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        dialog.showAddDialog(context);
-                      },
-                      child: const Text('Thêm nhà sản xuất')),
+                  Obx(
+                    () => IgnorePointer(
+                      ignoring: viewModel.loading.value,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            dialog.showAddDialog(context);
+                          },
+                          child: const Text('Thêm nhà sản xuất')),
+                    ),
+                  ),
                   const SizedBox(
                     width: 50,
                   ),

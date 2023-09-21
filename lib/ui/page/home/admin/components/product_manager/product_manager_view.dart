@@ -72,12 +72,17 @@ class _ProductManagerViewState extends State<ProductManagerView> {
                   const SizedBox(
                     width: 50,
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        DialogProduct(viewModel: viewModel)
-                            .productDialog(context);
-                      },
-                      child: const Text('Thêm sản phẩm')),
+                  Obx(
+                    () => IgnorePointer(
+                      ignoring: viewModel.loading.value,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            DialogProduct(viewModel: viewModel)
+                                .productDialog(context);
+                          },
+                          child: const Text('Thêm sản phẩm')),
+                    ),
+                  ),
                   const SizedBox(
                     width: 50,
                   ),
@@ -142,7 +147,7 @@ class _ProductManagerViewState extends State<ProductManagerView> {
                     ),
                   ),
                   SizedBox(
-                    width: 121,
+                    width: 246,
                     child: Text('Chức năng'),
                   ),
                 ],

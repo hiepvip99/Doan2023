@@ -77,11 +77,16 @@ class _CategoryManagerViewState extends State<CategoryManagerView> {
                   const SizedBox(
                     width: 50,
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        dialog.showAddDialog(context);
-                      },
-                      child: const Text('Thêm danh mục')),
+                  Obx(
+                    () => IgnorePointer(
+                      ignoring: viewModel.loading.value,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            dialog.showAddDialog(context);
+                          },
+                          child: const Text('Thêm danh mục')),
+                    ),
+                  ),
                   const SizedBox(
                     width: 50,
                   ),

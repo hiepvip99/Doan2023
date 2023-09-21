@@ -48,11 +48,16 @@ class OrderManagerView extends StatelessWidget {
                   const SizedBox(
                     width: 50,
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        // DialogAccount().showDialogAdd();
-                      },
-                      child: const Text('Thêm đơn hàng')),
+                  Obx(
+                    () => IgnorePointer(
+                      ignoring: viewModel.loading.value,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            // DialogAccount().showDialogAdd();
+                          },
+                          child: const Text('Thêm đơn hàng')),
+                    ),
+                  ),
                 ],
               ),
             ),

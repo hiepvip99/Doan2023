@@ -84,11 +84,16 @@ class _AccountManagerViewState extends State<AccountManagerView> {
                   const SizedBox(
                     width: 50,
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        DialogAccount().showDialogAdd(context);
-                      },
-                      child: const Text('Thêm tài khoản')),
+                  Obx(
+                    () => IgnorePointer(
+                      ignoring: viewModel.loading.value,
+                      child: ElevatedButton(
+                          onPressed: () {
+                            DialogAccount().showDialogAdd(context);
+                          },
+                          child: const Text('Thêm tài khoản')),
+                    ),
+                  ),
                   const SizedBox(
                     width: 50,
                   ),
