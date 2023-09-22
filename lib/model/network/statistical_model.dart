@@ -6,20 +6,18 @@ class StatisticalModel extends BaseEntity {
 
   StatisticalModel.fromJsonByDay(Map<dynamic, dynamic> json) {
     byDayList = [];
-    if (json is List) {
-      json.forEach((key, value) {
-        byDayList!
-            .add(RevenueByDay(day: DateTime.tryParse(key), revenue: value));
-      });
+
+    if (json['data'] is List) {
+      final data = json['data'] as List;
+      byDayList = data.map((e) => RevenueByDay.fromJson(e)).toList();
     }
+    byDayList;
   }
   StatisticalModel.fromJsonByMonth(Map<dynamic, dynamic> json) {
     byMonthList = [];
-    if (json is List) {
-      json.forEach((key, value) {
-        byMonthList!
-            .add(RevenueByMonth(month: DateTime.tryParse(key), revenue: value));
-      });
+    if (json['data'] is List) {
+      final data = json['data'] as List;
+      byMonthList = data.map((e) => RevenueByMonth.fromJson(e)).toList();
     }
   }
 }

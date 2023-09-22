@@ -52,6 +52,7 @@ dependencies:
   intl: ^0.18.1
   # image_picker: ^1.0.4
   file_picker: ^5.5.0
+  syncfusion_flutter_charts: ^23.1.36
 
 dev_dependencies:
   flutter_test:

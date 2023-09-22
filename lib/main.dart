@@ -17,11 +17,8 @@ Future<void> initApp() async {
   await Injection.instance.injection();
   if (Authorization.isLogged()) {
     final role = Authorization.checkRole();
-    // runApp(MainApp(
-    //   role: role,
-    // ));
-    runApp(MaterialApp(
-      home: MainApp(role: role),
+    runApp(MainApp(
+      role: role,
     ));
   }
 }

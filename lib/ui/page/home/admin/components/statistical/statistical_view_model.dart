@@ -2,15 +2,17 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../service/network/statistical_service.dart';
+import 'statistical_view.dart';
 
 class StatisticalViewModel extends GetxController {
-  RxList<FlSpot> dataDayFlSpot = RxList();
-  RxList<FlSpot> dataMonthFlSpot = RxList();
+  RxList<DataForChart> dataDayDataForChart = RxList();
+  RxList<DataForChart> dataMonthDataForChart = RxList();
 
   Rx<DateTime> fromDate = Rx(DateTime.now());
   Rx<DateTime> toDate = Rx(DateTime.now());
 
-  RxList<String> titleBottom = RxList();
+  RxBool loading = false.obs;
+  RxBool isMonth = false.obs;
 
   StatisticalService networkService = StatisticalService();
 
@@ -21,42 +23,45 @@ class StatisticalViewModel extends GetxController {
   }
 
   Future<void> getDataDay() async {
+    loading.value = true;
+    isMonth.value = false;
     await networkService
         .getStatisticalByDay(fromDate: fromDate.value, toDate: toDate.value)
         .then((value) {
-      // dataDayFlSpot.value = value.byDayList.map((e) => FlSpot(x, y))
+      // dataDayDataForChart.value = value.byDayList.map((e) => DataForChart(x, y))
       if (value != null) {
         if (value.byDayList != null) {
-          titleBottom.clear();
-          dataDayFlSpot.clear();
+          dataDayDataForChart.clear();
           for (var i = 0; i < value.byDayList!.length; i++) {
-            dataDayFlSpot.add(
-                FlSpot(i + 1, value.byDayList![i].revenue?.toDouble() ?? 0.0));
-            titleBottom.add(
-                '${value.byDayList![i].day?.day ?? ''}/${value.byDayList![i].day?.month ?? ''}');
+            dataDayDataForChart.add(DataForChart(
+                '${value.byDayList![i].day?.day ?? ''}/${value.byDayList![i].day?.month ?? ''}',
+                value.byDayList![i].revenue?.toDouble() ?? 0.0));
           }
         }
       }
     });
+    loading.value = false;
   }
 
   Future<void> getDataMonth() async {
+    loading.value = true;
+    isMonth.value = true;
     await networkService
         .getStatisticalByMonth(fromDate: fromDate.value, toDate: toDate.value)
         .then((value) {
-      // dataMonthFlSpot.value = value.byMonthList.map((e) => FlSpot(x, y))
+      // dataMonthDataForChart.value = value.byMonthList.map((e) => DataForChart(x, y))
       if (value != null) {
         if (value.byMonthList != null) {
-          dataMonthFlSpot.clear();
-          titleBottom.clear();
+          dataMonthDataForChart.clear();
+          dataMonthDataForChart.clear();
           for (var i = 0; i < value.byMonthList!.length; i++) {
-            dataMonthFlSpot.add(FlSpot(
-                i + 1, value.byMonthList![i].revenue?.toDouble() ?? 0.0));
-            titleBottom.add(
-                '${value.byDayList![i].day?.day ?? ''}/${value.byDayList![i].day?.month ?? ''}');
+            dataMonthDataForChart.add(DataForChart(
+                '${value.byMonthList![i].month?.month ?? ''}/${value.byMonthList![i].month?.year ?? ''}',
+                value.byMonthList![i].revenue?.toDouble() ?? 0.0));
           }
         }
       }
     });
+    loading.value = false;
   }
 }

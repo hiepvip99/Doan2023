@@ -56,6 +56,10 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      supportedLocales: const [
+        Locale('vi'),
+        Locale('en'),
+      ],
       onInit: () => onInit(),
       getPages: appPage,
       themeMode: getTheme(modeTheme.value),

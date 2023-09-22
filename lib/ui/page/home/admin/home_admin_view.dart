@@ -79,7 +79,7 @@ class HomeAdmin extends StatelessWidget {
         case 4:
           return OrderManagerView();
         case 5:
-          return const LineChartSample1();
+          return Statistical();
         // case 8:
         //   return const LineChartSample1();
         default:
