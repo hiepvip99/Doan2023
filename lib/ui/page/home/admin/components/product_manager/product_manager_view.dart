@@ -13,7 +13,7 @@ import 'components/dialog_product.dart';
 import 'product_manager_view_model.dart';
 
 class ProductManagerView extends StatefulWidget {
-  ProductManagerView({super.key});
+  const ProductManagerView({super.key});
 
   static const router = '/ProductManager';
 

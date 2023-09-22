@@ -1,5 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:web_app/extendsion/extendsion.dart';
+
+import 'statistical_view_model.dart';
 
 class _LineChart extends StatelessWidget {
   const _LineChart({required this.isShowingMainData});
@@ -294,11 +298,107 @@ class LineChartSample1 extends StatefulWidget {
 
 class LineChartSample1State extends State<LineChartSample1> {
   late bool isShowingMainData;
+  final viewModel = Get.find<StatisticalViewModel>();
 
   @override
   void initState() {
     super.initState();
     isShowingMainData = true;
+  }
+
+  Future<DateTime?> showDatePicker({
+    required BuildContext context,
+    required DateTime initialDate,
+    required DateTime firstDate,
+    required DateTime lastDate,
+    DateTime? currentDate,
+    DatePickerEntryMode initialEntryMode = DatePickerEntryMode.calendar,
+    SelectableDayPredicate? selectableDayPredicate,
+    String? helpText,
+    String? cancelText,
+    String? confirmText,
+    Locale? locale,
+    bool useRootNavigator = true,
+    RouteSettings? routeSettings,
+    TextDirection? textDirection,
+    TransitionBuilder? builder,
+    DatePickerMode initialDatePickerMode = DatePickerMode.day,
+    String? errorFormatText,
+    String? errorInvalidText,
+    String? fieldHintText,
+    String? fieldLabelText,
+    TextInputType? keyboardType,
+    Offset? anchorPoint,
+    final ValueChanged<DatePickerEntryMode>? onDatePickerModeChange,
+    final Icon? switchToInputEntryModeIcon,
+    final Icon? switchToCalendarEntryModeIcon,
+  }) async {
+    initialDate = DateUtils.dateOnly(initialDate);
+    firstDate = DateUtils.dateOnly(firstDate);
+    lastDate = DateUtils.dateOnly(lastDate);
+    assert(
+      !lastDate.isBefore(firstDate),
+      'lastDate $lastDate must be on or after firstDate $firstDate.',
+    );
+    assert(
+      !initialDate.isBefore(firstDate),
+      'initialDate $initialDate must be on or after firstDate $firstDate.',
+    );
+    assert(
+      !initialDate.isAfter(lastDate),
+      'initialDate $initialDate must be on or before lastDate $lastDate.',
+    );
+    assert(
+      selectableDayPredicate == null || selectableDayPredicate(initialDate),
+      'Provided initialDate $initialDate must satisfy provided selectableDayPredicate.',
+    );
+    assert(debugCheckHasMaterialLocalizations(context));
+
+    Widget dialog = DatePickerDialog(
+      initialDate: initialDate,
+      firstDate: firstDate,
+      lastDate: lastDate,
+      currentDate: currentDate,
+      initialEntryMode: initialEntryMode,
+      selectableDayPredicate: selectableDayPredicate,
+      helpText: helpText,
+      cancelText: cancelText,
+      confirmText: confirmText,
+      initialCalendarMode: initialDatePickerMode,
+      errorFormatText: errorFormatText,
+      errorInvalidText: errorInvalidText,
+      fieldHintText: fieldHintText,
+      fieldLabelText: fieldLabelText,
+      keyboardType: keyboardType,
+      onDatePickerModeChange: onDatePickerModeChange,
+      // switchToInputEntryModeIcon: switchToInputEntryModeIcon,
+      // switchToCalendarEntryModeIcon: switchToCalendarEntryModeIcon,
+    );
+
+    if (textDirection != null) {
+      dialog = Directionality(
+        textDirection: textDirection,
+        child: dialog,
+      );
+    }
+
+    if (locale != null) {
+      dialog = Localizations.override(
+        context: context,
+        locale: locale,
+        child: dialog,
+      );
+    }
+
+    return showDialog<DateTime>(
+      context: context,
+      useRootNavigator: useRootNavigator,
+      routeSettings: routeSettings,
+      builder: (BuildContext context) {
+        return builder == null ? dialog : builder(context, dialog);
+      },
+      anchorPoint: anchorPoint,
+    );
   }
 
   @override
@@ -308,20 +408,48 @@ class LineChartSample1State extends State<LineChartSample1> {
       child: Stack(
         children: <Widget>[
           Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(
                 height: 37,
               ),
-              const Text(
-                'Monthly Sales',
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
+              Container(
+                padding: const EdgeInsets.only(left: 40),
+                child: Row(
+                  children: [
+                    const Text(
+                      'Monthly Sales',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Obx(
+                      () => Row(
+                        children: [
+                          Text(
+                              'Từ ngày: ${formatDateTime(viewModel.fromDate.value)}, đến ngày: ${formatDateTime(viewModel.toDate.value)}'),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          IconButton(
+                              onPressed: () async {
+                                viewModel.fromDate.value = await showDatePicker(
+                                        context: context,
+                                        initialDate: viewModel.fromDate.value,
+                                        firstDate: DateTime(1990),
+                                        lastDate: DateTime(2050)) ??
+                                    viewModel.fromDate.value;
+                              },
+                              icon: const Icon(Icons.date_range))
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
               const SizedBox(
                 height: 37,

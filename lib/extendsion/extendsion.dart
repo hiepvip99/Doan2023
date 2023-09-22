@@ -1,3 +1,6 @@
+// import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 bool? asBool(obj) {
   if (obj == null) {
     return null;
@@ -90,3 +93,16 @@ List<T>? asMapList<T>(obj, T Function(Map<dynamic, dynamic> e) convert) {
   });
   return list;
 }
+
+
+
+String formatDateTime(DateTime dateTime) {
+  final formatter = DateFormat('dd/MM/yyyy');
+  final formattedDate = formatter.format(dateTime);
+  return formattedDate;
+}
+
+// // Sử dụng hàm
+// DateTime currentDateTime = DateTime.now();
+// String formattedDateTime = formatDateTime(currentDateTime);
+// print(formattedDateTime);
