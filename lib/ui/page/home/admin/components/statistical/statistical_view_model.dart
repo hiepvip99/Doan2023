@@ -53,10 +53,9 @@ class StatisticalViewModel extends GetxController {
       if (value != null) {
         if (value.byMonthList != null) {
           dataMonthDataForChart.clear();
-          dataMonthDataForChart.clear();
           for (var i = 0; i < value.byMonthList!.length; i++) {
             dataMonthDataForChart.add(DataForChart(
-                '${value.byMonthList![i].month?.month ?? ''}/${value.byMonthList![i].month?.year ?? ''}',
+                '${value.byMonthList![i].month}',
                 value.byMonthList![i].revenue?.toDouble() ?? 0.0));
           }
         }

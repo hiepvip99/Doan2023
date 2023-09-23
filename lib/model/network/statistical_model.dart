@@ -42,13 +42,13 @@ class RevenueByDay {
 }
 
 class RevenueByMonth {
-  DateTime? month;
+  String? month;
   int? revenue;
 
   RevenueByMonth({this.month, this.revenue});
 
   RevenueByMonth.fromJson(Map<String, dynamic> json) {
-    month = DateTime.tryParse(json['month']);
+    month = json['month'];
     revenue = json['revenue'];
   }
 
