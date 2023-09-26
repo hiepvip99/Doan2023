@@ -5,28 +5,28 @@ class DataLocal {
   // DataLocal._();
   static const String _keyAccountId = 'account_id';
   static const String _keyRole = 'role';
-  static final _sharePreference = Get.find<SharedPreferences>();
+  static late final SharedPreferences sharedPreferences;
 
   static Future<void> saveRole(int role) async {
-    await _sharePreference.setInt(_keyRole, role);
+    await sharedPreferences.setInt(_keyRole, role);
   }
 
   static int? getRole() {
-    return _sharePreference.getInt(_keyRole);
+    return sharedPreferences.getInt(_keyRole);
   }
 
   static Future<void> saveAccountId(String accountId) async {
-    await _sharePreference.setString(_keyAccountId, accountId);
+    await sharedPreferences.setString(_keyAccountId, accountId);
   }
 
   static String? getAccountId() {
-    return _sharePreference.getString(_keyAccountId);
+    return sharedPreferences.getString(_keyAccountId);
   }
 
   static Future<bool> deleteAccount() async {
-    // await _sharePreference.setString(_keyAccountId, '');
-    await _sharePreference.remove(_keyRole);
-    return await _sharePreference.remove(_keyAccountId);
+    // await sharedPreferences.setString(_keyAccountId, '');
+    await sharedPreferences.remove(_keyRole);
+    return await sharedPreferences.remove(_keyAccountId);
   }
 }
 

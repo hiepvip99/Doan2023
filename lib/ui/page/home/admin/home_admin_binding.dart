@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
-import 'package:web_app/ui/page/home/admin/components/category_manager/category_view_model.dart';
 
+import 'components/category_manager/category_view_model.dart';
+import 'components/customer/customer_view_model.dart';
 import 'components/statistical/statistical_view_model.dart';
 import 'home_admin_controller.dart';
 import 'components/account_manager/account_manager_controller.dart';
@@ -18,5 +19,6 @@ class HomeAdminBinding extends Bindings {
     Get.lazyPut(() => OrderManagerViewModel());
     Get.lazyPut(() => CategoryViewModel());
     Get.lazyPut(() => StatisticalViewModel());
+    Get.lazyPut(() => CustomerViewModel());
   }
 }

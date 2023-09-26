@@ -19,7 +19,8 @@ class MainApp extends StatelessWidget {
   String? getInitRoute() {
     switch (role) {
       case -1:
-        return Login.route;
+        return HomeUser.route;
+      // return Login.route;
       case 0:
         return HomeAdmin.route;
       case 1:
@@ -56,10 +57,6 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      supportedLocales: const [
-        Locale('vi'),
-        Locale('en'),
-      ],
       onInit: () => onInit(),
       getPages: appPage,
       themeMode: getTheme(modeTheme.value),

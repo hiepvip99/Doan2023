@@ -14,7 +14,7 @@ final List<GetPage> appPage = [
   ),
   GetPage(
     name: HomeUser.route,
-    page: () => const HomeUser(),
+    page: () => HomeUser(),
     binding: HomeAdminBinding(),
   ),
   GetPage(

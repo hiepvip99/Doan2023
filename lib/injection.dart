@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web_app/service/local/save_data.dart';
 
 import 'service/netcommon/dio_service.dart';
 
@@ -22,9 +23,11 @@ class Injection {
     ]);
   }
 
+  
+
   Future<void> _injectSharedPreferences() async {
-    // SharePreferenceProvider.prefs =
-    await Get.putAsync(() => SharedPreferences.getInstance());
+    DataLocal.sharedPreferences =
+        await Get.putAsync(() => SharedPreferences.getInstance());
   }
 
   Future<void> _injectService() async {

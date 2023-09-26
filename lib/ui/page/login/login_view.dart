@@ -167,7 +167,7 @@ class _LoginState extends State<Login> {
                           TextButton(
                             onPressed: () {
                               _formKey.currentState?.reset();
-                              Get.to(Signup());
+                              Get.to(() => const Signup());
                               // Navigator.push(
                               //   context,
                               //   MaterialPageRoute(

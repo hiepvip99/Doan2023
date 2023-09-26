@@ -13,14 +13,15 @@ void main() {
 
 Future<void> initApp() async {
   // final WidgetsBinding widgetsBinding =
-  //     WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Injection.instance.injection();
+  int role = -1;
   if (Authorization.isLogged()) {
-    final role = Authorization.checkRole();
-    runApp(MainApp(
-      role: role,
-    ));
+    role = Authorization.checkRole();
   }
+  runApp(MainApp(
+    role: role,
+  ));
 }
 
 // Future<void> checkStatusAndRoleLogin() async {

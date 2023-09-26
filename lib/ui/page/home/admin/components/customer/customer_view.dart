@@ -1,52 +1,16 @@
-// ignore_for_file: invalid_use_of_protected_member
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:web_app/ui/page/home/admin/components/category_manager/components/dialog_category.dart';
-import 'package:web_app/ui/page/home/admin/components/manufacturers_manager/components/dialog_manufacturer.dart';
 
 import '../../../../../../constant.dart';
 import '../../../../../component_common/my_dropdown_button2.dart';
 import '../../../../../component_common/paginator_common.dart';
 import '../../../../../component_common/textfield_common.dart';
-import '../../../../../dialog/dialog_common.dart';
-import 'category_view_model.dart';
+import 'customer_view_model.dart';
 
-class CategoryManagerView extends StatefulWidget {
-  const CategoryManagerView({super.key});
+class CustomerView extends StatelessWidget {
+  CustomerView({super.key});
 
-  @override
-  State<CategoryManagerView> createState() => _CategoryManagerViewState();
-}
-
-class _CategoryManagerViewState extends State<CategoryManagerView> {
-  final viewModel = Get.find<CategoryViewModel>();
-
-  final dialog = DialogCategory();
-
-  final TextEditingController txtSearch = TextEditingController();
-  RxInt tabIndex = 1.obs;
-  // RxInt tabDesktopIndex = 0.obs;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    txtSearch.addListener(() {
-      final text = txtSearch.text.trim();
-      print('text:' + text);
-      viewModel.keyword.value = text;
-      viewModel.getCategoryList();
-    });
-  }
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is removed from the widget tree.
-    // This also removes the _printLatestValue listener.
-    txtSearch.dispose();
-    super.dispose();
-  }
+  final viewModel = CustomerViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -56,50 +20,8 @@ class _CategoryManagerViewState extends State<CategoryManagerView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // SizedBox(
-            //   height: 50,
-            //   child: Obx(
-            //     () => Row(
-            //       children: [
-            //         GestureDetector(
-            //           onTap: () {
-            //             tabIndex.value = 1;
-            //           },
-            //           child: Container(
-            //             color: tabIndex.value == 1
-            //                 ? Colors.blue
-            //                 : Colors.transparent,
-            //             padding: EdgeInsets.symmetric(horizontal: 10),
-            //             child: Text('Tab1'),
-            //           ),
-            //         ),
-            //         GestureDetector(
-            //           onTap: () {
-            //             tabIndex.value = 2;
-            //           },
-            //           child: Container(
-            //             color: tabIndex.value == 2
-            //                 ? Colors.blue
-            //                 : Colors.transparent,
-            //             padding: EdgeInsets.symmetric(horizontal: 10),
-            //             child: Text('Tab2'),
-            //           ),
-            //         ),
-            //         GestureDetector(
-            //           onTap: () {
-            //             tabIndex.value = 3;
-            //           },
-            //           child: Container(
-            //             color: tabIndex.value == 3
-            //                 ? Colors.blue
-            //                 : Colors.transparent,
-            //             padding: EdgeInsets.symmetric(horizontal: 10),
-            //             child: Text('Tab3'),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
+            // Row(
+            //   children: [],
             // ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -112,32 +34,32 @@ class _CategoryManagerViewState extends State<CategoryManagerView> {
                   const SizedBox(
                     width: 50,
                   ),
-                  Expanded(
-                    child: TextFieldCommon(
-                      hintText: 'Tìm kiếm',
-                      controller: txtSearch,
-                      // onChanged: (value) {
-                      //   viewModel.keyword.value = txtSearch.text.trim();
-                      //   viewModel.getManufacturerList();
-                      // },
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  Obx(
-                    () => IgnorePointer(
-                      ignoring: viewModel.loading.value,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            dialog.showAddDialog(context);
-                          },
-                          child: const Text('Thêm danh mục')),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 50,
-                  ),
+                  // Expanded(
+                  //   child: TextFieldCommon(
+                  //     hintText: 'Tìm kiếm',
+                  //     controller: txtSearch,
+                  //     // onChanged: (value) {
+                  //     //   viewModel.keyword.value = txtSearch.text.trim();
+                  //     //   viewModel.getManufacturerList();
+                  //     // },
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   width: 50,
+                  // ),
+                  // Obx(
+                  //   () => IgnorePointer(
+                  //     ignoring: viewModel.loading.value,
+                  //     child: ElevatedButton(
+                  //         onPressed: () {
+                  //           dialog.showAddDialog(context);
+                  //         },
+                  //         child: const Text('Thêm danh mục')),
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   width: 50,
+                  // ),
                   Obx(
                     () => MyDropdownButton2StateFull(
                       hint: '',
@@ -192,7 +114,7 @@ class _CategoryManagerViewState extends State<CategoryManagerView> {
                       : ListView.builder(
                           // physics: const NeverScrollableScrollPhysics(),
                           // shrinkWrap: true,
-                          itemCount: viewModel.categoryList.value.length,
+                          itemCount: viewModel.customerList.value.length,
                           itemBuilder: (context, index) => Container(
                             color: index % 2 == 0
                                 ? Colors.white
@@ -206,14 +128,14 @@ class _CategoryManagerViewState extends State<CategoryManagerView> {
                                   SizedBox(
                                     width: 80,
                                     child: Text(
-                                      '${viewModel.categoryList.value[index].id}',
+                                      '${viewModel.customerList.value[index].id}',
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
                                       viewModel
-                                              .categoryList.value[index].name ??
+                                              .customerList.value[index].name ??
                                           "",
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -223,10 +145,10 @@ class _CategoryManagerViewState extends State<CategoryManagerView> {
                                     children: [
                                       ElevatedButton(
                                           onPressed: () {
-                                            dialog.showUpdateDialog(
-                                                context,
-                                                viewModel
-                                                    .categoryList.value[index]);
+                                            // dialog.showUpdateDialog(
+                                            //     context,
+                                            //     viewModel
+                                            //         .customerList.value[index]);
                                           },
                                           child: const Text('Sửa')),
                                       const SizedBox(
@@ -236,13 +158,13 @@ class _CategoryManagerViewState extends State<CategoryManagerView> {
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.red),
                                           onPressed: () {
-                                            Get.find<DialogCommon>()
-                                                .showDeleteConfirmation(
-                                              context,
-                                              text:
-                                                  'danh mục ${viewModel.categoryList.value[index].name} với id: ${viewModel.categoryList.value[index].id}',
-                                              () => null,
-                                            );
+                                            // Get.find<DialogCommon>()
+                                            //     .showDeleteConfirmation(
+                                            //   context,
+                                            //   text:
+                                            //       'danh mục ${viewModel.customerList.value[index].name} với id: ${viewModel.categoryList.value[index].id}',
+                                            //   () => null,
+                                            // );
                                           },
                                           child: const Text('Xóa')),
                                     ],
