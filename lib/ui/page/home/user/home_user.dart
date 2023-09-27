@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/page/home/user/cart/cart_view.dart';
 import 'package:web_app/ui/page/home/user/favorite/favorite_view.dart';
 import 'package:web_app/ui/page/home/user/search/search_view.dart';
 
@@ -162,7 +163,9 @@ class HomeUser extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(ShoppingCartScreen.route);
+              },
               child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Icon(Icons.shopping_cart),

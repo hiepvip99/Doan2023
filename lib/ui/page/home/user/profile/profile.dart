@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../cart/cart_view.dart';
+import '../my_order/my_order_view.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -32,8 +36,11 @@ class ProfileView extends StatelessWidget {
           SizedBox(
             height: 16,
           ),
-          const ItemProfile(showBottomDivider: true, title: 'Đơn mua'),
-          const ItemProfile(showBottomDivider: true, title: 'Địa chỉ của tôi'),
+          const ItemProfile(
+              showBottomDivider: true,
+              title: 'Đơn mua',
+              route: OrderHistoryScreen.route),
+          // const ItemProfile(showBottomDivider: true, title: 'Địa chỉ của tôi'),
           const ItemProfile(showBottomDivider: true, title: 'Đánh giá của tôi'),
           const ItemProfile(showBottomDivider: true, title: 'Mã giảm giá'),
           const ItemProfile(showBottomDivider: true, title: 'Về chúng tôi'),
@@ -46,10 +53,15 @@ class ProfileView extends StatelessWidget {
 
 class ItemProfile extends StatelessWidget {
   const ItemProfile(
-      {super.key, required this.showBottomDivider, required this.title});
+      {super.key,
+      required this.showBottomDivider,
+      required this.title,
+      this.route});
 
   final bool showBottomDivider;
   final String title;
+
+  final String? route;
 
   @override
   Widget build(BuildContext context) {
@@ -60,18 +72,21 @@ class ItemProfile extends StatelessWidget {
       //           ? BorderSide(width: 1, color: Colors.grey.shade200)
       //           : BorderSide.none),
       // ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text(title), const Icon(Icons.keyboard_arrow_right)],
-            ),
-            Divider(
-              thickness: 1,
-            )
-          ],
+      child: InkWell(
+        onTap: () => route != null ? Get.toNamed(route!) : null,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [Text(title), const Icon(Icons.keyboard_arrow_right)],
+              ),
+              Divider(
+                thickness: 1,
+              )
+            ],
+          ),
         ),
       ),
     );
