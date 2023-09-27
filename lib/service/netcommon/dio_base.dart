@@ -10,14 +10,14 @@ import 'dio_curl_interceptor.dart';
 class DioBase {
   ///GetDio
   Dio getDio() {
-    final _dio = Dio(
+    final dio = Dio(
       BaseOptions(
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
         headers: {},
       ),
     );
-    _dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
+    dio.interceptors.add(InterceptorsWrapper(onRequest: (options, handler) {
       return handler.next(options);
     }, onResponse: (response, handler) {
       // DialogCommon.dismiss();
@@ -28,8 +28,8 @@ class DioBase {
       }
       return handler.next(e);
     }));
-    _dio.interceptors.add(DioCurlInterceptor());
+    dio.interceptors.add(DioCurlInterceptor());
     // _dio.interceptors.add(CookieManager(CookieJar()));
-    return _dio;
+    return dio;
   }
 }

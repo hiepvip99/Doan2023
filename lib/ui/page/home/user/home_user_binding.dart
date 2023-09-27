@@ -1,9 +1,14 @@
 import 'package:get/get.dart';
-import 'package:web_app/ui/page/home/user/home_user_controller.dart';
+
+import 'favorite/favorite_view_model.dart';
+import 'home_user_controller.dart';
+import 'notification/notification_view_model.dart';
 
 class HomeUserBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => HomeUserController());
+    Get.lazyPut(() => FavoriteViewModel());
+    Get.lazyPut(() => NotificationViewModel());
   }
 }

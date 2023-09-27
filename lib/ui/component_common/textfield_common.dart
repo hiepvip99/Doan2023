@@ -14,6 +14,7 @@ class TextFieldCommon extends StatelessWidget {
     this.inputFormatters,
     this.onChanged,
     this.keyboardType,
+    this.border, this.backgroundColor,
   });
 
   final String? label;
@@ -26,31 +27,38 @@ class TextFieldCommon extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final Function(String value)? onChanged;
   final TextInputType? keyboardType;
+  final InputBorder? border;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: hintText,
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black)),
-            enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black)),
-            label: label != null ? Text(label!) : null,
-            border: const OutlineInputBorder(),
-            contentPadding: contentPadding ?? const EdgeInsets.all(12),
-            isDense: true,
+        Container(
+          color: backgroundColor,
+          child: TextFormField(
+            controller: controller,
+            decoration: InputDecoration(
+              hintText: hintText,
+              focusedBorder: border ??
+                  const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+              enabledBorder: border ??
+                  const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black)),
+              label: label != null ? Text(label!) : null,
+              border: border ?? const OutlineInputBorder(),
+              contentPadding: contentPadding ?? const EdgeInsets.all(12),
+              isDense: true,
+            ),
+            keyboardType: keyboardType,
+            inputFormatters: inputFormatters,
+            validator: validator,
+            obscureText: isTextPassword == true,
+            enableSuggestions: !(isTextPassword == true),
+            autocorrect: !(isTextPassword == true),
+            onChanged: onChanged,
           ),
-          keyboardType: keyboardType,
-          inputFormatters: inputFormatters,
-          validator: validator,
-          obscureText: isTextPassword == true,
-          enableSuggestions: !(isTextPassword == true),
-          autocorrect: !(isTextPassword == true),
-          onChanged: onChanged,
         ),
         Visibility(
           visible: requiredInput,

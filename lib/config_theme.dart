@@ -7,6 +7,7 @@ final ThemeData darkTheme = ThemeData(
     error: Colors.red.shade400,
     primary: Colors.white,
   ),
+  
   textTheme: const TextTheme(
     displayLarge: TextStyle(
       color: Colors.white,
@@ -48,7 +49,10 @@ final ThemeData darkTheme = ThemeData(
       color: Colors.white,
     ),
   ),
-  appBarTheme: AppBarTheme(backgroundColor: Colors.grey.shade900, elevation: 0),
+  appBarTheme: AppBarTheme(
+      backgroundColor: Colors.grey.shade900,
+      elevation: 0,
+      foregroundColor: Colors.white),
   buttonTheme: ButtonThemeData(
     buttonColor: Colors.blue.shade400,
     disabledColor: Colors.grey,
@@ -107,7 +111,10 @@ final ThemeData lightTheme = ThemeData(
       color: Colors.black,
     ),
   ),
-  appBarTheme: const AppBarTheme(backgroundColor: Colors.white, elevation: 0),
+  appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      foregroundColor: Colors.black),
   buttonTheme: const ButtonThemeData(
     buttonColor: Colors.blue,
     disabledColor: Colors.grey,

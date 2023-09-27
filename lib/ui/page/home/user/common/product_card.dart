@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../product/product_view.dart';
+
 class ProductCard extends StatelessWidget {
   ProductCard({super.key});
 
@@ -14,6 +16,7 @@ class ProductCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           print('object');
+          Get.toNamed(ProductView.route);
         },
         child: Stack(
           children: [
@@ -34,13 +37,13 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
                 )),
-            Align(
+            const Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(8.0),
                 child: Text('1250000đ'),
               ),
-            )
+            ),
           ],
         ),
       ),
