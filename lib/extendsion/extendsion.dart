@@ -106,3 +106,8 @@ String formatDateTime(DateTime dateTime) {
 // DateTime currentDateTime = DateTime.now();
 // String formattedDateTime = formatDateTime(currentDateTime);
 // print(formattedDateTime);
+
+String formatMoney(int amount) {
+  final formatter = NumberFormat("#,###", "vi_VN");
+  return formatter.format(amount) + " đ";
+}

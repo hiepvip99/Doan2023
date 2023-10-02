@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/model/network/product_manager_model.dart';
 
 import '../common/product_card.dart';
 import 'favorite_view_model.dart';
@@ -28,7 +29,7 @@ class FavoriteView extends StatelessWidget {
                   mainAxisSpacing: 10,
                   maxCrossAxisExtent: 175,
                   childAspectRatio: 0.75),
-              itemBuilder: (context, index) => ProductCard(),
+              itemBuilder: (context, index) => ProductCard(product: Product()),
             )
           ],
         ),

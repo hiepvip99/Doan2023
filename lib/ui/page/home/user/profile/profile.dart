@@ -33,7 +33,7 @@ class ProfileView extends StatelessWidget {
                   icon: const Icon(Icons.mode_edit_outline_sharp))
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 16,
           ),
           const ItemProfile(
@@ -82,7 +82,7 @@ class ItemProfile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [Text(title), const Icon(Icons.keyboard_arrow_right)],
               ),
-              Divider(
+              const Divider(
                 thickness: 1,
               )
             ],

@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import '../../service/base_entity.dart';
 import 'customer_model.dart';
+import 'product_manager_model.dart';
 
 class OrderManagerModel extends BaseEntity {
   int? currentPage;
@@ -149,34 +150,34 @@ class Details {
   }
 }
 
-class Product {
-  int? id;
-  String? name;
-  int? manufacturerId;
-  int? categoryId;
-  String? gender;
+// class Product {
+//   int? id;
+//   String? name;
+//   int? manufacturerId;
+//   int? categoryId;
+//   String? gender;
 
-  Product(
-      {this.id, this.name, this.manufacturerId, this.categoryId, this.gender});
+//   Product(
+//       {this.id, this.name, this.manufacturerId, this.categoryId, this.gender});
 
-  Product.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    manufacturerId = json['manufacturer_id'];
-    categoryId = json['category_id'];
-    gender = json['gender'];
-  }
+//   Product.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     name = json['name'];
+//     manufacturerId = json['manufacturer_id'];
+//     categoryId = json['category_id'];
+//     gender = json['gender'];
+//   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['manufacturer_id'] = manufacturerId;
-    data['category_id'] = categoryId;
-    data['gender'] = gender;
-    return data;
-  }
-}
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['id'] = id;
+//     data['name'] = name;
+//     data['manufacturer_id'] = manufacturerId;
+//     data['category_id'] = categoryId;
+//     data['gender'] = gender;
+//     return data;
+//   }
+// }
 
 class StatusOrder {
   int? id;

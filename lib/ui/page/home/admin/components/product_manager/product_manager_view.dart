@@ -332,9 +332,11 @@ class ImageComponent extends StatelessWidget {
   const ImageComponent({
     super.key,
     required this.imageUrl,
+    this.isShowBorder = true,
   });
 
   final String imageUrl;
+  final bool? isShowBorder;
 
   @override
   Widget build(BuildContext context) {
@@ -342,7 +344,10 @@ class ImageComponent extends StatelessWidget {
       width: 150,
       height: 150,
       decoration:
-          BoxDecoration(border: Border.all(width: 1, color: Colors.black)),
+          BoxDecoration(
+          border: isShowBorder == false
+              ? null
+              : Border.all(width: 1, color: Colors.black)),
       child: CachedNetworkImage(
         imageUrl: imageUrl,
         width: 150,
