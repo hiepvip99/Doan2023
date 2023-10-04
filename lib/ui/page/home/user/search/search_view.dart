@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:web_app/ui/component_common/textfield_common.dart';
 
+import '../../../../../model/network/category_model.dart';
+import '../../../../../model/network/manufacturer_model.dart';
 import '../../../../../model/network/product_manager_model.dart';
 import '../common/product_card.dart';
 import 'search_view_model.dart';
@@ -21,7 +23,7 @@ class _SearchViewState extends State<SearchView> {
   RxInt index = 0.obs;
 
   static const _pageSize = 10;
-  final viewModel = SearchViewModel();
+  final viewModel = Get.find<SearchViewModel>();
 
   final PagingController<int, Product> _pagingController =
       PagingController(firstPageKey: 1);
@@ -191,19 +193,63 @@ class _SearchViewState extends State<SearchView> {
                 )
               ],
             ),
-            DropdownMenu<String>(
-              initialSelection: list.first,
-              onSelected: (String? value) {
-                // This is called when the user selects an item.
-                setState(() {
-                  // dropdownValue = value!;
-                });
-              },
-              dropdownMenuEntries:
-                  list.map<DropdownMenuEntry<String>>((String value) {
-                return DropdownMenuEntry<String>(value: value, label: value);
-              }).toList(),
+            const SizedBox(height: 16),
+            const Text('Nhà sản xuất:'),
+            const SizedBox(height: 16),
+            Obx(
+              () => DropdownMenu<Manufacturer>(
+                initialSelection: viewModel.manufacturer.value.id != null
+                    ? viewModel.manufacturerList
+                        .where((e) => e.id == viewModel.manufacturer.value.id)
+                        .toList()
+                        .first
+                    : null,
+                onSelected: (Manufacturer? value) {
+                  if (value != null) {
+                    viewModel.manufacturer.value = value;
+                    // product.manufacturerId = value.id;
+                  }
+                },
+                dropdownMenuEntries: viewModel.manufacturerList.value
+                    .map<DropdownMenuEntry<Manufacturer>>(
+                  (Manufacturer value) {
+                    return DropdownMenuEntry<Manufacturer>(
+                        value: value, label: value.name ?? '');
+                  },
+                ).toList(),
+              ),
             ),
+            const SizedBox(height: 16),
+            // DropdownMenu<Category>(
+            //     initialSelection: product.categoryId != null
+            //         ? viewModel.categoryList
+            //             .where((e) => e.id == product.categoryId)
+            //             .toList()
+            //             .first
+            //         : viewModel.categoryList.first,
+            //     onSelected: (Category? value) {
+            //       if (value != null) {
+            //         product.categoryId = value.id;
+            //       }
+            //     },
+            //     dropdownMenuEntries: viewModel.categoryList
+            //         .map<DropdownMenuEntry<Category>>((Category value) {
+            //       return DropdownMenuEntry<Category>(
+            //           value: value, label: value.name ?? '');
+            //     }).toList()),
+            // DropdownMenu<String>(
+            //   initialSelection: list.first,
+            //   onSelected: (String? value) {
+            //     // This is called when the user selects an item.
+            //     setState(() {
+            //       // dropdownValue = value!;
+            //     });
+            //   },
+            //   dropdownMenuEntries:
+            //       list.map<DropdownMenuEntry<String>>((String value) {
+            //     return DropdownMenuEntry<String>(value: value, label: value);
+            //   }).toList(),
+            // ),
             Obx(
               () => Visibility(
                   visible: validatePrice.value.isNotEmpty,
@@ -215,4 +261,5 @@ class _SearchViewState extends State<SearchView> {
     );
   }
 }
+
 const List<String> list = <String>['One', 'Two', 'Three', 'Four'];

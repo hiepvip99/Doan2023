@@ -5,6 +5,8 @@ import 'package:web_app/constant.dart';
 import 'package:web_app/extendsion/extendsion.dart';
 
 import '../../admin/components/product_manager/product_manager_view.dart';
+import '../cart/cart_view.dart';
+import '../search/search_view.dart';
 import 'components/checkbox.dart';
 import 'product_view_model.dart';
 
@@ -40,7 +42,11 @@ class _ProductViewState extends State<ProductView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(actions: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.shopping_cart))
+        IconButton(
+            onPressed: () {
+              Get.toNamed(ShoppingCartScreen.route);
+            },
+            icon: const Icon(Icons.shopping_cart))
       ]),
       body: Padding(
         padding: const EdgeInsets.all(16),

@@ -12,19 +12,21 @@ import '../../../../service/network/size_service.dart';
 // import '../../../../model/network/order_manager_model.dart';
 
 class HomeUserController extends GetxController {
-  RxList<Product> productList = RxList();
   RxInt currentPage = 1.obs;
-  // RxInt totalPage = 1.obs;
-  RxString selectedItem = '10'.obs;
-  RxBool loading = false.obs;
   RxString keyword = ''.obs;
-
+  RxBool loading = false.obs;
+  
   RxList<Manufacturer> manufacturerList = RxList();
   // RxList<Color> colorList = RxList();
   // RxList<Size> sizeList = RxList();
   // RxList<Category> categoryList = RxList();
 
   ProductService networkService = ProductService();
+
+  RxList<Product> productList = RxList();
+  // RxInt totalPage = 1.obs;
+  RxString selectedItem = '10'.obs;
+
   ManufacturerService manufacturerNetworkService = ManufacturerService();
   // ColorService colorNetworkService = ColorService();
   // SizeService sizeNetworkService = SizeService();
@@ -32,6 +34,7 @@ class HomeUserController extends GetxController {
 
   @override
   void onInit() {
+    // TODO: implement onInit
     super.onInit();
     getInfomationForProduct();
   }

@@ -13,11 +13,25 @@ class ProductService {
   final String _uploadImage = 'api/product/uploadImage';
 
   Future<ProductManagerModel?> getAllProduct(
-      {int? currentPage, int? step, String? keyword}) async {
+      {int? currentPage,
+      int? step,
+      String? keyword,
+      int? minPrice,
+      int? maxPrice,
+      int? manufacturerId,
+      int? categoryId,
+      int? colorId,
+      String? gender}) async {
     final queryParameter = <String, dynamic>{};
     queryParameter['step'] = step;
     queryParameter['page'] = currentPage;
     queryParameter['keyword'] = keyword;
+    queryParameter['minPrice'] = minPrice;
+    queryParameter['maxPrice'] = maxPrice;
+    queryParameter['manufacturerId'] = manufacturerId;
+    queryParameter['categoryId'] = categoryId;
+    queryParameter['color_id'] = colorId;
+    queryParameter['gender'] = gender;
     final repo = BaseRepository(path: _allProductPath, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => ProductManagerModel.fromJson(e),

@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:web_app/model/network/manufacturer_model.dart';
 
 import '../../../../../model/network/product_manager_model.dart';
+import '../../../../../service/network/manufacturer_service.dart';
 import '../../../../../service/network/product_service.dart';
 
 class SearchViewModel extends GetxController {
@@ -11,6 +13,34 @@ class SearchViewModel extends GetxController {
   RxInt currentPage = 1.obs;
   // RxInt totalPage = 1.obs;
   RxString selectedItem = '10'.obs;
+
+  Rx<Manufacturer> manufacturer = Rx(Manufacturer());
+
+  RxList<Manufacturer> manufacturerList = RxList();
+  // RxList<Color> colorList = RxList();
+  // RxList<Size> sizeList = RxList();
+  // RxList<Category> categoryList = RxList();
+
+  ManufacturerService manufacturerNetworkService = ManufacturerService();
+  // ColorService colorNetworkService = ColorService();
+  // SizeService sizeNetworkService = SizeService();
+  // CategoryService categoryNetworkService = CategoryService();
+
+  Future<void> getInfomationForProduct() async {
+    manufacturerNetworkService
+        .getAllManufacturer(step: 1000)
+        .then((value) => manufacturerList.value = value?.manufacturer ?? []);
+    // colorNetworkService
+    //     .getAllColor()
+    //     .then((value) => colorList.value = value?.color ?? []);
+    // sizeNetworkService
+    //     .getAllSize()
+    //     .then((value) => sizeList.value = value?.size ?? []);
+    // categoryNetworkService
+    //     .getAllCategory(step: 1000)
+    //     .then((value) => categoryList.value = value?.category ?? []);
+  }
+
   Future<void> getAllProduct() async {
     loading.value = true;
     await networkService
@@ -24,5 +54,16 @@ class SearchViewModel extends GetxController {
       // totalPage.value = value?.totalPages ?? 1;
     });
     loading.value = false;
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getInfomationForProduct();
+    final data = Get.arguments;
+    if (data is Manufacturer) {
+      manufacturer.value = data;
+    }
   }
 }

@@ -25,7 +25,7 @@ class _HomeUserState extends State<HomeUser> {
   RxInt index = 0.obs;
 
   static const _pageSize = 10;
-  final viewModel = HomeUserController();
+  final viewModel = Get.find<HomeUserController>();
 
   final PagingController<int, Product> _pagingController =
       PagingController(firstPageKey: 1);
@@ -170,22 +170,59 @@ class _HomeUserState extends State<HomeUser> {
             const SizedBox(
               height: 16,
             ),
-            Container(
-              height: 30,
-              color: Colors.black45,
-              child: ListView.builder(
-                // ignore: invalid_use_of_protected_member
-                itemCount: viewModel.manufacturerList.value.length,
-                itemBuilder: (context, index) => OutlinedButton(
-                    onPressed: () {
-                      // xu ly goi get list by manufacturer va chuyen sang trang tim kiem or hien thi san pham
-                      // viewModel.keyword = ''
-                      // viewModel.getAllProduct();
+            Obx(
+              () => SizedBox(
+                height: 36,
+                child: ListView.builder(
+                  // padding: const EdgeInsets.only(left: 8),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: viewModel.manufacturerList.value.length,
+                  itemBuilder: (context, index) => InkWell(
+                    onTap: () {
+                      Get.toNamed(SearchView.route,
+                          arguments: viewModel.manufacturerList.value[index]);
+                      print(viewModel.manufacturerList.value[index].id);
                     },
-                    child: Text(
-                        viewModel.manufacturerList.value[index].name ?? '')),
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 8),
+                      decoration: const BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: GestureDetector(
+                        child: Text(
+                          '${viewModel.manufacturerList.value[index].name}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
+            // const SizedBox(
+            //   height: 16,
+            // ),
+            // Container(
+            //   height: 30,
+            //   color: Colors.black45,
+            //   child: ListView.builder(
+            //     // ignore: invalid_use_of_protected_member
+            //     itemCount: viewModel.manufacturerList.value.length,
+            //     itemBuilder: (context, index) => OutlinedButton(
+            //         onPressed: () {
+            //           // xu ly goi get list by manufacturer va chuyen sang trang tim kiem or hien thi san pham
+            //           // viewModel.keyword = ''
+            //           // viewModel.getAllProduct();
+            //         },
+            //         child: Text(
+            //             viewModel.manufacturerList.value[index].name ?? '')),
+            //   ),
+            // ),
             // const SizedBox(
             //   height: 16,
             // ),

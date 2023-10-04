@@ -22,7 +22,7 @@ final List<GetPage> appPage = [
   ),
   GetPage(
     name: HomeUser.route,
-    page: () => HomeUser(),
+    page: () => const HomeUser(),
     binding: HomeUserBinding(),
   ),
   GetPage(
