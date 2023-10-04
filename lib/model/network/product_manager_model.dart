@@ -63,6 +63,7 @@ class Product {
   int? manufacturerId;
   int? categoryId;
   String? gender;
+  String? description;
   List<ColorItemProduct>? colors;
   List<SizeItemProduct>? sizes;
 
@@ -81,6 +82,7 @@ class Product {
     manufacturerId = json['manufacturer_id'];
     categoryId = json['category_id'];
     gender = json['gender'];
+    description = json['description'];
     if (json['colors'] != null) {
       colors = <ColorItemProduct>[];
       json['colors'].forEach((v) {

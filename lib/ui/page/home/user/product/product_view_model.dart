@@ -10,6 +10,8 @@ import '../../../../../service/network/size_service.dart';
 class ProductViewModel extends GetxController {
   RxBool favorite = false.obs;
 
+  RxList<int?> sizeOfProduct = RxList();
+
   // ManufacturerService manufacturerNetworkService = ManufacturerService();
   ColorService colorNetworkService = ColorService();
   SizeService sizeNetworkService = SizeService();
@@ -38,6 +40,14 @@ class ProductViewModel extends GetxController {
     final data = Get.arguments;
     if (data is Product) {
       product = data;
+      if (product.sizes != null) {
+        for (var element in product.sizes!) {
+          final indexExist = sizeOfProduct.indexOf(element.sizeId);
+          if (indexExist == -1) {
+            sizeOfProduct.add(element.sizeId);
+          }
+        }
+      }
     }
     getInfomationForProduct();
   }

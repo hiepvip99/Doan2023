@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_app/constant.dart';
+import 'package:web_app/extendsion/extendsion.dart';
 
 import '../../admin/components/product_manager/product_manager_view.dart';
 import 'components/checkbox.dart';
@@ -21,7 +22,19 @@ class _ProductViewState extends State<ProductView> {
 
   final RxInt indexColorImage = 0.obs;
   final RxInt indexImage = 1.obs;
-  final RxInt indexSizeCkecked = 1.obs;
+  final RxInt indexSizeCkecked = 0.obs;
+  final RxInt count = 1.obs;
+
+  int getQuantity() {
+    return viewModel.product.sizes
+            ?.firstWhereOrNull((element) =>
+                (element.colorId ==
+                    viewModel.product.colors?[indexColorImage.value].colorId) &&
+                (element.sizeId ==
+                    viewModel.product.sizes?[indexSizeCkecked.value].sizeId))
+            ?.quantity ??
+        0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,25 +52,29 @@ class _ProductViewState extends State<ProductView> {
                   color: Colors.black,
                   child: Stack(
                     children: [
-                      CarouselSlider(
-                        options: CarouselOptions(
-                          onPageChanged: (index, reason) {
-                            indexImage.value = index + 1;
-                          },
+                      Obx(
+                        () => CarouselSlider(
+                          options: CarouselOptions(
+                            onPageChanged: (index, reason) {
+                              indexImage.value = index + 1;
+                            },
+                          ),
+                          items: (viewModel.product.colors != null &&
+                                  viewModel
+                                          .product
+                                          .colors![indexColorImage.value]
+                                          .images !=
+                                      null)
+                              ? viewModel.product.colors![indexColorImage.value]
+                                  .images!
+                                  .map(
+                                    (item) => ImageComponent(
+                                        isShowBorder: false,
+                                        imageUrl: domain + (item.url ?? '')),
+                                  )
+                                  .toList()
+                              : [],
                         ),
-                        items: (viewModel.product.colors != null &&
-                                viewModel.product.colors![indexColorImage.value]
-                                        .images !=
-                                    null)
-                            ? viewModel
-                                .product.colors![indexColorImage.value].images!
-                                .map(
-                                  (item) => ImageComponent(
-                                      isShowBorder: false,
-                                      imageUrl: domain + (item.url ?? '')),
-                                )
-                                .toList()
-                            : [],
                       ),
                       Align(
                         alignment: Alignment.bottomRight,
@@ -92,7 +109,7 @@ class _ProductViewState extends State<ProductView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Product name'),
+                  Text(viewModel.product.name ?? ''),
                   GestureDetector(
                     onTap: () =>
                         viewModel.favorite.value = !viewModel.favorite.value,
@@ -109,30 +126,40 @@ class _ProductViewState extends State<ProductView> {
                   ),
                 ],
               ),
+
               const SizedBox(
                 height: 16,
               ),
-              const Text('Nhaf san xuat : Nike'),
+              Obx(
+                () => Text(
+                    'Giá: ${formatMoney(viewModel.product.colors?[indexColorImage.value].price ?? 0)}'),
+              ),
               const SizedBox(
                 height: 16,
               ),
               Obx(
                 () => Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
                   children: [
                     const Text('Màu sắc:'),
                     if (viewModel.product.colors != null)
                       ...viewModel.product.colors!
-                          .map((e) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8),
-                                child: OutlinedButton(
-                                    onPressed: () {},
-                                    // ignore: invalid_use_of_protected_member
-                                    child: Text(viewModel.colorList.value
-                                            .firstWhereOrNull((element) =>
-                                                element.id == e.colorId)
-                                            ?.name ??
-                                        'chưa có name ?')),
+                          .map((e) => CustomCheckbox(
+                                onChangeCallBack: () {
+                                  indexColorImage.value =
+                                      viewModel.product.colors!.indexOf(e);
+                                  indexImage.value = 1;
+                                  setCountProduct();
+                                },
+                                text: viewModel.colorList.value
+                                        .firstWhereOrNull((element) =>
+                                            element.id == e.colorId)
+                                        ?.name ??
+                                    '',
+                                isChecked:
+                                    viewModel.product.colors?.indexOf(e) ==
+                                        indexColorImage.value,
                               ))
                           .toList()
                   ],
@@ -141,29 +168,79 @@ class _ProductViewState extends State<ProductView> {
               const SizedBox(
                 height: 16,
               ),
-              const Wrap(
-                children: [
-                  CustomCheckbox(
-                    text: 'test',
-                    isChecked: true,
-                  ),
-                ],
+              Obx(
+                () => Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    const Text('Size:'),
+                    // if (viewModel.sizeOfProduct.value != null)
+                    ...viewModel.sizeOfProduct.value
+                        .map((e) => CustomCheckbox(
+                              onChangeCallBack: () {
+                                indexSizeCkecked.value =
+                                    viewModel.sizeOfProduct.value.indexOf(e);
+                                setCountProduct();
+                              },
+                              text: viewModel.sizeList.value
+                                      .firstWhereOrNull(
+                                          (element) => element.id == e)
+                                      ?.name ??
+                                  '',
+                              isChecked:
+                                  viewModel.sizeOfProduct.value.indexOf(e) ==
+                                      indexSizeCkecked.value,
+                            ))
+                        .toList()
+                  ],
+                ),
               ),
+              // const Wrap(
+              //   children: [
+              //     CustomCheckbox(
+              //       text: 'test',
+              //       isChecked: true,
+              //     ),
+              //   ],
+              // ),
               // Container(color: Colors.purple, child: const Text('chon size')),
               const SizedBox(
                 height: 16,
               ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Price'),
-                  Text('so luong con lái'),
+                  // Text('Price'),
+                  const Text('Số Lượng: '),
+                  ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(shape: const CircleBorder()),
+                      onPressed: () {
+                        if (count.value > 1) {
+                          count.value--;
+                        }
+                      },
+                      child: const Text('-')),
+                  Obx(() => Text(' ${count.value} ')),
+                  ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(shape: const CircleBorder()),
+                      onPressed: () {
+                        if (count.value < getQuantity()) {
+                          count.value++;
+                        }
+                      },
+                      child: const Text('+')),
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Obx(() => Text('Kho: ${getQuantity()}')),
                 ],
               ),
               const SizedBox(
                 height: 16,
               ),
-              const Text('Description'),
+              Text('${viewModel.product.description}'),
             ],
           ),
         ),
@@ -191,5 +268,18 @@ class _ProductViewState extends State<ProductView> {
         ),
       ),
     );
+  }
+
+  void setCountProduct() {
+    if (getQuantity() < 1) {
+      count.value = 0;
+    } else {
+      count.value = 1;
+    }
+    if (viewModel.product.colors?[indexColorImage.value].images?.length == 0) {
+      indexImage.value = 0;
+    } else {
+      indexImage.value = 1;
+    }
   }
 }

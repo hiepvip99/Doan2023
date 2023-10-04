@@ -9,7 +9,7 @@ class OrderService {
   final String _orderById = 'api/order/shoeOrderById';
 
   Future<OrderManagerModel?> getAllOrder(
-      {int? currentPage, int? step, DateTime? date, int? accountId}) async {
+      {int? currentPage, int? step, DateTime? date, String? accountId}) async {
     final queryParameter = <String, dynamic>{};
     queryParameter['step'] = step;
     queryParameter['page'] = currentPage;
@@ -18,7 +18,7 @@ class OrderService {
     final repo = BaseRepository(path: _orderUrl, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => OrderManagerModel.fromJson(e),
-      // queryParameters: queryParameter,
+      queryParameters: queryParameter,
     );
     return response;
   }
@@ -66,6 +66,14 @@ class OrderService {
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         // queryParameters: queryParameter,
         data: orderModel.toJson());
+    return response;
+  }
+
+  Future<OrderManagerModel?> getAllStatusOrder() async {
+    final repo = BaseRepository(path: _statusOrderUrl, method: HttpMethod.get);
+    final response = await repo.queryByPath(
+      (e) => OrderManagerModel.fromJson(e),
+    );
     return response;
   }
 }

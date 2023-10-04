@@ -37,7 +37,10 @@ class CustomCheckbox extends StatelessWidget {
                     Icons.check,
                     color: Colors.blue,
                   )
-                : Container(width: 24.0),
+                : const SizedBox(
+                    height: 24.0,
+                    width: 24.0,
+                  ),
             const SizedBox(width: 8.0),
             Text(
               text,

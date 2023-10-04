@@ -39,7 +39,7 @@ class ProfileView extends StatelessWidget {
           const ItemProfile(
               showBottomDivider: true,
               title: 'Đơn mua',
-              route: OrderHistoryScreen.route),
+              route: MyOrderView.route),
           // const ItemProfile(showBottomDivider: true, title: 'Địa chỉ của tôi'),
           const ItemProfile(showBottomDivider: true, title: 'Đánh giá của tôi'),
           const ItemProfile(showBottomDivider: true, title: 'Mã giảm giá'),
