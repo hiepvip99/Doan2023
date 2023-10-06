@@ -68,6 +68,9 @@ class _SearchViewState extends State<SearchView> {
   final txtSearch = TextEditingController();
   final txtMinPrice = TextEditingController();
   final txtMaxPrice = TextEditingController();
+  final txtDropManufacture = TextEditingController();
+  final txtDropCategory = TextEditingController();
+  final txtGender = TextEditingController();
 
   RxString validatePrice = RxString('');
 
@@ -136,6 +139,21 @@ class _SearchViewState extends State<SearchView> {
                     maxCrossAxisExtent: 175,
                     childAspectRatio: 0.75),
                 builderDelegate: PagedChildBuilderDelegate<Product>(
+                  noItemsFoundIndicatorBuilder: (context) => Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        const Text('Không tìm thấy kết sản phẩm phù hợp'),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        removeFilterButton(),
+                      ],
+                    ),
+                  ),
                   itemBuilder: (context, item, index) => ProductCard(
                     // beer: item,
                     product: item,
@@ -186,6 +204,8 @@ class _SearchViewState extends State<SearchView> {
                     border: InputBorder.none,
                     backgroundColor: Colors.grey.shade200,
                     controller: txtMaxPrice,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     hintText: 'đến',
                     contentPadding:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -198,12 +218,16 @@ class _SearchViewState extends State<SearchView> {
             const SizedBox(height: 16),
             Obx(
               () => DropdownMenu<Manufacturer>(
+                // menuHeight: 36,
+                // inputDecorationTheme: InputDecorationTheme(),
+                controller: txtDropManufacture,
                 initialSelection: viewModel.manufacturer.value.id != null
                     ? viewModel.manufacturerList
                         .where((e) => e.id == viewModel.manufacturer.value.id)
                         .toList()
                         .first
                     : null,
+                // enableSearch: true,
                 onSelected: (Manufacturer? value) {
                   if (value != null) {
                     viewModel.manufacturer.value = value;
@@ -219,6 +243,49 @@ class _SearchViewState extends State<SearchView> {
                 ).toList(),
               ),
             ),
+            const SizedBox(height: 16),
+            const Text('Loại giày:'),
+            const SizedBox(height: 16),
+            Obx(
+              () => DropdownMenu<Category>(
+                controller: txtDropCategory,
+                initialSelection: viewModel.category.value.id != null
+                    ? viewModel.categoryList
+                        .where((e) => e.id == viewModel.category.value.id)
+                        .toList()
+                        .first
+                    : null,
+                onSelected: (Category? value) {
+                  if (value != null) {
+                    viewModel.category.value = value;
+                    // product.categoryId = value.id;
+                  }
+                },
+                dropdownMenuEntries: viewModel.categoryList.value
+                    .map<DropdownMenuEntry<Category>>(
+                  (Category value) {
+                    return DropdownMenuEntry<Category>(
+                        value: value, label: value.name ?? '');
+                  },
+                ).toList(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text('Giới tính:'),
+            const SizedBox(height: 16),
+            DropdownMenu<String>(
+                controller: txtGender,
+                initialSelection: viewModel.gender,
+                onSelected: (String? value) {
+                  if (value != null) {
+                    viewModel.gender = value;
+                  }
+                },
+                dropdownMenuEntries:
+                    genderList.map<DropdownMenuEntry<String>>((String value) {
+                  return DropdownMenuEntry<String>(value: value, label: value);
+                }).toList()),
+
             const SizedBox(height: 16),
             // DropdownMenu<Category>(
             //     initialSelection: product.categoryId != null
@@ -253,13 +320,63 @@ class _SearchViewState extends State<SearchView> {
             Obx(
               () => Visibility(
                   visible: validatePrice.value.isNotEmpty,
-                  child: Text('${validatePrice.value}')),
+                  child: Text(
+                    validatePrice.value,
+                    style: const TextStyle(color: Colors.red),
+                  )),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        viewModel.keyword.value = txtSearch.text.trim();
+                        validatePrice.value = '';
+                        viewModel.minPrice = int.tryParse(txtMinPrice.text);
+                        viewModel.maxPrice = int.tryParse(txtMaxPrice.text);
+                        if (viewModel.minPrice != null &&
+                            viewModel.maxPrice != null) {
+                          if (viewModel.minPrice! > viewModel.maxPrice!) {
+                            validatePrice.value =
+                                'Vui lòng điền khoảng giá phù hợp';
+                          } else {
+                            // if (viewModel.minPrice! > viewModel.maxPrice!) {}
+                            _pagingController.refresh();
+                          }
+                        } else {
+                          _pagingController.refresh();
+                        }
+                      },
+                      child: const Text('Áp dụng')),
+                  removeFilterButton(),
+                ],
+              ),
             )
           ],
         ),
       ),
     );
   }
+
+  ElevatedButton removeFilterButton() {
+    return ElevatedButton(
+        onPressed: () {
+          viewModel.removeFilter();
+          txtMaxPrice.text = '';
+          txtMinPrice.text = '';
+          txtDropManufacture.text = '';
+          txtDropCategory.text = '';
+          txtGender.text = '';
+          _pagingController.refresh();
+        },
+        child: const Text('Xoá bộ lọc'));
+  }
 }
 
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+// const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+List<String> genderList = ['Nam', 'Nữ'];

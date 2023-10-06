@@ -120,6 +120,8 @@ final ThemeData lightTheme = ThemeData(
     disabledColor: Colors.grey,
   ),
   dropdownMenuTheme: const DropdownMenuThemeData(
+    // inputDecorationTheme:
+    // InputDecorationTheme(constraints: BoxConstraints(maxHeight: 20)),
     menuStyle: MenuStyle(
       maximumSize: MaterialStatePropertyAll(
         Size(2000, 200),

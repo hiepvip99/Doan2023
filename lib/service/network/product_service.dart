@@ -21,7 +21,8 @@ class ProductService {
       int? manufacturerId,
       int? categoryId,
       int? colorId,
-      String? gender}) async {
+      String? gender,
+      String? sortBy}) async {
     final queryParameter = <String, dynamic>{};
     queryParameter['step'] = step;
     queryParameter['page'] = currentPage;
@@ -32,6 +33,7 @@ class ProductService {
     queryParameter['categoryId'] = categoryId;
     queryParameter['color_id'] = colorId;
     queryParameter['gender'] = gender;
+    queryParameter['sortBy'] = sortBy;
     final repo = BaseRepository(path: _allProductPath, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => ProductManagerModel.fromJson(e),
