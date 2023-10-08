@@ -2,6 +2,7 @@ import 'package:web_app/service/base_entity.dart';
 
 class SizeProductModel extends BaseEntity {
   int? status;
+  int? totalPages;
   List<Size>? size;
 
   SizeProductModel({this.status, this.size});

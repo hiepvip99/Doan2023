@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -96,9 +98,13 @@ Future<void> initApp() async {
   // final WidgetsBinding widgetsBinding =
   WidgetsFlutterBinding.ensureInitialized();
   await Injection.instance.injection();
+  if (!Platform.isWindows) {
+    
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+    FirebaseMessaging.instance.subscribeToTopic("all");
+  }
 
   // FirebaseMessaging.instance.getToken().then(
   //       (value) => print("get token : $value"),
@@ -115,7 +121,7 @@ Future<void> initApp() async {
   //   // Error getting token.
   // });
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   int role = -1;
   if (Authorization.isLogged()) {

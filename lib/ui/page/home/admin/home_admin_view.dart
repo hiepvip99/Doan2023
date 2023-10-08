@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:web_app/ui/page/home/admin/components/category_manager/category_view.dart';
 
 import 'components/account_manager/account_manager_view.dart';
+import 'components/category_manager/test_ui.dart';
 import 'components/list_item.dart';
 import 'components/manufacturers_manager/manufacturers_manager_view.dart';
 import 'components/order_manager/order_manager_view.dart';
@@ -70,16 +71,17 @@ class HomeAdmin extends StatelessWidget {
       switch (_controller.indexSelected.value) {
         case 0:
           return AccountManagerView();
+        // case 1:
+        //   return const ManufacturersManagerView();
         case 1:
-          return const ManufacturersManagerView();
+          return const CategoryTest();
+        // return const CategoryManagerView();
         case 2:
-          return const CategoryManagerView();
+          return const ProductManagerView();
         case 3:
-          return ProductManagerView();
-        case 4:
           return OrderManagerView();
-        case 5:
-          return Statistical();
+        case 4:
+          return const Statistical();
         // case 8:
         //   return const LineChartSample1();
         default:

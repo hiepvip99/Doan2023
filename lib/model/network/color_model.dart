@@ -3,6 +3,7 @@ import 'package:web_app/service/base_entity.dart';
 class ColorProductModel extends BaseEntity {
   int? status;
   List<Color>? color;
+  int? totalPages;
 
   ColorProductModel({this.status, this.color});
 

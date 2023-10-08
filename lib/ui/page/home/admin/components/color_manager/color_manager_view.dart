@@ -2,27 +2,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:web_app/ui/page/home/admin/components/manufacturers_manager/components/dialog_manufacturer.dart';
 
 import '../../../../../../constant.dart';
 import '../../../../../component_common/my_dropdown_button2.dart';
 import '../../../../../component_common/paginator_common.dart';
 import '../../../../../component_common/textfield_common.dart';
 import '../../../../../dialog/dialog_common.dart';
-import 'manufacturers_manager_view_model.dart';
+import 'color_manager_view_model.dart';
+import 'components/dialog_color_manager.dart';
 
-class ManufacturersManagerView extends StatefulWidget {
-  const ManufacturersManagerView({super.key});
+class ColorManagerView extends StatefulWidget {
+  const ColorManagerView({super.key});
 
   @override
-  State<ManufacturersManagerView> createState() =>
-      _ManufacturersManagerViewState();
+  State<ColorManagerView> createState() => _ColorManagerViewState();
 }
 
-class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
-  final viewModel = Get.find<ManufacturersViewModel>();
+class _ColorManagerViewState extends State<ColorManagerView> {
+  final viewModel = Get.find<ColorViewModel>();
 
-  final dialog = DialogManufacturer();
+  final dialog = DialogColor();
 
   final TextEditingController txtSearch = TextEditingController();
   @override
@@ -33,7 +32,7 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
       final text = txtSearch.text.trim();
       print('text:' + text);
       viewModel.keyword.value = text;
-      viewModel.getManufacturerList();
+      viewModel.getColorList();
     });
   }
 
@@ -145,7 +144,7 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                       : ListView.builder(
                           // physics: const NeverScrollableScrollPhysics(),
                           // shrinkWrap: true,
-                          itemCount: viewModel.manufacturerList.value.length,
+                          itemCount: viewModel.colorList.value.length,
                           itemBuilder: (context, index) => Container(
                             color: index % 2 == 0
                                 ? Colors.white
@@ -159,14 +158,13 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                                   SizedBox(
                                     width: 80,
                                     child: Text(
-                                      '${viewModel.manufacturerList.value[index].id}',
+                                      '${viewModel.colorList.value[index].id}',
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      viewModel.manufacturerList.value[index]
-                                              .name ??
+                                      viewModel.colorList.value[index].name ??
                                           "",
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -178,8 +176,8 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                                           onPressed: () {
                                             dialog.showUpdateDialog(
                                                 context,
-                                                viewModel.manufacturerList
-                                                    .value[index]);
+                                                viewModel
+                                                    .colorList.value[index]);
                                           },
                                           child: const Text('Sửa')),
                                       const SizedBox(
@@ -193,11 +191,10 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                                                 .showDeleteConfirmation(
                                               context,
                                               text:
-                                                  'nhà sản xuất ${viewModel.manufacturerList.value[index].name} với id: ${viewModel.manufacturerList.value[index].id}',
-                                              () => viewModel
-                                                  .deleteManufacturer(viewModel
-                                                      .manufacturerList
-                                                      .value[index]),
+                                                  'nhà sản xuất ${viewModel.colorList.value[index].name} với id: ${viewModel.colorList.value[index].id}',
+                                              () => viewModel.deleteColor(
+                                                  viewModel
+                                                      .colorList.value[index]),
                                             );
                                           },
                                           child: const Text('Xóa')),

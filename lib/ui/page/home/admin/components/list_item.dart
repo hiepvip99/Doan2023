@@ -18,10 +18,10 @@ class LeftMenu extends StatelessWidget {
       icon: Icons.manage_accounts,
       title: 'Quản lý tài khoản',
     ),
-    ItemMenu(
-      icon: Icons.precision_manufacturing,
-      title: 'Quản lý nhà sản xuất',
-    ),
+    // ItemMenu(
+    //   icon: Icons.precision_manufacturing,
+    //   title: 'Quản lý nhà sản xuất',
+    // ),
     ItemMenu(
       icon: Icons.category,
       title: 'Quản lý danh mục',
