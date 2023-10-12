@@ -29,9 +29,18 @@ class ShoppingCartScreen extends StatelessWidget {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      ElevatedButton(onPressed: () {}, child: const Text('+')),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder()),
+                        child: const Text('-'),
+                      ),
                       const Text('quantity'),
-                      ElevatedButton(onPressed: () {}, child: const Text('-')),
+                      ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder()),
+                          child: const Text('+')),
                     ],
                   ),
                 );

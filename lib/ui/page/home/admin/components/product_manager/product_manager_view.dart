@@ -355,7 +355,7 @@ class ImageComponent extends StatelessWidget {
         fit: BoxFit.cover,
         filterQuality: FilterQuality.low,
         errorWidget: (context, url, error) =>
-            const SizedBox(width: 100, height: 200, child: Icon(Icons.error)),
+            const Center(child: Icon(Icons.error)),
       ),
     );
   }

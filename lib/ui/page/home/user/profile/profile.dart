@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../about_us/about_us.dart';
 import '../cart/cart_view.dart';
 import '../my_order/my_order_view.dart';
 
@@ -43,7 +44,10 @@ class ProfileView extends StatelessWidget {
           // const ItemProfile(showBottomDivider: true, title: 'Địa chỉ của tôi'),
           const ItemProfile(showBottomDivider: true, title: 'Đánh giá của tôi'),
           const ItemProfile(showBottomDivider: true, title: 'Mã giảm giá'),
-          const ItemProfile(showBottomDivider: true, title: 'Về chúng tôi'),
+          const ItemProfile(
+              showBottomDivider: true,
+              title: 'Về chúng tôi',
+              route: AboutUs.route),
           // TextButton(onPressed: () {}, child: const Text('chỉnh sửa'))
         ],
       ),

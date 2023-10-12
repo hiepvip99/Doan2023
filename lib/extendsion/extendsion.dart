@@ -96,8 +96,14 @@ List<T>? asMapList<T>(obj, T Function(Map<dynamic, dynamic> e) convert) {
 
 
 
-String formatDateTime(DateTime dateTime) {
+String formatDate(DateTime dateTime) {
   final formatter = DateFormat('dd/MM/yyyy');
+  final formattedDate = formatter.format(dateTime);
+  return formattedDate;
+}
+
+String formatDateTime(DateTime dateTime) {
+  final formatter = DateFormat('dd/MM/yyyy hh:mm');
   final formattedDate = formatter.format(dateTime);
   return formattedDate;
 }

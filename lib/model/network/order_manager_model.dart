@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import '../../service/base_entity.dart';
+import 'color_model.dart';
 import 'customer_model.dart';
 import 'product_manager_model.dart';
 
@@ -114,7 +115,7 @@ class Details {
   int? id;
   int? orderId;
   Product? product;
-  int? colorId;
+  ColorItemProduct? color;
   int? sizeId;
   int? quantity;
 
@@ -122,7 +123,7 @@ class Details {
       {this.id,
       this.orderId,
       this.product,
-      this.colorId,
+      this.color,
       this.sizeId,
       this.quantity});
 
@@ -131,7 +132,8 @@ class Details {
     orderId = json['order_id'];
     product =
         json['product'] != null ? Product.fromJson(json['product']) : null;
-    colorId = json['color_id'];
+    color =
+        json['color'] != null ? ColorItemProduct.fromJson(json['color']) : null;
     sizeId = json['size_id'];
     quantity = json['quantity'];
   }
@@ -143,12 +145,57 @@ class Details {
     if (product != null) {
       data['product'] = product!.toJson();
     }
-    data['color_id'] = colorId;
+    if (color != null) {
+      data['color'] = color!.toJson();
+    }
     data['size_id'] = sizeId;
     data['quantity'] = quantity;
     return data;
   }
 }
+
+// class Color {
+//   int? colorId;
+//   List<Images>? images;
+
+//   Color({this.colorId, this.images});
+
+//   Color.fromJson(Map<String, dynamic> json) {
+//     colorId = json['color_id'];
+//     if (json['images'] != null) {
+//       images = <Images>[];
+//       json['images'].forEach((v) {
+//         images!.add(new Images.fromJson(v));
+//       });
+//     }
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['color_id'] = this.colorId;
+//     if (this.images != null) {
+//       data['images'] = this.images!.map((v) => v.toJson()).toList();
+//     }
+//     return data;
+//   }
+// }
+
+class Images {
+  String? url;
+
+  Images({this.url});
+
+  Images.fromJson(Map<String, dynamic> json) {
+    url = json['url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['url'] = url;
+    return data;
+  }
+}
+
 
 // class Product {
 //   int? id;

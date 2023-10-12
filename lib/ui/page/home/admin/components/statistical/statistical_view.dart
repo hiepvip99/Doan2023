@@ -32,7 +32,7 @@ class _StatisticalState extends State<Statistical> {
                 () => Row(
                   children: [
                     Text(
-                        'Từ ngày: ${formatDateTime(viewModel.fromDate.value)}'),
+                        'Từ ngày: ${formatDate(viewModel.fromDate.value)}'),
                     const SizedBox(
                       width: 20,
                     ),
@@ -44,7 +44,7 @@ class _StatisticalState extends State<Statistical> {
                     const SizedBox(
                       width: 20,
                     ),
-                    Text('Đến ngày: ${formatDateTime(viewModel.toDate.value)}'),
+                    Text('Đến ngày: ${formatDate(viewModel.toDate.value)}'),
                     const SizedBox(
                       width: 20,
                     ),
