@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:web_app/constant.dart';
 import 'package:web_app/extendsion/extendsion.dart';
 
+import '../../../../../model/network/cart_model.dart';
 import '../../admin/components/product_manager/product_manager_view.dart';
 import '../cart/cart_view.dart';
 import '../search/search_view.dart';
@@ -26,6 +27,8 @@ class _ProductViewState extends State<ProductView> {
   final RxInt indexImage = 1.obs;
   final RxInt indexSizeCkecked = 0.obs;
   final RxInt count = 1.obs;
+
+  ProductInCart product = ProductInCart();
 
   int getQuantity() {
     return viewModel.product.sizes
@@ -257,7 +260,14 @@ class _ProductViewState extends State<ProductView> {
           children: [
             Expanded(
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  product.colorId =
+                      viewModel.product.colors?[indexColorImage.value].colorId;
+                  product.sizeId =
+                      viewModel.product.sizes?[indexSizeCkecked.value].sizeId;
+                  product.quantity = count.value;
+                  viewModel.addToCart(product);
+                },
                 child: const Text('Thêm vào giỏ hàng'),
               ),
             ),

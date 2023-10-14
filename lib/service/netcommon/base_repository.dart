@@ -101,27 +101,27 @@ class BaseRepository extends BaseRepositoryInterface {
           response = await _dio.post(url, data: data);
           break;
         case HttpMethod.put:
-          if (!(onBackground ?? false)) {
-            if (showLoading ?? true) {
-              dialogCommon.showLoadingDialog();
-            }
-          }
+          // if (!(onBackground ?? false)) {
+          //   if (showLoading ?? true) {
+          //     dialogCommon.showLoadingDialog();
+          //   }
+          // }
           response = await _dio.put(url, data: data);
           break;
         case HttpMethod.delete:
-          if (!(onBackground ?? false)) {
-            if (showLoading ?? true) {
-              dialogCommon.showLoadingDialog();
-            }
-          }
+          // if (!(onBackground ?? false)) {
+          //   if (showLoading ?? true) {
+          //     dialogCommon.showLoadingDialog();
+          //   }
+          // }
           response = await _dio.delete(url, data: data);
           break;
         case HttpMethod.path:
-          if (!(onBackground ?? false)) {
-            if (showLoading ?? true) {
-              dialogCommon.showLoadingDialog();
-            }
-          }
+          // if (!(onBackground ?? false)) {
+          //   if (showLoading ?? true) {
+          //     dialogCommon.showLoadingDialog();
+          //   }
+          // }
           response = await _dio.patch(url, data: data);
           break;
       }

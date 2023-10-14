@@ -139,6 +139,36 @@ class DialogCommon {
       },
     );
   }
+  
+  void showConfirmDialog(
+    BuildContext context,
+    String textConfirm,
+    Function() onConfirm, {
+    String? text,
+  }) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('$text'),
+          // content: Text('$text'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng Dialog
+              },
+              child: const Text('Thoát'),
+            ),
+            ElevatedButton(
+              onPressed: onConfirm,
+              // style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              child: Text(textConfirm),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<void> showAlertDialog({
     required BuildContext context,

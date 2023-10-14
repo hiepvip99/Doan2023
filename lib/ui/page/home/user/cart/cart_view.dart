@@ -52,7 +52,7 @@ class ShoppingCartScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ElevatedButton(
           onPressed: () {},
-          child: const Text('Checkout'),
+          child: const Text('Đặt hàng'),
         ),
       ),
     );
@@ -147,15 +147,16 @@ class ProductCartItem extends StatelessWidget {
                                 children: [
                                   ElevatedButton(
                                     onPressed: () {
-                                      if ((productCartModel
+                                      onChangeQuantity((productCartModel
                                                   .productInCart.quantity ??
-                                              0) >
-                                          1) {
-                                        onChangeQuantity((productCartModel
-                                                    .productInCart.quantity ??
-                                                0) -
-                                            1);
-                                      }
+                                              0) -
+                                          1);
+                                      // if ((productCartModel
+                                      //             .productInCart.quantity ??
+                                      //         0) >
+                                      //     1) {
+
+                                      // }
                                     },
                                     style: ElevatedButton.styleFrom(
                                         shape: const CircleBorder()),

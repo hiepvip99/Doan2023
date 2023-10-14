@@ -351,6 +351,7 @@ class _SearchViewState extends State<SearchView> {
                         } else {
                           _pagingController.refresh();
                         }
+                        Get.back();
                       },
                       child: const Text('Áp dụng')),
                   removeFilterButton(),
@@ -373,6 +374,7 @@ class _SearchViewState extends State<SearchView> {
           txtDropCategory.text = '';
           txtGender.text = '';
           _pagingController.refresh();
+          Get.back();
         },
         child: const Text('Xoá bộ lọc'));
   }

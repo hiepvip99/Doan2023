@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:web_app/model/network/cart_model.dart';
 import 'package:web_app/service/network/cart_service.dart';
+import 'package:web_app/ui/dialog/dialog_common.dart';
 
 import '../../../../../model/network/color_model.dart';
 import '../../../../../model/network/size_model.dart';
@@ -43,9 +44,11 @@ class CartViewModel extends GetxController {
   }
 
   Future<void> updateProductQuantity(ProductInCart productInCart) async {
-    cartService
-        .updateCart(productInCart)
-        .then((value) => print(value?.statusCode));
+    cartService.updateCart(productInCart);
+  }
+
+  Future<void> deleteProduct(ProductInCart productInCart) async {
+    cartService.deleteCart(productInCart);
   }
 
   Future<void> getAllProductInCart() async {
@@ -70,14 +73,30 @@ class CartViewModel extends GetxController {
   }
 
   void updateQuantity(int index, int quantity) {
-    productInCart[index].productInCart.quantity = quantity;
-    productInCart.refresh();
-    updateProductQuantity(productInCart[index].productInCart);
+    if (quantity == 0) {
+      Get.find<DialogCommon>().showDeleteConfirmation(Get.context!, () {
+        deleteProduct(productInCart[index].productInCart);
+        productInCart.removeAt(index);
+        productInCart.refresh();
+      }, text: 'Bạn có muốn xoá sản phẩm khỏi giỏ hàng');
+    } else {
+      productInCart[index].productInCart.quantity = quantity;
+      productInCart.refresh();
+      updateProductQuantity(productInCart[index].productInCart);
+    }
   }
 
   void updateQuantityNoRefesh(int index, int quantity) {
-    productInCart[index].productInCart.quantity = quantity;
-    updateProductQuantity(productInCart[index].productInCart);
+    if (quantity <= 0) {
+      Get.find<DialogCommon>().showDeleteConfirmation(Get.context!, () {
+        deleteProduct(productInCart[index].productInCart);
+        productInCart.removeAt(index);
+        productInCart.refresh();
+      }, text: 'Bạn có muốn xoá sản phẩm khỏi giỏ hàng');
+    } else {
+      productInCart[index].productInCart.quantity = quantity;
+      updateProductQuantity(productInCart[index].productInCart);
+    }
     // productInCart.refresh();
   }
 

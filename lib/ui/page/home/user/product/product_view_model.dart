@@ -1,17 +1,20 @@
 import 'package:get/get.dart';
+import 'package:web_app/model/network/cart_model.dart';
 import 'package:web_app/model/network/product_manager_model.dart';
 
 import '../../../../../model/network/color_model.dart';
 import '../../../../../model/network/size_model.dart';
+import '../../../../../service/network/cart_service.dart';
 import '../../../../../service/network/color_service.dart';
 import '../../../../../service/network/manufacturer_service.dart';
 import '../../../../../service/network/size_service.dart';
+import '../../../../dialog/dialog_common.dart';
 
 class ProductViewModel extends GetxController {
   RxBool favorite = false.obs;
 
   RxList<int?> sizeOfProduct = RxList();
-
+  CartService cartService = CartService();
   // ManufacturerService manufacturerNetworkService = ManufacturerService();
   ColorService colorNetworkService = ColorService();
   SizeService sizeNetworkService = SizeService();
@@ -31,6 +34,24 @@ class ProductViewModel extends GetxController {
     // categoryNetworkService
     //     .getAllCategory(step: 1000)
     //     .then((value) => categoryList.value = value?.category ?? []);
+  }
+
+  Future<void> addToCart(ProductInCart productView) async {
+    const accId = 3;
+    cartService
+        .addCart(ProductInCart(
+            accountId: accId,
+            // id: ,
+            productId: product.id,
+            colorId: productView.colorId,
+            sizeId: productView.sizeId,
+            quantity: productView.quantity))
+        .then((value) {
+      if (value?.statusCode == 200) {
+        Get.find<DialogCommon>().showAlertDialog(
+            context: Get.context!, title: 'Thêm vào giỏ hàng thành công');
+      }
+    });
   }
 
   Product product = Product();

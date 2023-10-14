@@ -24,16 +24,46 @@ class ProductService {
       String? gender,
       String? sortBy}) async {
     final queryParameter = <String, dynamic>{};
-    queryParameter['step'] = step;
-    queryParameter['page'] = currentPage;
-    queryParameter['keyword'] = keyword;
-    queryParameter['minPrice'] = minPrice;
-    queryParameter['maxPrice'] = maxPrice;
-    queryParameter['manufacturerId'] = manufacturerId;
-    queryParameter['categoryId'] = categoryId;
-    queryParameter['color_id'] = colorId;
-    queryParameter['gender'] = gender;
-    queryParameter['sortBy'] = sortBy;
+    if (step != null) {
+      queryParameter['step'] = step;
+    }
+    if (currentPage != null) {
+      queryParameter['page'] = currentPage;
+    }
+    if (keyword != null) {
+      queryParameter['keyword'] = keyword;
+    }
+    if (minPrice != null) {
+      queryParameter['minPrice'] = minPrice;
+    }
+    if (maxPrice != null) {
+      queryParameter['maxPrice'] = maxPrice;
+    }
+    if (manufacturerId != null) {
+      queryParameter['manufacturerId'] = manufacturerId;
+    }
+    if (categoryId != null) {
+      queryParameter['categoryId'] = categoryId;
+    }
+    if (colorId != null) {
+      queryParameter['color_id'] = colorId;
+    }
+    if (gender != null) {
+      queryParameter['gender'] = gender;
+    }
+    if (sortBy != null) {
+      queryParameter['sortBy'] = sortBy;
+    }
+    // queryParameter['step'] = step;
+    // queryParameter['page'] = currentPage;
+    // queryParameter['keyword'] = keyword;
+    // queryParameter['minPrice'] = minPrice;
+    // queryParameter['maxPrice'] = maxPrice;
+    // queryParameter['manufacturerId'] = manufacturerId;
+    // queryParameter['categoryId'] = categoryId;
+    // queryParameter['color_id'] = colorId;
+    // queryParameter['gender'] = gender;
+    // queryParameter['sortBy'] = sortBy;
     final repo = BaseRepository(path: _allProductPath, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => ProductManagerModel.fromJson(e),
@@ -118,6 +148,7 @@ class ProductService {
         data: sizeModel.toJson());
     return response;
   }
+
   Future<BaseEntity?> uploadImages(Images imageUpload) async {
     final repo = BaseRepository(path: _uploadImage, method: HttpMethod.put);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
