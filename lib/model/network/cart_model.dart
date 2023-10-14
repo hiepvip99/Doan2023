@@ -4,16 +4,16 @@ import 'order_manager_model.dart';
 
 class CartManagerModel extends BaseEntity {
   int? status;
-  List<Data>? data;
+  List<ProductInCart>? data;
 
   CartManagerModel({this.status, this.data});
 
   CartManagerModel.fromJson(Map<dynamic, dynamic> json) {
     status = json['status'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <ProductInCart>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(ProductInCart.fromJson(v));
       });
     }
   }
@@ -28,33 +28,39 @@ class CartManagerModel extends BaseEntity {
   }
 }
 
-class Data extends BaseEntity {
+class ProductInCart {
   int? id;
   int? accountId;
   int? productId;
   int? colorId;
   int? sizeId;
   int? quantity;
+  String? name;
+  int? inventoryQuantity;
   int? price;
   List<Images>? images;
 
-  Data(
+  ProductInCart(
       {this.id,
       this.accountId,
       this.productId,
       this.colorId,
       this.sizeId,
       this.quantity,
+      this.name,
+      this.inventoryQuantity,
       this.price,
       this.images});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  ProductInCart.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     accountId = json['account_id'];
     productId = json['product_id'];
     colorId = json['color_id'];
     sizeId = json['size_id'];
     quantity = json['quantity'];
+    name = json['name'];
+    inventoryQuantity = json['inventory_quantity'];
     price = json['price'];
     if (json['images'] != null) {
       images = <Images>[];
@@ -72,26 +78,13 @@ class Data extends BaseEntity {
     data['color_id'] = colorId;
     data['size_id'] = sizeId;
     data['quantity'] = quantity;
-    // data['price'] = price;
-    // if (images != null) {
-    //   data['images'] = images!.map((v) => v.toJson()).toList();
-    // }
+    data['name'] = name;
+    data['inventory_quantity'] = inventoryQuantity;
+    data['price'] = price;
+    if (images != null) {
+      data['images'] = images!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
 
-// class Images {
-//   String? url;
-
-//   Images({this.url});
-
-//   Images.fromJson(Map<String, dynamic> json) {
-//     url = json['url'];
-//   }
-
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = <String, dynamic>{};
-//     data['url'] = url;
-//     return data;
-//   }
-// }

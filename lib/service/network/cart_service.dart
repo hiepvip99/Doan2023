@@ -21,7 +21,7 @@ class CartService {
     return response;
   }
 
-  Future<BaseEntity?> addCart(Data cartManagerModel) async {
+  Future<BaseEntity?> addCart(ProductInCart cartManagerModel) async {
     final repo = BaseRepository(path: _cart, method: HttpMethod.post);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         // queryParameters: queryParameter,
@@ -29,7 +29,7 @@ class CartService {
     return response;
   }
 
-  Future<BaseEntity?> updateCart(Data cartManagerModel) async {
+  Future<BaseEntity?> updateCart(ProductInCart cartManagerModel) async {
     final repo = BaseRepository(path: _cart, method: HttpMethod.put);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         // queryParameters: queryParameter,
@@ -37,7 +37,7 @@ class CartService {
     return response;
   }
 
-  Future<BaseEntity?> deleteCart(Data cartManagerModel) async {
+  Future<BaseEntity?> deleteCart(ProductInCart cartManagerModel) async {
     final repo = BaseRepository(path: _cart, method: HttpMethod.delete);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         // queryParameters: queryParameter,

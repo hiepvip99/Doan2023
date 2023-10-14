@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'ui/page/home/admin/home_admin_binding.dart';
 import 'ui/page/home/admin/home_admin_view.dart';
 import 'ui/page/home/user/about_us/about_us.dart';
+import 'ui/page/home/user/cart/cart_binding.dart';
 import 'ui/page/home/user/home_user.dart';
 import 'ui/page/home/user/home_user_binding.dart';
 import 'ui/page/home/user/cart/cart_view.dart';
@@ -44,11 +45,6 @@ final List<GetPage> appPage = [
     binding: ProductBinding(),
   ),
   GetPage(
-    name: ShoppingCartScreen.route,
-    page: () => const ShoppingCartScreen(),
-    // binding: ProductBinding(),
-  ),
-  GetPage(
     name: MyOrderView.route,
     page: () => MyOrderView(),
     binding: MyOrderBinding(),
@@ -57,6 +53,11 @@ final List<GetPage> appPage = [
     name: OrderDetailView.route,
     page: () => OrderDetailView(),
     binding: OrderDetailBinding(),
+  ),
+  GetPage(
+    name: ShoppingCartScreen.route,
+    page: () => ShoppingCartScreen(),
+    binding: CartBinding(),
   ),
   GetPage(
     name: AboutUs.route,
