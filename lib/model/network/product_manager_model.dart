@@ -1,6 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+
 import 'package:web_app/service/base_entity.dart';
 
 class ProductManagerModel extends BaseEntity {
@@ -204,6 +206,30 @@ class SizeItemProduct extends BaseEntity {
     data['size_id'] = sizeId;
     data['color_id'] = colorId;
     data['quantity'] = quantity;
+    return data;
+  }
+}
+
+class Favorite extends BaseEntity {
+  int? id;
+  int? productId;
+  int? accountId;
+  bool? isFavorite;
+
+  Favorite({
+    this.productId,
+    this.accountId,
+  });
+
+  Favorite.fromJson(Map<dynamic, dynamic> json) {
+    isFavorite = json['isFavorite'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['product_id'] = productId;
+    data['account_id'] = accountId;
     return data;
   }
 }

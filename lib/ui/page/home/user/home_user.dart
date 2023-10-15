@@ -138,7 +138,7 @@ class _HomeUserState extends State<HomeUser> {
           children: [header(), body(context)],
         );
       case 1:
-        return FavoriteView();
+        return const FavoriteView();
       case 2:
         return const NotificationView();
       case 3:

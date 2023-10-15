@@ -7,6 +7,8 @@ import '../network.dart';
 
 class ProductService {
   final String _allProductPath = 'api/product/shoeProducts';
+  final String _allFavoriteProduct = 'api/favorite/favoriteProduct';
+  final String _checkFavorite = 'api/favorite/favoriteProduct/isFavorited';
   final String _productById = 'api/product/shoeProductsById';
   final String _colorProduct = 'api/product/colorProduct';
   final String _sizeProduct = 'api/product/sizeProduct';
@@ -68,6 +70,59 @@ class ProductService {
     final response = await repo.queryByPath(
       (e) => ProductManagerModel.fromJson(e),
       queryParameters: queryParameter,
+    );
+    return response;
+  }
+
+  Future<ProductManagerModel?> getAllFavoriteProduct(
+      {int? currentPage, int? step, int? accountId}) async {
+    final queryParameter = <String, dynamic>{};
+    if (step != null) {
+      queryParameter['step'] = step;
+    }
+    if (currentPage != null) {
+      queryParameter['page'] = currentPage;
+    }
+    if (accountId != null) {
+      queryParameter['account_id'] = accountId;
+    }
+    final repo =
+        BaseRepository(path: _allFavoriteProduct, method: HttpMethod.get);
+    final response = await repo.queryByPath(
+      (e) => ProductManagerModel.fromJson(e),
+      queryParameters: queryParameter,
+    );
+    return response;
+  }
+
+  Future<BaseEntity?> addFavorite(Favorite favorite) async {
+    final repo =
+        BaseRepository(path: _allFavoriteProduct, method: HttpMethod.post);
+    final response = await repo.queryByPath(
+      (e) => ProductManagerModel.fromJson(e),
+      data: favorite.toJson(),
+    );
+    return response;
+  }
+
+  Future<Favorite?> checkFavorite(Favorite favorite) async {
+    // final queryParameters = <String, dynamic>{};
+    // queryParameters['account_id']
+    final repo = BaseRepository(path: _checkFavorite, method: HttpMethod.get);
+    final response = await repo.queryByPath(
+      (e) => Favorite.fromJson(e),
+      queryParameters: favorite.toJson(),
+    );
+    return response;
+  }
+
+  Future<BaseEntity?> removeFavorite(List<Favorite> favorite) async {
+    final listData = favorite.map((e) => e.toJson()).toList();
+    final repo =
+        BaseRepository(path: _allFavoriteProduct, method: HttpMethod.delete);
+    final response = await repo.queryByPath(
+      (e) => ProductManagerModel.fromJson(e),
+      data: listData,
     );
     return response;
   }

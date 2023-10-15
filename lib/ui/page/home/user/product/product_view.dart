@@ -120,8 +120,14 @@ class _ProductViewState extends State<ProductView> {
                 children: [
                   Text(viewModel.product.name ?? ''),
                   GestureDetector(
-                    onTap: () =>
-                        viewModel.favorite.value = !viewModel.favorite.value,
+                    onTap: () {
+                      viewModel.favorite.value = !viewModel.favorite.value;
+                      if (viewModel.favorite.value) {
+                        viewModel.addToFavorite();
+                      } else {
+                        viewModel.removeFavorite();
+                      }
+                    },
                     child: Obx(
                       () => Icon(
                         viewModel.favorite.value

@@ -7,19 +7,27 @@ import '../../../../../model/network/size_model.dart';
 import '../../../../../service/network/cart_service.dart';
 import '../../../../../service/network/color_service.dart';
 import '../../../../../service/network/manufacturer_service.dart';
+import '../../../../../service/network/product_service.dart';
 import '../../../../../service/network/size_service.dart';
 import '../../../../dialog/dialog_common.dart';
+import '../favorite/favorite_view_model.dart';
 
 class ProductViewModel extends GetxController {
   RxBool favorite = false.obs;
 
   RxList<int?> sizeOfProduct = RxList();
   CartService cartService = CartService();
+  ProductService networkService = ProductService();
   // ManufacturerService manufacturerNetworkService = ManufacturerService();
   ColorService colorNetworkService = ColorService();
   SizeService sizeNetworkService = SizeService();
   RxList<Color> colorList = RxList();
   RxList<Size> sizeList = RxList();
+  Product product = Product();
+
+  static const accId = 3;
+
+  final dialog = Get.find<DialogCommon>();
 
   Future<void> getInfomationForProduct() async {
     // manufacturerNetworkService
@@ -36,8 +44,29 @@ class ProductViewModel extends GetxController {
     //     .then((value) => categoryList.value = value?.category ?? []);
   }
 
+  Future<void> checkFavorite() async {
+    networkService
+        .checkFavorite(Favorite(accountId: accId, productId: product.id))
+        .then((value) {
+      favorite.value = value?.isFavorite ?? false;
+    });
+  }
+
+  Future<void> addToFavorite() async {
+    networkService
+        .addFavorite(Favorite(accountId: accId, productId: product.id));
+    // Get.find<FavoriteViewModel>().getAllFavoriteProduct();
+  }
+
+  Future<void> removeFavorite() async {
+    await networkService.removeFavorite(
+        [Favorite(accountId: accId, productId: product.id)]).then((value) {
+      print('status: ${value?.statusCode}');
+    });
+    // Get.find<FavoriteViewModel>().getAllFavoriteProduct();
+  }
+
   Future<void> addToCart(ProductInCart productView) async {
-    const accId = 3;
     cartService
         .addCart(ProductInCart(
             accountId: accId,
@@ -54,7 +83,6 @@ class ProductViewModel extends GetxController {
     });
   }
 
-  Product product = Product();
   @override
   void onInit() {
     super.onInit();
@@ -70,6 +98,7 @@ class ProductViewModel extends GetxController {
         }
       }
     }
+    checkFavorite();
     getInfomationForProduct();
   }
 }
