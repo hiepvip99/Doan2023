@@ -118,14 +118,14 @@ class DialogCommon {
     );
   }
 
-  void showDeleteConfirmation(
+  Future<void> showDeleteConfirmation(
     BuildContext context,
     Function() onDelete, {
     String? text,
     int? id,
     String? username,
-  }) {
-    showDialog(
+  }) async {
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return DeleteItemDialog(

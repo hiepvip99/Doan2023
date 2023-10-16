@@ -33,9 +33,12 @@ class FavoriteViewModel extends GetxController {
   }
 
   Future<void> removeFavorite(List<Favorite> favorite) async {
-    dialog.showDeleteConfirmation(Get.context!, () async {
+    final List<Favorite> favoriteSend = favorite
+        .map((e) => Favorite(productId: e.productId, accountId: accId))
+        .toList();
+    await dialog.showDeleteConfirmation(Get.context!, () async {
       loading.value = true;
-      await networkService.removeFavorite(favorite).then((value) {
+      await networkService.removeFavorite(favoriteSend).then((value) {
         dialog.showAlertDialog(
             context: Get.context!,
             title: 'Bạn đã xoá thành công sản phẩm khỏi danh sách yêu thích');

@@ -13,6 +13,8 @@ import '../../../../../service/network/size_service.dart';
 class CartViewModel extends GetxController {
   RxList<ProductCartModel> productInCart = RxList();
 
+  RxList<ProductCartModel> productSelected = RxList();
+
   CartService cartService = CartService();
 
   @override
@@ -84,6 +86,7 @@ class CartViewModel extends GetxController {
       productInCart.refresh();
       updateProductQuantity(productInCart[index].productInCart);
     }
+    productSelected.refresh();
   }
 
   void updateQuantityNoRefesh(int index, int quantity) {
@@ -97,6 +100,7 @@ class CartViewModel extends GetxController {
       productInCart[index].productInCart.quantity = quantity;
       updateProductQuantity(productInCart[index].productInCart);
     }
+    productSelected.refresh();
     // productInCart.refresh();
   }
 
@@ -110,6 +114,15 @@ class CartViewModel extends GetxController {
   String getSizeName(int? sizeId) {
     return sizeList.firstWhereOrNull((element) => element.id == sizeId)?.name ??
         '';
+  }
+
+  int getTotalPrice() {
+    int total = 0;
+    for (var element in productSelected.value) {
+      total += (element.productInCart.price ?? 0) *
+          (element.productInCart.quantity ?? 0);
+    }
+    return total;
   }
 }
 

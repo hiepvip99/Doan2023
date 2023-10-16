@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../about_us/about_us.dart';
 import '../cart/cart_view.dart';
-import '../my_order/my_order_view.dart';
+import '../my_order_manager/my_order_view.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});

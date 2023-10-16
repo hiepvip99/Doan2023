@@ -9,6 +9,7 @@ import 'package:web_app/ui/dialog/dialog_common.dart';
 import '../../../../../constant.dart';
 import '../../../../../extendsion/extendsion.dart';
 import '../../admin/components/product_manager/product_manager_view.dart';
+import '../order/order_view.dart';
 import 'cart_view_model.dart';
 
 class ShoppingCartScreen extends StatelessWidget {
@@ -32,6 +33,23 @@ class ShoppingCartScreen extends StatelessWidget {
                 itemCount: viewModel.productInCart.value.length,
                 itemBuilder: (context, index) {
                   return ProductCartItem(
+                    initSelected: viewModel.productSelected.any((element) =>
+                        viewModel.productInCart[index].productInCart.id ==
+                        element.productInCart.id),
+                    onCheckChange: (isChecked) {
+                      if (isChecked) {
+                        viewModel.productSelected.addIf(
+                            !viewModel.productSelected.any((element) =>
+                                viewModel
+                                    .productInCart[index].productInCart.id ==
+                                element.productInCart.id),
+                            viewModel.productInCart[index]);
+                      } else {
+                        viewModel.productSelected.removeWhere((element) =>
+                            viewModel.productInCart[index].productInCart.id ==
+                            element.productInCart.id);
+                      }
+                    },
                     onChangeQuantity: (quantity) =>
                         viewModel.updateQuantity(index, quantity),
                     updateQuantityNoRefesh: (quantity) =>
@@ -49,17 +67,34 @@ class ShoppingCartScreen extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ElevatedButton(
-          onPressed: () {},
-          child: const Text('Đặt hàng'),
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Row(
+          children: [
+            Expanded(
+                child: Obx(() =>
+                    Text('Tổng thanh toán: ${viewModel.getTotalPrice()}'))),
+            const SizedBox(
+              width: 8,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (viewModel.productSelected.value.isNotEmpty) {
+                  Get.toNamed(OrderView.route);
+                } else {
+                  Get.find<DialogCommon>().showAlertDialog(
+                      context: context, title: 'Bạn chưa chọn sản phẩm nào');
+                }
+              },
+              child: const Text('Mua hàng'),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class ProductCartItem extends StatelessWidget {
+class ProductCartItem extends StatefulWidget {
   const ProductCartItem({
     super.key,
     required this.productCartModel,
@@ -67,17 +102,33 @@ class ProductCartItem extends StatelessWidget {
     required this.sizeName,
     required this.onChangeQuantity,
     required this.updateQuantityNoRefesh,
+    required this.onCheckChange,
+    required this.initSelected,
   });
-
+  final bool initSelected;
   final ProductCartModel productCartModel;
   final String colorName;
   final String sizeName;
   final Function(int quantity) onChangeQuantity;
   final Function(int quantity) updateQuantityNoRefesh;
+  final Function(bool isChecked) onCheckChange;
+
+  @override
+  State<ProductCartItem> createState() => _ProductCartItemState();
+}
+
+class _ProductCartItemState extends State<ProductCartItem> {
+  final RxBool isSelected = false.obs;
+
+  @override
+  void initState() {
+    super.initState();
+    isSelected.value = widget.initSelected;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
+    // final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
@@ -95,7 +146,7 @@ class ProductCartItem extends StatelessWidget {
                   child: ImageComponent(
                       isShowBorder: false,
                       imageUrl: domain +
-                          (productCartModel.productInCart.images
+                          (widget.productCartModel.productInCart.images
                                   ?.firstWhereOrNull(
                                       (element) => element.url != null)
                                   ?.url ??
@@ -106,124 +157,163 @@ class ProductCartItem extends StatelessWidget {
                 ),
                 SizedBox(
                   width: width * 0.6,
-                  child: FittedBox(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, bottom: 8),
-                          child: Text(
-                            productCartModel.productInCart.name ?? '',
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, bottom: 8),
-                          child: Text(
-                            'Phân loại: $colorName || $sizeName',
-                            overflow: TextOverflow.ellipsis,
-                            // style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, bottom: 8),
-                          child: Text(
-                              'Giá: ${formatMoney(productCartModel.productInCart.price ?? 0)}'),
-                        ),
-                        // SizedBox(
-                        //   height: 8,
-                        // ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Stack(
+                    children: [
+                      FittedBox(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Colors.grey.shade300)),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      onChangeQuantity((productCartModel
-                                                  .productInCart.quantity ??
-                                              0) -
-                                          1);
-                                      // if ((productCartModel
-                                      //             .productInCart.quantity ??
-                                      //         0) >
-                                      //     1) {
-
-                                      // }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        shape: const CircleBorder()),
-                                    child: const Text('-'),
-                                  ),
-                                  SizedBox(
-                                    width: 50,
-                                    child: TextFieldCommon(
-                                      onChanged: (value) {
-                                        final count = int.parse(value);
-                                        if (count >
-                                            (productCartModel.productInCart
-                                                    .inventoryQuantity ??
-                                                1)) {
-                                          onChangeQuantity(productCartModel
-                                                  .productInCart
-                                                  .inventoryQuantity ??
-                                              1);
-                                          Get.find<DialogCommon>().showAlertDialog(
-                                              context: context,
-                                              title:
-                                                  'Bạn đã chọn quá số lượng sản phẩm trong kho');
-                                        } else {
-                                          updateQuantityNoRefesh(count);
-                                        }
-                                      },
-                                      keyboardType: TextInputType.number,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly
-                                      ],
-                                      controller: TextEditingController(
-                                          text: productCartModel
-                                              .productInCart.quantity
-                                              ?.toString()),
-                                    ),
-                                  ),
-                                  // Text(
-                                  //     '${productCartModel.productInCart.quantity ?? 0}'),
-                                  ElevatedButton(
-                                      onPressed: () {
-                                        if ((productCartModel.productInCart
-                                                    .inventoryQuantity ??
-                                                99) >
-                                            (productCartModel
-                                                    .productInCart.quantity ??
-                                                0)) {
-                                          onChangeQuantity((productCartModel
-                                                      .productInCart.quantity ??
-                                                  0) +
-                                              1);
-                                        }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          shape: const CircleBorder()),
-                                      child: const Text('+')),
-                                ],
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, bottom: 8),
+                              child: Text(
+                                widget.productCartModel.productInCart.name ??
+                                    '',
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 16),
                               ),
                             ),
-                            const SizedBox(
-                              width: 16,
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, bottom: 8),
+                              child: Text(
+                                'Phân loại: ${widget.colorName} || ${widget.sizeName}',
+                                overflow: TextOverflow.ellipsis,
+                                // style: TextStyle(fontSize: 14),
+                              ),
                             ),
-                            Text(
-                                'Kho ${productCartModel.productInCart.inventoryQuantity?.toString() ?? ''}'),
+
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, bottom: 8),
+                              child: Text(
+                                  'Giá: ${formatMoney(widget.productCartModel.productInCart.price ?? 0)}'),
+                            ),
+                            // SizedBox(
+                            //   height: 8,
+                            // ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.grey.shade300)),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          widget.onChangeQuantity((widget
+                                                      .productCartModel
+                                                      .productInCart
+                                                      .quantity ??
+                                                  0) -
+                                              1);
+                                          // if ((productCartModel
+                                          //             .productInCart.quantity ??
+                                          //         0) >
+                                          //     1) {
+
+                                          // }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            shape: const CircleBorder()),
+                                        child: const Text('-'),
+                                      ),
+                                      SizedBox(
+                                        width: 50,
+                                        child: TextFieldCommon(
+                                          onChanged: (value) {
+                                            final count = int.parse(value);
+                                            if (count >
+                                                (widget
+                                                        .productCartModel
+                                                        .productInCart
+                                                        .inventoryQuantity ??
+                                                    1)) {
+                                              widget.onChangeQuantity(widget
+                                                      .productCartModel
+                                                      .productInCart
+                                                      .inventoryQuantity ??
+                                                  1);
+                                              Get.find<DialogCommon>()
+                                                  .showAlertDialog(
+                                                      context: context,
+                                                      title:
+                                                          'Bạn đã chọn quá số lượng sản phẩm trong kho');
+                                            } else {
+                                              widget.updateQuantityNoRefesh(
+                                                  count);
+                                            }
+                                          },
+                                          keyboardType: TextInputType.number,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
+                                          controller: TextEditingController(
+                                              text: widget.productCartModel
+                                                  .productInCart.quantity
+                                                  ?.toString()),
+                                        ),
+                                      ),
+                                      // Text(
+                                      //     '${productCartModel.productInCart.quantity ?? 0}'),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            if ((widget
+                                                        .productCartModel
+                                                        .productInCart
+                                                        .inventoryQuantity ??
+                                                    99) >
+                                                (widget
+                                                        .productCartModel
+                                                        .productInCart
+                                                        .quantity ??
+                                                    0)) {
+                                              widget.onChangeQuantity((widget
+                                                          .productCartModel
+                                                          .productInCart
+                                                          .quantity ??
+                                                      0) +
+                                                  1);
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              shape: const CircleBorder()),
+                                          child: const Text('+')),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 16,
+                                ),
+                                Text(
+                                    'Kho ${widget.productCartModel.productInCart.inventoryQuantity?.toString() ?? ''}'),
+                              ],
+                            ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                              height: 24,
+                              width: 24,
+                              child: Obx(
+                                () => Checkbox(
+                                  value: isSelected.value,
+                                  onChanged: (value) {
+                                    isSelected.value = !isSelected.value;
+                                    widget.onCheckChange(isSelected.value);
+                                  },
+                                ),
+                              )),
+                        ],
+                      )
+                    ],
                   ),
                 ),
               ],

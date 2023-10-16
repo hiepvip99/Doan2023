@@ -124,13 +124,13 @@ class _SearchViewState extends State<SearchView> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              const Text('Danh sách sản phẩm hiển thị ở đây'),
+              // const Text('Danh sách sản phẩm hiển thị ở đây'),
               PagedGridView<int, Product>(
                 shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                // padding: const EdgeInsets.symmetric(vertical: 8),
                 physics: const NeverScrollableScrollPhysics(),
                 pagingController: _pagingController,
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(

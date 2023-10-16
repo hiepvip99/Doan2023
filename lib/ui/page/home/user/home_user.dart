@@ -151,7 +151,7 @@ class _HomeUserState extends State<HomeUser> {
   }
 
   Widget body(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -260,7 +260,7 @@ class _HomeUserState extends State<HomeUser> {
       );
 
   Widget header() => Padding(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(8),
         child: Row(
           children: [
             Expanded(

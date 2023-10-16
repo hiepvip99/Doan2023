@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:web_app/service/network/order_service.dart';
-import 'package:web_app/ui/page/home/user/my_order/order_detail/order_detail_view.dart';
-import 'package:web_app/ui/page/home/user/my_order/order_detail/order_detail_view_model.dart';
+import 'package:web_app/ui/page/home/user/my_order_manager/order_detail/order_detail_view.dart';
+import 'package:web_app/ui/page/home/user/my_order_manager/order_detail/order_detail_view_model.dart';
 
 import '../../../../../model/network/order_manager_model.dart';
 import '../../../../../service/local/save_data.dart';
