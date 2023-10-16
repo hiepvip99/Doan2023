@@ -9,6 +9,7 @@ class OrderViewModel extends GetxController {
   Rx<Order> order = Rx(Order());
 
   RxList<ProductCartModel> orderProduct = RxList();
+  RxString radioAddressValue = ''.obs;
 
   CustomerService customerService = CustomerService();
   Rx<Customer> customer = Rx(Customer());
@@ -16,9 +17,12 @@ class OrderViewModel extends GetxController {
   static const accId = 3;
 
   Future<void> getInfomationForProduct() async {
-    customerService
-        .getCustomerById(accountId: accId)
-        .then((value) => value != null ? customer.value = value : null);
+    customerService.getCustomerById(accountId: accId).then((value) {
+      value != null ? customer.value = value : null;
+      if (customer.value.address?.length != 0) {
+        radioAddressValue.value = customer.value.address!.first;
+      }
+    });
   }
 
   @override
@@ -30,5 +34,14 @@ class OrderViewModel extends GetxController {
     }
     getInfomationForProduct();
     accId;
+  }
+
+  int getTotalPrice() {
+    int total = 0;
+    for (var element in orderProduct.value) {
+      total += (element.productInCart.price ?? 0) *
+          (element.productInCart.quantity ?? 0);
+    }
+    return total;
   }
 }

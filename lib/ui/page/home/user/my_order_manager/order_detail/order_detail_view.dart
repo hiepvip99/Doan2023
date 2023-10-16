@@ -125,7 +125,7 @@ class OrderDetailView extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 subtitle: Text(
-                                    'Số lượng: ${itemDetail.quantity ?? 0} || ${itemDetail.color?.price} đ'),
+                                    'Số lượng: ${itemDetail.quantity ?? 0} || ${formatMoney(itemDetail.color?.price ?? 0)}'),
                               ),
                               const Divider(),
                             ],
@@ -141,7 +141,8 @@ class OrderDetailView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('${viewModel.order.totalQuantity} sản phẩm'),
-                          Text('Tổng giá trị: ${viewModel.order.totalPrice} đ'),
+                          Text(
+                              'Tổng giá trị: ${formatMoney(viewModel.order.totalPrice ?? 0)}'),
                         ],
                       ),
                     ),

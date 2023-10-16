@@ -115,5 +115,5 @@ String formatDateTime(DateTime dateTime) {
 
 String formatMoney(int amount) {
   final formatter = NumberFormat("#,###", "vi_VN");
-  return formatter.format(amount) + " đ";
+  return "${formatter.format(amount)} đ";
 }

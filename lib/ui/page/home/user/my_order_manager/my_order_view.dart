@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/extendsion/extendsion.dart';
 import 'package:web_app/ui/page/home/admin/components/product_manager/product_manager_view.dart';
 
 import '../../../../../constant.dart';
@@ -98,7 +99,7 @@ class MyOrderView extends StatelessWidget {
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                           subtitle: Text(
-                                              'Số lượng: ${itemDetail.quantity ?? 0} || ${itemDetail.color?.price} đ'),
+                                              'Số lượng: ${itemDetail.quantity ?? 0} || ${formatMoney(itemDetail.color?.price)}'),
                                         ),
                                       ),
                                       const Divider(),
@@ -112,7 +113,7 @@ class MyOrderView extends StatelessWidget {
                                           Text(
                                               '${item.totalQuantity} sản phẩm'),
                                           Text(
-                                              'Tổng giá trị: ${item.totalPrice} đ'),
+                                              'Tổng giá trị: ${formatMoney(item.totalPrice)}'),
                                         ],
                                       ),
                                       // const Divider(),

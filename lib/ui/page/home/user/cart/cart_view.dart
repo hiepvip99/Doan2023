@@ -72,7 +72,8 @@ class ShoppingCartScreen extends StatelessWidget {
           children: [
             Expanded(
                 child: Obx(() =>
-                    Text('Tổng thanh toán: ${viewModel.getTotalPrice()}'))),
+                    Text(
+                    'Tổng thanh toán: ${formatMoney(viewModel.getTotalPrice())}'))),
             const SizedBox(
               width: 8,
             ),
