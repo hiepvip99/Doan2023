@@ -79,7 +79,8 @@ class ShoppingCartScreen extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 if (viewModel.productSelected.value.isNotEmpty) {
-                  Get.toNamed(OrderView.route);
+                  Get.toNamed(OrderView.route,
+                      arguments: viewModel.productSelected.value);
                 } else {
                   Get.find<DialogCommon>().showAlertDialog(
                       context: context, title: 'Bạn chưa chọn sản phẩm nào');

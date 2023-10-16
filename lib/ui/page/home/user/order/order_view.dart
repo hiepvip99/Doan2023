@@ -1,8 +1,21 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: invalid_use_of_protected_member
 
-class OrderView extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'order_view_model.dart';
+
+class OrderView extends StatefulWidget {
   const OrderView({super.key});
   static String route = '/OrderView';
+
+  @override
+  State<OrderView> createState() => _OrderViewState();
+}
+
+class _OrderViewState extends State<OrderView> {
+  final viewModel = Get.find<OrderViewModel>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,9 +43,23 @@ class OrderView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Địa chỉ',
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: Icon(
+                        Icons.location_on,
+                      ),
+                    ),
+                    Expanded(
+                        child: Obx(
+                      () => Text(
+                          'Địa chỉ nhận hàng: ${viewModel.customer.value.address?.length != 0 ? viewModel.customer.value.address?.first : ''}'),
+                    )),
+                    // Text
+                  ],
                 ),
               ),
               const SizedBox(height: 8),
@@ -54,7 +81,8 @@ class OrderView extends StatelessWidget {
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 5, // Số lượng sản phẩm
+                itemCount:
+                    viewModel.orderProduct.value.length, // Số lượng sản phẩm
                 itemBuilder: (context, index) {
                   return ListTile(
                     leading: const Icon(Icons.shopping_cart),

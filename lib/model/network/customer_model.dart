@@ -1,4 +1,4 @@
-import '../../service/base_entity.dart';
+import 'package:web_app/service/base_entity.dart';
 
 class Customer extends BaseEntity {
   int? id;
@@ -8,6 +8,7 @@ class Customer extends BaseEntity {
   String? email;
   int? idAccount;
   String? image;
+  List<String>? address;
 
   Customer(
       {this.id,
@@ -16,9 +17,11 @@ class Customer extends BaseEntity {
       this.dateOfBirth,
       this.email,
       this.idAccount,
-      this.image});
+      this.image,
+      this.address});
 
   Customer.fromJson(Map<dynamic, dynamic> json) {
+    address = [];
     id = json['id'];
     name = json['name'];
     phoneNumber = json['phone_number'];
@@ -26,6 +29,13 @@ class Customer extends BaseEntity {
     email = json['email'];
     idAccount = json['id_account'];
     image = json['image'];
+    // address = json['address'].cast<String>();
+    final addressJson = json['address'];
+    if (addressJson is List) {
+      for (var element in addressJson) {
+        address!.add(element);
+      }
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -37,6 +47,11 @@ class Customer extends BaseEntity {
     data['email'] = email;
     data['id_account'] = idAccount;
     data['image'] = image;
+    data['address'] = address;
     return data;
   }
 }
+
+// class ImageCustomer{
+//   String? path
+// }

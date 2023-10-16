@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:web_app/ui/page/home/user/order/order_binding.dart';
 
 import 'ui/page/home/admin/home_admin_binding.dart';
 import 'ui/page/home/admin/home_admin_view.dart';
@@ -72,5 +73,6 @@ final List<GetPage> appPage = [
   GetPage(
     name: OrderView.route,
     page: () => const OrderView(),
+    binding: OrderBinding(),
   ),
 ];
