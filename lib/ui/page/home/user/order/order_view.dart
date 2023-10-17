@@ -60,7 +60,7 @@ class _OrderViewState extends State<OrderView> {
                     Expanded(
                         child: Obx(
                       () => Text(
-                          'Địa chỉ nhận hàng: ${viewModel.customer.value.address?.length != 0 ? viewModel.customer.value.address?.first : ''}'),
+                          'Địa chỉ nhận hàng: ${viewModel.radioAddressValue.value}'),
                     )),
                     InkWell(
                         borderRadius: BorderRadius.circular(50),
@@ -130,6 +130,17 @@ class _OrderViewState extends State<OrderView> {
                                 subtitle: Text(
                                     'Số lượng: ${itemDetail.productInCart.quantity ?? 0} || ${formatMoney(itemDetail.productInCart.price ?? 0)}'),
                               ),
+                              Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 65,
+                                  ),
+                                  Obx(
+                                    () => Text(
+                                        'Phân loại: ${viewModel.getColorName(itemDetail.productInCart.colorId)} || ${viewModel.getSizeName(itemDetail.productInCart.sizeId)}'),
+                                  )
+                                ],
+                              ),
                               const Divider(),
                             ],
                           ),
@@ -184,10 +195,37 @@ class _OrderViewState extends State<OrderView> {
               //     );
               //   },
               // ),
+              Column(
+                children: [
+                  RadioListTile(
+                    title: const Text('Thanh toán khi nhận hàng'),
+                    value: 'Thanh toán khi nhận hàng',
+                    groupValue: viewModel.radioselectedPaymentMethod.value,
+                    onChanged: (value) {
+                      setState(() {
+                        viewModel.radioselectedPaymentMethod.value =
+                            value.toString();
+                      });
+                    },
+                  ),
+                  // RadioListTile(
+                  //   title: const Text('Thanh toán qua Zalo Pay'),
+                  //   value: 'Thanh toán qua Zalo Pay',
+                  //   groupValue: viewModel.radioselectedPaymentMethod.value,
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       viewModel.radioselectedPaymentMethod.value =
+                  //           value.toString();
+                  //     });
+                  //   },
+                  // ),
+                ],
+              ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
                   // Xử lý khi nhấn nút đặt hàng
+                  viewModel.createOrder();
                 },
                 child: const Text('Đặt hàng'),
               ),
@@ -228,6 +266,7 @@ class _OrderViewState extends State<OrderView> {
                               // selected: true,
                               onChanged: (value) {
                                 viewModel.radioAddressValue.value = e;
+                                Get.back();
                               },
                             ))
                         .toList(),

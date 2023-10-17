@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:web_app/ui/page/home/user/home_user.dart';
+import 'package:web_app/ui/page/home/user/my_order_manager/my_order_view.dart';
 
 class OrderSuccessScreen extends StatelessWidget {
   const OrderSuccessScreen({super.key});
@@ -21,7 +24,7 @@ class OrderSuccessScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             const Text(
-              'Order Placed Successfully',
+              'Bạn đã đặt hàng thành công',
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -29,7 +32,7 @@ class OrderSuccessScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Thank you for your order!',
+              'Cảm ơn bạn!',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey,
@@ -38,9 +41,16 @@ class OrderSuccessScreen extends StatelessWidget {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                // TODO: Implement button action
+                Get.offAllNamed(HomeUser.route);
               },
-              child: const Text('Continue Shopping'),
+              child: const Text('Mua sắm tiếp'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                Get.offAllNamed(MyOrderView.route);
+              },
+              child: const Text('Xem lịch sử đơn hàng'),
             ),
           ],
         ),

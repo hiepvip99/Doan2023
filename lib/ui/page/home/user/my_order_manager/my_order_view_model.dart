@@ -3,8 +3,12 @@ import 'package:web_app/service/network/order_service.dart';
 import 'package:web_app/ui/page/home/user/my_order_manager/order_detail/order_detail_view.dart';
 import 'package:web_app/ui/page/home/user/my_order_manager/order_detail/order_detail_view_model.dart';
 
+import '../../../../../model/network/color_model.dart';
 import '../../../../../model/network/order_manager_model.dart';
+import '../../../../../model/network/size_model.dart';
 import '../../../../../service/local/save_data.dart';
+import '../../../../../service/network/color_service.dart';
+import '../../../../../service/network/size_service.dart';
 
 class MyOrderViewModel extends GetxController {
   final RxList<StatusOrder> listStatusOrder = RxList();
@@ -13,13 +17,27 @@ class MyOrderViewModel extends GetxController {
   List<List<Order>> list = [];
 
   final OrderService networkService = OrderService();
+  ColorService colorNetworkService = ColorService();
+  SizeService sizeNetworkService = SizeService();
 
+  RxList<Color> colorList = RxList();
+  RxList<Size> sizeList = RxList();
   final RxList<List<Order>> orderListZ = RxList();
 
   @override
   void onInit() {
     super.onInit();
     getAllProduct();
+    getInfomationForProduct();
+  }
+
+  Future<void> getInfomationForProduct() async {
+    colorNetworkService
+        .getAllColor()
+        .then((value) => colorList.value = value?.color ?? []);
+    sizeNetworkService
+        .getAllSize()
+        .then((value) => sizeList.value = value?.size ?? []);
   }
 
   Future<void> getAllProduct() async {
@@ -42,6 +60,18 @@ class MyOrderViewModel extends GetxController {
     });
     list.length;
     // loading.value = false;
+  }
+
+  String getColorName(int? colorId) {
+    return colorList
+            .firstWhereOrNull((element) => element.id == colorId)
+            ?.name ??
+        '';
+  }
+
+  String getSizeName(int? sizeId) {
+    return sizeList.firstWhereOrNull((element) => element.id == sizeId)?.name ??
+        '';
   }
 
   void toDetailOrderScreen(Order order) {

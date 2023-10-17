@@ -97,7 +97,8 @@ class Order extends BaseEntity {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['customerInfo'] = customerInfo;
+    data['account_id'] = customerInfo?.idAccount;
+    // data['customerInfo'] = customerInfo;
     data['order_date'] = orderDate?.toIso8601String();
     data['total_price'] = totalPrice;
     data['status_id'] = statusId;
@@ -142,12 +143,14 @@ class Details {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['order_id'] = orderId;
-    if (product != null) {
-      data['product'] = product!.toJson();
-    }
-    if (color != null) {
-      data['color'] = color!.toJson();
-    }
+    // if (product != null) {
+    //   data['product'] = product!.toJson();
+    // }
+    data['product_id'] = product?.id;
+    data['color_id'] = color?.colorId;
+    // if (color != null) {
+    //   data['color'] = color!.toJson();
+    // }
     data['size_id'] = sizeId;
     data['quantity'] = quantity;
     return data;

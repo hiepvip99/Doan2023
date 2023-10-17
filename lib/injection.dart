@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_app/service/local/save_data.dart';
+import 'package:web_app/ui/dialog/dialog_common.dart';
 
 import 'service/netcommon/dio_service.dart';
 
@@ -23,8 +24,6 @@ class Injection {
     ]);
   }
 
-  
-
   Future<void> _injectSharedPreferences() async {
     DataLocal.sharedPreferences =
         await Get.putAsync(() => SharedPreferences.getInstance());
@@ -40,6 +39,7 @@ class Injection {
     // Get.lazyPut(() => MunicipalServiceImpl(), fenix: true);
     // Get.lazyPut(() => MunicipalCodeServiceImpl(), fenix: true);
     Get.lazyPut(() => DioService(), fenix: true);
+    Get.lazyPut(() => DialogCommon());
     // Get.lazyPut(() => ChatServiceImpl(), fenix: true);
     // Get.lazyPut(() => EvacuationServiceImpl(), fenix: true);
     // Get.lazyPut(() => StaffServiceImpl(), fenix: true);

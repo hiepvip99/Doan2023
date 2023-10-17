@@ -6,6 +6,7 @@ import 'package:web_app/extendsion/extendsion.dart';
 import 'package:web_app/ui/page/home/admin/components/product_manager/product_manager_view.dart';
 
 import '../../../../../constant.dart';
+import '../../../../../model/network/order_manager_model.dart';
 import 'my_order_view_model.dart';
 
 class MyOrderView extends StatelessWidget {
@@ -36,7 +37,7 @@ class MyOrderView extends StatelessWidget {
               Expanded(
                   child: TabBarView(
                       children: viewModel.listStatusOrder.value.map((e) {
-                List orderList = [];
+                List<Order> orderList = [];
                 for (var element in viewModel.listOrder.value) {
                   orderList.add(element);
                 }
@@ -75,31 +76,50 @@ class MyOrderView extends StatelessWidget {
                                       //  if(item.details!= null)
                                       const Divider(),
                                       ...item.details!.map(
-                                        (itemDetail) => ListTile(
-                                          contentPadding: EdgeInsets.zero,
-                                          leading: SizedBox(
-                                            width: 50,
-                                            height: 50,
-                                            child: ImageComponent(
-                                                isShowBorder: false,
-                                                imageUrl: domain +
-                                                    (itemDetail.color?.images
-                                                                ?.length !=
-                                                            0
-                                                        ? itemDetail
-                                                                .color
-                                                                ?.images
-                                                                ?.first
-                                                                .url ??
-                                                            ''
-                                                        : '')),
-                                          ),
-                                          title: Text(
-                                            itemDetail.product?.name ?? '',
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                          subtitle: Text(
-                                              'Số lượng: ${itemDetail.quantity ?? 0} || ${formatMoney(itemDetail.color?.price)}'),
+                                        (itemDetail) => Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ListTile(
+                                              contentPadding: EdgeInsets.zero,
+                                              leading: SizedBox(
+                                                width: 50,
+                                                height: 50,
+                                                child: ImageComponent(
+                                                    isShowBorder: false,
+                                                    imageUrl: domain +
+                                                        (itemDetail
+                                                                    .color
+                                                                    ?.images
+                                                                    ?.length !=
+                                                                0
+                                                            ? itemDetail
+                                                                    .color
+                                                                    ?.images
+                                                                    ?.first
+                                                                    .url ??
+                                                                ''
+                                                            : '')),
+                                              ),
+                                              title: Text(
+                                                itemDetail.product?.name ?? '',
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              subtitle: Text(
+                                                  'Số lượng: ${itemDetail.quantity ?? 0} || ${formatMoney(itemDetail.color?.price ?? 0)}'),
+                                            ),
+                                            Row(
+                                              children: [
+                                                const SizedBox(
+                                                  width: 65,
+                                                ),
+                                                Obx(
+                                                  () => Text(
+                                                      'Phân loại: ${viewModel.getColorName(itemDetail.color?.colorId)} || ${viewModel.getSizeName(itemDetail.sizeId)}'),
+                                                )
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                       const Divider(),
@@ -113,7 +133,7 @@ class MyOrderView extends StatelessWidget {
                                           Text(
                                               '${item.totalQuantity} sản phẩm'),
                                           Text(
-                                              'Tổng giá trị: ${formatMoney(item.totalPrice)}'),
+                                              'Tổng giá trị: ${formatMoney(item.totalPrice ?? 0)}'),
                                         ],
                                       ),
                                       // const Divider(),

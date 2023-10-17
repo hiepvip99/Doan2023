@@ -53,7 +53,7 @@ class OrderDetailView extends StatelessWidget {
                     ),
                     Expanded(
                         child: Text(
-                            'Địa chỉ nhận hàng: ${viewModel.order.deliveryAddress}')),
+                            'Địa chỉ nhận hàng: ${viewModel.order.value.deliveryAddress}')),
                     // Text
                   ],
                 ),
@@ -70,15 +70,16 @@ class OrderDetailView extends StatelessWidget {
                     //     Icons.location_on,
                     //   ),
                     // ),
-                    Text('Người nhận: ${viewModel.order.customerInfo?.name}'),
+                    Text(
+                        'Người nhận: ${viewModel.order.value.customerInfo?.name}'),
                     const SizedBox(
                       height: 8,
                     ),
                     // const Divider(),
                     Text(
-                        'Số điện thoại: ${viewModel.order.customerInfo?.phoneNumber}'),
+                        'Số điện thoại: ${viewModel.order.value.customerInfo?.phoneNumber}'),
                     const Divider(),
-                    Text('Mã đơn hàng: ${viewModel.order.id}'),
+                    Text('Mã đơn hàng: ${viewModel.order.value.id}'),
                     const SizedBox(
                       height: 8,
                     ),
@@ -87,7 +88,7 @@ class OrderDetailView extends StatelessWidget {
                       children: [
                         const Text('Thời gian đặt hàng:'),
                         Text(formatDateTime(
-                            viewModel.order.orderDate ?? DateTime(1990))),
+                            viewModel.order.value.orderDate ?? DateTime(1990))),
                       ],
                     ),
                     const Divider(),
@@ -100,8 +101,8 @@ class OrderDetailView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Column(
                   children: [
-                    if (viewModel.order.details?.length != 0)
-                      ...viewModel.order.details!.map(
+                    if (viewModel.order.value.details?.length != 0)
+                      ...viewModel.order.value.details!.map(
                         (itemDetail) => Container(
                           // color: Colors.blue,
                           child: Column(
@@ -127,6 +128,17 @@ class OrderDetailView extends StatelessWidget {
                                 subtitle: Text(
                                     'Số lượng: ${itemDetail.quantity ?? 0} || ${formatMoney(itemDetail.color?.price ?? 0)}'),
                               ),
+                              Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 65,
+                                  ),
+                                  Obx(
+                                    () => Text(
+                                        'Phân loại: ${viewModel.getColorName(itemDetail.color?.colorId)} || ${viewModel.getSizeName(itemDetail.sizeId)}'),
+                                  )
+                                ],
+                              ),
                               const Divider(),
                             ],
                           ),
@@ -140,9 +152,10 @@ class OrderDetailView extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('${viewModel.order.totalQuantity} sản phẩm'),
                           Text(
-                              'Tổng giá trị: ${formatMoney(viewModel.order.totalPrice ?? 0)}'),
+                              '${viewModel.order.value.totalQuantity} sản phẩm'),
+                          Text(
+                              'Tổng giá trị: ${formatMoney(viewModel.order.value.totalPrice ?? 0)}'),
                         ],
                       ),
                     ),
@@ -157,7 +170,7 @@ class OrderDetailView extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              Text('${viewModel.order.paymentMethods}'),
+              Text('${viewModel.order.value.paymentMethods}'),
               const Divider(),
             ],
           ),
@@ -170,19 +183,32 @@ class OrderDetailView extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Visibility(
-                  visible: getButton() != null,
-                  child: Expanded(child: getButton() ?? const SizedBox())),
+              Obx(
+                () => Visibility(
+                    visible: viewModel.order.value.statusId == 1,
+                    child: Expanded(
+                        child: TextButton(
+                            onPressed: viewModel.order.value.statusId == 1
+                                ? () {
+                                    Get.find<DialogCommon>().showConfirmDialog(
+                                        Get.context!, 'Huỷ đơn hàng',
+                                        text: 'Đơn hàng của bạn sẽ được huỷ',
+                                        () {
+                                      viewModel.changeStatus(5, 'Đã huỷ');
+                                    });
+                                  }
+                                : null,
+                            child: const Text('Huỷ đơn hàng')))),
+              ),
               // ElevatedButton(onPressed: () {}, child: Text('Huỷ đơn hàng')),
-              Visibility(
-                visible: getButton() != null,
-                child: const SizedBox(
-                  width: 8,
+              Obx(
+                () => SizedBox(
+                  width: viewModel.order.value.statusId == 1 ? 8 : 0,
                 ),
               ),
               Expanded(
                   child: ElevatedButton(
-                      onPressed: viewModel.order.statusId == 4
+                      onPressed: viewModel.order.value.statusId == 4
                           ? () {
                               Get.find<DialogCommon>().showConfirmDialog(
                                   text:
@@ -199,21 +225,5 @@ class OrderDetailView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget? getButton() {
-    return viewModel.order.statusId == 1
-        ? TextButton(
-            onPressed: viewModel.order.statusId == 1
-                ? () {
-                    Get.find<DialogCommon>().showConfirmDialog(
-                        Get.context!, 'Huỷ đơn hàng',
-                        text: 'Đơn hàng của bạn sẽ được huỷ', () {
-                      viewModel.changeStatus(5, 'Đã huỷ');
-                    });
-                  }
-                : null,
-            child: const Text('Huỷ đơn hàng'))
-        : null;
   }
 }
