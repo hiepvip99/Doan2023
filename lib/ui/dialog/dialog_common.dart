@@ -140,12 +140,12 @@ class DialogCommon {
     );
   }
   
-  void showConfirmDialog(
+  Future<void> showConfirmDialog(
     BuildContext context,
     String textConfirm,
     Function() onConfirm, {
     String? text,
-  }) {
+  }) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {

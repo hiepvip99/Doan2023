@@ -16,6 +16,8 @@ import 'ui/page/home/user/my_order_manager/order_detail/order_detail_view.dart';
 import 'ui/page/home/user/order/order_view.dart';
 import 'ui/page/home/user/product/product_binding.dart';
 import 'ui/page/home/user/product/product_view.dart';
+import 'ui/page/home/user/profile/my_profile/my_profile_binding.dart';
+import 'ui/page/home/user/profile/my_profile/my_profile_view.dart';
 import 'ui/page/home/user/search/search_binding.dart';
 import 'ui/page/home/user/search/search_view.dart';
 import 'ui/page/login/login_view.dart';
@@ -74,5 +76,10 @@ final List<GetPage> appPage = [
     name: OrderView.route,
     page: () => const OrderView(),
     binding: OrderBinding(),
+  ),
+  GetPage(
+    name: EditProfileScreen.route,
+    page: () => const EditProfileScreen(),
+    binding: EditProfileBinding(),
   ),
 ];

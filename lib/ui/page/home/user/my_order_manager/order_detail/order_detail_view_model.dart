@@ -20,11 +20,13 @@ class OrderDetailViewModel extends GetxController {
 
   Future<void> changeStatus(int status, String text) async {
     order.value.statusId = status;
+    order.refresh();
     // loading.value = true;
     // final accId = '3';
     // final accId = DataLocal.getAccountId() ?? '';
     await networkService.changeStatus(order.value).then((value) {
       if (value?.statusCode == 200) {
+        order.refresh();
         Get.back();
         Get.find<DialogCommon>()
             .showSuccessDialog(Get.context!, 'Bạn đã $text thành công');

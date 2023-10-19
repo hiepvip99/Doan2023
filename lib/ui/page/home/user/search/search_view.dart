@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:web_app/ui/component_common/textfield_common.dart';
+import 'package:web_app/ui/page/home/admin/components/product_manager/product_manager_view.dart';
 
+import '../../../../../constant.dart';
 import '../../../../../model/network/category_model.dart';
 import '../../../../../model/network/manufacturer_model.dart';
 import '../../../../../model/network/product_manager_model.dart';
@@ -147,6 +149,15 @@ class _SearchViewState extends State<SearchView> {
                           height: 50,
                         ),
                         const Text('Không tìm thấy kết sản phẩm phù hợp'),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                        const SizedBox(
+                            height: 200,
+                            width: 200,
+                            child: ImageComponent(
+                                isShowBorder: false,
+                                imageUrl: domain + 'api/image/not_found.png')),
                         const SizedBox(
                           height: 50,
                         ),

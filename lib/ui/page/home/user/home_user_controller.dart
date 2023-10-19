@@ -15,7 +15,9 @@ class HomeUserController extends GetxController {
   RxInt currentPage = 1.obs;
   RxString keyword = ''.obs;
   RxBool loading = false.obs;
-  
+
+  RxInt index = 0.obs;
+
   RxList<Manufacturer> manufacturerList = RxList();
   // RxList<Color> colorList = RxList();
   // RxList<Size> sizeList = RxList();
@@ -66,5 +68,9 @@ class HomeUserController extends GetxController {
       // totalPage.value = value?.totalPages ?? 1;
     });
     loading.value = false;
+  }
+
+  void changeIndex() {
+    index.value = 2;
   }
 }

@@ -5,7 +5,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:web_app/firebase_options.dart';
+import 'package:web_app/ui/page/home/user/home_user.dart';
+import 'package:web_app/ui/page/home/user/home_user_controller.dart';
 // import 'package:hive/hive.dart';
 // import 'package:hive_flutter/hive_flutter.dart';
 
@@ -17,7 +20,6 @@ void main() {
   // await _initHive();
   initApp();
 }
-
 
 /// call. Be sure to annotate the handler with `@pragma('vm:entry-point')` above the function declaration.
 @pragma('vm:entry-point')
@@ -93,18 +95,39 @@ void showFlutterNotification(RemoteMessage message) {
 /// Initialize the [FlutterLocalNotificationsPlugin] package.
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-
 Future<void> initApp() async {
   // final WidgetsBinding widgetsBinding =
   WidgetsFlutterBinding.ensureInitialized();
   await Injection.instance.injection();
   if (!Platform.isWindows) {
-    
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
     FirebaseMessaging.instance.subscribeToTopic("all");
   }
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+
+  _firebaseMessaging.requestPermission();
+  _firebaseMessaging.getToken().then((token) {
+    print('Firebase Token: $token');
+  });
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Received message: ${message.notification?.body}');
+  });
+
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    final currentRoute = Get.currentRoute;
+    print('currentRoute: ${currentRoute}');
+    if (currentRoute == HomeUser.route) {
+      Get.find<HomeUserController>().changeIndex();
+    } else {
+      Get.offNamed(HomeUser.route, arguments: 2);
+    }
+    print(
+        'Message opened from terminated state: ${message.notification?.body}');
+  });
 
   // FirebaseMessaging.instance.getToken().then(
   //       (value) => print("get token : $value"),

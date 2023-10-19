@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/page/home/admin/components/product_manager/product_manager_view.dart';
 
+import '../../../../../constant.dart';
+import '../../../../component_common/circle_button.dart';
 import '../about_us/about_us.dart';
 import '../cart/cart_view.dart';
 import '../my_order_manager/my_order_view.dart';
+import 'my_profile/my_profile_view.dart';
+import 'profile_view_model.dart';
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  final viewModel = Get.find<ProfileViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +35,30 @@ class ProfileView extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: Colors.black54,
                 ),
+                child: Obx(
+                  () => ClipRRect(
+                    borderRadius: BorderRadius.circular(999),
+                    child: ImageComponent(
+                        isShowBorder: false,
+                        imageUrl: domain +
+                            (viewModel.customerInfo.value.image ?? '')),
+                  ),
+                ),
               ),
-              const Expanded(
+              Expanded(
                   child: Padding(
-                padding: EdgeInsets.only(left: 16.0),
-                child: Text('full name', overflow: TextOverflow.ellipsis),
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Obx(
+                  () => Text(viewModel.customerInfo.value.name ?? '',
+                      overflow: TextOverflow.ellipsis),
+                ),
               )),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.mode_edit_outline_sharp))
+              MyCircleButton(
+                  padding: const EdgeInsets.all(8),
+                  onTap: () {
+                    Get.toNamed(EditProfileScreen.route);
+                  },
+                  child: const Icon(Icons.mode_edit_outline_sharp))
             ],
           ),
           const SizedBox(

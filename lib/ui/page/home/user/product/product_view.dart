@@ -265,7 +265,7 @@ class _ProductViewState extends State<ProductView> {
         child: Row(
           children: [
             Expanded(
-              child: OutlinedButton(
+              child: ElevatedButton(
                 onPressed: () {
                   product.colorId =
                       viewModel.product.colors?[indexColorImage.value].colorId;
@@ -277,15 +277,15 @@ class _ProductViewState extends State<ProductView> {
                 child: const Text('Thêm vào giỏ hàng'),
               ),
             ),
-            const SizedBox(
-              width: 16,
-            ),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text('Mua ngay'),
-              ),
-            )
+            // const SizedBox(
+            //   width: 16,
+            // ),
+            // Expanded(
+            //   child: ElevatedButton(
+            //     onPressed: () {},
+            //     child: const Text('Mua ngay'),
+            //   ),
+            // )
           ],
         ),
       ),

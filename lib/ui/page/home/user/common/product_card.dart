@@ -28,7 +28,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.zero,
-      // color: Colors.green,
+      // color: Colors.grey.shade300,
       child: InkWell(
         onTap: () {
           print('object');
@@ -54,16 +54,20 @@ class ProductCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: ImageComponent(
-                                isShowBorder: false,
-                                imageUrl: product.colors?.length != 0
-                                    ? product.colors?.first.images?.length != 0
-                                        ? domain +
-                                            (product.colors?.first.images?.first
-                                                    .url ??
-                                                '')
-                                        : ''
-                                    : ''),
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: ImageComponent(
+                                  isShowBorder: false,
+                                  imageUrl: product.colors?.length != 0
+                                      ? product.colors?.first.images?.length !=
+                                              0
+                                          ? domain +
+                                              (product.colors?.first.images
+                                                      ?.first.url ??
+                                                  '')
+                                          : ''
+                                      : ''),
+                            ),
                           ),
                           const SizedBox(
                             height: 44,

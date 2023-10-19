@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:web_app/model/network/product_manager_model.dart';
+import 'package:web_app/ui/page/home/admin/components/product_manager/product_manager_view.dart';
 import 'package:web_app/ui/page/home/user/cart/cart_view.dart';
 import 'package:web_app/ui/page/home/user/favorite/favorite_view.dart';
 import 'package:web_app/ui/page/home/user/home_user_controller.dart';
 import 'package:web_app/ui/page/home/user/search/search_view.dart';
 
+import '../../../../constant.dart';
+import '../../../component_common/test_product_card.dart';
 import 'common/product_card.dart';
 import 'notification/notification_view.dart';
-import 'profile/profile.dart';
+import 'profile/profile_view.dart';
 
 // ignore: must_be_immutable
 class HomeUser extends StatefulWidget {
@@ -22,8 +26,6 @@ class HomeUser extends StatefulWidget {
 }
 
 class _HomeUserState extends State<HomeUser> {
-  RxInt index = 0.obs;
-
   static const _pageSize = 10;
   final viewModel = Get.find<HomeUserController>();
 
@@ -32,10 +34,20 @@ class _HomeUserState extends State<HomeUser> {
 
   @override
   void initState() {
+    super.initState();
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
-    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      handleInNotificationClick();
+    });
+  }
+
+  void handleInNotificationClick() {
+    final indexArg = Get.arguments;
+    if (indexArg is int) {
+      viewModel.changeIndex();
+    }
   }
 
   Future<void> _fetchPage(int pageKey) async {
@@ -69,32 +81,36 @@ class _HomeUserState extends State<HomeUser> {
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Obx(() => getBody(context, index.value)),
+          child: Obx(() => getBody(context, viewModel.index.value)),
         ),
       ),
       bottomNavigationBar: SizedBox(
         height: 56,
         child: Obx(
           () => BottomNavigationBar(
-              currentIndex: index.value,
+              currentIndex: viewModel.index.value,
               selectedItemColor: Colors.black,
               unselectedItemColor: Colors.black26,
               type: BottomNavigationBarType.fixed,
-              onTap: (value) => index.value = value,
+              onTap: (value) => viewModel.index.value = value,
               items: const [
                 BottomNavigationBarItem(
-                    label: 'Trang chủ', icon: Icon(Icons.home_filled)),
+                    label: 'Trang chủ',
+                    icon: FaIcon(
+                      FontAwesomeIcons.house,
+                      size: 20,
+                    )),
                 BottomNavigationBarItem(
-                    label: 'Đã thích', icon: Icon(Icons.favorite_border)),
+                    label: 'Đã thích', icon: FaIcon(FontAwesomeIcons.heart)),
                 BottomNavigationBarItem(
-                    label: 'Thông báo', icon: Icon(Icons.notifications_none)),
+                    label: 'Thông báo', icon: FaIcon(FontAwesomeIcons.bell)),
                 BottomNavigationBarItem(
-                    label: 'Tôi', icon: Icon(Icons.person_pin_outlined)),
+                    label: 'Tôi', icon: FaIcon(FontAwesomeIcons.user)),
               ]),
           // () => SalomonBottomBar(
-          //   currentIndex: index.value,
+          //   currentIndex: viewModel.index.value,
           //   onTap: (i) {
-          //     index.value = i;
+          //     viewModel.index.value = i;
           //   },
           //   items: [
           //     /// Home
@@ -157,8 +173,9 @@ class _HomeUserState extends State<HomeUser> {
           children: [
             Container(
               height: 200,
-              color: Colors.amber,
-              child: const Text('banner sale'),
+              // color: Colors.amber,
+              child: const ImageComponent(
+                  imageUrl: domain + 'api/image/banner.png'),
             ),
             const SizedBox(
               height: 16,
@@ -213,14 +230,14 @@ class _HomeUserState extends State<HomeUser> {
             //   child: ListView.builder(
             //     // ignore: invalid_use_of_protected_member
             //     itemCount: viewModel.manufacturerList.value.length,
-            //     itemBuilder: (context, index) => OutlinedButton(
+            //     itemBuilder: (context, viewModel.index) => OutlinedButton(
             //         onPressed: () {
             //           // xu ly goi get list by manufacturer va chuyen sang trang tim kiem or hien thi san pham
             //           // viewModel.keyword = ''
             //           // viewModel.getAllProduct();
             //         },
             //         child: Text(
-            //             viewModel.manufacturerList.value[index].name ?? '')),
+            //             viewModel.manufacturerList.value[viewModel.index].name ?? '')),
             //   ),
             // ),
             // const SizedBox(
@@ -231,13 +248,13 @@ class _HomeUserState extends State<HomeUser> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               physics: const NeverScrollableScrollPhysics(),
               pagingController: _pagingController,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 3 / 4,
+                  crossAxisCount: 2,
                   crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  maxCrossAxisExtent: 175,
-                  childAspectRatio: 0.75),
+                  mainAxisSpacing: 10),
               builderDelegate: PagedChildBuilderDelegate<Product>(
-                itemBuilder: (context, item, index) => ProductCard(
+                itemBuilder: (context, item, index) => TestProductCard(
                   // beer: item,
                   product: item,
                 ),
@@ -253,7 +270,7 @@ class _HomeUserState extends State<HomeUser> {
             //       mainAxisSpacing: 10,
             //       maxCrossAxisExtent: 175,
             //       childAspectRatio: 0.75),
-            //   itemBuilder: (context, index) => ProductCard(),
+            //   itemBuilder: (context, viewModel.index) => ProductCard(),
             // ),
           ],
         ),

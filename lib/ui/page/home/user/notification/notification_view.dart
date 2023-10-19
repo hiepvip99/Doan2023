@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_app/ui/page/home/user/product/product_view.dart';
 
+import '../../../../component_common/test_product_card.dart';
+
 class NotificationView extends StatelessWidget {
   const NotificationView({super.key});
 
@@ -9,7 +11,7 @@ class NotificationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.all(16),
       child: Column(
         children: [

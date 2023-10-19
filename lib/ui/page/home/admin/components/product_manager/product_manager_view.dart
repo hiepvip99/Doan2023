@@ -345,6 +345,7 @@ class ImageComponent extends StatelessWidget {
       height: 150,
       decoration:
           BoxDecoration(
+          // color: Colors.grey,
           border: isShowBorder == false
               ? null
               : Border.all(width: 1, color: Colors.black)),

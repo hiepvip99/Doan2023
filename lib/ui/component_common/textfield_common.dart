@@ -14,7 +14,9 @@ class TextFieldCommon extends StatelessWidget {
     this.inputFormatters,
     this.onChanged,
     this.keyboardType,
-    this.border, this.backgroundColor,
+    this.border,
+    this.backgroundColor,
+    this.labelColor,
   });
 
   final String? label;
@@ -29,6 +31,7 @@ class TextFieldCommon extends StatelessWidget {
   final TextInputType? keyboardType;
   final InputBorder? border;
   final Color? backgroundColor;
+  final Color? labelColor;
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +49,16 @@ class TextFieldCommon extends StatelessWidget {
               enabledBorder: border ??
                   const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black)),
-              label: label != null ? Text(label!) : null,
+              label: label != null
+                  ? Text(
+                      label!,
+                      style: TextStyle(color: labelColor),
+                    )
+                  : null,
               border: border ?? const OutlineInputBorder(),
               contentPadding: contentPadding ?? const EdgeInsets.all(12),
               isDense: true,
+              
             ),
             keyboardType: keyboardType,
             inputFormatters: inputFormatters,
