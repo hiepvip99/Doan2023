@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:web_app/ui/page/home/user/order/order_binding.dart';
+import 'package:web_app/ui/page/home/user/profile/my_profile/address_manager/address_manager_binding.dart';
+import 'package:web_app/ui/page/home/user/profile/my_profile/address_manager/address_manager_view.dart';
 
 import 'ui/page/home/admin/home_admin_binding.dart';
 import 'ui/page/home/admin/home_admin_view.dart';
@@ -81,5 +83,10 @@ final List<GetPage> appPage = [
     name: EditProfileScreen.route,
     page: () => const EditProfileScreen(),
     binding: EditProfileBinding(),
+  ),
+  GetPage(
+    name: AddressManagerView.route,
+    page: () => const AddressManagerView(),
+    binding: AddressManagerBinding(),
   ),
 ];

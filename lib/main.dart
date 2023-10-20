@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:web_app/firebase_options.dart';
+import 'package:web_app/service/network/customer_service.dart';
 import 'package:web_app/ui/page/home/user/home_user.dart';
 import 'package:web_app/ui/page/home/user/home_user_controller.dart';
 // import 'package:hive/hive.dart';
@@ -107,14 +108,50 @@ Future<void> initApp() async {
   }
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  final customerService = CustomerService();
+  final accId = 3;
 
   _firebaseMessaging.requestPermission();
   _firebaseMessaging.getToken().then((token) {
     print('Firebase Token: $token');
+    if (token != null) {
+      customerService.updateNotificationToken(accId, token);
+    }
+  });
+
+  _firebaseMessaging.getInitialMessage().then((RemoteMessage? message) {
+    if (message != null) {
+      // Xử lý thông báo khi ứng dụng khởi chạy từ thông báo
+      // handleNotification(message);
+      final currentRoute = Get.currentRoute;
+      print('currentRoute: ${currentRoute}');
+      if (currentRoute == HomeUser.route) {
+        Get.find<HomeUserController>().changeIndex();
+      } else {
+        Get.offNamed(HomeUser.route, arguments: 2);
+      }
+      print(
+          'Message opened from terminated state: ${message.notification?.body}');
+    }
   });
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Received message: ${message.notification?.body}');
+    // Xử lý thông báo khi ứng dụng đang chạy
+    // handleNotification(message);
+    Get.showSnackbar(GetSnackBar(
+      snackPosition: SnackPosition.TOP,
+      title: message.notification?.title,
+      message: message.notification?.body,
+      onTap: (snack) {
+        final currentRoute = Get.currentRoute;
+        print('currentRoute: ${currentRoute}');
+        if (currentRoute == HomeUser.route) {
+          Get.find<HomeUserController>().changeIndex();
+        } else {
+          Get.offNamed(HomeUser.route, arguments: 2);
+        }
+      },
+    ));
   });
 
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
@@ -154,6 +191,14 @@ Future<void> initApp() async {
     role: role,
   ));
 }
+
+// void handleNotification(RemoteMessage message) {
+//   final String? title = message.notification?.title;
+//   final String? body = message.notification?.body;
+
+//   // Xử lý thông báo tại đây
+//   print('Received notification: $title - $body');
+// }
 
 // Future<void> checkStatusAndRoleLogin() async {
 //   DataLocal dataLocal = DataLocal();

@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 
 class TextFieldBeautiful extends StatelessWidget {
   const TextFieldBeautiful(
-      {super.key, required this.title, required this.controller});
+      {super.key,
+      required this.title,
+      required this.controller,
+      this.autofocus = false});
 
   final String title;
+  final bool autofocus;
   final TextEditingController controller;
 
   @override
@@ -21,6 +25,7 @@ class TextFieldBeautiful extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         TextField(
+          autofocus: autofocus,
           controller: controller,
           style: const TextStyle(
             fontSize: 16,

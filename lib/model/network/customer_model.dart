@@ -4,7 +4,7 @@ class Customer extends BaseEntity {
   int? id;
   String? name;
   String? phoneNumber;
-  String? dateOfBirth;
+  DateTime? dateOfBirth;
   String? email;
   int? idAccount;
   String? image;
@@ -25,7 +25,7 @@ class Customer extends BaseEntity {
     id = json['id'];
     name = json['name'];
     phoneNumber = json['phone_number'];
-    dateOfBirth = json['date_of_birth'];
+    dateOfBirth = DateTime.tryParse(json['date_of_birth']);
     email = json['email'];
     idAccount = json['id_account'];
     image = json['image'];
@@ -43,7 +43,7 @@ class Customer extends BaseEntity {
     data['id'] = id;
     data['name'] = name;
     data['phone_number'] = phoneNumber;
-    data['date_of_birth'] = dateOfBirth;
+    data['date_of_birth'] = dateOfBirth?.toIso8601String();
     data['email'] = email;
     data['id_account'] = idAccount;
     data['image'] = image;

@@ -7,24 +7,22 @@ class ButtonBeautiful extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 48,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        gradient: LinearGradient(
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-          colors: [
-            Colors.blue,
-            Colors.lightBlueAccent,
-            Colors.lightBlue.shade200,
-          ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 48,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Colors.blue,
+              Colors.lightBlueAccent,
+              Colors.lightBlue.shade200,
+            ],
+          ),
         ),
-      ),
-      child: GestureDetector(
-        onTap: () {
-          // Xử lý khi nút được nhấn
-        },
         child: Center(
           child: Text(
             title.toUpperCase(),

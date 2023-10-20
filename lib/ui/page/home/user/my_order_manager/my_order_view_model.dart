@@ -1,5 +1,8 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:get/get.dart';
 import 'package:web_app/service/network/order_service.dart';
+import 'package:web_app/ui/dialog/dialog_common.dart';
 import 'package:web_app/ui/page/home/user/my_order_manager/order_detail/order_detail_view.dart';
 import 'package:web_app/ui/page/home/user/my_order_manager/order_detail/order_detail_view_model.dart';
 
@@ -13,6 +16,7 @@ import '../../../../../service/network/size_service.dart';
 class MyOrderViewModel extends GetxController {
   final RxList<StatusOrder> listStatusOrder = RxList();
   final RxList<Order> listOrder = RxList();
+  RxBool loading = false.obs;
 
   List<List<Order>> list = [];
 
@@ -23,6 +27,8 @@ class MyOrderViewModel extends GetxController {
   RxList<Color> colorList = RxList();
   RxList<Size> sizeList = RxList();
   final RxList<List<Order>> orderListZ = RxList();
+
+  final dialog = Get.find<DialogCommon>();
 
   @override
   void onInit() {
@@ -41,7 +47,7 @@ class MyOrderViewModel extends GetxController {
   }
 
   Future<void> getAllProduct() async {
-    // loading.value = true;
+    loading.value = true;
     final accId = '3';
     // final accId = DataLocal.getAccountId() ?? '';
     await networkService.getAllOrder(accountId: accId, step: 100).then((value) {
@@ -59,7 +65,7 @@ class MyOrderViewModel extends GetxController {
       // totalPage.value = value?.totalPages ?? 1;
     });
     list.length;
-    // loading.value = false;
+    loading.value = false;
   }
 
   String getColorName(int? colorId) {

@@ -56,7 +56,8 @@ class _ProfileViewState extends State<ProfileView> {
               MyCircleButton(
                   padding: const EdgeInsets.all(8),
                   onTap: () {
-                    Get.toNamed(EditProfileScreen.route);
+                    Get.toNamed(EditProfileScreen.route,
+                        arguments: viewModel.customerInfo.value);
                   },
                   child: const Icon(Icons.mode_edit_outline_sharp))
             ],

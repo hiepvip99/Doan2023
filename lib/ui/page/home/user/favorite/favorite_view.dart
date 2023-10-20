@@ -60,81 +60,83 @@ class _FavoriteViewState extends State<FavoriteView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Sản phẩm đã thích'),
+        centerTitle: true,
+        actions: [
+          OutlinedButton(
+              onPressed: () {
+                isEdit.value = !isEdit.value;
+              },
+              child: Obx(() => Text(
+                    isEdit.value ? 'Huỷ' : 'Sửa',
+                  )))
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            const Spacer(),
-            const Expanded(child: Text('Sản phẩm đã thích')),
-            Expanded(
-                child: Align(
-                    alignment: Alignment.centerRight,
-                    child: OutlinedButton(
-                        onPressed: () {
-                          isEdit.value = !isEdit.value;
-                        },
-                        child: Obx(() => Text(
-                              isEdit.value ? 'Huỷ' : 'Sửa',
-                            ))))),
-          ],
-        ),
-        Obx(
-          () => SizedBox(
-            height: isEdit.value
-                ? MediaQuery.of(context).size.height - 174
-                : MediaQuery.of(context).size.height - 126,
-            child: PagedGridView<int, Product>(
-              // shrinkWrap: true,
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-              // physics: const NeverScrollableScrollPhysics(),
-              pagingController: _pagingController,
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  maxCrossAxisExtent: 175,
-                  childAspectRatio: 0.75),
-              builderDelegate: PagedChildBuilderDelegate<Product>(
-                itemBuilder: (context, item, index) => GestureDetector(
-                  // onTap: () {},
-                  child: Obx(
-                    () => ProductCard(
-                      onRefesh: () => _pagingController.refresh(),
-                      // isChecked: ,
-                      onSelected: (favorite, isChecked) {
-                        if (isChecked) {
-                          favoriteSeleted.addIf(
-                              !favoriteSeleted.any((element) =>
-                                  favorite.productId == element.productId),
-                              favorite);
-                        } else {
-                          favoriteSeleted.removeWhere((element) =>
-                              favorite.productId == element.productId);
-                        }
-                        print(favoriteSeleted.length);
-                      },
-                      isShowChecked: isEdit.value,
-                      // beer: item,
-                      product: item,
+            Obx(
+              () => SizedBox(
+                height: isEdit.value
+                    ? MediaQuery.of(context).size.height - 174
+                    : MediaQuery.of(context).size.height - 126,
+                child: PagedGridView<int, Product>(
+                  // shrinkWrap: true,
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                  // physics: const NeverScrollableScrollPhysics(),
+                  pagingController: _pagingController,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      maxCrossAxisExtent: 175,
+                      childAspectRatio: 0.75),
+                  builderDelegate: PagedChildBuilderDelegate<Product>(
+                    itemBuilder: (context, item, index) => GestureDetector(
+                      // onTap: () {},
+                      child: Obx(
+                        () => ProductCard(
+                          onRefesh: () => _pagingController.refresh(),
+                          // isChecked: ,
+                          onSelected: (favorite, isChecked) {
+                            if (isChecked) {
+                              favoriteSeleted.addIf(
+                                  !favoriteSeleted.any((element) =>
+                                      favorite.productId == element.productId),
+                                  favorite);
+                            } else {
+                              favoriteSeleted.removeWhere((element) =>
+                                  favorite.productId == element.productId);
+                            }
+                            print(favoriteSeleted.length);
+                          },
+                          isShowChecked: isEdit.value,
+                          // beer: item,
+                          product: item,
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
+            Obx(
+              () => Visibility(
+                  visible: isEdit.value && viewModel.productList.isNotEmpty,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        viewModel
+                            .removeFavorite(favoriteSeleted)
+                            .then((value) => _pagingController.refresh());
+                        // favoriteSeleted.clear();
+                      },
+                      child: const Text('Bỏ thích'))),
+            ),
+          ],
         ),
-        Obx(
-          () => Visibility(
-              visible: isEdit.value && viewModel.productList.isNotEmpty,
-              child: ElevatedButton(
-                  onPressed: () {
-                    viewModel
-                        .removeFavorite(favoriteSeleted)
-                        .then((value) => _pagingController.refresh());
-                    // favoriteSeleted.clear();
-                  },
-                  child: const Text('Bỏ thích'))),
-        ),
-      ],
+      ),
     );
   }
 }

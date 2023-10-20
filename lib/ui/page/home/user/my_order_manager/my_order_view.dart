@@ -7,6 +7,7 @@ import 'package:web_app/ui/page/home/admin/components/product_manager/product_ma
 
 import '../../../../../constant.dart';
 import '../../../../../model/network/order_manager_model.dart';
+import '../../../../component_common/loading_widget.dart';
 import 'my_order_view_model.dart';
 
 class MyOrderView extends StatelessWidget {
@@ -22,7 +23,9 @@ class MyOrderView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Lịch sử đặt hàng'),
       ),
-      body: Obx(() => DefaultTabController(
+      body: Obx(() => viewModel.loading.value
+          ? const LoadingWidget()
+          : DefaultTabController(
           length: viewModel.listStatusOrder.value.length,
           child: Column(
             children: [

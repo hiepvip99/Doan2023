@@ -80,9 +80,7 @@ class _HomeUserState extends State<HomeUser> {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Obx(() => getBody(context, viewModel.index.value)),
-        ),
+        child: Obx(() => getBody(context, viewModel.index.value)),
       ),
       bottomNavigationBar: SizedBox(
         height: 56,
@@ -150,8 +148,10 @@ class _HomeUserState extends State<HomeUser> {
   Widget getBody(BuildContext context, int indexs) {
     switch (indexs) {
       case 0:
-        return Column(
-          children: [header(), body(context)],
+        return SingleChildScrollView(
+          child: Column(
+            children: [header(), body(context)],
+          ),
         );
       case 1:
         return const FavoriteView();

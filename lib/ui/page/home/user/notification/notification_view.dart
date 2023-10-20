@@ -1,38 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/page/home/user/notification/component/notification_widget.dart';
 import 'package:web_app/ui/page/home/user/product/product_view.dart';
 
 import '../../../../component_common/test_product_card.dart';
+import 'notification_view_model.dart';
 
-class NotificationView extends StatelessWidget {
+class NotificationView extends StatefulWidget {
   const NotificationView({super.key});
 
   static const route = '/NotificationView';
 
   @override
+  State<NotificationView> createState() => _NotificationViewState();
+}
+
+class _NotificationViewState extends State<NotificationView> {
+  final viewModel = Get.find<NotificationViewModel>();
+
+  @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16),
-      child: Column(
-        children: [
-          ItemNotification(
-              content: 'sale san pham giay',
-              image: 'image',
-              typeItemNotification: TypeItemNotification.sale),
-          ItemNotification(
-              content: 'sale san pham giay',
-              image: 'image',
-              typeItemNotification: TypeItemNotification.sale),
-          ItemNotification(
-              content: 'sale san pham giay',
-              image: 'image',
-              typeItemNotification: TypeItemNotification.sale),
-          ItemNotification(
-              content: 'sale san pham giay',
-              image: 'image',
-              typeItemNotification: TypeItemNotification.order),
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Thông báo'),
+        centerTitle: true,
       ),
+      body: Obx(() => ListView.builder(
+            // shrinkWrap: ,
+            itemCount: viewModel.notificationList.value.length,
+            itemBuilder: (context, index) => NotificationWidget(
+                title: viewModel.notificationList.value[index].title ?? '',
+                message: viewModel.notificationList.value[index].content ?? ''),
+          )),
     );
   }
 }
