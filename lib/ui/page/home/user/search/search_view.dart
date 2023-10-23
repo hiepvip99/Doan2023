@@ -9,6 +9,7 @@ import '../../../../../constant.dart';
 import '../../../../../model/network/category_model.dart';
 import '../../../../../model/network/manufacturer_model.dart';
 import '../../../../../model/network/product_manager_model.dart';
+import '../../../../component_common/test_product_card.dart';
 import '../common/product_card.dart';
 import 'search_view_model.dart';
 
@@ -89,6 +90,7 @@ class _SearchViewState extends State<SearchView> {
           children: [
             Expanded(
               child: TextFieldCommon(
+                autofocus: true,
                 border: InputBorder.none,
                 backgroundColor: Colors.grey.shade200,
                 controller: txtSearch,
@@ -139,7 +141,7 @@ class _SearchViewState extends State<SearchView> {
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                     maxCrossAxisExtent: 175,
-                    childAspectRatio: 0.75),
+                    childAspectRatio: 3 / 4),
                 builderDelegate: PagedChildBuilderDelegate<Product>(
                   noItemsFoundIndicatorBuilder: (context) => Center(
                     child: Column(
@@ -165,7 +167,7 @@ class _SearchViewState extends State<SearchView> {
                       ],
                     ),
                   ),
-                  itemBuilder: (context, item, index) => ProductCard(
+                  itemBuilder: (context, item, index) => TestProductCard(
                     // beer: item,
                     product: item,
                   ),
@@ -285,6 +287,14 @@ class _SearchViewState extends State<SearchView> {
             const Text('Giới tính:'),
             const SizedBox(height: 16),
             DropdownMenu<String>(
+                // trailingIcon: Icon(Icons.home),
+                // inputDecorationTheme: InputDecorationTheme(
+                //     contentPadding: EdgeInsets.only(left: 10),
+                //     border: OutlineInputBorder(),
+                //     // isCollapsed: true,
+                //     isDense: true,
+                //     constraints: BoxConstraints(maxHeight: 40)),
+
                 controller: txtGender,
                 initialSelection: viewModel.gender,
                 onSelected: (String? value) {
@@ -369,6 +379,24 @@ class _SearchViewState extends State<SearchView> {
                 ],
               ),
             )
+             ,
+            // DropdownButtonFormField(
+            //   decoration: InputDecoration(border: OutlineInputBorder()),
+            //   items: genderList
+            //       .map((e) => DropdownMenuItem(
+            //             child: Text(e),
+            //             value: e,
+            //           ))
+            //       .toList(),
+            //   value: viewModel.gender,
+            //   onChanged: (value) {
+            //     // if (value != null) {
+            //     //   viewModel.gender = value;
+            //     // }
+            //   },
+            // ),
+            
+            
           ],
         ),
       ),

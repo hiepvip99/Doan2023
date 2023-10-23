@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:web_app/model/network/product_manager_model.dart';
 
+import '../../../../component_common/test_product_card.dart';
 import '../common/product_card.dart';
 import 'favorite_view_model.dart';
 
@@ -65,19 +66,23 @@ class _FavoriteViewState extends State<FavoriteView> {
         title: const Text('Sản phẩm đã thích'),
         centerTitle: true,
         actions: [
-          OutlinedButton(
-              onPressed: () {
-                isEdit.value = !isEdit.value;
-              },
-              child: Obx(() => Text(
-                    isEdit.value ? 'Huỷ' : 'Sửa',
-                  )))
+          Row(
+            children: [
+              OutlinedButton(
+                  onPressed: () {
+                    isEdit.value = !isEdit.value;
+                  },
+                  child: Obx(() => Text(
+                        isEdit.value ? 'Huỷ' : 'Sửa',
+                      ))),
+            ],
+          )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Obx(
+      body: Column(
+        children: [
+          Expanded(
+            child: Obx(
               () => SizedBox(
                 height: isEdit.value
                     ? MediaQuery.of(context).size.height - 174
@@ -92,12 +97,12 @@ class _FavoriteViewState extends State<FavoriteView> {
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                       maxCrossAxisExtent: 175,
-                      childAspectRatio: 0.75),
+                      childAspectRatio: 3 / 4),
                   builderDelegate: PagedChildBuilderDelegate<Product>(
                     itemBuilder: (context, item, index) => GestureDetector(
                       // onTap: () {},
                       child: Obx(
-                        () => ProductCard(
+                        () => TestProductCard(
                           onRefesh: () => _pagingController.refresh(),
                           // isChecked: ,
                           onSelected: (favorite, isChecked) {
@@ -110,7 +115,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                               favoriteSeleted.removeWhere((element) =>
                                   favorite.productId == element.productId);
                             }
-                            print(favoriteSeleted.length);
+                            setState(() {});
                           },
                           isShowChecked: isEdit.value,
                           // beer: item,
@@ -122,20 +127,24 @@ class _FavoriteViewState extends State<FavoriteView> {
                 ),
               ),
             ),
-            Obx(
-              () => Visibility(
-                  visible: isEdit.value && viewModel.productList.isNotEmpty,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        viewModel
-                            .removeFavorite(favoriteSeleted)
-                            .then((value) => _pagingController.refresh());
-                        // favoriteSeleted.clear();
-                      },
-                      child: const Text('Bỏ thích'))),
-            ),
-          ],
-        ),
+          ),
+          Obx(
+            () => Visibility(
+                visible: isEdit.value && viewModel.productList.isNotEmpty,
+                child: ElevatedButton(
+                    onPressed: () {
+                      favoriteSeleted.length < 1
+                          ? null
+                          :
+                      viewModel
+                              .removeFavorite(favoriteSeleted)
+                              .then((value) => _pagingController.refresh());
+                      // favoriteSeleted.clear();
+                    },
+                    child: Text(
+                        'Bỏ thích ${favoriteSeleted.length < 1 ? '' : favoriteSeleted.length}'))),
+          ),
+        ],
       ),
     );
   }

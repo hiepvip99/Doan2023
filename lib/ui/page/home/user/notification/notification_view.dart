@@ -27,6 +27,7 @@ class _NotificationViewState extends State<NotificationView> {
       ),
       body: Obx(() => ListView.builder(
             // shrinkWrap: ,
+            padding: const EdgeInsets.only(top: 4),
             itemCount: viewModel.notificationList.value.length,
             itemBuilder: (context, index) => NotificationWidget(
                 title: viewModel.notificationList.value[index].title ?? '',

@@ -1,12 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:web_app/service/base_entity.dart';
 
 import '../../model/network/customer_model.dart';
 import '../../model/network/notification_model.dart';
+import '../../model/network/product_manager_model.dart';
 import '../netcommon/base_repository.dart';
 import '../network.dart';
 
 class CustomerService {
   final String _customer = 'api/customer/shoe_customers';
+  final String _uploadImage = 'api/customer/shoe_customers/image';
   final String _notification = 'api/customer/shoe_notification';
   final String _customerAddress = 'api/customer/shoe_customers/address';
   final String _customerNotification =
@@ -113,4 +116,11 @@ class CustomerService {
   //   );
   //   return response;
   // }
+
+  Future<Images?> uploadImages(Images imageUpload) async {
+    final repo = BaseRepository(path: _uploadImage, method: HttpMethod.put);
+    final response = await repo.queryByPath((e) => Images.fromJson(e),
+        data: FormData.fromMap(imageUpload.toUploadSingle()));
+    return response;
+  }
 }

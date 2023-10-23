@@ -17,6 +17,7 @@ class TextFieldCommon extends StatelessWidget {
     this.border,
     this.backgroundColor,
     this.labelColor,
+    this.autofocus = false,
   });
 
   final String? label;
@@ -25,6 +26,7 @@ class TextFieldCommon extends StatelessWidget {
   final EdgeInsets? contentPadding;
   final bool requiredInput;
   final bool? isTextPassword;
+  final bool autofocus;
   final String? Function(String? value)? validator;
   final List<TextInputFormatter>? inputFormatters;
   final Function(String value)? onChanged;
@@ -40,6 +42,7 @@ class TextFieldCommon extends StatelessWidget {
         Container(
           color: backgroundColor,
           child: TextFormField(
+            autofocus: autofocus,
             controller: controller,
             decoration: InputDecoration(
               hintText: hintText,

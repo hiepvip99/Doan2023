@@ -13,7 +13,6 @@ class TestProductCard extends StatefulWidget {
   final Function(Favorite favorite, bool isChecked)? onSelected;
   final Product product;
   final bool isShowChecked;
-
   const TestProductCard({
     super.key,
     // required this.imageUrl,
@@ -39,16 +38,26 @@ class _TestProductCardState extends State<TestProductCard> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: () {
-        setState(() {
-          isChecked = !isChecked;
-        });
-      },
+    return InkWell(
+      // onLongPress: () {
+      //   setState(() {
+      //     isChecked = !isChecked;
+      //   });
+      // },
       onTap: () {
         print('object');
-        Get.toNamed(ProductView.route, arguments: widget.product)?.whenComplete(
-            () => widget.onRefesh != null ? widget.onRefesh!() : null);
+        widget.isShowChecked
+            ? setState(() {
+                isChecked = !isChecked;
+              })
+            : Get.toNamed(ProductView.route, arguments: widget.product)
+                ?.whenComplete(
+                    () => widget.onRefesh != null ? widget.onRefesh!() : null);
+        if (widget.onSelected != null) {
+          widget.onSelected!(Favorite(productId: widget.product.id), isChecked);
+        }
+        // Get.toNamed(ProductView.route, arguments: widget.product)?.whenComplete(
+        //     () => widget.onRefesh != null ? widget.onRefesh!() : null);
         // if (onSelected != null) {
         //   onSelected!(Favorite(productId: product.id), isChecked.value);
         // }
@@ -57,7 +66,9 @@ class _TestProductCardState extends State<TestProductCard> {
         width: 200,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: isChecked ? Colors.lightBlueAccent : Colors.white,
+          color: widget.isShowChecked
+              ? (isChecked ? Colors.lightBlueAccent : Colors.white)
+              : Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.3),
@@ -83,18 +94,18 @@ class _TestProductCardState extends State<TestProductCard> {
                         width: double.infinity,
                       ),
                     ),
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      child: MyCircleButton(
-                        padding: const EdgeInsets.all(10),
-                        onTap: toggleFavorite,
-                        child: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: isFavorite ? Colors.red : null,
-                        ),
-                      ),
-                    ),
+                    // Positioned(
+                    //   top: 0,
+                    //   right: 0,
+                    //   child: MyCircleButton(
+                    //     padding: const EdgeInsets.all(10),
+                    //     onTap: toggleFavorite,
+                    //     child: Icon(
+                    //       isFavorite ? Icons.favorite : Icons.favorite_border,
+                    //       color: isFavorite ? Colors.red : null,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

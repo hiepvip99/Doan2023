@@ -154,16 +154,22 @@ class ColorItemProduct extends BaseEntity {
   }
 }
 
-class Images {
+class Images extends BaseEntity {
   String? url;
   ColorItemProduct? infoUpload;
   List<File>? listImageUpload;
   int? productIdUpload;
+  int? customerId;
 
   Images(
-      {this.url, this.infoUpload, this.listImageUpload, this.productIdUpload});
+      {this.url,
+      this.infoUpload,
+      this.listImageUpload,
+      this.productIdUpload,
+      this.customerId});
 
-  Images.fromJson(Map<String, dynamic> json) {
+  Images.fromJson(Map<dynamic, dynamic> json) {
+    super.mapping(json);
     url = json['url'];
   }
 
@@ -179,6 +185,15 @@ class Images {
       data['images'] = listImageUpload
           ?.map((e) => MultipartFile.fromFileSync(e.path))
           .toList();
+    }
+    return data;
+  }
+
+  Map<String, dynamic> toUploadSingle() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['customerId'] = customerId;
+    if (listImageUpload != null) {
+      data['image'] = MultipartFile.fromFileSync(listImageUpload!.first.path);
     }
     return data;
   }

@@ -120,12 +120,18 @@ final ThemeData lightTheme = ThemeData(
     disabledColor: Colors.grey,
   ),
   dropdownMenuTheme: const DropdownMenuThemeData(
-    // inputDecorationTheme:
-    // InputDecorationTheme(constraints: BoxConstraints(maxHeight: 20)),
+    inputDecorationTheme: InputDecorationTheme(
+        contentPadding: EdgeInsets.only(left: 10),
+        border: OutlineInputBorder(),
+        // isCollapsed: true,
+        isDense: true,
+        constraints: BoxConstraints(maxHeight: 44)),
     menuStyle: MenuStyle(
+      padding: MaterialStatePropertyAll(EdgeInsets.zero),
       maximumSize: MaterialStatePropertyAll(
         Size(2000, 200),
       ),
+      // fixedSize: MaterialStatePropertyAll(1),
       // maximumSize: MaterialStatePropertyAll<Size>(Size.infinite),
       visualDensity: VisualDensity.standard,
     ),

@@ -139,6 +139,7 @@ Future<void> initApp() async {
     // Xử lý thông báo khi ứng dụng đang chạy
     // handleNotification(message);
     Get.showSnackbar(GetSnackBar(
+      duration: const Duration(seconds: 3),
       snackPosition: SnackPosition.TOP,
       title: message.notification?.title,
       message: message.notification?.body,

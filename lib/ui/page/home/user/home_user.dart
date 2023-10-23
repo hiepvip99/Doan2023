@@ -77,69 +77,72 @@ class _HomeUserState extends State<HomeUser> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      body: SafeArea(
-        child: Obx(() => getBody(context, viewModel.index.value)),
-      ),
-      bottomNavigationBar: SizedBox(
-        height: 56,
-        child: Obx(
-          () => BottomNavigationBar(
-              currentIndex: viewModel.index.value,
-              selectedItemColor: Colors.black,
-              unselectedItemColor: Colors.black26,
-              type: BottomNavigationBarType.fixed,
-              onTap: (value) => viewModel.index.value = value,
-              items: const [
-                BottomNavigationBarItem(
-                    label: 'Trang chủ',
-                    icon: FaIcon(
-                      FontAwesomeIcons.house,
-                      size: 20,
-                    )),
-                BottomNavigationBarItem(
-                    label: 'Đã thích', icon: FaIcon(FontAwesomeIcons.heart)),
-                BottomNavigationBarItem(
-                    label: 'Thông báo', icon: FaIcon(FontAwesomeIcons.bell)),
-                BottomNavigationBarItem(
-                    label: 'Tôi', icon: FaIcon(FontAwesomeIcons.user)),
-              ]),
-          // () => SalomonBottomBar(
-          //   currentIndex: viewModel.index.value,
-          //   onTap: (i) {
-          //     viewModel.index.value = i;
-          //   },
-          //   items: [
-          //     /// Home
-          //     SalomonBottomBarItem(
-          //       icon: const Icon(Icons.home_filled),
-          //       title: const Text("Home"),
-          //       selectedColor: Colors.black,
-          //     ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        body: SafeArea(
+          child: Obx(() => getBody(context, viewModel.index.value)),
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 56,
+          child: Obx(
+            () => BottomNavigationBar(
+                currentIndex: viewModel.index.value,
+                selectedItemColor: Colors.black,
+                unselectedItemColor: Colors.black26,
+                type: BottomNavigationBarType.fixed,
+                onTap: (value) => viewModel.index.value = value,
+                items: const [
+                  BottomNavigationBarItem(
+                      label: 'Trang chủ',
+                      icon: FaIcon(
+                        FontAwesomeIcons.house,
+                        size: 20,
+                      )),
+                  BottomNavigationBarItem(
+                      label: 'Đã thích', icon: FaIcon(FontAwesomeIcons.heart)),
+                  BottomNavigationBarItem(
+                      label: 'Thông báo', icon: FaIcon(FontAwesomeIcons.bell)),
+                  BottomNavigationBarItem(
+                      label: 'Tôi', icon: FaIcon(FontAwesomeIcons.user)),
+                ]),
+            // () => SalomonBottomBar(
+            //   currentIndex: viewModel.index.value,
+            //   onTap: (i) {
+            //     viewModel.index.value = i;
+            //   },
+            //   items: [
+            //     /// Home
+            //     SalomonBottomBarItem(
+            //       icon: const Icon(Icons.home_filled),
+            //       title: const Text("Home"),
+            //       selectedColor: Colors.black,
+            //     ),
 
-          //     /// Likes
-          //     SalomonBottomBarItem(
-          //       icon: const Icon(Icons.favorite_border),
-          //       title: const Text("Likes"),
-          //       selectedColor: Colors.black,
-          //     ),
+            //     /// Likes
+            //     SalomonBottomBarItem(
+            //       icon: const Icon(Icons.favorite_border),
+            //       title: const Text("Likes"),
+            //       selectedColor: Colors.black,
+            //     ),
 
-          //     /// Search
-          //     SalomonBottomBarItem(
-          //       icon: const Icon(Icons.notifications_none),
-          //       title: const Text("Notification"),
-          //       selectedColor: Colors.black,
-          //     ),
+            //     /// Search
+            //     SalomonBottomBarItem(
+            //       icon: const Icon(Icons.notifications_none),
+            //       title: const Text("Notification"),
+            //       selectedColor: Colors.black,
+            //     ),
 
-          //     /// Profile
-          //     SalomonBottomBarItem(
-          //       icon: const Icon(Icons.person_outline),
-          //       title: const Text("Profile"),
-          //       selectedColor: Colors.black,
-          //     ),
-          //   ],
-          // ),
+            //     /// Profile
+            //     SalomonBottomBarItem(
+            //       icon: const Icon(Icons.person_outline),
+            //       title: const Text("Profile"),
+            //       selectedColor: Colors.black,
+            //     ),
+            //   ],
+            // ),
+          ),
         ),
       ),
     );

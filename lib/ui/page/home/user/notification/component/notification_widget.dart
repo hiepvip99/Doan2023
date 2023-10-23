@@ -15,17 +15,22 @@ class NotificationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () => Get.toNamed(MyOrderView.route),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            child: Row(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 8.0,
+        ),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 0,
+            ),
+            Row(
               children: [
                 const Icon(
                   Icons.edit_document,
-                  size: 40,
+                  size: 32,
                   color: Colors.blue,
                 ),
                 const SizedBox(width: 16),
@@ -36,7 +41,7 @@ class NotificationWidget extends StatelessWidget {
                       Text(
                         title,
                         style: const TextStyle(
-                          fontSize: 18,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -44,7 +49,7 @@ class NotificationWidget extends StatelessWidget {
                       Text(
                         message,
                         style: const TextStyle(
-                          fontSize: 16,
+                          fontSize: 12,
                         ),
                       ),
                     ],
@@ -52,11 +57,11 @@ class NotificationWidget extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-          Divider(
-            color: Colors.grey[400],
-          )
-        ],
+            Divider(
+              color: Colors.grey[400],
+            )
+          ],
+        ),
       ),
     );
   }

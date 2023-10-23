@@ -33,9 +33,10 @@ class TextFieldBeautiful extends StatelessWidget {
           ),
           decoration: InputDecoration(
             filled: true,
+            isDense: true,
             fillColor: Colors.grey[200],
             contentPadding:
-                const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(10),

@@ -6,6 +6,7 @@ import '../../../../../constant.dart';
 import '../../../../component_common/circle_button.dart';
 import '../about_us/about_us.dart';
 import '../cart/cart_view.dart';
+import '../discount/discount_view.dart';
 import '../my_order_manager/my_order_view.dart';
 import 'my_profile/my_profile_view.dart';
 import 'profile_view_model.dart';
@@ -71,7 +72,10 @@ class _ProfileViewState extends State<ProfileView> {
               route: MyOrderView.route),
           // const ItemProfile(showBottomDivider: true, title: 'Địa chỉ của tôi'),
           const ItemProfile(showBottomDivider: true, title: 'Đánh giá của tôi'),
-          const ItemProfile(showBottomDivider: true, title: 'Mã giảm giá'),
+          const ItemProfile(
+              showBottomDivider: true,
+              title: 'Mã giảm giá',
+              route: DiscountCodeView.route),
           const ItemProfile(
               showBottomDivider: true,
               title: 'Về chúng tôi',

@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
+import 'package:web_app/model/network/product_manager_model.dart';
 
 import '../../../../../../model/network/customer_model.dart';
 import '../../../../../../service/network/customer_service.dart';
@@ -18,6 +21,22 @@ class EditProfileViewModel extends GetxController {
         dialog.showAlertDialog(
             context: Get.context!,
             title: 'Bạn đã cập nhật thông tin thành công thành công');
+      }
+    });
+  }
+
+  Future<void> uploadImage(List<File> image) async {
+    customerService
+        .uploadImages(
+            Images(listImageUpload: image, customerId: customerInfo.value.id))
+        .then((value) {
+      if (value?.statusCode == 200) {
+        customerInfo.value.image = value?.url;
+        customerInfo.refresh();
+        Get.find<ProfileViewModel>().getInfomationCustomer();
+        // dialog.showAlertDialog(
+        //     context: Get.context!,
+        //     title: 'Bạn đã cập nhật thông tin thành công thành công');
       }
     });
   }

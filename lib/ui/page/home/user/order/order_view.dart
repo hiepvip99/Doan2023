@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/component_common/textfield_beautiful.dart';
 
 import '../../../../../constant.dart';
 import '../../../../../extendsion/extendsion.dart';
@@ -219,6 +220,31 @@ class _OrderViewState extends State<OrderView> {
                   //     });
                   //   },
                   // ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: TextFieldBeautiful(
+                        title: 'Thêm mã giảm giá',
+                        controller: TextEditingController()),
+                  ),
+                  const SizedBox(width: 16),
+                  InkWell(
+                    onTap: () {
+                      // Xử lý khi nhấn nút đặt hàng
+                      // viewModel.createOrder();
+                    },
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.circular(4)),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8, horizontal: 8),
+                        child: const Text('Áp dụng')),
+                  ),
                 ],
               ),
               const SizedBox(height: 16),

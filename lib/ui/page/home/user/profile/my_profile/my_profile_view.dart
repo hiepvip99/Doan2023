@@ -62,7 +62,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                const EditAvatarScreen(),
+                Obx(
+                  () => EditAvatarScreen(
+                    image: viewModel.customerInfo.value.image ?? '',
+                    handleUpload: (images) => viewModel.uploadImage(images),
+                  ),
+                ),
                 const SizedBox(
                   height: 16,
                 ),
