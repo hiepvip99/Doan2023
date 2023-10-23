@@ -158,7 +158,7 @@ class CustomerView extends StatelessWidget {
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.red),
                                           onPressed: () {
-                                            // Get.find<DialogCommon>()
+                                            // DialogCommon()
                                             //     .showDeleteConfirmation(
                                             //   context,
                                             //   text:

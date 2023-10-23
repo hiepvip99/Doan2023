@@ -66,7 +66,7 @@ class DialogProduct {
     TextEditingController txtName = TextEditingController(text: product.name);
     // TextEditingController txtQuantity = TextEditingController();
     // TextEditingController txtPrice = TextEditingController();
-    Get.find<DialogCommon>().showDialogWithBody(
+    DialogCommon().showDialogWithBody(
       context,
       height: 600,
       width: 800,
@@ -596,7 +596,7 @@ class DialogProduct {
 
   void updateImageDialog(
       {required Product itemUpdate, required BuildContext context}) {
-    Get.find<DialogCommon>().showDialogWithBody(
+    DialogCommon().showDialogWithBody(
       context,
       height: 600,
       width: 800,

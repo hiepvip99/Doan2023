@@ -83,7 +83,7 @@ class ShoppingCartScreen extends StatelessWidget {
                   Get.toNamed(OrderView.route,
                       arguments: viewModel.productSelected.value);
                 } else {
-                  Get.find<DialogCommon>().showAlertDialog(
+                  DialogCommon().showAlertDialog(
                       context: context, title: 'Bạn chưa chọn sản phẩm nào');
                 }
               },
@@ -239,7 +239,7 @@ class _ProductCartItemState extends State<ProductCartItem> {
                                                       .productInCart
                                                       .inventoryQuantity ??
                                                   1);
-                                              Get.find<DialogCommon>()
+                                              DialogCommon()
                                                   .showAlertDialog(
                                                       context: context,
                                                       title:

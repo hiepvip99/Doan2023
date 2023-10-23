@@ -23,7 +23,7 @@ class DialogManufacturer {
 
     final formKey = GlobalKey<FormState>();
 
-    Get.find<DialogCommon>().showDialogWithBody(
+    DialogCommon().showDialogWithBody(
       height: 200,
       context,
       title: "Thêm nhà sản xuất" /*  'Thêm tài khoản' */,
@@ -76,7 +76,7 @@ class DialogManufacturer {
     TextEditingController txtName =
         TextEditingController(text: manufacturer.name);
     final _formKey = GlobalKey<FormState>();
-    Get.find<DialogCommon>().showDialogWithBody(
+    DialogCommon().showDialogWithBody(
       context,
       title: 'Sửa nhà sản xuất có id: ${itemUpdate.id}' /*  'Thêm tài khoản' */,
       bodyDialog: Form(

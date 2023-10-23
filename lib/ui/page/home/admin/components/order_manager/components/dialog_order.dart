@@ -14,7 +14,7 @@ class DialogOrder {
 
   Future<void> showDetailDialog(BuildContext context, int index) async {
     // orderValue.value = order;
-    Get.find<DialogCommon>().showDialogWithBody(
+    DialogCommon().showDialogWithBody(
       height: 500,
       context,
       title:

@@ -7,12 +7,14 @@ class DiscountModel extends BaseEntity {
   bool? success;
   int? customerId;
   Discount? discountToApply;
+  int? discount;
 
-  DiscountModel({this.data});
+  DiscountModel({this.data, this.discountToApply, this.customerId});
 
   DiscountModel.fromJson(Map<dynamic, dynamic> json) {
     super.mapping(json);
     success = json['success'];
+    discount = json['discount'];
     if (json['data'] != null) {
       data = <Discount>[];
       json['data'].forEach((v) {

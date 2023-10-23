@@ -28,7 +28,7 @@ class OrderDetailViewModel extends GetxController {
       if (value?.statusCode == 200) {
         order.refresh();
         Get.back();
-        Get.find<DialogCommon>()
+        DialogCommon()
             .showSuccessDialog(Get.context!, 'Bạn đã $text thành công');
         statusName.value = listStatusOrder.value
                 .firstWhereOrNull(

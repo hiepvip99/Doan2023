@@ -10,7 +10,7 @@ class AddressManagerViewModel extends GetxController {
   int? customerId;
   CustomerService customerService = CustomerService();
 
-  final dialog = Get.find<DialogCommon>();
+  final dialog = DialogCommon();
 
   @override
   void onInit() {

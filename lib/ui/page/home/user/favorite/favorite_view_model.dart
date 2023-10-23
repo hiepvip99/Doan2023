@@ -16,7 +16,7 @@ class FavoriteViewModel extends GetxController {
 
   RxList<Product> productList = RxList();
 
-  final dialog = Get.find<DialogCommon>();
+  final dialog = DialogCommon();
 
   Future<void> getAllFavoriteProduct() async {
     loading.value = true;

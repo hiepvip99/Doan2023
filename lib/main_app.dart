@@ -56,19 +56,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-      },
-      child: GetMaterialApp(
-        onInit: () => onInit(),
-        getPages: appPage,
-        themeMode: getTheme(modeTheme.value),
-        darkTheme: darkTheme,
-        theme: lightTheme,
-        initialRoute: getInitRoute(),
-        // home: const Home(),
-      ),
+    return GetMaterialApp(
+      onInit: () => onInit(),
+      getPages: appPage,
+      themeMode: getTheme(modeTheme.value),
+      darkTheme: darkTheme,
+      theme: lightTheme,
+      initialRoute: getInitRoute(),
+      // home: const Home(),
     );
   }
 }

@@ -53,12 +53,12 @@ class ProductManagerViewModel extends GetxController {
   //     //         productIdUpload: productId))
   //     //     .then((value) {
   //     //   if (value?.statusCode == 200) {
-  //     //     Get.find<DialogCommon>().showAlertDialog(
+  //     //     DialogCommon().showAlertDialog(
   //     //         context: Get.context!,
   //     //         title: 'Upload ảnh thành công productId: $productId');
   //     //     getAllProduct();
   //     //   } else {
-  //     //     Get.find<DialogCommon>().showAlertDialog(
+  //     //     DialogCommon().showAlertDialog(
   //     //         context: Get.context!, title: 'Lỗi upload image product');
   //     //   }
   //     // });
@@ -89,13 +89,13 @@ class ProductManagerViewModel extends GetxController {
   Future<void> uploadImage(Images imageUploads) async {
     networkService.uploadImages(imageUploads).then((value) {
       if (value?.statusCode == 200) {
-        Get.find<DialogCommon>().showAlertDialog(
+        DialogCommon().showAlertDialog(
             context: Get.context!,
             title:
                 'Cập nhật hình ảnh cho sản phẩm có id:${imageUploads.productIdUpload} thành công');
         getAllProduct();
       } else {
-        Get.find<DialogCommon>()
+        DialogCommon()
             .showAlertDialog(context: Get.context!, title: 'Lỗi cập nhật ảnh');
       }
     });
@@ -136,12 +136,12 @@ class ProductManagerViewModel extends GetxController {
         .addProduct(ProductManagerModel(item: addProduct))
         .then((value) {
       if (value?.statusCode == 200) {
-        Get.find<DialogCommon>().showAlertDialog(
+        DialogCommon().showAlertDialog(
             context: Get.context!,
             title: 'Thêm thành công product ${addProduct.name}');
         getAllProduct();
       } else {
-        Get.find<DialogCommon>()
+        DialogCommon()
             .showAlertDialog(context: Get.context!, title: 'Lỗi thêm product');
       }
     });
@@ -154,12 +154,12 @@ class ProductManagerViewModel extends GetxController {
         .updateProduct(ProductManagerModel(item: updateProduct))
         .then((value) {
       if (value?.statusCode == 200) {
-        Get.find<DialogCommon>().showAlertDialog(
+        DialogCommon().showAlertDialog(
             context: Get.context!,
             title: 'Sửa thành công product ${updateProduct.name}');
         getAllProduct();
       } else {
-        Get.find<DialogCommon>()
+        DialogCommon()
             .showAlertDialog(context: Get.context!, title: 'Lỗi sửa product');
       }
     });
@@ -172,12 +172,12 @@ class ProductManagerViewModel extends GetxController {
         .deleteProduct(ProductManagerModel(item: deleteProduct))
         .then((value) {
       if (value?.statusCode == 200) {
-        Get.find<DialogCommon>().showAlertDialog(
+        DialogCommon().showAlertDialog(
             context: Get.context!,
             title: 'Xóa thành công product ${deleteProduct.name}');
         getAllProduct();
       } else {
-        Get.find<DialogCommon>()
+        DialogCommon()
             .showAlertDialog(context: Get.context!, title: 'Lỗi xóa product');
       }
     });

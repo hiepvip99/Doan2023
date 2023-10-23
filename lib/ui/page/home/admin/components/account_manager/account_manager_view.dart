@@ -237,7 +237,7 @@ class _AccountManagerViewState extends State<AccountManagerView> {
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.red),
                                           onPressed: () {
-                                            Get.find<DialogCommon>()
+                                            DialogCommon()
                                                 .showDeleteConfirmation(
                                               context,
                                               id: viewModel

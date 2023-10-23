@@ -28,7 +28,7 @@ class MyOrderViewModel extends GetxController {
   RxList<Size> sizeList = RxList();
   final RxList<List<Order>> orderListZ = RxList();
 
-  final dialog = Get.find<DialogCommon>();
+  final dialog = DialogCommon();
 
   @override
   void onInit() {

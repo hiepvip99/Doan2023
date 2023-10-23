@@ -52,7 +52,8 @@ class BaseRepository extends BaseRepositoryInterface {
       queryParameters,
       bool? showLoading = true,
       bool? showError = true}) async {
-    DialogCommon dialogCommon = Get.find<DialogCommon>();
+    // Get.lazyPut(() => DialogCommon());
+    DialogCommon dialogCommon = DialogCommon();
     String url = domain + path;
     try {
       dynamic response;

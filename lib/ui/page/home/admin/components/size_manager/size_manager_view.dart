@@ -187,7 +187,7 @@ class _SizeManagerViewState extends State<SizeManagerView> {
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.red),
                                           onPressed: () {
-                                            Get.find<DialogCommon>()
+                                            DialogCommon()
                                                 .showDeleteConfirmation(
                                               context,
                                               text:

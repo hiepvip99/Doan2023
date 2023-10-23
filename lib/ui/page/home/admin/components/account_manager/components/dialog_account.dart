@@ -13,7 +13,7 @@ import '../account_manager_controller.dart';
 class DialogAccount {
   final AccountManagerViewModel viewModel = Get.find<AccountManagerViewModel>();
   void showDialogAccount(Widget body, String title, BuildContext context) {
-    Get.find<DialogCommon>().showDialogWithBody(
+    DialogCommon().showDialogWithBody(
       context,
       title: title /*  'Thêm tài khoản' */,
       bodyDialog: SingleChildScrollView(

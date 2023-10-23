@@ -23,7 +23,7 @@ class DialogCategory {
 
     final formKey = GlobalKey<FormState>();
 
-    Get.find<DialogCommon>().showDialogWithBody(
+    DialogCommon().showDialogWithBody(
       height: 200,
       context,
       title: "Thêm danh mục" /*  'Thêm tài khoản' */,
@@ -75,7 +75,7 @@ class DialogCategory {
     Category category = itemUpdate;
     TextEditingController txtName = TextEditingController(text: category.name);
     final formKey = GlobalKey<FormState>();
-    Get.find<DialogCommon>().showDialogWithBody(
+    DialogCommon().showDialogWithBody(
       context,
       title: 'Sửa danh mục có id: ${itemUpdate.id}' /*  'Thêm tài khoản' */,
       bodyDialog: Form(

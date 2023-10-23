@@ -11,7 +11,7 @@ import '../profile_view_model.dart';
 class EditProfileViewModel extends GetxController {
   Rx<Customer> customerInfo = Rx(Customer());
   CustomerService customerService = CustomerService();
-  final dialog = Get.find<DialogCommon>();
+  final dialog = DialogCommon();
   static const accid = 3;
 
   Future<void> updateInfomation() async {

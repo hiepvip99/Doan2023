@@ -187,7 +187,7 @@ class _ColorManagerViewState extends State<ColorManagerView> {
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.red),
                                           onPressed: () {
-                                            Get.find<DialogCommon>()
+                                            DialogCommon()
                                                 .showDeleteConfirmation(
                                               context,
                                               text:

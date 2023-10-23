@@ -15,7 +15,7 @@ class SizeViewModel extends GetxController {
 
   SizeService networkService = SizeService();
 
-  final dialog = Get.find<DialogCommon>();
+  final dialog = DialogCommon();
 
   void onPageChange(int index) {
     currentPage.value = index + 1;

@@ -27,7 +27,7 @@ class ProductViewModel extends GetxController {
 
   static const accId = 3;
 
-  final dialog = Get.find<DialogCommon>();
+  final dialog = DialogCommon();
 
   Future<void> getInfomationForProduct() async {
     // manufacturerNetworkService
@@ -77,7 +77,7 @@ class ProductViewModel extends GetxController {
             quantity: productView.quantity))
         .then((value) {
       if (value?.statusCode == 200) {
-        Get.find<DialogCommon>().showAlertDialog(
+        DialogCommon().showAlertDialog(
             context: Get.context!, title: 'Thêm vào giỏ hàng thành công');
       }
     });

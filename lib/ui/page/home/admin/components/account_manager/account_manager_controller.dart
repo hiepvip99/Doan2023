@@ -81,11 +81,11 @@ class AccountManagerViewModel extends GetxController {
         .then((value) async {
       if (value?.statusCode == 200) {
         getAccountList();
-        await Get.find<DialogCommon>().showAlertDialog(
+        await DialogCommon().showAlertDialog(
             context: context,
             title: 'Xóa thành công account có id: ${accountDelete.id}');
       } else {
-        Get.find<DialogCommon>()
+        DialogCommon()
             .showAlertDialog(context: context, title: 'Lỗi xóa account');
       }
     });
@@ -96,13 +96,13 @@ class AccountManagerViewModel extends GetxController {
         .addAccount(AccountsManagerModel(accountEdit: account))
         .then((value) {
       if (value?.statusCode == 200) {
-        Get.find<DialogCommon>().showAlertDialog(
+        DialogCommon().showAlertDialog(
             context: context,
             title:
                 'Thêm thành công account ${account.username}');
         getAccountList();
       } else {
-        Get.find<DialogCommon>()
+        DialogCommon()
             .showAlertDialog(context: context, title: 'Lỗi thêm account');
       }
     });
@@ -113,12 +113,12 @@ class AccountManagerViewModel extends GetxController {
         .updateAccount(AccountsManagerModel(accountEdit: account))
         .then((value) {
       if (value?.statusCode == 200) {
-        Get.find<DialogCommon>().showAlertDialog(
+        DialogCommon().showAlertDialog(
             context: context,
             title: 'Sửa thành công account có id: ${account.id}');
         getAccountList();
       } else {
-        Get.find<DialogCommon>()
+        DialogCommon()
             .showAlertDialog(context: context, title: 'Lỗi sửa account');
       }
     });

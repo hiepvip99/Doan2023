@@ -190,7 +190,7 @@ class OrderDetailView extends StatelessWidget {
                         child: TextButton(
                             onPressed: viewModel.order.value.statusId == 1
                                 ? () {
-                                    Get.find<DialogCommon>().showConfirmDialog(
+                                    DialogCommon().showConfirmDialog(
                                         Get.context!, 'Huỷ đơn hàng',
                                         text: 'Đơn hàng của bạn sẽ được huỷ',
                                         () {
@@ -210,7 +210,7 @@ class OrderDetailView extends StatelessWidget {
                   child: ElevatedButton(
                       onPressed: viewModel.order.value.statusId == 4
                           ? () {
-                              Get.find<DialogCommon>().showConfirmDialog(
+                              DialogCommon().showConfirmDialog(
                                   text:
                                       'Đơn hàng của bạn sẽ được trả lại và hoàn tiền sau khi xác nhận',
                                   Get.context!,

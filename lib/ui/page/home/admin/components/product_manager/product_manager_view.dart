@@ -288,7 +288,7 @@ class _ProductManagerViewState extends State<ProductManagerView> {
                                             style: ElevatedButton.styleFrom(
                                                 backgroundColor: Colors.red),
                                             onPressed: () {
-                                              Get.find<DialogCommon>()
+                                              DialogCommon()
                                                   .showDeleteConfirmation(
                                                 context,
                                                 text:

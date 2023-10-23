@@ -189,7 +189,7 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.red),
                                           onPressed: () {
-                                            Get.find<DialogCommon>()
+                                            DialogCommon()
                                                 .showDeleteConfirmation(
                                               context,
                                               text:

@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
+import 'package:web_app/model/network/discount_model.dart';
 import 'package:web_app/model/network/order_manager_model.dart';
 import 'package:web_app/model/network/product_manager_model.dart';
+import 'package:web_app/service/network/discount_service.dart';
+import 'package:web_app/ui/dialog/dialog_common.dart';
 
 import '../../../../../model/network/color_model.dart';
 import '../../../../../model/network/customer_model.dart';
@@ -21,6 +24,7 @@ class OrderViewModel extends GetxController {
 
   CustomerService customerService = CustomerService();
   OrderService orderService = OrderService();
+  DiscountService discountService = DiscountService();
   Rx<Customer> customer = Rx(Customer());
 
   static const accId = 3;
@@ -29,6 +33,25 @@ class OrderViewModel extends GetxController {
 
   RxList<Color> colorList = RxList();
   RxList<Size> sizeList = RxList();
+
+  RxInt discount = 0.obs;
+
+  Future<void> applyDiscount(String code) async {
+    discount.value = 0;
+    discountService
+        .applyDiscount(DiscountModel(
+            discountToApply: Discount(code: code),
+            customerId: customer.value.id))
+        .then((value) {
+      if (value?.success == true) {
+        discount.value = value?.discount ?? 0;
+      } else {
+        DialogCommon().showAlertDialog(
+            context: Get.context!,
+            title: 'Áp dụng mã giảm giá không thành công');
+      }
+    });
+  }
 
   Future<void> createOrder() async {
     order.value.customerInfo = customer.value;
@@ -57,6 +80,7 @@ class OrderViewModel extends GetxController {
       value != null ? customer.value = value : null;
       if (customer.value.address?.length != 0) {
         radioAddressValue.value = customer.value.address!.first;
+        // customerId = customer.value.id
       }
     });
     colorNetworkService
@@ -84,7 +108,7 @@ class OrderViewModel extends GetxController {
       total += (element.productInCart.price ?? 0) *
           (element.productInCart.quantity ?? 0);
     }
-    return total;
+    return total - discount.value;
   }
 
   int getTotalQuantity() {

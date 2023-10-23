@@ -19,7 +19,7 @@ enum HttpMethod { get, post, put, delete, path }
 //       bool? onBackground,
 //       queryParameters,
 //       bool? showLoading = true}) async {
-//     DialogCommon dialogCommon = Get.find<DialogCommon>();
+//     DialogCommon dialogCommon = DialogCommon();
 //     dialogCommon.showLoadingDialog();
 //     try {
 //       _dio.options.headers['X-Request-By'] = 'api';

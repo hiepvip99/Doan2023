@@ -23,7 +23,7 @@ class DialogColor {
 
     final formKey = GlobalKey<FormState>();
 
-    Get.find<DialogCommon>().showDialogWithBody(
+    DialogCommon().showDialogWithBody(
       height: 200,
       context,
       title: "Thêm nhà sản xuất" /*  'Thêm tài khoản' */,
@@ -74,7 +74,7 @@ class DialogColor {
     Color color = itemUpdate;
     TextEditingController txtName = TextEditingController(text: color.name);
     final _formKey = GlobalKey<FormState>();
-    Get.find<DialogCommon>().showDialogWithBody(
+    DialogCommon().showDialogWithBody(
       context,
       title: 'Sửa nhà sản xuất có id: ${itemUpdate.id}' /*  'Thêm tài khoản' */,
       bodyDialog: Form(

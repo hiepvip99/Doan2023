@@ -5,6 +5,7 @@ import 'package:web_app/constant.dart';
 import 'package:web_app/extendsion/extendsion.dart';
 
 import '../../../../../model/network/cart_model.dart';
+import '../../../../component_common/circle_widget.dart';
 import '../../admin/components/product_manager/product_manager_view.dart';
 import '../cart/cart_view.dart';
 import '../search/search_view.dart';
@@ -160,21 +161,23 @@ class _ProductViewState extends State<ProductView> {
                     const Text('Màu sắc:'),
                     if (viewModel.product.colors != null)
                       ...viewModel.product.colors!
-                          .map((e) => CustomCheckbox(
-                                onChangeCallBack: () {
+                          .map((e) => InkWell(
+                                onTap: () {
                                   indexColorImage.value =
                                       viewModel.product.colors!.indexOf(e);
                                   indexImage.value = 1;
                                   setCountProduct();
                                 },
-                                text: viewModel.colorList.value
-                                        .firstWhereOrNull((element) =>
-                                            element.id == e.colorId)
-                                        ?.name ??
-                                    '',
-                                isChecked:
-                                    viewModel.product.colors?.indexOf(e) ==
-                                        indexColorImage.value,
+                                child: CircleNumberWidget(
+                                  text: viewModel.colorList.value
+                                          .firstWhereOrNull((element) =>
+                                              element.id == e.colorId)
+                                          ?.name ??
+                                      '',
+                                  isSelected:
+                                      viewModel.product.colors?.indexOf(e) ==
+                                          indexColorImage.value,
+                                ),
                               ))
                           .toList()
                   ],
@@ -191,20 +194,22 @@ class _ProductViewState extends State<ProductView> {
                     const Text('Size:'),
                     // if (viewModel.sizeOfProduct.value != null)
                     ...viewModel.sizeOfProduct.value
-                        .map((e) => CustomCheckbox(
-                              onChangeCallBack: () {
+                        .map((e) => InkWell(
+                              onTap: () {
                                 indexSizeCkecked.value =
                                     viewModel.sizeOfProduct.value.indexOf(e);
                                 setCountProduct();
                               },
-                              text: viewModel.sizeList.value
-                                      .firstWhereOrNull(
-                                          (element) => element.id == e)
-                                      ?.name ??
-                                  '',
-                              isChecked:
-                                  viewModel.sizeOfProduct.value.indexOf(e) ==
-                                      indexSizeCkecked.value,
+                              child: CircleNumberWidget(
+                                text: viewModel.sizeList.value
+                                        .firstWhereOrNull(
+                                            (element) => element.id == e)
+                                        ?.name ??
+                                    '',
+                                isSelected:
+                                    viewModel.sizeOfProduct.value.indexOf(e) ==
+                                        indexSizeCkecked.value,
+                              ),
                             ))
                         .toList()
                   ],

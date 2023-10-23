@@ -94,7 +94,7 @@ class DialogCommon {
   static void showDialogErrorNetwork() {
     final context = Get.context;
     if (context != null) {
-      Get.find<DialogCommon>().showAlertDialog(
+      DialogCommon().showAlertDialog(
           context: context,
           title: 'Vui lòng kết nối với mạng để thực hiện tính năng này');
     }

@@ -17,7 +17,7 @@ class OrderManagerViewModel extends GetxController {
   RxString idSearch = ''.obs;
   RxString dateSearch = ''.obs;
 
-  final dialog = Get.find<DialogCommon>();
+  final dialog = DialogCommon();
   OrderService networkService = OrderService();
   
   void onPageChange(int index) {

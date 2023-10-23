@@ -76,7 +76,7 @@ class CartViewModel extends GetxController {
 
   void updateQuantity(int index, int quantity) {
     if (quantity == 0) {
-      Get.find<DialogCommon>().showDeleteConfirmation(Get.context!, () {
+      DialogCommon().showDeleteConfirmation(Get.context!, () {
         deleteProduct(productInCart[index].productInCart);
         productInCart.removeAt(index);
         productInCart.refresh();
@@ -91,7 +91,7 @@ class CartViewModel extends GetxController {
 
   void updateQuantityNoRefesh(int index, int quantity) {
     if (quantity <= 0) {
-      Get.find<DialogCommon>().showDeleteConfirmation(Get.context!, () {
+      DialogCommon().showDeleteConfirmation(Get.context!, () {
         deleteProduct(productInCart[index].productInCart);
         productInCart.removeAt(index);
         productInCart.refresh();
