@@ -67,6 +67,14 @@ final ThemeData lightTheme = ThemeData(
     error: Colors.red, // sử dụng màu đỏ cho thông báo lỗi
     brightness: Brightness.light,
   ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(foregroundColor: Colors.black)),
+  checkboxTheme: const CheckboxThemeData(
+      checkColor: MaterialStatePropertyAll(Colors.black),
+      fillColor: MaterialStatePropertyAll(Colors.grey)),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.black, foregroundColor: Colors.white)),
   textButtonTheme: const TextButtonThemeData(
       style:
           ButtonStyle(foregroundColor: MaterialStatePropertyAll(Colors.black))),

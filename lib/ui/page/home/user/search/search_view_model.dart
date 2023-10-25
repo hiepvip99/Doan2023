@@ -19,7 +19,7 @@ class SearchViewModel extends GetxController {
   RxString selectedItem = '10'.obs;
 
   Rx<Manufacturer> manufacturer = Rx(Manufacturer());
-  Rx<Color> color = Rx(Color());
+  Rx<ColorShoe> color = Rx(ColorShoe());
   Rx<Category> category = Rx(Category());
 
   int? minPrice, maxPrice;
@@ -27,7 +27,7 @@ class SearchViewModel extends GetxController {
   String? sortBy;
 
   RxList<Manufacturer> manufacturerList = RxList();
-  RxList<Color> colorList = RxList();
+  RxList<ColorShoe> colorList = RxList();
   // RxList<Size> sizeList = RxList();
   RxList<Category> categoryList = RxList();
 
@@ -74,7 +74,7 @@ class SearchViewModel extends GetxController {
 
   void removeFilter() {
     manufacturer.value = Manufacturer();
-    color.value = Color();
+    color.value = ColorShoe();
     category.value = Category();
     minPrice = null;
     maxPrice = null;

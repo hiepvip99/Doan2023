@@ -105,24 +105,55 @@ Future<void> initApp() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     FirebaseMessaging.instance.subscribeToTopic("all");
-  }
+    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    final customerService = CustomerService();
+    final accId = 3;
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  final customerService = CustomerService();
-  final accId = 3;
+    _firebaseMessaging.requestPermission();
+    _firebaseMessaging.getToken().then((token) {
+      print('Firebase Token: $token');
+      if (token != null) {
+        customerService.updateNotificationToken(accId, token);
+      }
+    });
 
-  _firebaseMessaging.requestPermission();
-  _firebaseMessaging.getToken().then((token) {
-    print('Firebase Token: $token');
-    if (token != null) {
-      customerService.updateNotificationToken(accId, token);
-    }
-  });
+    _firebaseMessaging.getInitialMessage().then((RemoteMessage? message) {
+      if (message != null) {
+        // Xử lý thông báo khi ứng dụng khởi chạy từ thông báo
+        // handleNotification(message);
+        final currentRoute = Get.currentRoute;
+        print('currentRoute: ${currentRoute}');
+        if (currentRoute == HomeUser.route) {
+          Get.find<HomeUserController>().changeIndex();
+        } else {
+          Get.offNamed(HomeUser.route, arguments: 2);
+        }
+        print(
+            'Message opened from terminated state: ${message.notification?.body}');
+      }
+    });
 
-  _firebaseMessaging.getInitialMessage().then((RemoteMessage? message) {
-    if (message != null) {
-      // Xử lý thông báo khi ứng dụng khởi chạy từ thông báo
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // Xử lý thông báo khi ứng dụng đang chạy
       // handleNotification(message);
+      Get.showSnackbar(GetSnackBar(
+        duration: const Duration(seconds: 3),
+        snackPosition: SnackPosition.TOP,
+        title: message.notification?.title,
+        message: message.notification?.body,
+        onTap: (snack) {
+          final currentRoute = Get.currentRoute;
+          print('currentRoute: ${currentRoute}');
+          if (currentRoute == HomeUser.route) {
+            Get.find<HomeUserController>().changeIndex();
+          } else {
+            Get.offNamed(HomeUser.route, arguments: 2);
+          }
+        },
+      ));
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       final currentRoute = Get.currentRoute;
       print('currentRoute: ${currentRoute}');
       if (currentRoute == HomeUser.route) {
@@ -132,40 +163,10 @@ Future<void> initApp() async {
       }
       print(
           'Message opened from terminated state: ${message.notification?.body}');
-    }
-  });
+    });
+  }
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    // Xử lý thông báo khi ứng dụng đang chạy
-    // handleNotification(message);
-    Get.showSnackbar(GetSnackBar(
-      duration: const Duration(seconds: 3),
-      snackPosition: SnackPosition.TOP,
-      title: message.notification?.title,
-      message: message.notification?.body,
-      onTap: (snack) {
-        final currentRoute = Get.currentRoute;
-        print('currentRoute: ${currentRoute}');
-        if (currentRoute == HomeUser.route) {
-          Get.find<HomeUserController>().changeIndex();
-        } else {
-          Get.offNamed(HomeUser.route, arguments: 2);
-        }
-      },
-    ));
-  });
-
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    final currentRoute = Get.currentRoute;
-    print('currentRoute: ${currentRoute}');
-    if (currentRoute == HomeUser.route) {
-      Get.find<HomeUserController>().changeIndex();
-    } else {
-      Get.offNamed(HomeUser.route, arguments: 2);
-    }
-    print(
-        'Message opened from terminated state: ${message.notification?.body}');
-  });
+  
 
   // FirebaseMessaging.instance.getToken().then(
   //       (value) => print("get token : $value"),

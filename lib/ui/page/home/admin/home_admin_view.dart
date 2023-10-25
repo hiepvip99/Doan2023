@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:get/get.dart';
 import 'package:web_app/ui/page/home/admin/components/category_manager/category_view.dart';
+import 'package:web_app/ui/page/home/user/discount/discount_view.dart';
 
 import 'components/account_manager/account_manager_view.dart';
 import 'components/category_manager/test_ui.dart';
+import 'components/discount_manager/discount_manager_view.dart';
 import 'components/list_item.dart';
 import 'components/manufacturers_manager/manufacturers_manager_view.dart';
 import 'components/order_manager/order_manager_view.dart';
@@ -82,6 +84,8 @@ class HomeAdmin extends StatelessWidget {
           return OrderManagerView();
         case 4:
           return const Statistical();
+        case 5:
+          return const DiscountManagerView();
         // case 8:
         //   return const LineChartSample1();
         default:

@@ -21,7 +21,7 @@ class ProductViewModel extends GetxController {
   // ManufacturerService manufacturerNetworkService = ManufacturerService();
   ColorService colorNetworkService = ColorService();
   SizeService sizeNetworkService = SizeService();
-  RxList<Color> colorList = RxList();
+  RxList<ColorShoe> colorList = RxList();
   RxList<Size> sizeList = RxList();
   Product product = Product();
 

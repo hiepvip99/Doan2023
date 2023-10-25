@@ -22,7 +22,7 @@ class _StatisticalState extends State<Statistical> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Syncfusion Flutter chart'),
+          title: const Text('Biểu đồ thống kê'),
         ),
         body: Column(children: [
           Row(

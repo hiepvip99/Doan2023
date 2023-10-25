@@ -27,7 +27,7 @@ class DialogSize {
     DialogCommon().showDialogWithBody(
       height: 200,
       context,
-      title: "Thêm nhà sản xuất" /*  'Thêm tài khoản' */,
+      title: "Thêm size" /*  'Thêm tài khoản' */,
       bodyDialog: Form(
         key: formKey,
         child: Column(
@@ -77,7 +77,7 @@ class DialogSize {
     final _formKey = GlobalKey<FormState>();
     DialogCommon().showDialogWithBody(
       context,
-      title: 'Sửa nhà sản xuất có id: ${itemUpdate.id}' /*  'Thêm tài khoản' */,
+      title: 'Sửa size có id: ${itemUpdate.id}' /*  'Thêm tài khoản' */,
       bodyDialog: Form(
         key: _formKey,
         child: Column(

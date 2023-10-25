@@ -31,7 +31,7 @@ class OrderViewModel extends GetxController {
   ColorService colorNetworkService = ColorService();
   SizeService sizeNetworkService = SizeService();
 
-  RxList<Color> colorList = RxList();
+  RxList<ColorShoe> colorList = RxList();
   RxList<Size> sizeList = RxList();
 
   RxInt discount = 0.obs;

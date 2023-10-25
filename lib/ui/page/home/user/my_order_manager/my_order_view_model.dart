@@ -24,7 +24,7 @@ class MyOrderViewModel extends GetxController {
   ColorService colorNetworkService = ColorService();
   SizeService sizeNetworkService = SizeService();
 
-  RxList<Color> colorList = RxList();
+  RxList<ColorShoe> colorList = RxList();
   RxList<Size> sizeList = RxList();
   final RxList<List<Order>> orderListZ = RxList();
 

@@ -1,38 +1,40 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../../constant.dart';
+import '../../../../../../extendsion/extendsion.dart';
 import '../../../../../component_common/my_dropdown_button2.dart';
 import '../../../../../component_common/paginator_common.dart';
 import '../../../../../component_common/textfield_common.dart';
 import '../../../../../dialog/dialog_common.dart';
-import 'size_manager_view_model.dart';
-import 'components/dialog_size_manager.dart';
+import '../statistical/statistical_view.dart';
+import 'components/dialog_discount.dart';
+import 'discount_manager_view_model.dart';
 
-class SizeManagerView extends StatefulWidget {
-  const SizeManagerView({super.key});
+class DiscountManagerView extends StatefulWidget {
+  const DiscountManagerView({super.key});
 
   @override
-  State<SizeManagerView> createState() => _SizeManagerViewState();
+  State<DiscountManagerView> createState() => _DiscountManagerViewState();
 }
 
-class _SizeManagerViewState extends State<SizeManagerView> {
-  final viewModel = Get.find<SizeViewModel>();
-
-  final dialog = DialogSize();
+class _DiscountManagerViewState extends State<DiscountManagerView> {
+  final viewModel = Get.find<DiscountManagerViewModel>();
 
   final TextEditingController txtSearch = TextEditingController();
+
+  final dialog = DialogDiscount();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     txtSearch.addListener(() {
       final text = txtSearch.text.trim();
       print('text:' + text);
-      viewModel.keyword.value = text;
-      viewModel.getSizeList();
+      // viewModel.keyword.value = text;
+      viewModel.getDiscountList();
     });
   }
 
@@ -58,7 +60,7 @@ class _SizeManagerViewState extends State<SizeManagerView> {
               child: Row(
                 children: [
                   const Text(
-                    'Danh sách size:',
+                    'Danh sách mã giảm giá:',
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(
@@ -82,27 +84,27 @@ class _SizeManagerViewState extends State<SizeManagerView> {
                       ignoring: viewModel.loading.value,
                       child: ElevatedButton(
                           onPressed: () {
-                            dialog.showAddDialog(context);
+                            dialog.showUpdateDialog(context);
                           },
-                          child: const Text('Thêm size')),
+                          child: const Text('Thêm mã giảm giá')),
                     ),
                   ),
                   const SizedBox(
                     width: 50,
                   ),
-                  Obx(
-                    () => MyDropdownButton2StateFull(
-                      hint: '',
-                      value: viewModel.selectedItem.value,
-                      itemHeight: 20,
-                      dropdownItems: pageStep,
-                      onChanged: (value) {
-                        if (value != null) {
-                          viewModel.onStepChange(value);
-                        }
-                      },
-                    ),
-                  ),
+                  // Obx(
+                  //   () => MyDropdownButton2StateFull(
+                  //     hint: '',
+                  //     value: viewModel.selectedItem.value,
+                  //     itemHeight: 20,
+                  //     dropdownItems: pageStep,
+                  //     onChanged: (value) {
+                  //       if (value != null) {
+                  //         viewModel.onStepChange(value);
+                  //       }
+                  //     },
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -113,15 +115,21 @@ class _SizeManagerViewState extends State<SizeManagerView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: 80,
+                    width: 100,
                     child: Text(
-                      'ID',
+                      'Mã code',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Expanded(
                     child: Text(
-                      'Tên size',
+                      'Giá trị của mã giảm',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Thời gian hết hạn',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -144,7 +152,7 @@ class _SizeManagerViewState extends State<SizeManagerView> {
                       : ListView.builder(
                           // physics: const NeverScrollableScrollPhysics(),
                           // shrinkWrap: true,
-                          itemCount: viewModel.sizeList.value.length,
+                          itemCount: viewModel.discountList.value.length,
                           itemBuilder: (context, index) => Container(
                             color: index % 2 == 0
                                 ? Colors.white
@@ -156,16 +164,28 @@ class _SizeManagerViewState extends State<SizeManagerView> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
-                                    width: 80,
+                                    width: 100,
                                     child: Text(
-                                      '${viewModel.sizeList.value[index].id}',
+                                      '${viewModel.discountList.value[index].code}',
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                   Expanded(
                                     child: Text(
-                                      viewModel.sizeList.value[index].name ??
+                                      viewModel.discountList.value[index]
+                                              .discount
+                                              ?.toString() ??
                                           "",
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      formatDateTime(
+                                        viewModel.discountList.value[index]
+                                                .expirationDate ??
+                                            DateTime.now(),
+                                      ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
@@ -174,10 +194,9 @@ class _SizeManagerViewState extends State<SizeManagerView> {
                                     children: [
                                       ElevatedButton(
                                           onPressed: () {
-                                            dialog.showUpdateDialog(
-                                                context,
-                                                viewModel
-                                                    .sizeList.value[index]);
+                                            dialog.showUpdateDialog(context,
+                                                itemUpdate: viewModel
+                                                    .discountList.value[index]);
                                           },
                                           child: const Text('Sửa')),
                                       const SizedBox(
@@ -191,10 +210,10 @@ class _SizeManagerViewState extends State<SizeManagerView> {
                                                 .showDeleteConfirmation(
                                               context,
                                               text:
-                                                  'size ${viewModel.sizeList.value[index].name} với id: ${viewModel.sizeList.value[index].id}',
-                                              () => viewModel.deleteSize(
-                                                  viewModel
-                                                      .sizeList.value[index]),
+                                                  'mã giảm giá ${viewModel.discountList.value[index].code}',
+                                              () => viewModel.deleteDiscount(
+                                                  viewModel.discountList
+                                                      .value[index]),
                                             );
                                           },
                                           child: const Text('Xóa')),
@@ -214,8 +233,8 @@ class _SizeManagerViewState extends State<SizeManagerView> {
                 child: PaginatorCommon(
                   totalPage: viewModel.totalPage.value,
                   initPage: viewModel.currentPage.value - 1,
-                  onPageChangeCallBack: (index) =>
-                      viewModel.onPageChange(index),
+                  // onPageChangeCallBack: (index) =>
+                  //     viewModel.onPageChange(index),
                 ),
               ),
             ),

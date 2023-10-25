@@ -6,7 +6,7 @@ import '../../../../../../service/network/color_service.dart';
 import '../product_manager/product_manager_view_model.dart';
 
 class ColorViewModel extends GetxController {
-  RxList<Color> colorList = RxList([]);
+  RxList<ColorShoe> colorList = RxList([]);
   RxInt currentPage = 1.obs;
   RxInt totalPage = 1.obs;
   RxString selectedItem = '10'.obs;
@@ -57,13 +57,13 @@ class ColorViewModel extends GetxController {
   }
 
   Future<void> addColor(
-    Color data,
+    ColorShoe data,
   ) async {
     await networkService.addColor(data).then((value) {
       if (value != null) {
         if (value.statusCode == 200) {
           dialog.showSuccessDialog(
-              Get.context!, "Thêm nhà sản xuất thành công");
+              Get.context!, "Thêm màu sắc thành công");
         }
         getColorList();
         Get.find<ProductManagerViewModel>().getInfomationForProduct();
@@ -72,7 +72,7 @@ class ColorViewModel extends GetxController {
   }
 
   Future<void> updateColor(
-    Color data,
+    ColorShoe data,
   ) async {
     await networkService.updateColor(data).then((value) {
       if (value != null) {
@@ -80,7 +80,7 @@ class ColorViewModel extends GetxController {
           if (Get.isDialogOpen == true) {
             Get.back();
           }
-          dialog.showSuccessDialog(Get.context!, "Sửa nhà sản xuất thành công");
+          dialog.showSuccessDialog(Get.context!, "Sửa màu sắc thành công");
         }
         getColorList();
         Get.find<ProductManagerViewModel>().getInfomationForProduct();
@@ -89,12 +89,12 @@ class ColorViewModel extends GetxController {
   }
 
   Future<void> deleteColor(
-    Color data,
+    ColorShoe data,
   ) async {
     await networkService.deleteColor(data).then((value) {
       if (value != null) {
         if (value.statusCode == 200) {
-          dialog.showSuccessDialog(Get.context!, "Xóa nhà sản xuất thành công");
+          dialog.showSuccessDialog(Get.context!, "Xóa màu sắc thành công");
         }
         getColorList();
         Get.find<ProductManagerViewModel>().getInfomationForProduct();

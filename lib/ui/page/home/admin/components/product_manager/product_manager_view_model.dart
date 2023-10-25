@@ -27,7 +27,7 @@ class ProductManagerViewModel extends GetxController {
   RxString keyword = ''.obs;
 
   RxList<Manufacturer> manufacturerList = RxList();
-  RxList<Color> colorList = RxList();
+  RxList<ColorShoe> colorList = RxList();
   RxList<Size> sizeList = RxList();
   RxList<Category> categoryList = RxList();
 

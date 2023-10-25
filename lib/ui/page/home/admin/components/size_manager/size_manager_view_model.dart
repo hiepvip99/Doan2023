@@ -63,7 +63,7 @@ class SizeViewModel extends GetxController {
       if (value != null) {
         if (value.statusCode == 200) {
           dialog.showSuccessDialog(
-              Get.context!, "Thêm nhà sản xuất thành công");
+              Get.context!, "Thêm size thành công");
         }
         getSizeList();
         Get.find<ProductManagerViewModel>().getInfomationForProduct();
@@ -80,7 +80,7 @@ class SizeViewModel extends GetxController {
           if (Get.isDialogOpen == true) {
             Get.back();
           }
-          dialog.showSuccessDialog(Get.context!, "Sửa nhà sản xuất thành công");
+          dialog.showSuccessDialog(Get.context!, "Sửa size thành công");
         }
         getSizeList();
         Get.find<ProductManagerViewModel>().getInfomationForProduct();
@@ -94,7 +94,7 @@ class SizeViewModel extends GetxController {
     await networkService.deleteSize(data).then((value) {
       if (value != null) {
         if (value.statusCode == 200) {
-          dialog.showSuccessDialog(Get.context!, "Xóa nhà sản xuất thành công");
+          dialog.showSuccessDialog(Get.context!, "Xóa size thành công");
         }
         getSizeList();
         Get.find<ProductManagerViewModel>().getInfomationForProduct();

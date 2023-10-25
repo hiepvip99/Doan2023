@@ -43,21 +43,21 @@ class DiscountModel extends BaseEntity {
 class Discount {
   String? code;
   int? discount;
-  String? expirationDate;
+  DateTime? expirationDate;
 
   Discount({this.code, this.discount, this.expirationDate});
 
   Discount.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     discount = json['discount'];
-    expirationDate = json['expiration_date'];
+    expirationDate = DateTime.tryParse(json['expiration_date']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['code'] = code;
     data['discount'] = discount;
-    data['expiration_date'] = expirationDate;
+    data['expiration_date'] = expirationDate?.toIso8601String();
     return data;
   }
 }

@@ -27,7 +27,7 @@ class CartViewModel extends GetxController {
   ColorService colorNetworkService = ColorService();
   SizeService sizeNetworkService = SizeService();
 
-  RxList<Color> colorList = RxList();
+  RxList<ColorShoe> colorList = RxList();
   RxList<Size> sizeList = RxList();
 
   Future<void> getInfomationForProduct() async {
@@ -74,13 +74,17 @@ class CartViewModel extends GetxController {
     productInCart.refresh();
   }
 
+  void showDel(int index) {
+    DialogCommon().showDeleteConfirmation(Get.context!, () {
+      deleteProduct(productInCart[index].productInCart);
+      productInCart.removeAt(index);
+      productInCart.refresh();
+    }, text: 'Bạn có muốn xoá sản phẩm khỏi giỏ hàng');
+  }
+
   void updateQuantity(int index, int quantity) {
     if (quantity == 0) {
-      DialogCommon().showDeleteConfirmation(Get.context!, () {
-        deleteProduct(productInCart[index].productInCart);
-        productInCart.removeAt(index);
-        productInCart.refresh();
-      }, text: 'Bạn có muốn xoá sản phẩm khỏi giỏ hàng');
+      showDel(index);
     } else {
       productInCart[index].productInCart.quantity = quantity;
       productInCart.refresh();
@@ -91,11 +95,7 @@ class CartViewModel extends GetxController {
 
   void updateQuantityNoRefesh(int index, int quantity) {
     if (quantity <= 0) {
-      DialogCommon().showDeleteConfirmation(Get.context!, () {
-        deleteProduct(productInCart[index].productInCart);
-        productInCart.removeAt(index);
-        productInCart.refresh();
-      }, text: 'Bạn có muốn xoá sản phẩm khỏi giỏ hàng');
+      showDel(index);
     } else {
       productInCart[index].productInCart.quantity = quantity;
       updateProductQuantity(productInCart[index].productInCart);

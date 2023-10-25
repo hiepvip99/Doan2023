@@ -58,7 +58,7 @@ class _ColorManagerViewState extends State<ColorManagerView> {
               child: Row(
                 children: [
                   const Text(
-                    'Danh sách nhà sản xuất:',
+                    'Danh sách màu sắc:',
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(
@@ -82,9 +82,9 @@ class _ColorManagerViewState extends State<ColorManagerView> {
                       ignoring: viewModel.loading.value,
                       child: ElevatedButton(
                           onPressed: () {
-                            dialog.showAddDialog(context);
+                            dialog.showDialogColor(context);
                           },
-                          child: const Text('Thêm nhà sản xuất')),
+                          child: const Text('Thêm màu sắc')),
                     ),
                   ),
                   const SizedBox(
@@ -121,7 +121,13 @@ class _ColorManagerViewState extends State<ColorManagerView> {
                   ),
                   Expanded(
                     child: Text(
-                      'Tên nhà sản xuất',
+                      'Tên màu sắc',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Mã màu sắc',
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -169,14 +175,46 @@ class _ColorManagerViewState extends State<ColorManagerView> {
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
+                                  Expanded(
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          height: 16,
+                                          width: 16,
+                                          decoration: BoxDecoration(
+                                              // border: Border.all(color: Colors.),
+                                              color: Color(int.parse(
+                                                      '${viewModel.colorList.value[index].colorCode}',
+                                                      radix: 16) +
+                                                  0xFF000000),
+                                              boxShadow: const [
+                                                BoxShadow(
+                                                  color: Colors.black,
+                                                  blurRadius: 8,
+                                                  offset: Offset(0, 0),
+                                                ),
+                                              ]),
+                                        ),
+                                        const SizedBox(
+                                          width: 8,
+                                        ),
+                                        Text(
+                                          viewModel.colorList.value[index]
+                                                  .colorCode ??
+                                              "",
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       ElevatedButton(
                                           onPressed: () {
-                                            dialog.showUpdateDialog(
+                                            dialog.showDialogColor(
                                                 context,
-                                                viewModel
+                                                itemUpdate: viewModel
                                                     .colorList.value[index]);
                                           },
                                           child: const Text('Sửa')),
@@ -191,7 +229,7 @@ class _ColorManagerViewState extends State<ColorManagerView> {
                                                 .showDeleteConfirmation(
                                               context,
                                               text:
-                                                  'nhà sản xuất ${viewModel.colorList.value[index].name} với id: ${viewModel.colorList.value[index].id}',
+                                                  'màu sắc ${viewModel.colorList.value[index].name} với id: ${viewModel.colorList.value[index].id}',
                                               () => viewModel.deleteColor(
                                                   viewModel
                                                       .colorList.value[index]),

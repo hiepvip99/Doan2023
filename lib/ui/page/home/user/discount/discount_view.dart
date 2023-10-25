@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:web_app/ui/component_common/loading_widget.dart';
 
+import '../../../../../extendsion/extendsion.dart';
 import 'discount_view_model.dart';
 
 class DiscountCodeView extends StatefulWidget {
@@ -68,7 +69,7 @@ class _DiscountCodeViewState extends State<DiscountCodeView> {
                               color: Colors.lightBlueAccent,
                               child: Center(
                                   child: Text(
-                                      'Mã giảm giá này giảm ${discountCode.discount ?? 0}đ cho mỗi đơn hàng')),
+                                      'Mã giảm giá này giảm ${formatMoney(discountCode.discount ?? 0)} cho mỗi đơn hàng')),
                             )),
                       ),
                     );

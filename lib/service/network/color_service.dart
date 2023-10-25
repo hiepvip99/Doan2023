@@ -16,7 +16,7 @@ class ColorService {
     return response;
   }
 
-  Future<Color?> getColorById(
+  Future<ColorShoe?> getColorById(
       {int? currentPage, int? step, String? keyword}) async {
     final queryParameter = <String, dynamic>{};
     queryParameter['step'] = step;
@@ -24,13 +24,13 @@ class ColorService {
     queryParameter['keyword'] = keyword;
     final repo = BaseRepository(path: _colorUrl, method: HttpMethod.get);
     final response = await repo.queryByPath(
-      (e) => Color.fromJson(e['object']),
+      (e) => ColorShoe.fromJson(e['object']),
       queryParameters: queryParameter,
     );
     return response;
   }
 
-  Future<BaseEntity?> addColor(Color colorModel) async {
+  Future<BaseEntity?> addColor(ColorShoe colorModel) async {
     final repo = BaseRepository(path: _colorUrl, method: HttpMethod.post);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         // queryParameters: queryParameter,
@@ -38,7 +38,7 @@ class ColorService {
     return response;
   }
 
-  Future<BaseEntity?> updateColor(Color colorModel) async {
+  Future<BaseEntity?> updateColor(ColorShoe colorModel) async {
     final repo = BaseRepository(path: _colorUrl, method: HttpMethod.put);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         // queryParameters: queryParameter,
@@ -46,7 +46,7 @@ class ColorService {
     return response;
   }
 
-  Future<BaseEntity?> deleteColor(Color colorModel) async {
+  Future<BaseEntity?> deleteColor(ColorShoe colorModel) async {
     final repo = BaseRepository(path: _colorUrl, method: HttpMethod.delete);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         // queryParameters: queryParameter,

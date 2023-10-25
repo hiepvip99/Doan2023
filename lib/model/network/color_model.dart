@@ -2,7 +2,7 @@ import 'package:web_app/service/base_entity.dart';
 
 class ColorProductModel extends BaseEntity {
   int? status;
-  List<Color>? color;
+  List<ColorShoe>? color;
   int? totalPages;
 
   ColorProductModel({this.status, this.color});
@@ -11,29 +11,32 @@ class ColorProductModel extends BaseEntity {
     super.mapping(json);
     status = json['status'];
     if (json['data'] != null) {
-      color = <Color>[];
+      color = <ColorShoe>[];
       json['data'].forEach((v) {
-        color!.add(Color.fromJson(v));
+        color!.add(ColorShoe.fromJson(v));
       });
     }
   }
 }
 
-class Color extends BaseEntity {
+class ColorShoe extends BaseEntity {
   int? id;
   String? name;
+  String? colorCode;
 
-  Color({this.id, this.name});
+  ColorShoe({this.id, this.name, this.colorCode});
 
-  Color.fromJson(Map<dynamic, dynamic> json) {
+  ColorShoe.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    colorCode = json['color_code'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
+    data['color_code'] = colorCode;
     return data;
   }
 }

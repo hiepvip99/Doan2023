@@ -103,7 +103,7 @@ String formatDate(DateTime dateTime) {
 }
 
 String formatDateTime(DateTime dateTime) {
-  final formatter = DateFormat('dd/MM/yyyy hh:mm');
+  final formatter = DateFormat('dd/MM/yyyy HH:mm:ss');
   final formattedDate = formatter.format(dateTime);
   return formattedDate;
 }
