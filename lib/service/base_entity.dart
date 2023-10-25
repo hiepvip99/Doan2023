@@ -5,10 +5,10 @@ import '../extendsion/extendsion.dart';
 class BaseEntity {
   BaseEntity({this.statusCode, this.message, this.validations});
 
-  factory BaseEntity.fromJson(map) {
+  BaseEntity.fromJson(map) {
     final entity = BaseEntity();
     entity.mapping(map);
-    return entity;
+    // return entity;
   }
 
   void mapping(map) {

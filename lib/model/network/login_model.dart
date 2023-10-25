@@ -3,12 +3,17 @@ import '../../service/base_entity.dart';
 
 class LoginModel extends BaseEntity {
   LoginModel({this.username, this.password});
-  String? userId;
+  String? account_id;
   int? role;
   LoginModel.fromJson(Map<dynamic, dynamic> json) {
+    // mapping(json);
+    message = json['message'];
     // super.mapping(json);
-    userId = asString(json['account_id']);
-    role = asInt(json['role']);
+    final data = json['data'];
+    if (data != null) {
+      role = data['decentralization_id'];
+      account_id = data['id'].toString();
+    }
   }
   String? username;
   String? password;

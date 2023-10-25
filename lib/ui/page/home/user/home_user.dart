@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -5,12 +7,14 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:web_app/model/network/product_manager_model.dart';
 import 'package:web_app/ui/page/home/admin/components/product_manager/product_manager_view.dart';
+import 'package:web_app/ui/page/home/admin/components/setting_admin/logout_view.dart';
 import 'package:web_app/ui/page/home/user/cart/cart_view.dart';
 import 'package:web_app/ui/page/home/user/favorite/favorite_view.dart';
 import 'package:web_app/ui/page/home/user/home_user_controller.dart';
 import 'package:web_app/ui/page/home/user/search/search_view.dart';
 
 import '../../../../constant.dart';
+import '../../../authorization.dart';
 import '../../../component_common/test_product_card.dart';
 import 'common/product_card.dart';
 import 'notification/notification_view.dart';
@@ -77,6 +81,15 @@ class _HomeUserState extends State<HomeUser> {
 
   @override
   Widget build(BuildContext context) {
+    if (Platform.isWindows) {
+      return const Column(
+        children: [
+          Text(
+              'Bạn chỉ có thể đăng nhập tài khoản người dùng trên thiết bị di động'),
+          LogoutView(),
+        ],
+      );
+    }
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -85,7 +98,7 @@ class _HomeUserState extends State<HomeUser> {
           child: Obx(() => getBody(context, viewModel.index.value)),
         ),
         bottomNavigationBar: SizedBox(
-          height: 56,
+          height: 57,
           child: Obx(
             () => BottomNavigationBar(
                 currentIndex: viewModel.index.value,
@@ -98,7 +111,7 @@ class _HomeUserState extends State<HomeUser> {
                       label: 'Trang chủ',
                       icon: FaIcon(
                         FontAwesomeIcons.house,
-                        size: 20,
+                        // size: 20,
                       )),
                   BottomNavigationBarItem(
                       label: 'Đã thích', icon: FaIcon(FontAwesomeIcons.heart)),

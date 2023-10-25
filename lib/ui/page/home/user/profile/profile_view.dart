@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_app/ui/page/home/admin/components/product_manager/product_manager_view.dart';
+import 'package:web_app/ui/page/login/login_controller.dart';
 
 import '../../../../../constant.dart';
 import '../../../../component_common/circle_button.dart';
@@ -80,6 +81,11 @@ class _ProfileViewState extends State<ProfileView> {
               showBottomDivider: true,
               title: 'Về chúng tôi',
               route: AboutUs.route),
+          ItemProfile(
+            showBottomDivider: true,
+            title: 'Đăng xuất',
+            onTap: () => LoginController().logoutApp(),
+          ),
           // TextButton(onPressed: () {}, child: const Text('chỉnh sửa'))
         ],
       ),
@@ -92,12 +98,14 @@ class ItemProfile extends StatelessWidget {
       {super.key,
       required this.showBottomDivider,
       required this.title,
-      this.route});
+      this.route,
+      this.onTap});
 
   final bool showBottomDivider;
   final String title;
 
   final String? route;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +117,10 @@ class ItemProfile extends StatelessWidget {
       //           : BorderSide.none),
       // ),
       child: InkWell(
-        onTap: () => route != null ? Get.toNamed(route!) : null,
+        onTap: () {
+          route != null ? Get.toNamed(route!) : null;
+          onTap != null ? onTap!() : null;
+        },
         child: Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Column(

@@ -25,7 +25,7 @@ class DialogSize {
     final formKey = GlobalKey<FormState>();
 
     DialogCommon().showDialogWithBody(
-      height: 200,
+      height: 180,
       context,
       title: "Thêm size" /*  'Thêm tài khoản' */,
       bodyDialog: Form(
@@ -77,6 +77,7 @@ class DialogSize {
     final _formKey = GlobalKey<FormState>();
     DialogCommon().showDialogWithBody(
       context,
+      height: 180,
       title: 'Sửa size có id: ${itemUpdate.id}' /*  'Thêm tài khoản' */,
       bodyDialog: Form(
         key: _formKey,

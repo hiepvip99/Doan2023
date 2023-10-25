@@ -19,11 +19,11 @@ class MainApp extends StatelessWidget {
   String? getInitRoute() {
     switch (role) {
       case -1:
-        return HomeUser.route;
-      // return Login.route;
-      case 0:
-        return HomeAdmin.route;
+        // return HomeUser.route;
+        return Login.route;
       case 1:
+        return HomeAdmin.route;
+      case 2:
         return HomeUser.route;
       default:
         return Login.route;

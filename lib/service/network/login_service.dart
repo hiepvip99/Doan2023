@@ -9,12 +9,13 @@ import '../netcommon/base_repository.dart';
 // import '../local/save_data.dart';
 
 class LoginService {
-  final String _path = 'shoe_store/login.php';
+  final String _path = 'api/account/login';
   Future<LoginModel?> loginApp(LoginModel data) async {
-    final repo = BaseRepository(path: domain + _path, method: HttpMethod.post);
-    final formData = FormData.fromMap(data.toJson());
+    final repo = BaseRepository(path: _path, method: HttpMethod.post);
+    // final formData = FormData.fromMap();
     final response =
-        await repo.queryByPath((e) => LoginModel.fromJson(e), data: formData);
+        await repo.queryByPath((e) => LoginModel.fromJson(e),
+        data: data.toJson());
     return response;
   }
 }

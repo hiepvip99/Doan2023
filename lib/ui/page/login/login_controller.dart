@@ -10,6 +10,7 @@ import '../../../service/local/save_data.dart';
 import '../../../service/network/login_service.dart';
 import '../home/home.dart';
 import '../home/user/home_user.dart';
+import 'login_view.dart';
 
 class LoginController extends GetxController {
   LoginService loginService = LoginService();
@@ -52,7 +53,7 @@ class LoginController extends GetxController {
       // 1 user
       print(value.toString());
       await DataLocal.saveRole(value?.role ?? -1);
-      await DataLocal.saveAccountId(value?.userId ?? '');
+      await DataLocal.saveAccountId(value?.account_id ?? '');
       final accId = DataLocal.getAccountId() ?? '';
       final role = DataLocal.getRole() ?? -1;
       if (kDebugMode) {
@@ -100,8 +101,9 @@ class LoginController extends GetxController {
     await checkStatusAndRoleLogin();
   }
 
-  Future<void> logoutApp(String userName, String password) async {
+  Future<void> logoutApp() async {
     await DataLocal.deleteAccount();
     await checkStatusAndRoleLogin();
+    Get.offAllNamed(Login.route);
   }
 }
