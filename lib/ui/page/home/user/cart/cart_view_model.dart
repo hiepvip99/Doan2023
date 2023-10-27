@@ -7,6 +7,7 @@ import 'package:web_app/ui/dialog/dialog_common.dart';
 
 import '../../../../../model/network/color_model.dart';
 import '../../../../../model/network/size_model.dart';
+import '../../../../../service/local/save_data.dart';
 import '../../../../../service/network/color_service.dart';
 import '../../../../../service/network/size_service.dart';
 
@@ -55,9 +56,9 @@ class CartViewModel extends GetxController {
 
   Future<void> getAllProductInCart() async {
     // loading.value = true;
-    const accId = 3;
-    // final accId = DataLocal.getAccountId() ?? '';
-    await cartService.getCartById(accId).then((value) {
+    // const accId = 3;
+    final accountId = DataLocal.getAccountId();
+    await cartService.getCartById(accountId).then((value) {
       if (value != null) {
         if (value.data != null) {
           productInCart.value = value.data!

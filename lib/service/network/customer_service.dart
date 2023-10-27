@@ -30,7 +30,7 @@ class CustomerService {
     return response;
   }
 
-  Future<Customer?> getCustomerById({int? accountId}) async {
+  Future<Customer?> getCustomerById({String? accountId}) async {
     final queryParameter = <String, dynamic>{};
     queryParameter['accountId'] = accountId;
     final repo = BaseRepository(path: _customerById, method: HttpMethod.get);
@@ -41,7 +41,7 @@ class CustomerService {
     return response;
   }
 
-  Future<NotificationUser?> getNotification({int? accountId}) async {
+  Future<NotificationUser?> getNotification({String? accountId}) async {
     final queryParameter = <String, dynamic>{};
     queryParameter['accountId'] = accountId;
     final repo = BaseRepository(path: _notification, method: HttpMethod.get);
@@ -75,7 +75,7 @@ class CustomerService {
   }
 
   Future<BaseEntity?> updateNotificationToken(
-      int accountId, String token) async {
+      String? accountId, String token) async {
     final body = <String, dynamic>{};
     body['idAccount'] = accountId;
     body['newToken'] = token;

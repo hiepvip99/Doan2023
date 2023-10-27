@@ -8,11 +8,11 @@ class CartService {
   final _cart = "api/cart/shoeCarts";
   // final _getCartById = "api/cart/categoriesById";
 
-  Future<CartManagerModel?> getCartById(int? account_id) async {
+  Future<CartManagerModel?> getCartById(String? accountId) async {
     final queryParameter = <String, dynamic>{};
     // queryParameter['step'] = step;
     // queryParameter['page'] = currentPage;
-    queryParameter['account_id'] = account_id;
+    queryParameter['account_id'] = accountId;
     final repo = BaseRepository(path: _cart, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => CartManagerModel.fromJson(e),

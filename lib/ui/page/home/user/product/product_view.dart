@@ -153,12 +153,15 @@ class _ProductViewState extends State<ProductView> {
               const SizedBox(
                 height: 16,
               ),
+              const Text('Màu sắc:'),
+              const SizedBox(
+                height: 16,
+              ),
               Obx(
                 () => Wrap(
                   spacing: 8,
                   runSpacing: 8,
                   children: [
-                    const Text('Màu sắc:'),
                     if (viewModel.product.colors != null)
                       ...viewModel.product.colors!
                           .map((e) => InkWell(
@@ -168,16 +171,62 @@ class _ProductViewState extends State<ProductView> {
                                   indexImage.value = 1;
                                   setCountProduct();
                                 },
-                                child: CircleNumberWidget(
-                                  text: viewModel.colorList.value
-                                          .firstWhereOrNull((element) =>
-                                              element.id == e.colorId)
-                                          ?.name ??
-                                      '',
-                                  isSelected:
-                                      viewModel.product.colors?.indexOf(e) ==
-                                          indexColorImage.value,
+                                child: Container(
+                                  width: 34,
+                                  height: 34,
+                                  decoration: BoxDecoration(
+                                    color: Color(int.parse(
+                                            viewModel.colorList.value
+                                                    .firstWhereOrNull(
+                                                        (element) =>
+                                                            element.id ==
+                                                            e.colorId)
+                                                    ?.colorCode ??
+                                                'FFFFFF',
+                                            radix: 16) +
+                                        0xFF000000),
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withOpacity(0.2),
+                                        blurRadius: 3.0,
+                                        offset: const Offset(0, 2),
+                                      )
+                                    ],
+                                  ),
+                                  child: viewModel.product.colors?.indexOf(e) ==
+                                          indexColorImage.value
+                                      ? Icon(
+                                          Icons.check,
+                                          color: isColorBright(
+                                            Color(int.parse(
+                                                    viewModel.colorList.value
+                                                            .firstWhereOrNull(
+                                                                (element) =>
+                                                                    element
+                                                                        .id ==
+                                                                    e.colorId)
+                                                            ?.colorCode ??
+                                                        'FFFFFF',
+                                                    radix: 16) +
+                                                0xFF000000),
+                                          )
+                                              ? Colors.black
+                                              : Colors.white,
+                                          size: 18.0,
+                                        )
+                                      : null,
                                 ),
+                                // child: CircleNumberWidget(
+                                //   text: viewModel.colorList.value
+                                //           .firstWhereOrNull((element) =>
+                                //               element.id == e.colorId)
+                                //           ?.name ??
+                                //       '',
+                                //   isSelected:
+                                //       viewModel.product.colors?.indexOf(e) ==
+                                //           indexColorImage.value,
+                                // ),
                               ))
                           .toList()
                   ],
@@ -186,12 +235,15 @@ class _ProductViewState extends State<ProductView> {
               const SizedBox(
                 height: 16,
               ),
+              const Text('Size:'),
+              const SizedBox(
+                height: 16,
+              ),
               Obx(
                 () => Wrap(
                   spacing: 8,
                   runSpacing: 8,
                   children: [
-                    const Text('Size:'),
                     // if (viewModel.sizeOfProduct.value != null)
                     ...viewModel.sizeOfProduct.value
                         .map((e) => InkWell(
@@ -295,6 +347,11 @@ class _ProductViewState extends State<ProductView> {
         ),
       ),
     );
+  }
+
+  bool isColorBright(Color color) {
+    final brightness = color.computeLuminance();
+    return brightness > 0.5; // Ngưỡng 0.5 để phân biệt màu sáng và màu tối
   }
 
   void setCountProduct() {

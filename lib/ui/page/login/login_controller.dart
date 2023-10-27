@@ -32,7 +32,7 @@ class LoginController extends GetxController {
       // 0 admin
       // 1 user
       if (role != null) {
-        if (role == 0) {
+        if (role == 1) {
           isRoleAdmin.value = true;
         } else {
           isRoleAdmin.value = false;
@@ -62,7 +62,7 @@ class LoginController extends GetxController {
       }
       if (value != null) {
         if (accId.trim().isNotEmpty && role > -1) {
-          if (role == 0) {
+          if (role == 1) {
             Get.offNamed(HomeAdmin.route);
           } else {
             Get.offNamed(HomeUser.route);

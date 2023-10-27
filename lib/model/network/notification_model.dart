@@ -28,7 +28,7 @@ class NotificationUser extends BaseEntity {
 
 class NotificationModel {
   int? id;
-  int? accountId;
+  String? accountId;
   String? title;
   String? content;
   String? timestamp;
@@ -38,7 +38,7 @@ class NotificationModel {
 
   NotificationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    accountId = json['account_id'];
+    accountId = json['account_id'].toString();
     title = json['title'];
     content = json['content'];
     timestamp = json['timestamp'];

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:web_app/firebase_options.dart';
+import 'package:web_app/service/local/save_data.dart';
 import 'package:web_app/service/network/customer_service.dart';
 import 'package:web_app/ui/page/home/user/home_user.dart';
 import 'package:web_app/ui/page/home/user/home_user_controller.dart';
@@ -107,13 +108,13 @@ Future<void> initApp() async {
     FirebaseMessaging.instance.subscribeToTopic("all");
     final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
     final customerService = CustomerService();
-    final accId = 3;
+    final accountId = DataLocal.getAccountId();
 
     _firebaseMessaging.requestPermission();
     _firebaseMessaging.getToken().then((token) {
       print('Firebase Token: $token');
       if (token != null) {
-        customerService.updateNotificationToken(accId, token);
+        customerService.updateNotificationToken(accountId, token);
       }
     });
 

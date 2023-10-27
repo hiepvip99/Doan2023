@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../login/login_controller.dart';
+
 class Signup extends StatefulWidget {
   const Signup({super.key});
 
@@ -25,6 +27,8 @@ class _SignupState extends State<Signup> {
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
+  LoginController loginController = LoginController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,8 +41,8 @@ class _SignupState extends State<Signup> {
             children: [
               const SizedBox(height: 100),
               Text(
-                "Register",
-                style: Theme.of(context).textTheme.headlineLarge,
+                "Đăng ký người dùng",
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: 10),
               Text(

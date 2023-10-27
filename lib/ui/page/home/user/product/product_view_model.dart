@@ -4,6 +4,7 @@ import 'package:web_app/model/network/product_manager_model.dart';
 
 import '../../../../../model/network/color_model.dart';
 import '../../../../../model/network/size_model.dart';
+import '../../../../../service/local/save_data.dart';
 import '../../../../../service/network/cart_service.dart';
 import '../../../../../service/network/color_service.dart';
 import '../../../../../service/network/manufacturer_service.dart';
@@ -25,7 +26,7 @@ class ProductViewModel extends GetxController {
   RxList<Size> sizeList = RxList();
   Product product = Product();
 
-  static const accId = 3;
+  final accountId = DataLocal.getAccountId();
 
   final dialog = DialogCommon();
 
@@ -46,7 +47,7 @@ class ProductViewModel extends GetxController {
 
   Future<void> checkFavorite() async {
     networkService
-        .checkFavorite(Favorite(accountId: accId, productId: product.id))
+        .checkFavorite(Favorite(accountId: accountId, productId: product.id))
         .then((value) {
       favorite.value = value?.isFavorite ?? false;
     });
@@ -54,13 +55,13 @@ class ProductViewModel extends GetxController {
 
   Future<void> addToFavorite() async {
     networkService
-        .addFavorite(Favorite(accountId: accId, productId: product.id));
+        .addFavorite(Favorite(accountId: accountId, productId: product.id));
     // Get.find<FavoriteViewModel>().getAllFavoriteProduct();
   }
 
   Future<void> removeFavorite() async {
     await networkService.removeFavorite(
-        [Favorite(accountId: accId, productId: product.id)]).then((value) {
+        [Favorite(accountId: accountId, productId: product.id)]).then((value) {
       print('status: ${value?.statusCode}');
     });
     // Get.find<FavoriteViewModel>().getAllFavoriteProduct();
@@ -69,7 +70,7 @@ class ProductViewModel extends GetxController {
   Future<void> addToCart(ProductInCart productView) async {
     cartService
         .addCart(ProductInCart(
-            accountId: accId,
+            accountId: accountId,
             // id: ,
             productId: product.id,
             colorId: productView.colorId,
@@ -86,6 +87,7 @@ class ProductViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getInfomationForProduct();
     final data = Get.arguments;
     if (data is Product) {
       product = data;
@@ -99,7 +101,6 @@ class ProductViewModel extends GetxController {
       }
     }
     checkFavorite();
-    getInfomationForProduct();
   }
 }
 

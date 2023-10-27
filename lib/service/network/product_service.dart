@@ -75,7 +75,7 @@ class ProductService {
   }
 
   Future<ProductManagerModel?> getAllFavoriteProduct(
-      {int? currentPage, int? step, int? accountId}) async {
+      {int? currentPage, int? step, String? accountId}) async {
     final queryParameter = <String, dynamic>{};
     if (step != null) {
       queryParameter['step'] = step;

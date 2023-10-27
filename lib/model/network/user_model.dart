@@ -20,7 +20,7 @@ class User {
     fullName = json['full_name'];
     phoneNumber = json['phone_number'];
     address = json['address'];
-    accountId = json['account_id'];
+    accountId = json['account_id'].toString();
   }
 
   Map<String, dynamic> toJson() {

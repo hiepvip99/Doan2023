@@ -82,12 +82,17 @@ class _HomeUserState extends State<HomeUser> {
   @override
   Widget build(BuildContext context) {
     if (Platform.isWindows) {
-      return const Column(
-        children: [
-          Text(
-              'Bạn chỉ có thể đăng nhập tài khoản người dùng trên thiết bị di động'),
-          LogoutView(),
-        ],
+      return Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Bạn chỉ có thể đăng nhập tài khoản người dùng trên thiết bị di động',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const LogoutView(),
+          ],
+        ),
       );
     }
     return GestureDetector(
@@ -273,6 +278,7 @@ class _HomeUserState extends State<HomeUser> {
                 itemBuilder: (context, item, index) => TestProductCard(
                   // beer: item,
                   product: item,
+                  // onRefesh: _pagingController.refresh(),
                 ),
               ),
             ),

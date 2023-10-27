@@ -30,7 +30,7 @@ class CartManagerModel extends BaseEntity {
 
 class ProductInCart {
   int? id;
-  int? accountId;
+  String? accountId;
   int? productId;
   int? colorId;
   int? sizeId;
@@ -54,7 +54,7 @@ class ProductInCart {
 
   ProductInCart.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    accountId = json['account_id'];
+    accountId = json['account_id'].toString();
     productId = json['product_id'];
     colorId = json['color_id'];
     sizeId = json['size_id'];

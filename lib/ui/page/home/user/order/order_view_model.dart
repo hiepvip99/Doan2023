@@ -8,6 +8,7 @@ import 'package:web_app/ui/dialog/dialog_common.dart';
 import '../../../../../model/network/color_model.dart';
 import '../../../../../model/network/customer_model.dart';
 import '../../../../../model/network/size_model.dart';
+import '../../../../../service/local/save_data.dart';
 import '../../../../../service/network/color_service.dart';
 import '../../../../../service/network/customer_service.dart';
 import '../../../../../service/network/order_service.dart';
@@ -27,7 +28,7 @@ class OrderViewModel extends GetxController {
   DiscountService discountService = DiscountService();
   Rx<Customer> customer = Rx(Customer());
 
-  static const accId = 3;
+  final accountId = DataLocal.getAccountId();
   ColorService colorNetworkService = ColorService();
   SizeService sizeNetworkService = SizeService();
 
@@ -76,7 +77,7 @@ class OrderViewModel extends GetxController {
   }
 
   Future<void> getInfomationForProduct() async {
-    customerService.getCustomerById(accountId: accId).then((value) {
+    customerService.getCustomerById(accountId: accountId).then((value) {
       value != null ? customer.value = value : null;
       if (customer.value.address?.length != 0) {
         radioAddressValue.value = customer.value.address!.first;
@@ -99,7 +100,7 @@ class OrderViewModel extends GetxController {
       orderProduct.value = data;
     }
     getInfomationForProduct();
-    accId;
+    accountId;
   }
 
   int getTotalPrice() {

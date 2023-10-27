@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_app/ui/component_common/circle_button.dart';
 
+import '../../constant.dart';
 import '../../extendsion/extendsion.dart';
 import '../../model/network/product_manager_model.dart';
+import '../../service/local/save_data.dart';
+import '../../service/network/product_service.dart';
+import '../page/home/admin/components/product_manager/product_manager_view.dart';
 import '../page/home/user/product/product_view.dart';
 
 class TestProductCard extends StatefulWidget {
@@ -28,12 +32,47 @@ class TestProductCard extends StatefulWidget {
 }
 
 class _TestProductCardState extends State<TestProductCard> {
+  ProductService networkService = ProductService();
   bool isChecked = false;
   bool isFavorite = false;
+  final accountId = DataLocal.getAccountId();
   void toggleFavorite() {
     setState(() {
       isFavorite = !isFavorite;
     });
+    if (isFavorite) {
+      addToFavorite();
+    } else {
+      removeFavorite();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    networkService
+        .checkFavorite(
+            Favorite(accountId: accountId, productId: widget.product.id))
+        .then((value) {
+      setState(() {
+        isFavorite = value?.isFavorite ?? false;
+      });
+    });
+  }
+
+  Future<void> addToFavorite() async {
+    networkService.addFavorite(
+        Favorite(accountId: accountId, productId: widget.product.id));
+    // Get.find<FavoriteViewModel>().getAllFavoriteProduct();
+  }
+
+  Future<void> removeFavorite() async {
+    await networkService.removeFavorite([
+      Favorite(accountId: accountId, productId: widget.product.id)
+    ]).then((value) {
+      print('status: ${value?.statusCode}');
+    });
+    // Get.find<FavoriteViewModel>().getAllFavoriteProduct();
   }
 
   @override
@@ -88,24 +127,39 @@ class _TestProductCardState extends State<TestProductCard> {
                     ClipRRect(
                       borderRadius:
                           const BorderRadius.vertical(top: Radius.circular(10)),
-                      child: Image.network(
-                        'https://www.travelandleisure.com/thmb/eKGIFTp7RBsI6GbSv_Jqs3S8kAE=/fit-in/1500x1000/filters:no_upscale():max_bytes(150000):strip_icc()/adidas-womens-cloudfoam-pure-running-shoe-5f4e6602f9444d0f8570ec4c3f949c22.jpg',
-                        fit: BoxFit.cover,
-                        width: double.infinity,
+                      // child: Image.network(
+                      //   'https://www.travelandleisure.com/thmb/eKGIFTp7RBsI6GbSv_Jqs3S8kAE=/fit-in/1500x1000/filters:no_upscale():max_bytes(150000):strip_icc()/adidas-womens-cloudfoam-pure-running-shoe-5f4e6602f9444d0f8570ec4c3f949c22.jpg',
+                      //   fit: BoxFit.cover,
+                      //   width: double.infinity,
+                      // ),
+                      child: Center(
+                        child: ImageComponent(
+                          isShowBorder: false,
+                          imageUrl: domain +
+                              (widget.product.colors
+                                      ?.firstWhereOrNull(
+                                          (element) => element.images != null)
+                                      ?.images
+                                      ?.firstWhereOrNull(
+                                        (element) => element.url != null,
+                                      )
+                                      ?.url ??
+                                  ''),
+                        ),
                       ),
                     ),
-                    // Positioned(
-                    //   top: 0,
-                    //   right: 0,
-                    //   child: MyCircleButton(
-                    //     padding: const EdgeInsets.all(10),
-                    //     onTap: toggleFavorite,
-                    //     child: Icon(
-                    //       isFavorite ? Icons.favorite : Icons.favorite_border,
-                    //       color: isFavorite ? Colors.red : null,
-                    //     ),
-                    //   ),
-                    // ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: MyCircleButton(
+                        padding: const EdgeInsets.all(10),
+                        onTap: toggleFavorite,
+                        child: Icon(
+                          isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: isFavorite ? Colors.red : null,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

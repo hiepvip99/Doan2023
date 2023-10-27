@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../../../../model/network/product_manager_model.dart';
+import '../../../../../service/local/save_data.dart';
 import '../../../../../service/network/product_service.dart';
 import '../../../../dialog/dialog_common.dart';
 
@@ -12,7 +13,7 @@ class FavoriteViewModel extends GetxController {
   RxBool loading = false.obs;
   RxString selectedItem = '10'.obs;
 
-  final accId = 3;
+  final accountId = DataLocal.getAccountId();
 
   RxList<Product> productList = RxList();
 
@@ -22,7 +23,7 @@ class FavoriteViewModel extends GetxController {
     loading.value = true;
     await networkService
         .getAllFavoriteProduct(
-            accountId: accId,
+            accountId: accountId,
             currentPage: currentPage.value,
             step: int.tryParse(selectedItem.value) ?? 10)
         .then((value) {
@@ -34,7 +35,7 @@ class FavoriteViewModel extends GetxController {
 
   Future<void> removeFavorite(List<Favorite> favorite) async {
     final List<Favorite> favoriteSend = favorite
-        .map((e) => Favorite(productId: e.productId, accountId: accId))
+        .map((e) => Favorite(productId: e.productId, accountId: accountId))
         .toList();
     await dialog.showDeleteConfirmation(Get.context!, () async {
       loading.value = true;

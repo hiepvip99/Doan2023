@@ -228,7 +228,7 @@ class SizeItemProduct extends BaseEntity {
 class Favorite extends BaseEntity {
   int? id;
   int? productId;
-  int? accountId;
+  String? accountId;
   bool? isFavorite;
 
   Favorite({

@@ -9,25 +9,27 @@ class CircleNumberWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: isSelected ? Colors.lightBlueAccent : Colors.grey,
-      child: Container(
-        width: 36.0,
-        height: 36.0,
-        // decoration: BoxDecoration(
-
-        //   // shape: BoxShape.circle,
-        //   borderRadius: BorderRadius.circular(12),
-        //   border: Border.all(color: Colors.black, width: 2.0),
-        // ),
-        child: Center(
-          child: Text(
-            '$text',
-            style: const TextStyle(
-              color: Colors.black,
-              // fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-            ),
+    return Container(
+      width: 34.0,
+      height: 34.0,
+      decoration: BoxDecoration(
+        color: isSelected ? Colors.lightBlueAccent : Colors.white,
+        borderRadius: BorderRadius.circular(4.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 3.0,
+            offset: const Offset(0, 2),
+          )
+        ],
+      ),
+      child: Center(
+        child: Text(
+          '$text',
+          style: const TextStyle(
+            color: Colors.black,
+            // fontSize: 24.0,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
 
 import '../../../../../model/network/customer_model.dart';
+import '../../../../../service/local/save_data.dart';
 import '../../../../../service/network/customer_service.dart';
 
 class ProfileViewModel extends GetxController {
   CustomerService customerService = CustomerService();
 
-  final accid = 3;
+  final accountId = DataLocal.getAccountId();
 
   Rx<Customer> customerInfo = Rx(Customer());
 
@@ -18,7 +19,7 @@ class ProfileViewModel extends GetxController {
   }
 
   Future<void> getInfomationCustomer() async {
-    customerService.getCustomerById(accountId: accid).then((value) {
+    customerService.getCustomerById(accountId: accountId).then((value) {
       if (value != null) {
         customerInfo.value = value;
       }
