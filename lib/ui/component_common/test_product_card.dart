@@ -54,8 +54,10 @@ class _TestProductCardState extends State<TestProductCard> {
         .checkFavorite(
             Favorite(accountId: accountId, productId: widget.product.id))
         .then((value) {
-      setState(() {
-        isFavorite = value?.isFavorite ?? false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          isFavorite = value?.isFavorite ?? false;
+        });
       });
     });
   }

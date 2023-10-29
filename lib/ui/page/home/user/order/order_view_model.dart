@@ -72,6 +72,9 @@ class OrderViewModel extends GetxController {
     await orderService.addOrder(order.value).then((value) {
       if (value?.statusCode == 200) {
         Get.toNamed(OrderSuccessScreen.route);
+      } else {
+        DialogCommon().showAlertDialog(
+            context: Get.context!, title: value?.message ?? '');
       }
     });
   }

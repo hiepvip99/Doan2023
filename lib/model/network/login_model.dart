@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../extendsion/extendsion.dart';
 import '../../service/base_entity.dart';
 
@@ -20,6 +21,31 @@ class LoginModel extends BaseEntity {
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
     data['username'] = username;
+    data['password'] = password;
+    return data;
+  }
+}
+
+class RegisterModel extends BaseEntity {
+  String? username;
+  String? password;
+  String? email;
+
+  RegisterModel({
+    this.username,
+    this.password,
+    this.email,
+  });
+
+  RegisterModel.fromJson(Map<dynamic, dynamic> json) {
+    message = json['message'];
+    statusCode = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['username'] = username;
+    data['email'] = email;
     data['password'] = password;
     return data;
   }

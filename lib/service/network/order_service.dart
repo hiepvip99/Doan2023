@@ -41,6 +41,7 @@ class OrderService {
     final repo = BaseRepository(path: _orderUrl, method: HttpMethod.post);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
         // queryParameters: queryParameter,
+        showError: true,
         data: orderModel.toJson());
     return response;
   }

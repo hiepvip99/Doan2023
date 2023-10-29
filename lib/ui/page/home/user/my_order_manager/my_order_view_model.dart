@@ -46,11 +46,13 @@ class MyOrderViewModel extends GetxController {
         .then((value) => sizeList.value = value?.size ?? []);
   }
 
+  final accountId = DataLocal.getAccountId();
+  
   Future<void> getAllProduct() async {
     loading.value = true;
-    final accId = '3';
-    // final accId = DataLocal.getAccountId() ?? '';
-    await networkService.getAllOrder(accountId: accId, step: 100).then((value) {
+    await networkService
+        .getAllOrder(accountId: accountId, step: 100)
+        .then((value) {
       listStatusOrder.value = value?.statusObj ?? [];
       listOrder.value = value?.order ?? [];
 

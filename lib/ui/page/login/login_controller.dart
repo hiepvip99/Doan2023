@@ -68,14 +68,14 @@ class LoginController extends GetxController {
             Get.offNamed(HomeUser.route);
           }
         } else {
-          if (value.validations != null) {
-            String errorMsg = '';
-            for (var element in value.validations!) {
-              errorMsg += element.message;
-            }
+          if (value.message != null) {
+            // String errorMsg = '';
+            // for (var element in value.validations!) {
+            //   errorMsg += element.message;
+            // }
             Get.showSnackbar(GetSnackBar(
               backgroundColor: Colors.black,
-              message: errorMsg,
+              message: value.message,
               title: 'Lỗi',
               duration: const Duration(seconds: 3),
             ));
@@ -105,5 +105,22 @@ class LoginController extends GetxController {
     await DataLocal.deleteAccount();
     await checkStatusAndRoleLogin();
     Get.offAllNamed(Login.route);
+  }
+
+  Future<void> register(RegisterModel data) async {
+    loginService.register(data).then((value) {
+      if (value?.statusCode == 200) {
+        DialogCommon()
+            .showAlertDialog(
+                context: Get.context!,
+                title: 'Bạn đã đăng ký tài khoản thành công vui lòng đăng nhập')
+            .whenComplete(() {
+          Get.offAllNamed(Login.route);
+        });
+      } else if (value?.message != null) {
+        DialogCommon().showAlertDialog(
+            context: Get.context!, title: value?.message ?? '');
+      }
+    });
   }
 }

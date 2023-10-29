@@ -21,8 +21,8 @@ class CartViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getAllProductInCart();
     getInfomationForProduct();
+    getAllProductInCart();
   }
 
   ColorService colorNetworkService = ColorService();

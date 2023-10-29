@@ -146,6 +146,7 @@ class BaseRepository extends BaseRepositoryInterface {
         }
         final response = jsonDecode(res.toString()) as Map<String, dynamic>;
         final status = response['status'];
+        dialogCommon.dismiss();
         if (status is int) {
           final message = response['message'] ?? '';
           if (message is String && message.isNotEmpty && (showError ?? true)) {
