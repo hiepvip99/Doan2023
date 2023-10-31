@@ -264,6 +264,13 @@ class _HomeUserState extends State<HomeUser> {
             // const SizedBox(
             //   height: 16,
             // ),
+            const SizedBox(
+              height: 16,
+            ),
+            Text(
+              'Sản phẩm hot',
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
             PagedGridView<int, Product>(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(vertical: 16),

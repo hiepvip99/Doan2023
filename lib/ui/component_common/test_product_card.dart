@@ -50,14 +50,13 @@ class _TestProductCardState extends State<TestProductCard> {
   @override
   void initState() {
     super.initState();
-    networkService
-        .checkFavorite(
-            Favorite(accountId: accountId, productId: widget.product.id))
-        .then((value) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        setState(() {
-          isFavorite = value?.isFavorite ?? false;
-        });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      networkService
+          .checkFavorite(
+              Favorite(accountId: accountId, productId: widget.product.id))
+          .then((value) {
+        isFavorite = value?.isFavorite ?? false;
+        setState(() {});
       });
     });
   }
@@ -156,9 +155,15 @@ class _TestProductCardState extends State<TestProductCard> {
                       child: MyCircleButton(
                         padding: const EdgeInsets.all(10),
                         onTap: toggleFavorite,
-                        child: Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: isFavorite ? Colors.red : null,
+                        child: Container(
+                          padding: const EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(90)),
+                          child: Icon(
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            color: isFavorite ? Colors.red : null,
+                          ),
                         ),
                       ),
                     ),
