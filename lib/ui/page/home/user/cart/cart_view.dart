@@ -462,6 +462,7 @@ class _ProductCartItemState extends State<ProductCartItem> {
                                 child: const Icon(
                                   Icons.remove,
                                   color: Colors.black,
+                                  size: 16,
                                 ),
                               ),
                             ),
@@ -544,6 +545,7 @@ class _ProductCartItemState extends State<ProductCartItem> {
                                 child: const Icon(
                                   Icons.add,
                                   color: Colors.black,
+                                  size: 16,
                                 ),
                               ),
                             ),

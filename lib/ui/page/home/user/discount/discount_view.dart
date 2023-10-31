@@ -60,16 +60,32 @@ class _DiscountCodeViewState extends State<DiscountCodeView> {
                             height: 100,
                             curveAxis: Axis.vertical,
                             firstChild: Container(
-                              color: Colors.blue,
-                              child: Center(
-                                  child: Text(
-                                      'Mã giảm giá: ${discountCode.code}')),
+                              decoration: const BoxDecoration(
+                                color: Colors.lightBlueAccent,
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8),
+                                      child: Text(
+                                          'Mã giảm giá: ${discountCode.code}'),
+                                    ),
+                                  ),
+                                  SizedBox(child: DashedLine()),
+                                ],
+                              ),
                             ),
                             secondChild: Container(
                               color: Colors.lightBlueAccent,
                               child: Center(
-                                  child: Text(
-                                      'Mã giảm giá này giảm ${formatMoney(discountCode.discount ?? 0)} cho mỗi đơn hàng')),
+                                  child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                    'Mã giảm giá này giảm ${formatMoney(discountCode.discount ?? 0)} cho mỗi đơn hàng'),
+                              )),
                             )),
                       ),
                     );
@@ -78,5 +94,47 @@ class _DiscountCodeViewState extends State<DiscountCodeView> {
         ),
       ),
     );
+  }
+}
+
+
+class DashedLine extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: double.infinity,
+      width: 2.0,
+      child: CustomPaint(
+        painter: DashedLinePainter(),
+      ),
+    );
+  }
+}
+
+class DashedLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.black
+      ..strokeWidth = 2.0
+      ..style = PaintingStyle.stroke;
+
+    final dashHeight = 10.0;
+    final dashSpace = 5.0;
+
+    double startY = 0.0;
+    while (startY < size.height) {
+      canvas.drawLine(
+        Offset(0.0, startY),
+        Offset(0.0, startY + dashHeight),
+        paint,
+      );
+      startY += dashHeight + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(DashedLinePainter oldDelegate) {
+    return false;
   }
 }

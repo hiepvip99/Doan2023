@@ -85,7 +85,7 @@ class _TestProductCardState extends State<TestProductCard> {
       //   });
       // },
       onTap: () {
-        print('object');
+        // print('object');
         widget.isShowChecked
             ? setState(() {
                 isChecked = !isChecked;
@@ -158,7 +158,7 @@ class _TestProductCardState extends State<TestProductCard> {
                         child: Container(
                           padding: const EdgeInsets.all(2),
                           decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
+                              color: Colors.black.withOpacity(0.15),
                               borderRadius: BorderRadius.circular(90)),
                           child: Icon(
                             isFavorite ? Icons.favorite : Icons.favorite_border,

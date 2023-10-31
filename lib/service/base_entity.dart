@@ -6,12 +6,6 @@ class BaseEntity {
   BaseEntity({this.statusCode, this.message});
 
   BaseEntity.fromJson(map) {
-    final entity = BaseEntity();
-    entity.mapping(map);
-    // return entity;
-  }
-
-  void mapping(map) {
     final statusCode = map['status'];
     if (statusCode is int) {
       this.statusCode = statusCode;

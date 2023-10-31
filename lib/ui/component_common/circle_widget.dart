@@ -13,7 +13,7 @@ class CircleNumberWidget extends StatelessWidget {
       width: 34.0,
       height: 34.0,
       decoration: BoxDecoration(
-        color: isSelected ? Colors.lightBlueAccent : Colors.white,
+          color: /* isSelected ? Colors.lightBlueAccent : */ Colors.white,
         borderRadius: BorderRadius.circular(4.0),
         boxShadow: [
           BoxShadow(
@@ -22,6 +22,7 @@ class CircleNumberWidget extends StatelessWidget {
             offset: const Offset(0, 2),
           )
         ],
+          border: Border.all(color: isSelected ? Colors.black : Colors.white)
       ),
       child: Center(
         child: Text(

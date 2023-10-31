@@ -15,7 +15,7 @@ class CategoryManagerModel extends BaseEntity {
       this.categoryObj});
 
   CategoryManagerModel.fromJson(Map<dynamic, dynamic> json) {
-    super.mapping(json);
+    // super.mapping(json);
     currentPage = json['currentPage'];
     step = json['step'];
     totalPages = json['totalPages'];
@@ -28,7 +28,7 @@ class CategoryManagerModel extends BaseEntity {
   }
 
   CategoryManagerModel.fromJsonById(Map<dynamic, dynamic> json) {
-    super.mapping(json);
+    // super.mapping(json);
     if (json['object'] != null) {
       categoryObj = Category.fromJson(json['object']);
     }

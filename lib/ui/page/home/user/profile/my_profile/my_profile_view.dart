@@ -106,7 +106,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     Obx(
                       () => Text(
-                        '${viewModel.customerInfo.value.dateOfBirth != null ? formatDate(viewModel.customerInfo.value.dateOfBirth!) : ''}',
+                        viewModel.customerInfo.value.dateOfBirth != null
+                            ? formatDate(
+                                viewModel.customerInfo.value.dateOfBirth!)
+                            : '',
                         style: const TextStyle(
                           fontSize: 16.0,
                         ),

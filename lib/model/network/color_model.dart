@@ -8,7 +8,7 @@ class ColorProductModel extends BaseEntity {
   ColorProductModel({this.status, this.color});
 
   ColorProductModel.fromJson(Map<dynamic, dynamic> json) {
-    super.mapping(json);
+    // super.mapping(json);
     status = json['status'];
     if (json['data'] != null) {
       color = <ColorShoe>[];

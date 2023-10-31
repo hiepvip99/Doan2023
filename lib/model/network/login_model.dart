@@ -9,7 +9,7 @@ class LoginModel extends BaseEntity {
   LoginModel.fromJson(Map<dynamic, dynamic> json) {
     // mapping(json);
     message = json['message'];
-    // super.mapping(json);
+    // // super.mapping(json);
     final data = json['data'];
     if (data != null) {
       role = data['decentralization_id'];

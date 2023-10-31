@@ -284,31 +284,78 @@ class _ProductViewState extends State<ProductView> {
                 children: [
                   // Text('Price'),
                   const Text('Số Lượng: '),
-                  ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(shape: const CircleBorder()),
-                      onPressed: () {
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Container(
+                    width: 34.0,
+                    height: 34.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: InkWell(
+                      onTap: () {
                         if (count.value > 1) {
                           count.value--;
                         }
                       },
-                      child: const Text('-')),
+                      child: const Icon(
+                        Icons.remove,
+                        size: 16,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
                   Obx(() => Text(' ${count.value} ')),
-                  ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(shape: const CircleBorder()),
-                      onPressed: () {
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Container(
+                    width: 34.0,
+                    height: 34.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(4.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 4.0,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: InkWell(
+                      onTap: () {
                         if (count.value < getQuantity()) {
                           count.value++;
                         }
                       },
-                      child: const Text('+')),
-                  const SizedBox(
-                    width: 4,
+                      child: const Icon(
+                        Icons.add,
+                        size: 16,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
+                  const Spacer(),
                   Obx(() => Text('Kho: ${getQuantity()}')),
                 ],
               ),
+              const SizedBox(
+                height: 16,
+              ),
+              const Text('Mô tả: '),
               const SizedBox(
                 height: 16,
               ),

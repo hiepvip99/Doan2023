@@ -15,7 +15,7 @@ class ManufacturerManagerModel extends BaseEntity {
       this.manufacturerObj});
 
   ManufacturerManagerModel.fromJson(Map<dynamic, dynamic> json) {
-    super.mapping(json);
+    // super.mapping(json);
     currentPage = json['currentPage'];
     step = json['step'];
     totalPages = json['totalPages'];
@@ -28,7 +28,7 @@ class ManufacturerManagerModel extends BaseEntity {
   }
 
   ManufacturerManagerModel.fromJsonById(Map<dynamic, dynamic> json) {
-    super.mapping(json);
+    // super.mapping(json);
     if (json['object'] != null) {
       manufacturerObj = Manufacturer.fromJson(json['object']);
     }

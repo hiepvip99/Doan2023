@@ -16,7 +16,7 @@ class AccountsManagerModel extends BaseEntity {
       this.accountEdit});
 
   AccountsManagerModel.fromJson(Map<dynamic, dynamic> json) {
-    super.mapping(json);
+    // // super.mapping(json);
     if (json['data'] != null) {
       accounts = <AccountInfo>[];
       json['data'].forEach((v) {

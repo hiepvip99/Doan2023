@@ -26,6 +26,8 @@ class HomeUserController extends GetxController {
   ProductService networkService = ProductService();
 
   RxList<Product> productList = RxList();
+  RxList<Product> productListMen = RxList();
+  RxList<Product> productListWomen = RxList();
   // RxInt totalPage = 1.obs;
   RxString selectedItem = '10'.obs;
 
@@ -39,6 +41,8 @@ class HomeUserController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getInfomationForProduct();
+    getFourShoeWomen();
+    getFourShoeMen();
   }
 
   Future<void> getInfomationForProduct() async {
@@ -65,6 +69,30 @@ class HomeUserController extends GetxController {
             keyword: keyword.value)
         .then((value) {
       productList.value = value?.product ?? [];
+      // totalPage.value = value?.totalPages ?? 1;
+    });
+    loading.value = false;
+  }
+
+  Future<void> getFourShoeMen() async {
+    loading.value = true;
+    await networkService
+        .getAllProduct(
+            currentPage: 1, step: 4, keyword: keyword.value, gender: 'Nam')
+        .then((value) {
+      productListMen.value = value?.product ?? [];
+      // totalPage.value = value?.totalPages ?? 1;
+    });
+    loading.value = false;
+  }
+
+  Future<void> getFourShoeWomen() async {
+    loading.value = true;
+    await networkService
+        .getAllProduct(
+            currentPage: 1, step: 4, keyword: keyword.value, gender: 'Nữ')
+        .then((value) {
+      productListWomen.value = value?.product ?? [];
       // totalPage.value = value?.totalPages ?? 1;
     });
     loading.value = false;

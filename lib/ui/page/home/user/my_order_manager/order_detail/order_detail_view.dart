@@ -6,6 +6,7 @@ import 'package:web_app/ui/dialog/dialog_common.dart';
 import '../../../../../../constant.dart';
 import '../../../../../../extendsion/extendsion.dart';
 import '../../../admin/components/product_manager/product_manager_view.dart';
+import '../../review/product_review.dart';
 import 'order_detail_view_model.dart';
 
 class OrderDetailView extends StatelessWidget {
@@ -172,6 +173,11 @@ class OrderDetailView extends StatelessWidget {
               ),
               Text('${viewModel.order.value.paymentMethods}'),
               const Divider(),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.toNamed(ProductReviewPage.route);
+                  },
+                  child: const Text('Đánh giá'))
             ],
           ),
         ),

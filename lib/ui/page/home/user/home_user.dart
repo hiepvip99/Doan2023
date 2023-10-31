@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -219,7 +221,7 @@ class _HomeUserState extends State<HomeUser> {
                     onTap: () {
                       Get.toNamed(SearchView.route,
                           arguments: viewModel.manufacturerList.value[index]);
-                      print(viewModel.manufacturerList.value[index].id);
+                      // print(viewModel.manufacturerList.value[index].id);
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 8),
@@ -266,6 +268,72 @@ class _HomeUserState extends State<HomeUser> {
             // ),
             const SizedBox(
               height: 16,
+            ),
+            Row(
+              children: [
+                Text(
+                  'Giày nam',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const Spacer(),
+                OutlinedButton(
+                    onPressed: () {
+                      Get.toNamed(SearchView.route, arguments: 'Nam');
+                    },
+                    child: const Text('Xem tất cả ->'))
+              ],
+            ),
+            Obx(
+              () => GridView.builder(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                physics: const NeverScrollableScrollPhysics(),
+                // pagingController: _pagingController,
+                itemCount: viewModel.productListMen.value.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 3 / 4,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
+                itemBuilder: (context, index) => TestProductCard(
+                  // beer: item,
+                  product: viewModel.productListMen.value[index],
+                  // onRefesh: _pagingController.refresh(),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  'Giày nữ',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const Spacer(),
+                OutlinedButton(
+                    onPressed: () {
+                      Get.toNamed(SearchView.route, arguments: 'Nữ');
+                    },
+                    child: const Text('Xem tất cả ->'))
+              ],
+            ),
+            Obx(
+              () => GridView.builder(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                physics: const NeverScrollableScrollPhysics(),
+                // pagingController: _pagingController,
+                itemCount: viewModel.productListWomen.value.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 3 / 4,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
+                itemBuilder: (context, index) => TestProductCard(
+                  // beer: item,
+                  product: viewModel.productListWomen.value[index],
+                  // onRefesh: _pagingController.refresh(),
+                ),
+              ),
             ),
             Text(
               'Sản phẩm hot',

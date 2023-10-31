@@ -8,7 +8,7 @@ class SizeProductModel extends BaseEntity {
   SizeProductModel({this.status, this.size});
 
   SizeProductModel.fromJson(Map<dynamic, dynamic> json) {
-    super.mapping(json);
+    // super.mapping(json);
     status = json['status'];
     if (json['data'] != null) {
       size = <Size>[];

@@ -23,7 +23,7 @@ class ProductManagerModel extends BaseEntity {
       this.item});
 
   ProductManagerModel.fromJson(Map<dynamic, dynamic> json) {
-    super.mapping(json);
+    // super.mapping(json);
     currentPage = json['currentPage'];
     step = json['step'];
     totalPages = json['totalPages'];
@@ -169,7 +169,7 @@ class Images extends BaseEntity {
       this.customerId});
 
   Images.fromJson(Map<dynamic, dynamic> json) {
-    super.mapping(json);
+    // super.mapping(json);
     url = json['url'];
   }
 

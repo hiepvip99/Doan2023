@@ -79,101 +79,105 @@ class _SearchViewState extends State<SearchView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _key,
-      endDrawer: searchFilter(),
-      appBar: AppBar(
-        // toolbarHeight: 54,
-        elevation: 0,
-        // backgroundColor: Colors.white,
-        title: Row(
-          children: [
-            Expanded(
-              child: TextFieldCommon(
-                autofocus: true,
-                border: InputBorder.none,
-                backgroundColor: Colors.grey.shade200,
-                controller: txtSearch,
-                // onChanged: (value) {
-                //   viewModel.keyword.value = value;
-                //   // viewModel.getAllProduct();
-                //   _pagingController.refresh();
-                //   // _fetchPage(1);
-                // },
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                viewModel.keyword.value = txtSearch.text.trim();
-                _pagingController.refresh();
-              },
-              icon: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.search),
-              )),
-          IconButton(
-              onPressed: () {
-                _key.currentState!.openEndDrawer();
-              },
-              icon: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.filter_list_alt),
-              )),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        key: _key,
+        endDrawer: searchFilter(),
+        appBar: AppBar(
+          // toolbarHeight: 54,
+          elevation: 0,
+          // backgroundColor: Colors.white,
+          title: Row(
             children: [
-              // const Text('Danh sách sản phẩm hiển thị ở đây'),
-              PagedGridView<int, Product>(
-                shrinkWrap: true,
-                // padding: const EdgeInsets.symmetric(vertical: 8),
-                physics: const NeverScrollableScrollPhysics(),
-                pagingController: _pagingController,
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    maxCrossAxisExtent: 175,
-                    childAspectRatio: 3 / 4),
-                builderDelegate: PagedChildBuilderDelegate<Product>(
-                  noItemsFoundIndicatorBuilder: (context) => Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        const Text('Không tìm thấy kết sản phẩm phù hợp'),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        const SizedBox(
-                            height: 200,
-                            width: 200,
-                            child: ImageComponent(
-                                isShowBorder: false,
-                                imageUrl: domain + 'api/image/not_found.png')),
-                        const SizedBox(
-                          height: 50,
-                        ),
-                        removeFilterButton(),
-                      ],
-                    ),
-                  ),
-                  itemBuilder: (context, item, index) => TestProductCard(
-                    // beer: item,
-                    product: item,
-                  ),
+              Expanded(
+                child: TextFieldCommon(
+                  // autofocus: true,
+                  border: InputBorder.none,
+                  backgroundColor: Colors.grey.shade200,
+                  controller: txtSearch,
+                  // onChanged: (value) {
+                  //   viewModel.keyword.value = value;
+                  //   // viewModel.getAllProduct();
+                  //   _pagingController.refresh();
+                  //   // _fetchPage(1);
+                  // },
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 ),
               ),
             ],
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  viewModel.keyword.value = txtSearch.text.trim();
+                  _pagingController.refresh();
+                },
+                icon: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.search),
+                )),
+            IconButton(
+                onPressed: () {
+                  _key.currentState!.openEndDrawer();
+                },
+                icon: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.filter_list_alt),
+                )),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                // const Text('Danh sách sản phẩm hiển thị ở đây'),
+                PagedGridView<int, Product>(
+                  shrinkWrap: true,
+                  // padding: const EdgeInsets.symmetric(vertical: 8),
+                  physics: const NeverScrollableScrollPhysics(),
+                  pagingController: _pagingController,
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      maxCrossAxisExtent: 175,
+                      childAspectRatio: 3 / 4),
+                  builderDelegate: PagedChildBuilderDelegate<Product>(
+                    noItemsFoundIndicatorBuilder: (context) => Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          const Text('Không tìm thấy kết sản phẩm phù hợp'),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          const SizedBox(
+                              height: 200,
+                              width: 200,
+                              child: ImageComponent(
+                                  isShowBorder: false,
+                                  imageUrl:
+                                      domain + 'api/image/not_found.png')),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          removeFilterButton(),
+                        ],
+                      ),
+                    ),
+                    itemBuilder: (context, item, index) => TestProductCard(
+                      // beer: item,
+                      product: item,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -91,5 +91,8 @@ class SearchViewModel extends GetxController {
     if (data is Manufacturer) {
       manufacturer.value = data;
     }
+    if (data is String) {
+      gender = data;
+    }
   }
 }
