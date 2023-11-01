@@ -139,11 +139,11 @@ class _SearchViewState extends State<SearchView> {
                   // padding: const EdgeInsets.symmetric(vertical: 8),
                   physics: const NeverScrollableScrollPhysics(),
                   pagingController: _pagingController,
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 3 / 4,
+                      crossAxisCount: 2,
                       crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      maxCrossAxisExtent: 175,
-                      childAspectRatio: 3 / 4),
+                      mainAxisSpacing: 10),
                   builderDelegate: PagedChildBuilderDelegate<Product>(
                     noItemsFoundIndicatorBuilder: (context) => Center(
                       child: Column(

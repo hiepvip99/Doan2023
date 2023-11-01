@@ -109,7 +109,8 @@ class OrderDetailView extends StatelessWidget {
                           child: Column(
                             children: [
                               ListTile(
-                                contentPadding: EdgeInsets.zero,
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 8),
                                 leading: SizedBox(
                                   width: 50,
                                   height: 50,
@@ -122,9 +123,27 @@ class OrderDetailView extends StatelessWidget {
                                                   ''
                                               : '')),
                                 ),
-                                title: Text(
-                                  itemDetail.product?.name ?? '',
-                                  overflow: TextOverflow.ellipsis,
+                                title: Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 150,
+                                      child: Text(
+                                        itemDetail.product?.name ?? '',
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    const Spacer(),
+                                    OutlinedButton(
+                                        onPressed: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            builder: (context) =>
+                                                const ProductReviewPage(),
+                                          );
+                                          // Get.toNamed(ProductReviewPage.route);
+                                        },
+                                        child: const Text('Đánh giá')),
+                                  ],
                                 ),
                                 subtitle: Text(
                                     'Số lượng: ${itemDetail.quantity ?? 0} || ${formatMoney(itemDetail.color?.price ?? 0)}'),
@@ -173,11 +192,6 @@ class OrderDetailView extends StatelessWidget {
               ),
               Text('${viewModel.order.value.paymentMethods}'),
               const Divider(),
-              ElevatedButton(
-                  onPressed: () {
-                    Get.toNamed(ProductReviewPage.route);
-                  },
-                  child: const Text('Đánh giá'))
             ],
           ),
         ),

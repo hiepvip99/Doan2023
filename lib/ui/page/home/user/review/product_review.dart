@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ProductReviewPage extends StatefulWidget {
-  const ProductReviewPage({super.key});
+  const ProductReviewPage({super.key, this.productName});
 
   static const route = '/ProductReviewPage';
+  final String? productName;
 
   @override
   State<ProductReviewPage> createState() => _ProductReviewPageState();
@@ -21,53 +22,79 @@ class _ProductReviewPageState extends State<ProductReviewPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Đánh giá sản phẩm'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Đánh giá sản phẩm',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Đánh giá sản phẩm'),
+        ),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context)
+                .viewInsets
+                .bottom, // Đẩy giao diện lên khi bàn phím xuất hiện
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Đánh giá sản phẩm',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                RatingBar(
+                  onRatingChanged: (rating) {
+                    setState(() {
+                      _rating = rating;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                const Text(
+                  'Nhận xét của bạn',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+                TextFormField(
+                  maxLines: 7,
+                  decoration: InputDecoration(
+                    filled: true,
+                    isDense: true,
+                    fillColor: Colors.grey[200],
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          const BorderSide(color: Colors.lightBlueAccent),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      _reviewText = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: _submitReview,
+                  child: const Text('Gửi đánh giá'),
+                ),
+              ],
             ),
-            const SizedBox(height: 8.0),
-            RatingBar(
-              onRatingChanged: (rating) {
-                setState(() {
-                  _rating = rating;
-                });
-              },
-            ),
-            const SizedBox(height: 16.0),
-            const Text(
-              'Nhận xét của bạn',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            TextFormField(
-              maxLines: 4,
-              onChanged: (value) {
-                setState(() {
-                  _reviewText = value;
-                });
-              },
-            ),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _submitReview,
-              child: const Text('Gửi đánh giá'),
-            ),
-          ],
+          ),
         ),
       ),
     );
