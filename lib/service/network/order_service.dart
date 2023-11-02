@@ -37,6 +37,9 @@ class OrderService {
     return response;
   }
 
+  Future<BaseEntity?> addReview(Review review) async {}
+  Future<Review?> getReview({int? customerId, int? orderDetailId}) async {}
+
   Future<BaseEntity?> addOrder(Order orderModel) async {
     final repo = BaseRepository(path: _orderUrl, method: HttpMethod.post);
     final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),

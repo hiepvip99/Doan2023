@@ -110,7 +110,7 @@ class OrderDetailView extends StatelessWidget {
                             children: [
                               ListTile(
                                 contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 8),
+                                    const EdgeInsets.symmetric(horizontal: 8),
                                 leading: SizedBox(
                                   width: 50,
                                   height: 50,

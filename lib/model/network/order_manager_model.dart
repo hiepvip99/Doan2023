@@ -199,7 +199,6 @@ class Images {
   }
 }
 
-
 // class Product {
 //   int? id;
 //   String? name;
@@ -248,3 +247,43 @@ class StatusOrder {
   }
 }
 
+class Review {
+  int? id;
+  int? productId;
+  int? customerId;
+  int? orderDetailId;
+  double? rating;
+  String? reviewText;
+  String? createAt;
+  Review({
+    this.id,
+    this.productId,
+    this.customerId,
+    this.orderDetailId,
+    this.rating,
+    this.reviewText,
+    this.createAt,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'product_id': productId,
+      'customer_id': customerId,
+      'orderDetail_id': orderDetailId,
+      'rating': rating,
+      'reviewText': reviewText,
+    };
+  }
+
+  factory Review.fromJson(Map<String, dynamic> json) {
+    return Review(
+      id: json['id'],
+      productId: json['product_id'],
+      customerId: json['customer_id'],
+      orderDetailId: json['order_detail_id'],
+      rating: json['rating'],
+      reviewText: json['review_text'],
+      createAt: json['created_at'],
+    );
+  }
+}
