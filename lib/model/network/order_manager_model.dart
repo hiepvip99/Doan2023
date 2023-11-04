@@ -293,7 +293,7 @@ class Review extends BaseEntity {
     );
   }
 }
-class ReviewsModel {
+class ReviewsModel extends BaseEntity {
   List<Review>? reviews;
   RatingCounts? ratingCounts;
   int? averageRating;
@@ -311,7 +311,7 @@ class ReviewsModel {
       this.step,
       this.totalPages});
 
-  ReviewsModel.fromJson(Map<String, dynamic> json) {
+  ReviewsModel.fromJson(Map<dynamic, dynamic> json) {
     if (json['reviews'] != null) {
       reviews = <Review>[];
       json['reviews'].forEach((v) {
