@@ -251,6 +251,7 @@ class Review extends BaseEntity {
   int? id;
   int? productId;
   int? customerId;
+  String? customerName;
   int? orderDetailId;
   double? rating;
   String? reviewText;
@@ -260,6 +261,7 @@ class Review extends BaseEntity {
   Review({
     this.id,
     this.productId,
+    this.customerName,
     this.customerId,
     this.orderDetailId,
     this.rating,
@@ -296,7 +298,7 @@ class Review extends BaseEntity {
 class ReviewsModel extends BaseEntity {
   List<Review>? reviews;
   RatingCounts? ratingCounts;
-  int? averageRating;
+  double? averageRating;
   int? totalRating;
   int? currentPage;
   int? step;

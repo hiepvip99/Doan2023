@@ -5,6 +5,7 @@ import 'package:web_app/constant.dart';
 import 'package:web_app/extendsion/extendsion.dart';
 
 import '../../../../../model/network/cart_model.dart';
+import '../../../../../model/network/order_manager_model.dart';
 import '../../../../component_common/circle_widget.dart';
 import '../../admin/components/product_manager/product_manager_view.dart';
 import '../cart/cart_view.dart';
@@ -28,6 +29,15 @@ class _ProductViewState extends State<ProductView> {
   final RxInt indexImage = 1.obs;
   final RxInt indexSizeCkecked = 0.obs;
   final RxInt count = 1.obs;
+
+  final double averageRating = 4.5;
+  final int totalReviews = 100;
+  final List<Review> reviews = [
+    Review(rating: 5, customerName: 'John Doe'),
+    Review(rating: 4, customerName: 'Jane Smith'),
+    Review(rating: 3, customerName: 'Bob Johnson'),
+    // ... more reviews
+  ];
 
   ProductInCart product = ProductInCart();
 
@@ -119,7 +129,10 @@ class _ProductViewState extends State<ProductView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(viewModel.product.name ?? ''),
+                  Text(
+                    viewModel.product.name ?? '',
+                    style: const TextStyle(fontSize: 16),
+                  ),
                   GestureDetector(
                     onTap: () {
                       viewModel.favorite.value = !viewModel.favorite.value;
@@ -148,12 +161,17 @@ class _ProductViewState extends State<ProductView> {
               ),
               Obx(
                 () => Text(
-                    'Giá: ${formatMoney(viewModel.product.colors?[indexColorImage.value].price ?? 0)}'),
+                  'Giá: ${formatMoney(viewModel.product.colors?[indexColorImage.value].price ?? 0)}',
+                  style: const TextStyle(fontSize: 16),
+                ),
               ),
               const SizedBox(
                 height: 16,
               ),
-              const Text('Màu sắc:'),
+              const Text(
+                'Màu sắc:',
+                style: TextStyle(fontSize: 16),
+              ),
               const SizedBox(
                 height: 16,
               ),
@@ -235,7 +253,10 @@ class _ProductViewState extends State<ProductView> {
               const SizedBox(
                 height: 16,
               ),
-              const Text('Size:'),
+              const Text(
+                'Size:',
+                style: TextStyle(fontSize: 16),
+              ),
               const SizedBox(
                 height: 16,
               ),
@@ -283,7 +304,10 @@ class _ProductViewState extends State<ProductView> {
                 // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Text('Price'),
-                  const Text('Số Lượng: '),
+                  const Text(
+                    'Số Lượng: ',
+                    style: TextStyle(fontSize: 16),
+                  ),
                   const SizedBox(
                     width: 8,
                   ),
@@ -317,7 +341,10 @@ class _ProductViewState extends State<ProductView> {
                   const SizedBox(
                     width: 8,
                   ),
-                  Obx(() => Text(' ${count.value} ')),
+                  Obx(() => Text(
+                        ' ${count.value} ',
+                        style: const TextStyle(fontSize: 16),
+                      )),
                   const SizedBox(
                     width: 8,
                   ),
@@ -349,17 +376,94 @@ class _ProductViewState extends State<ProductView> {
                     ),
                   ),
                   const Spacer(),
-                  Obx(() => Text('Kho: ${getQuantity()}')),
+                  Obx(() => Text(
+                        'Kho: ${getQuantity()}',
+                        style: const TextStyle(fontSize: 16),
+                      )),
                 ],
               ),
               const SizedBox(
                 height: 16,
               ),
-              const Text('Mô tả: '),
+              const Text(
+                'Mô tả: ',
+                style: TextStyle(fontSize: 16),
+              ),
               const SizedBox(
                 height: 16,
               ),
-              Text('${viewModel.product.description}'),
+              Text(
+                '${viewModel.product.description}',
+                style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 16),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Đánh giá trung bình về sản phẩm này: $averageRating/5',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  // const SizedBox(height: 16),
+                  // const Text(
+                  //   'Phân phối Đánh giá:',
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  // ),
+                  const SizedBox(height: 16),
+
+                  Text(
+                    'Tổng số đánh giá: $totalReviews',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 16),
+
+                  const RatingDistributionBar(rating: 5, count: 50),
+                  const RatingDistributionBar(rating: 4, count: 30),
+                  const RatingDistributionBar(rating: 3, count: 10),
+                  const RatingDistributionBar(rating: 2, count: 5),
+                  const RatingDistributionBar(rating: 1, count: 5),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Đánh giá:',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 8),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: reviews.length,
+                    itemBuilder: (context, index) {
+                      final review = reviews[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: List.generate(
+                                review.rating?.round() ?? 0,
+                                (index) => const Icon(Icons.star,
+                                    color: Colors.yellow),
+                              ),
+                            ),
+                            const SizedBox(
+                                width: 8), // Khoảng cách giữa icon và Text
+                            Expanded(
+                              child: Text(
+                                review.customerName ?? '',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              )
             ],
           ),
         ),
@@ -412,5 +516,46 @@ class _ProductViewState extends State<ProductView> {
     } else {
       indexImage.value = 1;
     }
+  }
+}
+
+
+class RatingDistributionBar extends StatelessWidget {
+  final int rating;
+  final int count;
+
+  const RatingDistributionBar({
+    super.key,
+    required this.rating,
+    required this.count,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text('$rating'),
+        const SizedBox(width: 8),
+        const Icon(Icons.star, color: Colors.yellow),
+        const SizedBox(width: 8),
+        Expanded(
+          child: LinearProgressIndicator(
+            value: count / 100,
+            color: Colors.blue,
+            backgroundColor: Colors.blue.shade50,
+          ),
+        ),
+        const SizedBox(width: 8),
+        SizedBox(
+          width: 44,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text('$count'),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

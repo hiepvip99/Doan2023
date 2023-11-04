@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:web_app/model/network/cart_model.dart';
+import 'package:web_app/model/network/order_manager_model.dart';
 import 'package:web_app/model/network/product_manager_model.dart';
+import 'package:web_app/service/network/order_service.dart';
 
 import '../../../../../model/network/color_model.dart';
 import '../../../../../model/network/size_model.dart';
@@ -15,9 +17,19 @@ import '../favorite/favorite_view_model.dart';
 
 class ProductViewModel extends GetxController {
   RxBool favorite = false.obs;
+  RxInt ratingSearch = 0.obs;
+  RxInt currentPage = 1.obs;
+  int step = 10;
+
+  Rx<RatingCounts> ratingCounts = Rx(RatingCounts());
+
+  RxList<Review> reviewList = RxList();
+  RxDouble averageRating = RxDouble(5);
+  RxInt totalRating = 0.obs;
 
   RxList<int?> sizeOfProduct = RxList();
   CartService cartService = CartService();
+  OrderService orderService = OrderService();
   ProductService networkService = ProductService();
   // ManufacturerService manufacturerNetworkService = ManufacturerService();
   ColorService colorNetworkService = ColorService();
@@ -65,6 +77,21 @@ class ProductViewModel extends GetxController {
       print('status: ${value?.statusCode}');
     });
     // Get.find<FavoriteViewModel>().getAllFavoriteProduct();
+  }
+
+  Future<void> getAllReview() async {
+    orderService
+        .getAllReview(
+            productId: product.id,
+            rating: ratingSearch.value != 0 ? ratingSearch.value : null,
+            page: currentPage.value,
+            step: step)
+        .then((value) {
+      reviewList.value = value?.reviews ?? [];
+      averageRating.value = value?.averageRating ?? 5.0;
+      totalRating.value = value?.totalRating ?? 0;
+      ratingCounts.value = value?.ratingCounts ?? RatingCounts();
+    });
   }
 
   Future<void> addToCart(ProductInCart productView) async {

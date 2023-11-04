@@ -417,7 +417,7 @@ class _SearchViewState extends State<SearchView> {
           txtDropCategory.text = '';
           txtGender.text = '';
           _pagingController.refresh();
-          Get.back();
+          // Get.back();
         },
         child: const Text('Xoá bộ lọc'));
   }
