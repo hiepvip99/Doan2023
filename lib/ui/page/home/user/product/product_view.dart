@@ -1,11 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:web_app/constant.dart';
 import 'package:web_app/extendsion/extendsion.dart';
 
 import '../../../../../model/network/cart_model.dart';
 import '../../../../../model/network/order_manager_model.dart';
+import '../../../../../model/network/product_manager_model.dart';
 import '../../../../component_common/circle_widget.dart';
 import '../../admin/components/product_manager/product_manager_view.dart';
 import '../cart/cart_view.dart';
@@ -30,8 +32,8 @@ class _ProductViewState extends State<ProductView> {
   final RxInt indexSizeCkecked = 0.obs;
   final RxInt count = 1.obs;
 
-  final double averageRating = 4.5;
-  final int totalReviews = 100;
+  // final double averageRating = 4.5;
+  // final int totalReviews = 100;
   final List<Review> reviews = [
     Review(rating: 5, customerName: 'John Doe'),
     Review(rating: 4, customerName: 'Jane Smith'),
@@ -50,6 +52,48 @@ class _ProductViewState extends State<ProductView> {
                     viewModel.product.sizes?[indexSizeCkecked.value].sizeId))
             ?.quantity ??
         0;
+  }
+
+  static const _pageSize = 10;
+
+  final PagingController<int, Review> _pagingController =
+      PagingController(firstPageKey: 1);
+
+  @override
+  void initState() {
+    super.initState();
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   handleInNotificationClick();
+    // });
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      viewModel.currentPage.value = pageKey;
+      viewModel.step = _pageSize;
+      await viewModel.getAllReview();
+      // ignore: invalid_use_of_protected_member
+      final newItems = viewModel.reviewList.value;
+      /* final newItems = await RemoteApi.getBeerList(pageKey, _pageSize); */
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 
   @override
@@ -397,72 +441,129 @@ class _ProductViewState extends State<ProductView> {
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 16),
+              Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Đánh giá trung bình về sản phẩm này: ${viewModel.averageRating.value} / 5.0',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    // const SizedBox(height: 16),
+                    // const Text(
+                    //   'Phân phối Đánh giá:',
+                    //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    // ),
+                    const SizedBox(height: 16),
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Đánh giá trung bình về sản phẩm này: $averageRating/5',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  // const SizedBox(height: 16),
-                  // const Text(
-                  //   'Phân phối Đánh giá:',
-                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  // ),
-                  const SizedBox(height: 16),
-
-                  Text(
-                    'Tổng số đánh giá: $totalReviews',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 16),
-
-                  const RatingDistributionBar(rating: 5, count: 50),
-                  const RatingDistributionBar(rating: 4, count: 30),
-                  const RatingDistributionBar(rating: 3, count: 10),
-                  const RatingDistributionBar(rating: 2, count: 5),
-                  const RatingDistributionBar(rating: 1, count: 5),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Đánh giá:',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 8),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: reviews.length,
-                    itemBuilder: (context, index) {
-                      final review = reviews[index];
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: List.generate(
-                                review.rating?.round() ?? 0,
-                                (index) => const Icon(Icons.star,
-                                    color: Colors.yellow),
+                    Text(
+                      'Tổng số đánh giá: ${viewModel.totalRating.value}',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 16),
+                    RatingDistributionBar(
+                        rating: 5,
+                        count: viewModel.ratingCounts.value.star5 ?? 0),
+                    RatingDistributionBar(
+                        rating: 4,
+                        count: viewModel.ratingCounts.value.star4 ?? 0),
+                    RatingDistributionBar(
+                        rating: 3,
+                        count: viewModel.ratingCounts.value.star3 ?? 0),
+                    RatingDistributionBar(
+                        rating: 2,
+                        count: viewModel.ratingCounts.value.star2 ?? 0),
+                    RatingDistributionBar(
+                        rating: 1,
+                        count: viewModel.ratingCounts.value.star1 ?? 0),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Đánh giá nổi bật:',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 8),
+                    PagedListView<int, Review>(
+                      pagingController: _pagingController,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      builderDelegate: PagedChildBuilderDelegate<Review>(
+                        itemBuilder: (context, item, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: Container(
+                                        height: 50,
+                                        width: 50,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 16,
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          item.customerName ?? '',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: List.generate(
+                                            item.rating?.round() ?? 0,
+                                            (index) => const Icon(Icons.star,
+                                                color: Colors.yellow),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          item.reviewText ?? '',
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Text(
+                                          formatDateTime(item.createAt ??
+                                                  DateTime(2023)) ??
+                                              '',
+                                          style: const TextStyle(
+                                              color: Colors.grey),
+                                        ),
+                                        // Khoảng cách giữa icon và Text
+                                      ],
+                                    ),
+                                  ],
                               ),
+                                Divider(
+                                  color: Colors.grey.shade300,
+                                  thickness: 1,
+                                ),
+                              ],
                             ),
-                            const SizedBox(
-                                width: 8), // Khoảng cách giữa icon và Text
-                            Expanded(
-                              child: Text(
-                                review.customerName ?? '',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                          );
+                        },
+                      ),
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: reviews.length,
+                      itemBuilder: (context, index) {
+                        final review = reviews[index];
+                        
+                      },
+                    ),
+                  ],
+                ),
               )
             ],
           ),

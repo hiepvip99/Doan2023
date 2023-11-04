@@ -255,7 +255,7 @@ class Review extends BaseEntity {
   int? orderDetailId;
   double? rating;
   String? reviewText;
-  String? createAt;
+  DateTime? createAt;
 
   bool? hasReview;
   Review({
@@ -291,7 +291,7 @@ class Review extends BaseEntity {
       orderDetailId: json['order_detail_id'],
       rating: json['rating'],
       reviewText: json['review_text'],
-      createAt: json['created_at'],
+      createAt: DateTime.tryParse(json['created_at']),
     );
   }
 }

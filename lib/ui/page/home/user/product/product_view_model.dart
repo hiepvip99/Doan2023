@@ -128,6 +128,7 @@ class ProductViewModel extends GetxController {
       }
     }
     checkFavorite();
+    getAllReview();
   }
 }
 
