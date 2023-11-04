@@ -15,8 +15,14 @@ class OrderDetailViewModel extends GetxController {
   final RxList<StatusOrder> listStatusOrder = RxList();
 
   RxString statusName = ''.obs;
-
+  RxBool hasRating = false.obs;
   final OrderService networkService = OrderService();
+
+  Future<void> checkRating(int? orderDetailId, int? productId) async {
+    networkService.checkReview(orderDetailId, productId).then((value) {
+      hasRating.value = value?.hasReview ?? false;
+    });
+  }
 
   Future<void> changeStatus(int status, String text) async {
     order.value.statusId = status;

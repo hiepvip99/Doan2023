@@ -133,16 +133,9 @@ class OrderDetailView extends StatelessWidget {
                                       ),
                                     ),
                                     const Spacer(),
-                                    OutlinedButton(
-                                        onPressed: () {
-                                          showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) =>
-                                                const ProductReviewPage(),
-                                          );
-                                          // Get.toNamed(ProductReviewPage.route);
-                                        },
-                                        child: const Text('Đánh giá')),
+                                    RatingInOrder(
+                                        viewModel: viewModel,
+                                        itemDetail: itemDetail),
                                   ],
                                 ),
                                 subtitle: Text(
@@ -192,6 +185,7 @@ class OrderDetailView extends StatelessWidget {
               ),
               Text('${viewModel.order.value.paymentMethods}'),
               const Divider(),
+              
             ],
           ),
         ),
@@ -243,6 +237,59 @@ class OrderDetailView extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class RatingInOrder extends StatefulWidget {
+  const RatingInOrder({
+    super.key,
+    required this.viewModel,
+    this.itemDetail,
+  });
+
+  final OrderDetailViewModel viewModel;
+  final Details? itemDetail;
+
+  @override
+  State<RatingInOrder> createState() => _RatingInOrderState();
+}
+
+class _RatingInOrderState extends State<RatingInOrder> {
+  @override
+  void initState() {
+    super.initState();
+    widget.viewModel
+        .checkRating(widget.itemDetail?.id, widget.itemDetail?.product?.id);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Visibility(
+        visible: widget.viewModel.order.value.statusId == 4 &&
+            widget.viewModel.hasRating.value,
+        child: OutlinedButton(
+            onPressed: () {
+              // showModalBottomSheet(
+              //   context: context,
+              //   builder: (context) =>
+              //       const ProductReviewPage(),
+              // );
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                useRootNavigator: true,
+                builder: (context) =>
+                    ProductReviewPage(itemDetail: widget.itemDetail),
+              ).then((value) {
+                widget.viewModel.checkRating(
+                    widget.itemDetail?.id, widget.itemDetail?.product?.id);
+              });
+              // Get.toNamed(ProductReviewPage.route);
+            },
+            child: const Text('Đánh giá')),
       ),
     );
   }

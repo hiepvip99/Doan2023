@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DataLocal {
   // DataLocal._();
   static const String _keyAccountId = 'account_id';
+  static const String _keyCustomerId = 'customer_id';
   static const String _keyRole = 'role';
   static late final SharedPreferences sharedPreferences;
 
@@ -21,6 +22,14 @@ class DataLocal {
 
   static String? getAccountId() {
     return sharedPreferences.getString(_keyAccountId);
+  }
+
+  static Future<void> saveCustomerId(int customerId) async {
+    await sharedPreferences.setInt(_keyCustomerId, customerId);
+  }
+
+  static String? getCustomerId() {
+    return sharedPreferences.getString(_keyCustomerId);
   }
 
   static Future<bool> deleteAccount() async {

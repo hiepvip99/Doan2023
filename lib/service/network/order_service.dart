@@ -7,6 +7,9 @@ class OrderService {
   final String _orderUrl = 'api/order/shoeOrders';
   final String _statusOrderUrl = 'api/order/shoeOrders/status';
   final String _orderById = 'api/order/shoeOrderById';
+  final String _review = 'api/order/review';
+  final String _checkReview = 'api/order/check_review';
+  final String _getAllReview = 'api/order/getAllReview';
 
   Future<OrderManagerModel?> getAllOrder(
       {int? currentPage, int? step, DateTime? date, String? accountId}) async {
@@ -37,8 +40,34 @@ class OrderService {
     return response;
   }
 
-  Future<BaseEntity?> addReview(Review review) async {}
-  Future<Review?> getReview({int? customerId, int? orderDetailId}) async {}
+  Future<BaseEntity?> addReview(Review review) async {
+    final repo = BaseRepository(path: _review, method: HttpMethod.post);
+    final response = await repo.queryByPath((e) => BaseEntity.fromJson(e),
+        // queryParameters: queryParameter,
+        data: review.toJson());
+    return response;
+  }
+
+  Future<Review?> checkReview(int? orderDetailId, int? productId) async {
+    final queryParameter = <String, dynamic>{};
+    queryParameter['order_detail_id'] = orderDetailId;
+    queryParameter['product_id'] = productId;
+    // queryParameter['keyword'] = keyword;
+    final repo = BaseRepository(path: _checkReview, method: HttpMethod.get);
+    final response = await repo.queryByPath(
+      (e) => Review.fromJsonCheck(e),
+      queryParameters: queryParameter,
+    );
+    return response;
+  }
+
+  Future<Review?> getReview(
+      {int? customerId,
+      int? orderDetailId,
+      int? productId,
+      int? rating,
+      int? step,
+      int? page}) async {}
 
   Future<BaseEntity?> addOrder(Order orderModel) async {
     final repo = BaseRepository(path: _orderUrl, method: HttpMethod.post);

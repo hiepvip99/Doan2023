@@ -247,7 +247,7 @@ class StatusOrder {
   }
 }
 
-class Review {
+class Review extends BaseEntity {
   int? id;
   int? productId;
   int? customerId;
@@ -255,6 +255,8 @@ class Review {
   double? rating;
   String? reviewText;
   String? createAt;
+
+  bool? hasReview;
   Review({
     this.id,
     this.productId,
@@ -269,10 +271,14 @@ class Review {
     return {
       'product_id': productId,
       'customer_id': customerId,
-      'orderDetail_id': orderDetailId,
+      'order_detail_id': orderDetailId,
       'rating': rating,
-      'reviewText': reviewText,
+      'review_text': reviewText,
     };
+  }
+
+  Review.fromJsonCheck(Map<dynamic, dynamic> json) {
+    hasReview = json['hasReview'];
   }
 
   factory Review.fromJson(Map<String, dynamic> json) {
@@ -285,5 +291,125 @@ class Review {
       reviewText: json['review_text'],
       createAt: json['created_at'],
     );
+  }
+}
+class ReviewsModel {
+  List<Review>? reviews;
+  RatingCounts? ratingCounts;
+  int? averageRating;
+  int? totalRating;
+  int? currentPage;
+  int? step;
+  int? totalPages;
+
+  ReviewsModel(
+      {this.reviews,
+      this.ratingCounts,
+      this.averageRating,
+      this.totalRating,
+      this.currentPage,
+      this.step,
+      this.totalPages});
+
+  ReviewsModel.fromJson(Map<String, dynamic> json) {
+    if (json['reviews'] != null) {
+      reviews = <Review>[];
+      json['reviews'].forEach((v) {
+        reviews!.add(Review.fromJson(v));
+      });
+    }
+    ratingCounts = json['rating_counts'] != null
+        ? RatingCounts.fromJson(json['rating_counts'])
+        : null;
+    averageRating = json['average_rating'];
+    totalRating = json['total_rating'];
+    currentPage = json['currentPage'];
+    step = json['step'];
+    totalPages = json['totalPages'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (reviews != null) {
+      data['reviews'] = reviews!.map((v) => v.toJson()).toList();
+    }
+    if (ratingCounts != null) {
+      data['rating_counts'] = ratingCounts!.toJson();
+    }
+    data['average_rating'] = averageRating;
+    data['total_rating'] = totalRating;
+    data['currentPage'] = currentPage;
+    data['step'] = step;
+    data['totalPages'] = totalPages;
+    return data;
+  }
+}
+
+// class Reviews {
+//   int? id;
+//   int? productId;
+//   int? customerId;
+//   int? orderDetailId;
+//   int? rating;
+//   String? reviewText;
+//   String? createdAt;
+
+//   Reviews(
+//       {this.id,
+//       this.productId,
+//       this.customerId,
+//       this.orderDetailId,
+//       this.rating,
+//       this.reviewText,
+//       this.createdAt});
+
+//   Reviews.fromJson(Map<String, dynamic> json) {
+//     id = json['id'];
+//     productId = json['product_id'];
+//     customerId = json['customer_id'];
+//     orderDetailId = json['order_detail_id'];
+//     rating = json['rating'];
+//     reviewText = json['review_text'];
+//     createdAt = json['created_at'];
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['id'] = this.id;
+//     data['product_id'] = this.productId;
+//     data['customer_id'] = this.customerId;
+//     data['order_detail_id'] = this.orderDetailId;
+//     data['rating'] = this.rating;
+//     data['review_text'] = this.reviewText;
+//     data['created_at'] = this.createdAt;
+//     return data;
+//   }
+// }
+
+class RatingCounts {
+  int? star1;
+  int? star2;
+  int? star3;
+  int? star4;
+  int? star5;
+
+  RatingCounts({this.star1, this.star2, this.star3, this.star4, this.star5});
+
+  RatingCounts.fromJson(Map<String, dynamic> json) {
+    star1 = json['star1'];
+    star2 = json['star2'];
+    star3 = json['star3'];
+    star4 = json['star4'];
+    star5 = json['star5'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['star1'] = star1;
+    data['star2'] = star2;
+    data['star3'] = star3;
+    data['star4'] = star4;
+    data['star5'] = star5;
+    return data;
   }
 }
