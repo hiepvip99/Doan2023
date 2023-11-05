@@ -15,6 +15,7 @@ import '../../admin/components/product_manager/product_manager_view.dart';
 import '../cart/cart_view.dart';
 import '../search/search_view.dart';
 import 'components/checkbox.dart';
+import 'components/full_screen_image.dart';
 import 'product_view_model.dart';
 
 class ProductView extends StatefulWidget {
@@ -111,27 +112,37 @@ class _ProductViewState extends State<ProductView> {
                   child: Stack(
                     children: [
                       Obx(
-                        () => CarouselSlider(
-                          options: CarouselOptions(
-                            onPageChanged: (index, reason) {
-                              indexImage.value = index + 1;
-                            },
+                        () => GestureDetector(
+                          onTap: () {
+                            Get.to(
+                                () => ImageFullScreenScreen(
+                                    images: viewModel.product
+                                        .colors![indexColorImage.value].images,
+                                    index: indexImage.value - 1),
+                                fullscreenDialog: true);
+                          },
+                          child: CarouselSlider(
+                            options: CarouselOptions(
+                              onPageChanged: (index, reason) {
+                                indexImage.value = index + 1;
+                              },
+                            ),
+                            items: (viewModel.product.colors != null &&
+                                    viewModel
+                                            .product
+                                            .colors![indexColorImage.value]
+                                            .images !=
+                                        null)
+                                ? viewModel.product
+                                    .colors![indexColorImage.value].images!
+                                    .map(
+                                      (item) => ImageComponent(
+                                          isShowBorder: false,
+                                          imageUrl: domain + (item.url ?? '')),
+                                    )
+                                    .toList()
+                                : [],
                           ),
-                          items: (viewModel.product.colors != null &&
-                                  viewModel
-                                          .product
-                                          .colors![indexColorImage.value]
-                                          .images !=
-                                      null)
-                              ? viewModel.product.colors![indexColorImage.value]
-                                  .images!
-                                  .map(
-                                    (item) => ImageComponent(
-                                        isShowBorder: false,
-                                        imageUrl: domain + (item.url ?? '')),
-                                  )
-                                  .toList()
-                              : [],
                         ),
                       ),
                       Align(

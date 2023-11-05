@@ -351,8 +351,6 @@ class ImageComponent extends StatelessWidget {
               : Border.all(width: 1, color: Colors.black)),
       child: CachedNetworkImage(
         imageUrl: imageUrl,
-        width: 150,
-        height: 150,
         fit: BoxFit.cover,
         filterQuality: FilterQuality.low,
         errorWidget: (context, url, error) =>
