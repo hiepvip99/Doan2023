@@ -17,6 +17,8 @@ import 'ui/page/home/user/my_order_manager/my_order_binding.dart';
 import 'ui/page/home/user/my_order_manager/my_order_view.dart';
 import 'ui/page/home/user/my_order_manager/order_detail/order_detail_binding.dart';
 import 'ui/page/home/user/my_order_manager/order_detail/order_detail_view.dart';
+import 'ui/page/home/user/my_review/my_reivew_binding.dart';
+import 'ui/page/home/user/my_review/my_review.dart';
 import 'ui/page/home/user/order/order_view.dart';
 import 'ui/page/home/user/product/product_binding.dart';
 import 'ui/page/home/user/product/product_view.dart';
@@ -51,7 +53,7 @@ final List<GetPage> appPage = [
   ),
   GetPage(
     name: ProductView.route,
-    page: () => ProductView(),
+    page: () => const ProductView(),
     binding: ProductBinding(),
   ),
   GetPage(
@@ -101,5 +103,10 @@ final List<GetPage> appPage = [
     name: ProductReviewPage.route,
     page: () => const ProductReviewPage(),
     // binding: AddressManagerBinding(),
+  ),
+  GetPage(
+    name: MyReview.route,
+    page: () => const MyReview(),
+    binding: MyReviewBinding(),
   ),
 ];

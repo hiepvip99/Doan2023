@@ -25,7 +25,7 @@ class ProductViewModel extends GetxController {
 
   RxList<Review> reviewList = RxList();
   RxDouble averageRating = RxDouble(5);
-  RxInt totalRating = 0.obs;
+  RxInt totalRating = 1.obs;
 
   RxList<int?> sizeOfProduct = RxList();
   CartService cartService = CartService();
@@ -80,7 +80,7 @@ class ProductViewModel extends GetxController {
   }
 
   Future<void> getAllReview() async {
-    orderService
+    await orderService
         .getAllReview(
             productId: product.id,
             rating: ratingSearch.value != 0 ? ratingSearch.value : null,
@@ -95,7 +95,7 @@ class ProductViewModel extends GetxController {
   }
 
   Future<void> addToCart(ProductInCart productView) async {
-    cartService
+    await cartService
         .addCart(ProductInCart(
             accountId: accountId,
             // id: ,

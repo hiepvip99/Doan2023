@@ -66,8 +66,8 @@ class OrderService {
     final queryParameter = <String, dynamic>{};
     queryParameter['step'] = step;
     queryParameter['page'] = page;
-    queryParameter['order_detail_id'] = customerId;
-    queryParameter['customer_id'] = orderDetailId;
+    queryParameter['order_detail_id'] = orderDetailId;
+    queryParameter['customer_id'] = customerId;
     final repo = BaseRepository(path: _review, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => ReviewsModel.fromJson(e),

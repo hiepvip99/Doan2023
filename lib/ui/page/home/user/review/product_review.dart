@@ -23,6 +23,12 @@ class _ProductReviewPageState extends State<ProductReviewPage> {
   final viewModel = Get.find<ProductReviewModel>();
 
   @override
+  void dispose() {
+    viewModel.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),

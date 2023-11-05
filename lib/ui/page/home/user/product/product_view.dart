@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,21 +27,12 @@ class ProductView extends StatefulWidget {
 }
 
 class _ProductViewState extends State<ProductView> {
-  final viewModel = Get.find<ProductViewModel>();
+  late ProductViewModel viewModel;
 
   final RxInt indexColorImage = 0.obs;
   final RxInt indexImage = 1.obs;
   final RxInt indexSizeCkecked = 0.obs;
   final RxInt count = 1.obs;
-
-  // final double averageRating = 4.5;
-  // final int totalReviews = 100;
-  final List<Review> reviews = [
-    Review(rating: 5, customerName: 'John Doe'),
-    Review(rating: 4, customerName: 'Jane Smith'),
-    Review(rating: 3, customerName: 'Bob Johnson'),
-    // ... more reviews
-  ];
 
   ProductInCart product = ProductInCart();
 
@@ -62,6 +55,7 @@ class _ProductViewState extends State<ProductView> {
   @override
   void initState() {
     super.initState();
+    viewModel = Get.find<ProductViewModel>();
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -93,6 +87,7 @@ class _ProductViewState extends State<ProductView> {
   @override
   void dispose() {
     _pagingController.dispose();
+    viewModel.dispose();
     super.dispose();
   }
 
@@ -462,18 +457,23 @@ class _ProductViewState extends State<ProductView> {
                     ),
                     const SizedBox(height: 16),
                     RatingDistributionBar(
+                        totalCount: viewModel.totalRating.value,
                         rating: 5,
                         count: viewModel.ratingCounts.value.star5 ?? 0),
                     RatingDistributionBar(
+                        totalCount: viewModel.totalRating.value,
                         rating: 4,
                         count: viewModel.ratingCounts.value.star4 ?? 0),
                     RatingDistributionBar(
+                        totalCount: viewModel.totalRating.value,
                         rating: 3,
                         count: viewModel.ratingCounts.value.star3 ?? 0),
                     RatingDistributionBar(
+                        totalCount: viewModel.totalRating.value,
                         rating: 2,
                         count: viewModel.ratingCounts.value.star2 ?? 0),
                     RatingDistributionBar(
+                        totalCount: viewModel.totalRating.value,
                         rating: 1,
                         count: viewModel.ratingCounts.value.star1 ?? 0),
                     const SizedBox(height: 16),
@@ -644,11 +644,13 @@ class _ProductViewState extends State<ProductView> {
 class RatingDistributionBar extends StatelessWidget {
   final int rating;
   final int count;
+  final int totalCount;
 
   const RatingDistributionBar({
     super.key,
     required this.rating,
     required this.count,
+    required this.totalCount,
   });
 
   @override
@@ -661,7 +663,7 @@ class RatingDistributionBar extends StatelessWidget {
         const SizedBox(width: 8),
         Expanded(
           child: LinearProgressIndicator(
-            value: count / 100,
+            value: (count.toDouble() / totalCount.toDouble()).toDouble(),
             color: Colors.blue,
             backgroundColor: Colors.blue.shade50,
           ),
