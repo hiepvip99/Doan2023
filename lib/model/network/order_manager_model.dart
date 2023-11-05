@@ -251,50 +251,106 @@ class Review extends BaseEntity {
   int? id;
   int? productId;
   int? customerId;
-  String? customerName;
   int? orderDetailId;
   double? rating;
   String? reviewText;
-  DateTime? createAt;
-
+  DateTime? createdAt;
+  String? customerName;
+  String? customerImage;
   bool? hasReview;
-  Review({
-    this.id,
-    this.productId,
-    this.customerName,
-    this.customerId,
-    this.orderDetailId,
-    this.rating,
-    this.reviewText,
-    this.createAt,
-  });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'product_id': productId,
-      'customer_id': customerId,
-      'order_detail_id': orderDetailId,
-      'rating': rating,
-      'review_text': reviewText,
-    };
-  }
-
+  Review(
+      {this.id,
+      this.productId,
+      this.customerId,
+      this.orderDetailId,
+      this.rating,
+      this.reviewText,
+      this.createdAt,
+      this.customerName,
+      this.customerImage});
+      
   Review.fromJsonCheck(Map<dynamic, dynamic> json) {
     hasReview = json['hasReview'];
   }
 
-  factory Review.fromJson(Map<String, dynamic> json) {
-    return Review(
-      id: json['id'],
-      productId: json['product_id'],
-      customerId: json['customer_id'],
-      orderDetailId: json['order_detail_id'],
-      rating: json['rating'],
-      reviewText: json['review_text'],
-      createAt: DateTime.tryParse(json['created_at']),
-    );
+
+  Review.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    productId = json['product_id'];
+    customerId = json['customer_id'];
+    orderDetailId = json['order_detail_id'];
+    rating = double.tryParse(json['rating'].toString());
+    reviewText = json['review_text'];
+    createdAt = DateTime.tryParse(json['created_at']);
+    customerName = json['customer_name'];
+    customerImage = json['customer_image'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    // data['id'] = this.id;
+    data['product_id'] = this.productId;
+    data['customer_id'] = this.customerId;
+    data['order_detail_id'] = this.orderDetailId;
+    data['rating'] = this.rating;
+    data['review_text'] = this.reviewText;
+    // data['created_at'] = this.createdAt;
+    // data['customer_name'] = this.customerName;
+    // data['customer_image'] = this.customerImage;
+    return data;
   }
 }
+
+
+// class Review extends BaseEntity {
+//   int? id;
+//   int? productId;
+//   int? customerId;
+//   String? customerName;
+//   int? orderDetailId;
+//   double? rating;
+//   String? reviewText;
+//   DateTime? createAt;
+
+//   bool? hasReview;
+//   Review({
+//     this.id,
+//     this.productId,
+//     this.customerName,
+//     this.customerId,
+//     this.orderDetailId,
+//     this.rating,
+//     this.reviewText,
+//     this.createAt,
+//   });
+
+//   Map<String, dynamic> toJson() {
+//     return {
+//       'product_id': productId,
+//       'customer_id': customerId,
+//       'order_detail_id': orderDetailId,
+//       'rating': rating,
+//       'review_text': reviewText,
+//     };
+//   }
+
+//   Review.fromJsonCheck(Map<dynamic, dynamic> json) {
+//     hasReview = json['hasReview'];
+//   }
+
+//   factory Review.fromJson(Map<String, dynamic> json) {
+//     return Review(
+//       id: json['id'],
+//       productId: json['product_id'],
+//       customerId: json['customer_id'],
+//       orderDetailId: json['order_detail_id'],
+//       rating: double.tryParse(json['rating'].toString()),
+//       reviewText: json['review_text'],
+//       createAt: DateTime.tryParse(json['created_at']),
+//     );
+//   }
+// }
 class ReviewsModel extends BaseEntity {
   List<Review>? reviews;
   RatingCounts? ratingCounts;
@@ -323,7 +379,7 @@ class ReviewsModel extends BaseEntity {
     ratingCounts = json['rating_counts'] != null
         ? RatingCounts.fromJson(json['rating_counts'])
         : null;
-    averageRating = json['average_rating'];
+    averageRating = double.tryParse(json['average_rating'].toString());
     totalRating = json['total_rating'];
     currentPage = json['currentPage'];
     step = json['step'];

@@ -487,6 +487,26 @@ class _ProductViewState extends State<ProductView> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       builderDelegate: PagedChildBuilderDelegate<Review>(
+                        noMoreItemsIndicatorBuilder: (context) {
+                          return const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              // Image.asset('assets/images/star_shopee.png'),
+                              Text('Không còn đánh giá nào!'),
+                            ],
+                          );
+                        },
+                        noItemsFoundIndicatorBuilder: (context) {
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/star_shopee.png'),
+                              const Text('Không có đánh giá nào!'),
+                            ],
+                          );
+                        },
                         itemBuilder: (context, item, index) {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 8),
@@ -500,7 +520,10 @@ class _ProductViewState extends State<ProductView> {
                                       child: Container(
                                         height: 50,
                                         width: 50,
-                                        color: Colors.blue,
+                                        child: ImageComponent(
+                                            imageUrl: domain +
+                                                (item.customerImage ?? '')),
+                                        // color: Colors.,
                                       ),
                                     ),
                                     const SizedBox(
@@ -532,9 +555,8 @@ class _ProductViewState extends State<ProductView> {
                                         ),
                                         const SizedBox(height: 8),
                                         Text(
-                                          formatDateTime(item.createAt ??
-                                                  DateTime(2023)) ??
-                                              '',
+                                          formatDateTime(
+                                              item.createdAt ?? DateTime(2023)),
                                           style: const TextStyle(
                                               color: Colors.grey),
                                         ),
@@ -542,7 +564,7 @@ class _ProductViewState extends State<ProductView> {
                                       ],
                                     ),
                                   ],
-                              ),
+                                ),
                                 Divider(
                                   color: Colors.grey.shade300,
                                   thickness: 1,
@@ -553,15 +575,14 @@ class _ProductViewState extends State<ProductView> {
                         },
                       ),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: reviews.length,
-                      itemBuilder: (context, index) {
-                        final review = reviews[index];
-                        
-                      },
-                    ),
+                    // ListView.builder(
+                    //   shrinkWrap: true,
+                    //   physics: const NeverScrollableScrollPhysics(),
+                    //   itemCount: reviews.length,
+                    //   itemBuilder: (context, index) {
+                    //     final review = reviews[index];
+                    //   },
+                    // ),
                   ],
                 ),
               )
@@ -619,7 +640,6 @@ class _ProductViewState extends State<ProductView> {
     }
   }
 }
-
 
 class RatingDistributionBar extends StatelessWidget {
   final int rating;
