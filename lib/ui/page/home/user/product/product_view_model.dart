@@ -46,10 +46,10 @@ class ProductViewModel extends GetxController {
     // manufacturerNetworkService
     //     .getAllManufacturer(step: 1000)
     //     .then((value) => manufacturerList.value = value?.manufacturer ?? []);
-    colorNetworkService
+    await colorNetworkService
         .getAllColor()
         .then((value) => colorList.value = value?.color ?? []);
-    sizeNetworkService
+    await sizeNetworkService
         .getAllSize()
         .then((value) => sizeList.value = value?.size ?? []);
     // categoryNetworkService
@@ -58,7 +58,7 @@ class ProductViewModel extends GetxController {
   }
 
   Future<void> checkFavorite() async {
-    networkService
+    await networkService
         .checkFavorite(Favorite(accountId: accountId, productId: product.id))
         .then((value) {
       favorite.value = value?.isFavorite ?? false;
@@ -66,7 +66,7 @@ class ProductViewModel extends GetxController {
   }
 
   Future<void> addToFavorite() async {
-    networkService
+    await networkService
         .addFavorite(Favorite(accountId: accountId, productId: product.id));
     // Get.find<FavoriteViewModel>().getAllFavoriteProduct();
   }
@@ -74,7 +74,7 @@ class ProductViewModel extends GetxController {
   Future<void> removeFavorite() async {
     await networkService.removeFavorite(
         [Favorite(accountId: accountId, productId: product.id)]).then((value) {
-      print('status: ${value?.statusCode}');
+      // print('status: ${value?.statusCode}');
     });
     // Get.find<FavoriteViewModel>().getAllFavoriteProduct();
   }
@@ -89,7 +89,10 @@ class ProductViewModel extends GetxController {
         .then((value) {
       reviewList.value = value?.reviews ?? [];
       averageRating.value = value?.averageRating ?? 5.0;
-      totalRating.value = value?.totalRating ?? 0;
+      totalRating.value = value?.totalRating ?? 1;
+      if (totalRating.value < 1) {
+        totalRating.value = 1;
+      }
       ratingCounts.value = value?.ratingCounts ?? RatingCounts();
     });
   }
@@ -113,8 +116,6 @@ class ProductViewModel extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
-    getInfomationForProduct();
     final data = Get.arguments;
     if (data is Product) {
       product = data;
@@ -127,6 +128,8 @@ class ProductViewModel extends GetxController {
         }
       }
     }
+    super.onInit();
+    getInfomationForProduct();
     checkFavorite();
     getAllReview();
   }

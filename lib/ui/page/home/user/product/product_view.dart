@@ -87,7 +87,6 @@ class _ProductViewState extends State<ProductView> {
   @override
   void dispose() {
     _pagingController.dispose();
-    viewModel.dispose();
     super.dispose();
   }
 
@@ -663,7 +662,7 @@ class RatingDistributionBar extends StatelessWidget {
         const SizedBox(width: 8),
         Expanded(
           child: LinearProgressIndicator(
-            value: (count.toDouble() / totalCount.toDouble()).toDouble(),
+            value: count / totalCount,
             color: Colors.blue,
             backgroundColor: Colors.blue.shade50,
           ),
