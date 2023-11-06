@@ -162,16 +162,6 @@ class _ProductViewState extends State<ProductView> {
                       )
                     ],
                   )),
-              // Container(
-              //   color: Colors.orange,
-              //   height: 300,
-              //   child: Text('Image profduct'),
-              // ),
-              // const SizedBox(
-              //   height: 16,
-              // ),
-              // Container(
-              //     color: Colors.amber, child: const Text('Danh sasch anh')),
               const SizedBox(
                 height: 16,
               ),

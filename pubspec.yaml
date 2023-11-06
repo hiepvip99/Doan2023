@@ -67,6 +67,7 @@ dependencies:
   flutter_datetime_picker_plus: ^2.1.0
   flutter_slidable: ^3.0.0
   google_fonts: ^6.1.0
+  photo_view: ^0.14.0
   # flutter_staggered_animations: ^1.1.1
 
 dev_dependencies:

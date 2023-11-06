@@ -17,7 +17,8 @@ class NotificationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => Get.toNamed(MyOrderView.route),
-      child: Padding(
+      child: Container(
+        color: Colors.transparent,
         padding: const EdgeInsets.symmetric(
           horizontal: 8.0,
         ),
