@@ -301,7 +301,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   viewModel.customerInfo.value.dateOfBirth = value;
                   viewModel.customerInfo.refresh();
                 },
-                initialDateTime: viewModel.customerInfo.value.dateOfBirth,
+                initialDateTime:
+                    (viewModel.customerInfo.value.dateOfBirth?.year ?? 0) > 1950
+                        ? viewModel.customerInfo.value.dateOfBirth
+                        : DateTime.now(),
                 minimumDate: DateTime(1990),
                 maximumDate: DateTime(2050)),
           ),
