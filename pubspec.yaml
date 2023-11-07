@@ -62,7 +62,7 @@ dependencies:
   tab_container: ^2.0.0
   flutter_vector_icons: ^2.0.0
   font_awesome_flutter: ^10.6.0
-  flutter_zalopay_sdk: ^0.1.14
+  # flutter_zalopay_sdk: ^0.1.14
   coupon_uikit: ^0.2.0
   flutter_datetime_picker_plus: ^2.1.0
   flutter_slidable: ^3.0.0
