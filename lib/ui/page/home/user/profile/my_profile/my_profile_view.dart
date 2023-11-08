@@ -261,6 +261,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         // Thực hiện lưu thông tin người dùng
                         // ...
                         viewModel.updateInfomation();
+                        // viewModel.toScreen();
                         // Đưa người dùng trở lại màn hình trước đó
                       },
                       title: 'Lưu thông tin',

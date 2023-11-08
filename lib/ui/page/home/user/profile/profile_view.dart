@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_app/ui/page/home/admin/components/product_manager/product_manager_view.dart';
+import 'package:web_app/ui/page/home/user/profile/my_profile/my_profile_view_model.dart';
 import 'package:web_app/ui/page/login/login_controller.dart';
 
 import '../../../../../constant.dart';
@@ -60,7 +61,8 @@ class _ProfileViewState extends State<ProfileView> {
                   padding: const EdgeInsets.all(8),
                   onTap: () {
                     Get.toNamed(EditProfileScreen.route,
-                        arguments: viewModel.customerInfo.value);
+                        arguments:
+                            ProfileArg(customer: viewModel.customerInfo.value));
                   },
                   child: const Icon(Icons.mode_edit_outline_sharp))
             ],

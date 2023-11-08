@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 
@@ -34,7 +33,7 @@ class DialogCommon {
     /* String? titleButtonSubmit,
     Function()? onSubmit, */
   }) async {
-    Get.dialog(
+    await Get.dialog(
       Center(
         child: ConstrainedBox(
           constraints:
@@ -146,7 +145,8 @@ class DialogCommon {
     Function() onConfirm, {
     String? text,
   }) async {
-    showDialog(
+    await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -173,12 +173,12 @@ class DialogCommon {
   Future<void> showAlertDialog({
     required BuildContext context,
     required String title,
-    Color textColor = const Color(0xFF333333),
+    Color textColor = Colors.black,
     Function()? close,
     String closeText = 'Đóng',
     double marginBottom = 0,
   }) async {
-    showDialogWithBody(context,
+    await showDialogWithBody(context,
         width: 300,
         height: 200,
         bodyDialog: Center(

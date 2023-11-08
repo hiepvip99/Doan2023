@@ -12,6 +12,8 @@ class CustomerService {
   final String _uploadImage = 'api/customer/shoe_customers/image';
   final String _notification = 'api/customer/shoe_notification';
   final String _customerAddress = 'api/customer/shoe_customers/address';
+  final String _checkCustomer =
+      'api/customer/shoe_customers/check_customer_info';
   final String _customerNotification =
       'api/customer/shoe_customers/notification';
   final String _customerById = 'api/customer/shoe_customersById';
@@ -29,6 +31,18 @@ class CustomerService {
     );
     return response;
   }
+
+  Future<Customer?> checkInfoCustomer({String? accountId}) async {
+    final data = <String, dynamic>{};
+    data['accountId'] = accountId;
+    final repo = BaseRepository(path: _checkCustomer, method: HttpMethod.post);
+    final response = await repo.queryByPath(
+      (e) => Customer.fromJsonCheck(e),
+      data: data,
+    );
+    return response;
+  }
+
 
   Future<Customer?> getCustomerById({String? accountId}) async {
     final queryParameter = <String, dynamic>{};

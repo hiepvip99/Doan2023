@@ -1,13 +1,16 @@
 import 'package:get/get.dart';
+import 'package:web_app/model/network/customer_model.dart';
+import 'package:web_app/service/network/customer_service.dart';
+import 'package:web_app/ui/dialog/dialog_common.dart';
+import 'package:web_app/ui/page/home/user/home_user.dart';
+import 'package:web_app/ui/page/home/user/profile/my_profile/my_profile_view_model.dart';
 
-import '../../../../model/network/color_model.dart';
 import '../../../../model/network/manufacturer_model.dart';
 import '../../../../model/network/product_manager_model.dart';
-import '../../../../model/network/size_model.dart';
-import '../../../../service/network/color_service.dart';
+import '../../../../service/local/save_data.dart';
 import '../../../../service/network/manufacturer_service.dart';
 import '../../../../service/network/product_service.dart';
-import '../../../../service/network/size_service.dart';
+import 'profile/my_profile/my_profile_view.dart';
 
 // import '../../../../model/network/order_manager_model.dart';
 
@@ -24,6 +27,7 @@ class HomeUserController extends GetxController {
   // RxList<Category> categoryList = RxList();
 
   ProductService networkService = ProductService();
+  CustomerService customerService = CustomerService();
 
   RxList<Product> productList = RxList();
   RxList<Product> productListMen = RxList();
@@ -36,6 +40,9 @@ class HomeUserController extends GetxController {
   // SizeService sizeNetworkService = SizeService();
   // CategoryService categoryNetworkService = CategoryService();
 
+  final accountId = DataLocal.getAccountId();
+  Customer customer = Customer();
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -43,6 +50,24 @@ class HomeUserController extends GetxController {
     getInfomationForProduct();
     getFourShoeWomen();
     getFourShoeMen();
+  }
+
+  Future<void> checkCustomer() async {
+    customerService.checkInfoCustomer(accountId: accountId).then((value) async {
+      if (value?.hasUpdateInfomation == true) {
+        await customerService
+            .getCustomerById(accountId: accountId)
+            .then((value) async {
+          if (value != null) customer = value;
+          await DialogCommon().showAlertDialog(
+              context: Get.context!,
+              title: 'Bạn chưa điền đầy đủ thông tin (sdt, tên hoặc địa chỉ)');
+          Get.offAllNamed(EditProfileScreen.route,
+              arguments: ProfileArg(
+                  customer: customer, routeSaveAndToNamed: HomeUser.route));
+        });
+      }
+    });
   }
 
   Future<void> getInfomationForProduct() async {

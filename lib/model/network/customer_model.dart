@@ -8,6 +8,7 @@ class Customer extends BaseEntity {
   String? email;
   int? idAccount;
   String? image;
+  bool? hasUpdateInfomation;
   List<String>? address;
 
   Customer(
@@ -20,6 +21,10 @@ class Customer extends BaseEntity {
       this.image,
       this.address});
 
+  Customer.fromJsonCheck(Map<dynamic, dynamic> json) {
+    hasUpdateInfomation = json['hasUpdateInfomation'];
+  }
+  
   Customer.fromJson(Map<dynamic, dynamic> json) {
     address = [];
     id = json['id'];

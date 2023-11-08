@@ -53,7 +53,7 @@ class BaseRepository extends BaseRepositoryInterface {
       bool? showLoading = true,
       bool? showError = true}) async {
     // Get.lazyPut(() => DialogCommon());
-    DialogCommon dialogCommon = DialogCommon();
+    // DialogCommon dialogCommon = DialogCommon();
     String url = domain + path;
     try {
       dynamic response;
@@ -96,7 +96,7 @@ class BaseRepository extends BaseRepositoryInterface {
         case HttpMethod.post:
           if (!(onBackground ?? false)) {
             if (showLoading ?? true) {
-              dialogCommon.showLoadingDialog();
+              DialogCommon().showLoadingDialog();
             }
           }
           response = await _dio.post(url, data: data);
@@ -146,27 +146,33 @@ class BaseRepository extends BaseRepositoryInterface {
         }
         final response = jsonDecode(res.toString()) as Map<String, dynamic>;
         final status = response['status'];
-        dialogCommon.dismiss();
+        DialogCommon().dismiss();
         if (status is int) {
           final message = response['message'] ?? '';
           if (message is String && message.isNotEmpty && (showError ?? true)) {
             final context = Get.context;
             if (context != null) {
-              unawaited(dialogCommon.showAlertDialog(
-                  context: context, title: message));
-              print(
-                  'system error: ${e.requestOptions.uri} _${e.response.toString()} ');
+              showLoading = false;
+              // ignore: use_build_context_synchronously
+              unawaited(DialogCommon()
+                  .showAlertDialog(context: context, title: message));
+              if (kDebugMode) {
+                print(
+                    'system error: ${e.requestOptions.uri} _${e.response.toString()} ');
+              }
             }
             return null;
           }
         }
         return _getDocument(response, convert);
       } catch (ex) {
-        print(ex);
+        if (kDebugMode) {
+          print(ex);
+        }
       }
     } finally {
       if ((showLoading ?? true) && (method != HttpMethod.get)) {
-        dialogCommon.dismiss();
+        DialogCommon().dismiss();
       }
     }
     return null;

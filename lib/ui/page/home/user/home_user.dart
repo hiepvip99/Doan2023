@@ -46,6 +46,7 @@ class _HomeUserState extends State<HomeUser> {
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       handleInNotificationClick();
+      viewModel.checkCustomer();
     });
   }
 

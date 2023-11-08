@@ -73,8 +73,8 @@ class OrderViewModel extends GetxController {
       if (value?.statusCode == 200) {
         Get.toNamed(OrderSuccessScreen.route);
       } else {
-        DialogCommon().showAlertDialog(
-            context: Get.context!, title: value?.message ?? '');
+        // DialogCommon().showAlertDialog(
+        //     context: Get.context!, title: value?.message ?? '');
       }
     });
   }
