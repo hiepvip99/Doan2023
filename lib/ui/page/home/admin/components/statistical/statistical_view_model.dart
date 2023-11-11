@@ -7,7 +7,7 @@ import 'statistical_view.dart';
 class StatisticalViewModel extends GetxController {
   RxList<DataForChart> dataDayDataForChart = RxList();
   RxList<DataForChart> dataMonthDataForChart = RxList();
-
+  RxInt total = 0.obs;
   Rx<DateTime> fromDate = Rx(DateTime.now());
   Rx<DateTime> toDate = Rx(DateTime.now());
 
@@ -38,6 +38,7 @@ class StatisticalViewModel extends GetxController {
                 value.byDayList![i].revenue?.toDouble() ?? 0.0));
           }
         }
+        total.value = value.totalRevenue ?? 0;
       }
     });
     loading.value = false;
@@ -59,6 +60,7 @@ class StatisticalViewModel extends GetxController {
                 value.byMonthList![i].revenue?.toDouble() ?? 0.0));
           }
         }
+        total.value = value.totalRevenue ?? 0;
       }
     });
     loading.value = false;

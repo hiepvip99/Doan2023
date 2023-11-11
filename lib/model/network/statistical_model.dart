@@ -3,13 +3,18 @@ import 'package:web_app/service/base_entity.dart';
 class StatisticalModel extends BaseEntity {
   List<RevenueByDay>? byDayList;
   List<RevenueByMonth>? byMonthList;
+  int? totalRevenue;
 
   StatisticalModel.fromJsonByDay(Map<dynamic, dynamic> json) {
     byDayList = [];
 
-    if (json['data'] is List) {
+    if (json['data'] is List?) {
       final data = json['data'] as List;
       byDayList = data.map((e) => RevenueByDay.fromJson(e)).toList();
+    }
+    final total = json['total_revenue'];
+    if (total is int?) {
+      totalRevenue = total;
     }
     byDayList;
   }
@@ -18,6 +23,10 @@ class StatisticalModel extends BaseEntity {
     if (json['data'] is List) {
       final data = json['data'] as List;
       byMonthList = data.map((e) => RevenueByMonth.fromJson(e)).toList();
+    }
+    final total = json['total_revenue'];
+    if (total is int?) {
+      totalRevenue = total;
     }
   }
 }

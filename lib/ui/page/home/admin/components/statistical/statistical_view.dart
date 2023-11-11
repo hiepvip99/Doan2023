@@ -24,55 +24,66 @@ class _StatisticalState extends State<Statistical> {
         appBar: AppBar(
           title: const Text('Biểu đồ thống kê'),
         ),
-        body: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Obx(
-                () => Row(
-                  children: [
-                    Text(
-                        'Từ ngày: ${formatDate(viewModel.fromDate.value)}'),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    IconButton(
-                        onPressed: () async {
-                          showDatePicker(context, true);
-                        },
-                        icon: const Icon(Icons.date_range)),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Text('Đến ngày: ${formatDate(viewModel.toDate.value)}'),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    IconButton(
-                        onPressed: () async {
-                          showDatePicker(context, false);
-                        },
-                        icon: const Icon(Icons.date_range)),
-                  ],
+        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Obx(() => Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Text(
+                  'Tổng doanh thu: ${formatMoney(viewModel.total.value)}',
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.start,
                 ),
-              ),
-              const SizedBox(
-                width: 50,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    viewModel.getDataDay();
-                  },
-                  child: const Text('Thống kê theo ngày')),
-              const SizedBox(
-                width: 50,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    viewModel.getDataMonth();
-                  },
-                  child: const Text('Thống kê theo tháng')),
-            ],
+              )),
+          Padding(
+            padding: const EdgeInsets.only(left: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Obx(
+                  () => Row(
+                    children: [
+                      Text('Từ ngày: ${formatDate(viewModel.fromDate.value)}'),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      IconButton(
+                          onPressed: () async {
+                            showDatePicker(context, true);
+                          },
+                          icon: const Icon(Icons.date_range)),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Text('Đến ngày: ${formatDate(viewModel.toDate.value)}'),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      IconButton(
+                          onPressed: () async {
+                            showDatePicker(context, false);
+                          },
+                          icon: const Icon(Icons.date_range)),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 50,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      viewModel.getDataDay();
+                    },
+                    child: const Text('Thống kê theo ngày')),
+                const SizedBox(
+                  width: 50,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      viewModel.getDataMonth();
+                    },
+                    child: const Text('Thống kê theo tháng')),
+              ],
+            ),
           ),
           //Initialize the chart widget
           Expanded(

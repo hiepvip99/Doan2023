@@ -60,3 +60,35 @@ class Customer extends BaseEntity {
 // class ImageCustomer{
 //   String? path
 // }
+
+class CustomerModel extends BaseEntity {
+  int? currentPage;
+  int? step;
+  int? totalPages;
+  List<Customer>? customer;
+
+  CustomerModel({this.currentPage, this.step, this.totalPages, this.customer});
+
+  CustomerModel.fromJson(Map<dynamic, dynamic> json) {
+    currentPage = json['currentPage'];
+    step = json['step'];
+    totalPages = json['totalPages'];
+    if (json['data'] != null) {
+      customer = <Customer>[];
+      json['data'].forEach((v) {
+        customer!.add(Customer.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['currentPage'] = currentPage;
+    data['step'] = step;
+    data['totalPages'] = totalPages;
+    if (customer != null) {
+      data['customer'] = customer!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}

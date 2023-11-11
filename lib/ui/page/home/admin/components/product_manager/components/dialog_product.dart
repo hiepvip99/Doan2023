@@ -200,13 +200,37 @@ class DialogProduct {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     SizedBox(
-                                      width: 150,
+                                      width: 200,
                                       child: CheckboxListTile(
                                         title: Tooltip(
                                           message: e.name,
-                                          child: Text(
-                                            e.name ?? '',
-                                            overflow: TextOverflow.ellipsis,
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  e.name ?? '',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              Container(
+                                                height: 16,
+                                                width: 16,
+                                                decoration: BoxDecoration(
+                                                    // border: Border.all(color: Colors.),
+                                                    color: Color(int.parse(
+                                                            '${e.colorCode}',
+                                                            radix: 16) +
+                                                        0xFF000000),
+                                                    boxShadow: const [
+                                                      BoxShadow(
+                                                        color: Colors.black,
+                                                        blurRadius: 8,
+                                                        offset: Offset(0, 0),
+                                                      ),
+                                                    ]),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         value: isSelected,
@@ -255,7 +279,7 @@ class DialogProduct {
                                                 width: 10,
                                               ),
                                               SizedBox(
-                                                width: 300,
+                                                width: 250,
                                                 child: TextFieldCommon(
                                                   controller:
                                                       TextEditingController(

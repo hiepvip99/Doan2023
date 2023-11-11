@@ -18,7 +18,7 @@ class CustomerService {
       'api/customer/shoe_customers/notification';
   final String _customerById = 'api/customer/shoe_customersById';
 
-  Future<Customer?> getAllCustomer(
+  Future<CustomerModel?> getAllCustomer(
       {int? currentPage, int? step, String? keyword}) async {
     final queryParameter = <String, dynamic>{};
     queryParameter['step'] = step;
@@ -26,7 +26,7 @@ class CustomerService {
     queryParameter['keyword'] = keyword;
     final repo = BaseRepository(path: _customer, method: HttpMethod.get);
     final response = await repo.queryByPath(
-      (e) => Customer.fromJson(e),
+      (e) => CustomerModel.fromJson(e),
       queryParameters: queryParameter,
     );
     return response;

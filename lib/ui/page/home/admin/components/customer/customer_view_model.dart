@@ -1,7 +1,9 @@
+// import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../model/network/customer_model.dart';
-import '../../../../../../model/network/order_manager_model.dart';
+// import '../../../../../../model/network/order_manager_model.dart';
+import '../../../../../../service/network/customer_service.dart';
 
 class CustomerViewModel extends GetxController {
   RxList<Customer> customerList = RxList([]);
@@ -11,15 +13,39 @@ class CustomerViewModel extends GetxController {
   RxBool loading = false.obs;
   RxString keyword = ''.obs;
 
+  CustomerService customerService = CustomerService();
+
   void onStepChange(String? value) {
     selectedItem.value = value ?? '10';
     currentPage.value = 1;
-    // getCategoryList();
+    getAllCustomer();
   }
 
   void onPageChange(int index) {
     currentPage.value = index + 1;
-    // getManufacturerList();
-    print(currentPage.value);
+    getAllCustomer();
+    // if (kDebugMode) {
+    //   print(currentPage.value);
+    // }
+  }
+
+  Future<void> getAllCustomer() async {
+    customerService
+        .getAllCustomer(
+            currentPage: currentPage.value,
+            keyword: keyword.value,
+            step: int.tryParse(selectedItem.value))
+        .then((value) {
+      if (value?.customer != null) {
+        customerList.value = value?.customer ?? [];
+      }
+    });
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getAllCustomer();
   }
 }
