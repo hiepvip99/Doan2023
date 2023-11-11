@@ -152,7 +152,7 @@ class _CustomerViewState extends State<CustomerView> {
                     ),
                   ),
                   SizedBox(
-                    width: 121,
+                    width: 108,
                     child: Text('Chức năng'),
                   ),
                 ],
@@ -242,23 +242,7 @@ class _CustomerViewState extends State<CustomerView> {
                                             //     viewModel
                                             //         .customerList.value[index]);
                                           },
-                                          child: const Text('Sửa')),
-                                      const SizedBox(
-                                        width: 8,
-                                      ),
-                                      ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.red),
-                                          onPressed: () {
-                                            // DialogCommon()
-                                            //     .showDeleteConfirmation(
-                                            //   context,
-                                            //   text:
-                                            //       'khách hàng ${viewModel.customerList.value[index].name} với id: ${viewModel.categoryList.value[index].id}',
-                                            //   () => null,
-                                            // );
-                                          },
-                                          child: const Text('Xóa')),
+                                          child: const Text('Xem chi tiết')),
                                     ],
                                   ),
                                 ],
