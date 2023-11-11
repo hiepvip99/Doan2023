@@ -27,7 +27,6 @@ class _ProductManagerViewState extends State<ProductManagerView> {
   final TextEditingController txtSearch = TextEditingController();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     txtSearch.addListener(() {
       final text = txtSearch.text.trim();

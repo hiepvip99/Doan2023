@@ -13,6 +13,8 @@ class CustomerViewModel extends GetxController {
   RxBool loading = false.obs;
   RxString keyword = ''.obs;
 
+  Rx<Customer> customerInfo = Rx(Customer());
+
   CustomerService customerService = CustomerService();
 
   void onStepChange(String? value) {
@@ -38,6 +40,14 @@ class CustomerViewModel extends GetxController {
         .then((value) {
       if (value?.customer != null) {
         customerList.value = value?.customer ?? [];
+      }
+    });
+  }
+
+  Future<void> getCustomer(String? accountId) async {
+    customerService.getCustomerById(accountId: accountId).then((value) {
+      if (value != null) {
+        customerInfo.value = value;
       }
     });
   }

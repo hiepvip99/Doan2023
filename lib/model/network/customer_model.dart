@@ -10,6 +10,8 @@ class Customer extends BaseEntity {
   String? image;
   bool? hasUpdateInfomation;
   List<String>? address;
+  int? totalOrder;
+  int? totalAmountSpent;
 
   Customer(
       {this.id,
@@ -24,7 +26,7 @@ class Customer extends BaseEntity {
   Customer.fromJsonCheck(Map<dynamic, dynamic> json) {
     hasUpdateInfomation = json['hasUpdateInfomation'];
   }
-  
+
   Customer.fromJson(Map<dynamic, dynamic> json) {
     address = [];
     id = json['id'];
@@ -34,6 +36,8 @@ class Customer extends BaseEntity {
     email = json['email'];
     idAccount = json['id_account'];
     image = json['image'];
+    totalOrder = json['total_order'];
+    totalAmountSpent = json['total_amount_spent'];
     // address = json['address'].cast<String>();
     final addressJson = json['address'];
     if (addressJson is List) {
