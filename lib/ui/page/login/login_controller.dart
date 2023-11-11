@@ -53,7 +53,7 @@ class LoginController extends GetxController {
       // 1 user
       print(value.toString());
       await DataLocal.saveRole(value?.role ?? -1);
-      await DataLocal.saveAccountId(value?.account_id ?? '');
+      await DataLocal.saveAccountId(value?.accountId ?? '');
       final accId = DataLocal.getAccountId() ?? '';
       final role = DataLocal.getRole() ?? -1;
       if (kDebugMode) {
