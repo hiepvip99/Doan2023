@@ -127,7 +127,7 @@ class ProductService {
     return response;
   }
 
-  Future<ProductManagerModel?> getProductById(int id) async {
+  Future<ProductManagerModel?> getProductById(int? id) async {
     final repo = BaseRepository(path: _productById, method: HttpMethod.get);
     final queryParameter = <String, dynamic>{};
     queryParameter['id'] = id;

@@ -33,6 +33,8 @@ class ProductManagerModel extends BaseEntity {
       json['data'].forEach((v) {
         product!.add(Product.fromJson(v));
       });
+    } else {
+      item = Product.fromJson(json);
     }
   }
 
@@ -78,7 +80,7 @@ class Product {
       this.colors,
       this.sizes});
 
-  Product.fromJson(Map<String, dynamic> json) {
+  Product.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['name'];
     manufacturerId = json['manufacturer_id'];

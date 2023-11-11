@@ -19,6 +19,7 @@ import '../../../../constant.dart';
 import '../../../authorization.dart';
 import '../../../component_common/test_product_card.dart';
 import 'common/product_card.dart';
+import 'discount/discount_view.dart';
 import 'notification/notification_view.dart';
 import 'profile/profile_view.dart';
 
@@ -198,8 +199,11 @@ class _HomeUserState extends State<HomeUser> {
             Container(
               height: 200,
               // color: Colors.amber,
-              child: const ImageComponent(
-                  imageUrl: domain + 'api/image/banner.png'),
+              child: GestureDetector(
+                onTap: () => Get.toNamed(DiscountCodeView.route),
+                child: const ImageComponent(
+                    imageUrl: domain + 'api/image/banner.png'),
+              ),
             ),
             const SizedBox(
               height: 16,

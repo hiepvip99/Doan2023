@@ -84,7 +84,7 @@ class _DiscountCodeViewState extends State<DiscountCodeView> {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8),
                                 child: Text(
-                                    'Mã giảm giá này giảm ${formatMoney(discountCode.discount ?? 0)} cho mỗi đơn hàng'),
+                                    'Mã giảm giá này giảm ${formatMoney(discountCode.discount ?? 0)} cho mỗi đơn hàng chỉ sử dụng 1 lần duy nhất'),
                               )),
                             )),
                       ),

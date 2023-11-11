@@ -38,12 +38,14 @@ class _ProductViewState extends State<ProductView> {
   ProductInCart product = ProductInCart();
 
   int getQuantity() {
-    return viewModel.product.sizes
+    return viewModel.product.value.sizes
             ?.firstWhereOrNull((element) =>
                 (element.colorId ==
-                    viewModel.product.colors?[indexColorImage.value].colorId) &&
+                    viewModel.product.value.colors?[indexColorImage.value]
+                        .colorId) &&
                 (element.sizeId ==
-                    viewModel.product.sizes?[indexSizeCkecked.value].sizeId))
+                    viewModel
+                        .product.value.sizes?[indexSizeCkecked.value].sizeId))
             ?.quantity ??
         0;
   }
@@ -116,7 +118,7 @@ class _ProductViewState extends State<ProductView> {
                           onTap: () {
                             Get.to(
                                 () => ImageFullScreenScreen(
-                                    images: viewModel.product
+                                    images: viewModel.product.value
                                         .colors![indexColorImage.value].images,
                                     index: indexImage.value - 1),
                                 fullscreenDialog: true);
@@ -127,13 +129,14 @@ class _ProductViewState extends State<ProductView> {
                                 indexImage.value = index + 1;
                               },
                             ),
-                            items: (viewModel.product.colors != null &&
+                            items: (viewModel.product.value.colors != null &&
                                     viewModel
                                             .product
+                                            .value
                                             .colors![indexColorImage.value]
                                             .images !=
                                         null)
-                                ? viewModel.product
+                                ? viewModel.product.value
                                     .colors![indexColorImage.value].images!
                                     .map(
                                       (item) => ImageComponent(
@@ -156,7 +159,7 @@ class _ProductViewState extends State<ProductView> {
                                 color: Colors.grey.withOpacity(0.5),
                                 borderRadius: BorderRadius.circular(8)),
                             child: Obx(() => Text(
-                                '${indexImage.value} / ${viewModel.product.colors?[indexColorImage.value].images?.length ?? 1}')),
+                                '${indexImage.value} / ${viewModel.product.value.colors?[indexColorImage.value].images?.length ?? 1}')),
                           ),
                         ),
                       )
@@ -169,7 +172,7 @@ class _ProductViewState extends State<ProductView> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    viewModel.product.name ?? '',
+                    viewModel.product.value.name ?? '',
                     style: const TextStyle(fontSize: 16),
                   ),
                   GestureDetector(
@@ -200,7 +203,7 @@ class _ProductViewState extends State<ProductView> {
               ),
               Obx(
                 () => Text(
-                  'Giá: ${formatMoney(viewModel.product.colors?[indexColorImage.value].price ?? 0)}',
+                  'Giá: ${formatMoney(viewModel.product.value.colors?[indexColorImage.value].price ?? 0)}',
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
@@ -219,12 +222,14 @@ class _ProductViewState extends State<ProductView> {
                   spacing: 8,
                   runSpacing: 8,
                   children: [
-                    if (viewModel.product.colors != null)
-                      ...viewModel.product.colors!
+                    if (viewModel.product.value.colors != null)
+                      ...viewModel.product.value.colors!
                           .map((e) => InkWell(
                                 onTap: () {
                                   indexColorImage.value =
-                                      viewModel.product.colors!.indexOf(e);
+                                      viewModel
+                                      .product.value.colors!
+                                      .indexOf(e);
                                   indexImage.value = 1;
                                   setCountProduct();
                                 },
@@ -251,7 +256,8 @@ class _ProductViewState extends State<ProductView> {
                                       )
                                     ],
                                   ),
-                                  child: viewModel.product.colors?.indexOf(e) ==
+                                  child: viewModel.product.value.colors
+                                              ?.indexOf(e) ==
                                           indexColorImage.value
                                       ? Icon(
                                           Icons.check,
@@ -281,7 +287,7 @@ class _ProductViewState extends State<ProductView> {
                                 //           ?.name ??
                                 //       '',
                                 //   isSelected:
-                                //       viewModel.product.colors?.indexOf(e) ==
+                                //       viewModel.product.value.colors?.indexOf(e) ==
                                 //           indexColorImage.value,
                                 // ),
                               ))
@@ -432,7 +438,7 @@ class _ProductViewState extends State<ProductView> {
                 height: 16,
               ),
               Text(
-                '${viewModel.product.description}',
+                '${viewModel.product.value.description}',
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 16),
@@ -598,9 +604,11 @@ class _ProductViewState extends State<ProductView> {
               child: ElevatedButton(
                 onPressed: () {
                   product.colorId =
-                      viewModel.product.colors?[indexColorImage.value].colorId;
+                      viewModel
+                      .product.value.colors?[indexColorImage.value].colorId;
                   product.sizeId =
-                      viewModel.product.sizes?[indexSizeCkecked.value].sizeId;
+                      viewModel
+                      .product.value.sizes?[indexSizeCkecked.value].sizeId;
                   product.quantity = count.value;
                   viewModel.addToCart(product);
                 },
@@ -633,7 +641,8 @@ class _ProductViewState extends State<ProductView> {
     } else {
       count.value = 1;
     }
-    if (viewModel.product.colors?[indexColorImage.value].images?.length == 0) {
+    if (viewModel.product.value.colors?[indexColorImage.value].images?.length ==
+        0) {
       indexImage.value = 0;
     } else {
       indexImage.value = 1;

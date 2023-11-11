@@ -36,11 +36,19 @@ class ProductViewModel extends GetxController {
   SizeService sizeNetworkService = SizeService();
   RxList<ColorShoe> colorList = RxList();
   RxList<Size> sizeList = RxList();
-  Product product = Product();
+  Rx<Product> product = Rx(Product());
 
   final accountId = DataLocal.getAccountId();
 
   final dialog = DialogCommon();
+
+  Future<void> getProduct() async {
+    networkService.getProductById(product.value.id).then((value) {
+      if (value?.item != null) {
+        product.value = value!.item!;
+      }
+    });
+  }
 
   Future<void> getInfomationForProduct() async {
     // manufacturerNetworkService
@@ -59,21 +67,23 @@ class ProductViewModel extends GetxController {
 
   Future<void> checkFavorite() async {
     await networkService
-        .checkFavorite(Favorite(accountId: accountId, productId: product.id))
+        .checkFavorite(
+            Favorite(accountId: accountId, productId: product.value.id))
         .then((value) {
       favorite.value = value?.isFavorite ?? false;
     });
   }
 
   Future<void> addToFavorite() async {
-    await networkService
-        .addFavorite(Favorite(accountId: accountId, productId: product.id));
+    await networkService.addFavorite(
+        Favorite(accountId: accountId, productId: product.value.id));
     // Get.find<FavoriteViewModel>().getAllFavoriteProduct();
   }
 
   Future<void> removeFavorite() async {
-    await networkService.removeFavorite(
-        [Favorite(accountId: accountId, productId: product.id)]).then((value) {
+    await networkService.removeFavorite([
+      Favorite(accountId: accountId, productId: product.value.id)
+    ]).then((value) {
       // print('status: ${value?.statusCode}');
     });
     // Get.find<FavoriteViewModel>().getAllFavoriteProduct();
@@ -82,7 +92,7 @@ class ProductViewModel extends GetxController {
   Future<void> getAllReview() async {
     await orderService
         .getAllReview(
-            productId: product.id,
+            productId: product.value.id,
             rating: ratingSearch.value != 0 ? ratingSearch.value : null,
             page: currentPage.value,
             step: step)
@@ -102,7 +112,7 @@ class ProductViewModel extends GetxController {
         .addCart(ProductInCart(
             accountId: accountId,
             // id: ,
-            productId: product.id,
+            productId: product.value.id,
             colorId: productView.colorId,
             sizeId: productView.sizeId,
             quantity: productView.quantity))
@@ -118,9 +128,9 @@ class ProductViewModel extends GetxController {
   void onInit() {
     final data = Get.arguments;
     if (data is Product) {
-      product = data;
-      if (product.sizes != null) {
-        for (var element in product.sizes!) {
+      product.value = data;
+      if (product.value.sizes != null) {
+        for (var element in product.value.sizes!) {
           final indexExist = sizeOfProduct.indexOf(element.sizeId);
           if (indexExist == -1) {
             sizeOfProduct.add(element.sizeId);
@@ -132,6 +142,7 @@ class ProductViewModel extends GetxController {
     getInfomationForProduct();
     checkFavorite();
     getAllReview();
+    getProduct();
   }
 }
 
