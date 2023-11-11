@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 
 import '../../service/base_entity.dart';
-import 'color_model.dart';
 import 'customer_model.dart';
 import 'product_manager_model.dart';
 
@@ -288,13 +286,13 @@ class Review extends BaseEntity {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     // data['id'] = this.id;
-    data['product_id'] = this.productId;
-    data['customer_id'] = this.customerId;
-    data['order_detail_id'] = this.orderDetailId;
-    data['rating'] = this.rating;
-    data['review_text'] = this.reviewText;
+    data['product_id'] = productId;
+    data['customer_id'] = customerId;
+    data['order_detail_id'] = orderDetailId;
+    data['rating'] = rating;
+    data['review_text'] = reviewText;
     // data['created_at'] = this.createdAt;
     // data['customer_name'] = this.customerName;
     // data['customer_image'] = this.customerImage;
