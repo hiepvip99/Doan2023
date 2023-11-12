@@ -47,9 +47,12 @@ class OrderViewModel extends GetxController {
       if (value?.success == true) {
         discount.value = value?.discount ?? 0;
       } else {
+        // DialogCommon().showAlertDialog(
+        //     context: Get.context!,
+        //     title: 'Áp dụng mã giảm giá không thành công');
         DialogCommon().showAlertDialog(
             context: Get.context!,
-            title: 'Áp dụng mã giảm giá không thành công');
+            title: '${value?.message}');
       }
     });
   }

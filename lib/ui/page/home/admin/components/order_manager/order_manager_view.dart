@@ -9,10 +9,21 @@ import '../../../../../component_common/paginator_common.dart';
 import '../../../../../component_common/textfield_common.dart';
 import 'order_manager_view_model.dart';
 
-class OrderManagerView extends StatelessWidget {
-  OrderManagerView({super.key});
+class OrderManagerView extends StatefulWidget {
+  const OrderManagerView({super.key});
 
+  @override
+  State<OrderManagerView> createState() => _OrderManagerViewState();
+}
+
+class _OrderManagerViewState extends State<OrderManagerView> {
   final OrderManagerViewModel viewModel = Get.find<OrderManagerViewModel>();
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel.getOrderList();
+  }
 
   @override
   Widget build(BuildContext context) {

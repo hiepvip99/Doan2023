@@ -19,10 +19,17 @@ class _NotificationViewState extends State<NotificationView> {
   final viewModel = Get.find<NotificationViewModel>();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    viewModel.getNotification();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Thông báo'),
+        title: const Text('Thông báo'),
         centerTitle: true,
       ),
       body: Obx(() => ListView.builder(

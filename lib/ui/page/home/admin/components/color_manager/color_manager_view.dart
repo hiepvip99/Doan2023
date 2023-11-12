@@ -28,6 +28,7 @@ class _ColorManagerViewState extends State<ColorManagerView> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // viewModel.getColorList();
     txtSearch.addListener(() {
       final text = txtSearch.text.trim();
       print('text:' + text);
@@ -212,8 +213,7 @@ class _ColorManagerViewState extends State<ColorManagerView> {
                                     children: [
                                       ElevatedButton(
                                           onPressed: () {
-                                            dialog.showDialogColor(
-                                                context,
+                                            dialog.showDialogColor(context,
                                                 itemUpdate: viewModel
                                                     .colorList.value[index]);
                                           },

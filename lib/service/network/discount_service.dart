@@ -30,6 +30,7 @@ class DiscountService {
         BaseRepository(path: _applyDiscountUrl, method: HttpMethod.post);
     final response = await repo.queryByPath((e) => DiscountModel.fromJson(e),
         // queryParameters: queryParameter,
+        // showError: true,
         data: discountModel.toJsonApply());
     return response;
   }

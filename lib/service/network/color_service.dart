@@ -8,10 +8,14 @@ class ColorService {
 
   Future<ColorProductModel?> getAllColor(
       {int? currentPage, int? step, String? keyword}) async {
+    final queryParameter = <String, dynamic>{};
+    queryParameter['step'] = step;
+    queryParameter['page'] = currentPage;
+    queryParameter['keyword'] = keyword;
     final repo = BaseRepository(path: _colorUrl, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => ColorProductModel.fromJson(e),
-      // queryParameters: queryParameter,
+      queryParameters: queryParameter,
     );
     return response;
   }

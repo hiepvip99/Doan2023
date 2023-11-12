@@ -79,12 +79,12 @@ class ProductManagerViewModel extends GetxController {
     getAllProduct();
   }
 
-  @override
-  void onInit() {
-    super.onInit();
-    getAllProduct();
-    getInfomationForProduct();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   getAllProduct();
+  //   getInfomationForProduct();
+  // }
 
   Future<void> uploadImage(Images imageUploads) async {
     networkService.uploadImages(imageUploads).then((value) {

@@ -13,6 +13,7 @@ class DiscountModel extends BaseEntity {
 
   DiscountModel.fromJson(Map<dynamic, dynamic> json) {
     // super.mapping(json);
+    message = json['message'];
     success = json['success'];
     discount = json['discount'];
     if (json['data'] != null) {

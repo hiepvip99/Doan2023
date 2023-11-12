@@ -28,6 +28,7 @@ class _SizeManagerViewState extends State<SizeManagerView> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    // viewModel.getSizeList();
     txtSearch.addListener(() {
       final text = txtSearch.text.trim();
       print('text:' + text);

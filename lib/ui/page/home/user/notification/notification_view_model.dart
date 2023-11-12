@@ -12,12 +12,12 @@ class NotificationViewModel extends GetxController {
   final accountId = DataLocal.getAccountId();
   RxBool loading = false.obs;
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    getNotification();
-  }
+  // @override
+  // void onInit() {
+  //   // TODO: implement onInit
+  //   super.onInit();
+  //   getNotification();
+  // }
 
   Future<void> getNotification() async {
     loading.value = true;

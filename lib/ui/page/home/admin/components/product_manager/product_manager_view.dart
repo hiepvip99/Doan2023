@@ -28,6 +28,8 @@ class _ProductManagerViewState extends State<ProductManagerView> {
   @override
   void initState() {
     super.initState();
+    viewModel.getAllProduct();
+    viewModel.getInfomationForProduct();
     txtSearch.addListener(() {
       final text = txtSearch.text.trim();
       print('text:' + text);

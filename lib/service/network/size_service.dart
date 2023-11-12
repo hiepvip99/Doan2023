@@ -8,14 +8,14 @@ class SizeService {
 
   Future<SizeProductModel?> getAllSize(
       {int? currentPage, int? step, String? keyword}) async {
-    // final queryParameter = <String, dynamic>{};
-    // queryParameter['step'] = step;
-    // queryParameter['page'] = currentPage;
-    // queryParameter['keyword'] = keyword;
+    final queryParameter = <String, dynamic>{};
+    queryParameter['step'] = step;
+    queryParameter['page'] = currentPage;
+    queryParameter['keyword'] = keyword;
     final repo = BaseRepository(path: _sizeUrl, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => SizeProductModel.fromJson(e),
-      // queryParameters: queryParameter,
+      queryParameters: queryParameter,
     );
     return response;
   }
