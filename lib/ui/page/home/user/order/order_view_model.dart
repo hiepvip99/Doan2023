@@ -1,7 +1,10 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:get/get.dart';
 import 'package:web_app/model/network/discount_model.dart';
 import 'package:web_app/model/network/order_manager_model.dart';
 import 'package:web_app/model/network/product_manager_model.dart';
+import 'package:web_app/service/network/cart_service.dart';
 import 'package:web_app/service/network/discount_service.dart';
 import 'package:web_app/ui/dialog/dialog_common.dart';
 
@@ -31,6 +34,7 @@ class OrderViewModel extends GetxController {
   final accountId = DataLocal.getAccountId();
   ColorService colorNetworkService = ColorService();
   SizeService sizeNetworkService = SizeService();
+  CartService cartService = CartService();
 
   RxList<ColorShoe> colorList = RxList();
   RxList<Size> sizeList = RxList();
@@ -50,9 +54,8 @@ class OrderViewModel extends GetxController {
         // DialogCommon().showAlertDialog(
         //     context: Get.context!,
         //     title: 'Áp dụng mã giảm giá không thành công');
-        DialogCommon().showAlertDialog(
-            context: Get.context!,
-            title: '${value?.message}');
+        DialogCommon()
+            .showAlertDialog(context: Get.context!, title: '${value?.message}');
       }
     });
   }
@@ -74,6 +77,10 @@ class OrderViewModel extends GetxController {
     order.value.statusId = 1; // mặc định chờ xác nhận
     await orderService.addOrder(order.value).then((value) {
       if (value?.statusCode == 200) {
+        for (var i = 0; i < orderProduct.value.length; i++) {
+          cartService.deleteCart(orderProduct.value[i].productInCart);
+        }
+        // cartService.deleteCart(orderProduct)
         Get.toNamed(OrderSuccessScreen.route);
       } else {
         // DialogCommon().showAlertDialog(

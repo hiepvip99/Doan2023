@@ -45,13 +45,13 @@ class OrderSuccessScreen extends StatelessWidget {
               },
               child: const Text('Mua sắm tiếp'),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Get.offAllNamed(MyOrderView.route);
-              },
-              child: const Text('Xem lịch sử đơn hàng'),
-            ),
+            // const SizedBox(height: 16),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     Get.toNamed(MyOrderView.route);
+            //   },
+            //   child: const Text('Xem lịch sử đơn hàng'),
+            // ),
           ],
         ),
       ),
