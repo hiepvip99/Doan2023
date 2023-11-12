@@ -69,7 +69,7 @@ class _CustomerInfoDialogState extends State<CustomerInfoDialog> {
                   ),
                   ListTile(
                     title: Text(
-                        'Số tiền đã mua: ${viewModel.customerInfo.value.totalAmountSpent}'),
+                        'Số tiền đã mua: ${formatMoney(viewModel.customerInfo.value.totalAmountSpent ?? 0)}'),
                   ),
                   ListTile(
                     title: Text(
