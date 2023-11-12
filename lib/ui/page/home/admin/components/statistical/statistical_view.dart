@@ -91,7 +91,7 @@ class _StatisticalState extends State<Statistical> {
               () => SfCartesianChart(
                   primaryXAxis: CategoryAxis(),
                   // Chart title
-                  title: ChartTitle(text: 'Thống kê'),
+                  title: ChartTitle(text: 'Biểu đồ thống kê'),
                   // Enable legend
                   legend: const Legend(isVisible: true),
                   // Enable tooltip
