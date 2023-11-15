@@ -6,6 +6,9 @@ class AccountsManagerModel extends BaseEntity {
   List<AccountStatus>? accountStatus;
   int? totalPage;
 
+  bool? success;
+  bool? hasUpdatePassword;
+
   // Model add / update / delete;
   AccountInfo? accountEdit;
 
@@ -14,6 +17,12 @@ class AccountsManagerModel extends BaseEntity {
       this.decentralization,
       this.accountStatus,
       this.accountEdit});
+
+  AccountsManagerModel.fromJsonForgotPass(Map<dynamic, dynamic> json) {
+    statusCode = json['status'];
+    success = json['success'];
+    hasUpdatePassword = json['hasUpdatePassword'];
+  }
 
   AccountsManagerModel.fromJson(Map<dynamic, dynamic> json) {
     // // super.mapping(json);

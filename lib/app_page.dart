@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:web_app/ui/page/home/user/discount/discount_binding.dart';
+import 'package:web_app/ui/page/home/user/forgot_pass/forgot_pass_binding.dart';
 import 'package:web_app/ui/page/home/user/order/order_binding.dart';
 import 'package:web_app/ui/page/home/user/profile/my_profile/address_manager/address_manager_binding.dart';
 import 'package:web_app/ui/page/home/user/profile/my_profile/address_manager/address_manager_view.dart';
@@ -9,6 +10,7 @@ import 'ui/page/home/admin/home_admin_view.dart';
 import 'ui/page/home/user/about_us/about_us.dart';
 import 'ui/page/home/user/cart/cart_binding.dart';
 import 'ui/page/home/user/discount/discount_view.dart';
+import 'ui/page/home/user/forgot_pass/forgot_pass_view.dart';
 import 'ui/page/home/user/home_user.dart';
 import 'ui/page/home/user/home_user_binding.dart';
 import 'ui/page/home/user/cart/cart_view.dart';
@@ -108,5 +110,10 @@ final List<GetPage> appPage = [
     name: MyReview.route,
     page: () => const MyReview(),
     binding: MyReviewBinding(),
+  ),
+  GetPage(
+    name: ForgotPassView.route,
+    page: () => ForgotPassView(),
+    binding: ForgotPassBinding(),
   ),
 ];

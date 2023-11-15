@@ -9,6 +9,7 @@ import '../../../../component_common/circle_button.dart';
 import '../about_us/about_us.dart';
 import '../cart/cart_view.dart';
 import '../discount/discount_view.dart';
+import '../forgot_pass/forgot_pass_view.dart';
 import '../my_order_manager/my_order_view.dart';
 import '../my_review/my_review.dart';
 import 'my_profile/my_profile_view.dart';
@@ -95,6 +96,12 @@ class _ProfileViewState extends State<ProfileView> {
             showBottomDivider: true,
             title: 'Đăng xuất',
             onTap: () => LoginController().logoutApp(),
+          ),
+          const ItemProfile(
+            showBottomDivider: true,
+            title: 'Forgotpass',
+            route: ForgotPassView.route,
+            // onTap: () => LoginController().logoutApp(),
           ),
           // TextButton(onPressed: () {}, child: const Text('chỉnh sửa'))
         ],
