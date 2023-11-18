@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:web_app/model/network/order_manager_model.dart';
 import 'package:web_app/ui/dialog/dialog_common.dart';
 
 import '../../../../../../constant.dart';
 import '../../../../../../extendsion/extendsion.dart';
+import '../../../../../component_common/loading_widget.dart';
 import '../../../admin/components/product_manager/product_manager_view.dart';
 import '../../review/product_review.dart';
 import 'order_detail_view_model.dart';
@@ -185,7 +190,55 @@ class OrderDetailView extends StatelessWidget {
               ),
               Text('${viewModel.order.value.paymentMethods}'),
               const Divider(),
-              
+              Obx(
+                () => viewModel.loading.value
+                    ? const Column(
+                        children: [
+                          Text('Đang tải qr'),
+                          LoadingWidget(),
+                        ],
+                      )
+                    : Visibility(
+                        visible: viewModel.order.value.paymentMethods ==
+                                'Thanh toán qua Qr' &&
+                            viewModel.base64Image.value.trim().isNotEmpty,
+                        child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                Image.memory(
+                                  base64Decode(viewModel.base64Image.value
+                                      .split('data:image/png;base64,')
+                                      .last),
+                                ),
+                                const Gap(16),
+                                Row(
+                                  children: [
+                                    const Expanded(
+                                      child: Text(
+                                          'Sau khi thanh toán qua qr bạn hãy gửi ảnh vào zalo của shop nhé zalo là : 098.122.2070'),
+                                    ),
+                                    const Gap(16),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          Clipboard.setData(const ClipboardData(
+                                              text: '0981222070'));
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text('Đã sao chép zalo'),
+                                            ),
+                                          );
+                                        },
+                                        child: const Text('Sao chép zalo:'))
+                                  ],
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+              ),
             ],
           ),
         ),

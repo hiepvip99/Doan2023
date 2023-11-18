@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:web_app/ui/component_common/textfield_common.dart';
 import 'package:web_app/ui/dialog/dialog_common.dart';
@@ -10,6 +11,7 @@ import 'package:web_app/ui/dialog/dialog_common.dart';
 import '../../../../../constant.dart';
 import '../../../../../extendsion/extendsion.dart';
 import '../../admin/components/product_manager/product_manager_view.dart';
+import '../home_user.dart';
 import '../order/order_view.dart';
 import 'cart_view_model.dart';
 
@@ -31,7 +33,27 @@ class ShoppingCartScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Obx(
-              () => ListView.builder(
+              () => viewModel.productInCart.value.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset('assets/images/empty_cart.png'),
+                          const Text(
+                            'Bạn chưa có sản phẩm nào trong giỏ',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          const Gap(16),
+                          ElevatedButton(
+                            onPressed: () {
+                              Get.offAllNamed(HomeUser.route);
+                            },
+                            child: const Text('Mua sắm ngay'),
+                          ),
+                        ],
+                      ),
+                    )
+                  : ListView.builder(
                 itemCount: viewModel.productInCart.value.length,
                 itemBuilder: (context, index) {
                   return ProductCartItem(

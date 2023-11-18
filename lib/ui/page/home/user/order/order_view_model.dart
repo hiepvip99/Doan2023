@@ -78,6 +78,7 @@ class OrderViewModel extends GetxController {
             customerId: customer.value.id))
         .then((value) {
       if (value?.success == true) {
+        genarateQr();
         discount.value = value?.discount ?? 0;
       } else {
         // DialogCommon().showAlertDialog(

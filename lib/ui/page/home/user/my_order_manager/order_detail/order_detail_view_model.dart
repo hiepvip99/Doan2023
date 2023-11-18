@@ -13,7 +13,9 @@ import '../my_order_view_model.dart';
 class OrderDetailViewModel extends GetxController {
   Rx<Order> order = Rx(Order());
   final RxList<StatusOrder> listStatusOrder = RxList();
+  RxBool loading = false.obs;
 
+  RxString base64Image = ''.obs;
   RxString statusName = ''.obs;
   RxBool hasRating = false.obs;
   final OrderService networkService = OrderService();
@@ -22,6 +24,33 @@ class OrderDetailViewModel extends GetxController {
     networkService.checkReview(orderDetailId, productId).then((value) {
       hasRating.value = value?.hasReview ?? false;
     });
+  }
+
+  Future<void> genarateQr() async {
+    loading.value = true;
+    int? maxId;
+    await networkService.getMaxId().then((value) {
+      if (value?.maxId != null) {
+        maxId = value?.maxId;
+      }
+    });
+    // base64Image.
+    await networkService
+        .genarateQr(GetQrGenarate(
+            accountNo: '4520561495',
+            accountName: 'LE CHI HIEP',
+            acqId: 970418,
+            amount: order.value.totalPrice,
+            addInfo: 'Pay to order id: ${(maxId ?? 0) + 1}',
+            format: 'text',
+            template: '96KCB5S'))
+        .then((value) {
+      if (value?.data?.qrDataURL != null) {
+        base64Image.value = value?.data?.qrDataURL ?? '';
+      }
+    });
+
+    loading.value = false;
   }
 
   Future<void> changeStatus(int status, String text) async {
@@ -86,6 +115,7 @@ class OrderDetailViewModel extends GetxController {
               ?.name ??
           '';
     }
+    genarateQr();
     getInfomationForProduct();
   }
 }
