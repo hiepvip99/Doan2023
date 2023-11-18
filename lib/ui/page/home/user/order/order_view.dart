@@ -1,7 +1,10 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/component_common/loading_widget.dart';
 import 'package:web_app/ui/component_common/textfield_beautiful.dart';
 
 import '../../../../../constant.dart';
@@ -211,6 +214,18 @@ class _OrderViewState extends State<OrderView> {
                         });
                       },
                     ),
+                    RadioListTile(
+                      title: const Text('Thanh toán qua Qr'),
+                      value: 'Thanh toán qua Qr',
+                      groupValue: viewModel.radioselectedPaymentMethod.value,
+                      onChanged: (value) {
+                        setState(() {
+                          viewModel.radioselectedPaymentMethod.value =
+                              value.toString();
+                        });
+                        viewModel.genarateQr();
+                      },
+                    ),
                     // RadioListTile(
                     //   title: const Text('Thanh toán qua Zalo Pay'),
                     //   value: 'Thanh toán qua Zalo Pay',
@@ -223,6 +238,21 @@ class _OrderViewState extends State<OrderView> {
                     //   },
                     // ),
                   ],
+                ),
+                const SizedBox(height: 16),
+                Obx(
+                  () => viewModel.loading.value
+                      ? const LoadingWidget()
+                      : Visibility(
+                          visible: viewModel.radioselectedPaymentMethod.value ==
+                                  'Thanh toán qua Qr' &&
+                              viewModel.base64Image.value.trim().isNotEmpty,
+                          child: Image.memory(
+                            base64Decode(viewModel.base64Image.value
+                                .split('data:image/png;base64,')
+                                .last),
+                          ),
+                        ),
                 ),
                 const SizedBox(height: 16),
                 Row(

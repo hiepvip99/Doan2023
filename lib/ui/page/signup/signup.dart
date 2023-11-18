@@ -36,6 +36,8 @@ class _SignupState extends State<Signup> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        appBar:
+            AppBar(title: const Text('Tạo tài khoản mới'), centerTitle: true),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Form(
           key: _formKey,
@@ -45,11 +47,11 @@ class _SignupState extends State<Signup> {
               constraints: BoxConstraints(maxWidth: width > 500 ? 500 : width),
               child: Column(
                 children: [
-                  const SizedBox(height: 40),
-                  Text(
-                    "Tạo tài khoản mới",
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
+                  // const SizedBox(height: 40),
+                  // Text(
+                  //   "Tạo tài khoản mới",
+                  //   style: Theme.of(context).textTheme.headlineSmall,
+                  // ),
                   const SizedBox(height: 35),
                   const Row(
                     children: [

@@ -8,6 +8,7 @@ class OrderManagerModel extends BaseEntity {
   int? currentPage;
   int? step;
   int? totalPages;
+  int? maxId;
   List<Order>? order;
 
   List<StatusOrder>? statusObj;
@@ -21,6 +22,7 @@ class OrderManagerModel extends BaseEntity {
   });
 
   OrderManagerModel.fromJson(Map<dynamic, dynamic> json) {
+    maxId = json['maxId'];
     currentPage = json['currentPage'];
     step = json['step'];
     totalPages = json['totalPages'];
@@ -267,11 +269,10 @@ class Review extends BaseEntity {
       this.createdAt,
       this.customerName,
       this.customerImage});
-      
+
   Review.fromJsonCheck(Map<dynamic, dynamic> json) {
     hasReview = json['hasReview'];
   }
-
 
   Review.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -299,7 +300,6 @@ class Review extends BaseEntity {
     return data;
   }
 }
-
 
 // class Review extends BaseEntity {
 //   int? id;

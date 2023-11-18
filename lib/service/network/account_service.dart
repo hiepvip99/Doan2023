@@ -14,6 +14,7 @@ class AccountService {
   final String _deleteAccount = 'api/account/delete';
   final String _forgotPass = 'api/account/forgotPass';
   final String _resetPass = 'api/account/resetPass';
+  final String _updatePassword = 'api/account/updatePassword';
 
   Future<AccountsManagerModel?> getAllAccount(
       {int? currentPage, int? step, String? keyword}) async {
@@ -51,6 +52,18 @@ class AccountService {
     final data = <String, dynamic>{};
     data['email'] = email;
     final repo = BaseRepository(path: _forgotPass, method: HttpMethod.post);
+    final response = await repo.queryByPath(
+        (e) => AccountsManagerModel.fromJsonForgotPass(e),
+        data: data);
+    return response;
+  }
+
+  Future<AccountsManagerModel?> updatePassword(
+      String email, String newPassword) async {
+    final data = <String, dynamic>{};
+    data['email'] = email;
+    data['password'] = newPassword;
+    final repo = BaseRepository(path: _updatePassword, method: HttpMethod.post);
     final response = await repo.queryByPath(
         (e) => AccountsManagerModel.fromJsonForgotPass(e),
         data: data);

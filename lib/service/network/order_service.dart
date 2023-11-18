@@ -9,7 +9,9 @@ class OrderService {
   final String _orderById = 'api/order/shoeOrderById';
   final String _review = 'api/order/review';
   final String _checkReview = 'api/order/check_review';
+  final String _maxId = 'api/order/max_id';
   final String _getAllReview = 'api/order/getAllReview';
+  final String _genarateQr = 'https://api.vietqr.io/v2/generate';
 
   Future<OrderManagerModel?> getAllOrder(
       {int? currentPage, int? step, DateTime? date, String? accountId}) async {
@@ -130,5 +132,89 @@ class OrderService {
       (e) => OrderManagerModel.fromJson(e),
     );
     return response;
+  }
+
+  Future<OrderManagerModel?> getMaxId() async {
+    final repo = BaseRepository(path: _maxId, method: HttpMethod.get);
+    final response = await repo.queryByPath(
+      (e) => OrderManagerModel.fromJson(e),
+    );
+    return response;
+  }
+
+  Future<GetQrGenarate?> genarateQr(GetQrGenarate data) async {
+    final repo = BaseRepository(
+      path: _genarateQr,
+      method: HttpMethod.post,
+      pathNoDomain: true,
+    );
+    final response = await repo.queryByPath(
+      (e) => GetQrGenarate.fromJson(e),
+      data: data.toJson(),
+      showLoading: false,
+    );
+    return response;
+  }
+}
+
+class GetQrGenarate extends BaseEntity {
+  String? code;
+  String? desc;
+  Data? data;
+
+  // GetQrGenarate({this.code, this.desc, this.data});
+
+  String? accountNo;
+  String? accountName;
+  int? acqId;
+  int? amount;
+  String? addInfo;
+  String? format;
+  String? template;
+
+  GetQrGenarate(
+      {this.accountNo,
+      this.accountName,
+      this.acqId,
+      this.amount,
+      this.addInfo,
+      this.format,
+      this.template});
+
+  GetQrGenarate.fromJson(Map<dynamic, dynamic> json) {
+    code = json['code'];
+    desc = json['desc'];
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['accountNo'] = accountNo;
+    data['accountName'] = accountName;
+    data['acqId'] = acqId;
+    data['amount'] = amount;
+    data['addInfo'] = addInfo;
+    data['format'] = format;
+    data['template'] = template;
+    return data;
+  }
+}
+
+class Data {
+  String? qrCode;
+  String? qrDataURL;
+
+  Data({this.qrCode, this.qrDataURL});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    qrCode = json['qrCode'];
+    qrDataURL = json['qrDataURL'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['qrCode'] = qrCode;
+    data['qrDataURL'] = qrDataURL;
+    return data;
   }
 }

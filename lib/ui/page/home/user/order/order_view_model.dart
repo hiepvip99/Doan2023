@@ -25,6 +25,7 @@ class OrderViewModel extends GetxController {
   RxList<ProductCartModel> orderProduct = RxList();
   RxString radioAddressValue = ''.obs;
   RxString radioselectedPaymentMethod = 'Thanh toán khi nhận hàng'.obs;
+  RxString base64Image = ''.obs;
 
   CustomerService customerService = CustomerService();
   OrderService orderService = OrderService();
@@ -40,6 +41,34 @@ class OrderViewModel extends GetxController {
   RxList<Size> sizeList = RxList();
 
   RxInt discount = 0.obs;
+  RxBool loading = false.obs;
+
+  Future<void> genarateQr() async {
+    loading.value = true;
+    int? maxId;
+    await orderService.getMaxId().then((value) {
+      if (value?.maxId != null) {
+        maxId = value?.maxId;
+      }
+    });
+    // base64Image.
+    await orderService
+        .genarateQr(GetQrGenarate(
+            accountNo: '4520561495',
+            accountName: 'LE CHI HIEP',
+            acqId: 970418,
+            amount: getTotalPrice(),
+            addInfo: 'Pay to order id: ${(maxId ?? 0) + 1}',
+            format: 'text',
+            template: '96KCB5S'))
+        .then((value) {
+      if (value?.data?.qrDataURL != null) {
+        base64Image.value = value?.data?.qrDataURL ?? '';
+      }
+    });
+
+    loading.value = false;
+  }
 
   Future<void> applyDiscount(String code) async {
     discount.value = 0;

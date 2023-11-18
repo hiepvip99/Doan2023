@@ -97,12 +97,12 @@ class _ProfileViewState extends State<ProfileView> {
             title: 'Đăng xuất',
             onTap: () => LoginController().logoutApp(),
           ),
-          const ItemProfile(
-            showBottomDivider: true,
-            title: 'Forgotpass',
-            route: ForgotPassView.route,
-            // onTap: () => LoginController().logoutApp(),
-          ),
+          // const ItemProfile(
+          //   showBottomDivider: true,
+          //   title: 'Forgotpass',
+          //   route: ForgotPassView.route,
+          //   // onTap: () => LoginController().logoutApp(),
+          // ),
           // TextButton(onPressed: () {}, child: const Text('chỉnh sửa'))
         ],
       ),

@@ -35,12 +35,10 @@ abstract class BaseRepositoryInterface {
 }
 
 class BaseRepository extends BaseRepositoryInterface {
-  BaseRepository({
-    required this.path,
-    required this.method,
-  });
+  BaseRepository({required this.path, required this.method, this.pathNoDomain});
 
   late String path;
+  final bool? pathNoDomain;
   late HttpMethod method;
   late Dio _dio;
 
@@ -54,7 +52,12 @@ class BaseRepository extends BaseRepositoryInterface {
       bool? showError = true}) async {
     // Get.lazyPut(() => DialogCommon());
     // DialogCommon dialogCommon = DialogCommon();
-    String url = domain + path;
+    String url = '';
+    if (pathNoDomain == true) {
+      url = path;
+    } else {
+      url = domain + path;
+    }
     try {
       dynamic response;
       _dio = Get.find<DioService>().get();

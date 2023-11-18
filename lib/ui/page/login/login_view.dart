@@ -10,6 +10,7 @@ import 'package:web_app/ui/page/login/login_controller.dart';
 
 import '../../component_common/textfield_beautiful.dart';
 import '../home/admin/home_admin_view.dart';
+import '../home/user/forgot_pass/forgot_pass_view.dart';
 import '../home/user/home_user.dart';
 import '../signup/signup.dart';
 
@@ -198,10 +199,11 @@ class _LoginState extends State<Login> {
                         children: [
                           TextButton(
                             onPressed: () {
-                              DialogCommon().showAlertDialog(
-                                  context: context,
-                                  title:
-                                      'Bạn vui lòng liên hệ hotline:098.122.2070 để được cấp lại mật khẩu');
+                              Get.toNamed(ForgotPassView.route);
+                              // DialogCommon().showAlertDialog(
+                              //     context: context,
+                              //     title:
+                              //         'Bạn vui lòng liên hệ hotline:098.122.2070 để được cấp lại mật khẩu');
                             },
                             child: const Text(
                               "Quên mật khẩu?",
