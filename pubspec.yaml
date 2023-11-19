@@ -71,6 +71,9 @@ dependencies:
   pinput: ^3.0.1
   gap: ^3.0.1
   pdf: ^3.10.6
+  file_selector: ^1.0.1
+  url_launcher: ^6.2.1
+  open_file: ^3.3.2
   # flutter_staggered_animations: ^1.1.1
 
 dev_dependencies:
@@ -101,7 +104,10 @@ flutter:
     - assets/icons/
     - assets/fonts/
     - assets/images/
-
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Black.ttf
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

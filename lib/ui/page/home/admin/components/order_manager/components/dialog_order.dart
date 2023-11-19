@@ -1,9 +1,16 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'dart:io';
+
+import 'package:pdf/widgets.dart' as pw;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:web_app/ui/page/home/admin/components/order_manager/components/export_pdf.dart';
 
+import '../../../../../../../extendsion/extendsion.dart';
 import '../../../../../../../model/network/order_manager_model.dart';
 import '../../../../../../component_common/textfield_common.dart';
 import '../../../../../../dialog/dialog_common.dart';
@@ -65,6 +72,11 @@ class DialogOrder {
                 const SizedBox(
                   height: 10,
                 ),
+                Text(
+                    'Phương thức thanh toán: ${viewModel.listOrder.value[index].paymentMethods ?? ''}'),
+                const SizedBox(
+                  height: 10,
+                ),
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -108,7 +120,6 @@ class DialogOrder {
                 const SizedBox(
                   height: 10,
                 ),
-                
                 Obx(
                   () => Wrap(
                     runSpacing: 10,
@@ -144,12 +155,96 @@ class DialogOrder {
                             ))
                         .toList(),
                   ),
-                )
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      generatePdf(context, viewModel.listOrder.value[index]);
+                      // Get.to(() => PdfGenerator(
+                      //     order: viewModel.listOrder.value[index]));
+                    },
+                    child: const Text('Tạo pdf')),
               ],
             ),
           )
         ],
       ),
+    );
+  }
+
+  Future<void> generatePdf(BuildContext context, Order order) async {
+    final pdf = pw.Document();
+    final font = await rootBundle.load("assets/fonts/Roboto-Black.ttf");
+    final ttf = pw.Font.ttf(font);
+    // Add a page to the PDF
+    pdf.addPage(
+      pw.Page(
+        build: (pw.Context context) => pw.Center(
+          child: buildContent(ttf, order),
+        ),
+      ),
+    );
+
+    // Save the PDF file
+    final output = await getTemporaryDirectory();
+    final file = File("${output.path}/order_info.pdf");
+    await file.writeAsBytes(await pdf.save());
+    debugPrint('${output.path}/order_info.pdf');
+    file.open();
+    // final Uri url = Uri.parse(file.path);
+    // launchUrl(url);
+    // File('${output.path}/order_info.pdf').ope;
+
+    // Open the PDF file
+    // You can use any PDF viewer installed on the device
+    // For example, you can use the open_file package
+    OpenFile.open(file.path);
+  }
+
+  pw.Widget buildContent(pw.Font font, Order order, {double fontSize = 14}) {
+    final styleFontPDF = pw.TextStyle(
+      font: font,
+      fontSize: fontSize,
+    );
+    return pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        pw.Header(
+          level: 0,
+          child: pw.Text('Thông tin đơn hàng',
+              style: styleFontPDF.copyWith(fontSize: 18)),
+        ),
+        pw.Text('Đơn hàng có id: ${order.id}', style: styleFontPDF),
+        pw.Divider(),
+        pw.Text('Thông tin khách hàng:', style: styleFontPDF),
+        pw.Text('Họ và tên: ${order.customerInfo?.name}', style: styleFontPDF),
+        pw.Text('Số điện thoại: ${order.customerInfo?.phoneNumber}',
+            style: styleFontPDF),
+        pw.Text('Thông tin đơn hàng:', style: styleFontPDF),
+        pw.Text('Địa chỉ nhận hàng: ${order.deliveryAddress}',
+            style: styleFontPDF),
+        pw.Divider(),
+        if (order.details?.length != 0)
+          ...order.details!
+              .map((e) => pw.Row(
+                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                      children: [
+                        pw.Text('Tên sản phẩm: ${e.product?.name}',
+                            style: styleFontPDF),
+                        pw.Text('Số lượng: ${e.quantity}', style: styleFontPDF),
+                      ]))
+              .toList(),
+        pw.Divider(),
+        pw.Text('Thành tiền: ${formatMoney(order.totalPrice ?? 0)}',
+            style: styleFontPDF),
+        pw.Text('Tổng số lượng sản phẩm: ${order.totalQuantity} đôi',
+            style: styleFontPDF),
+        pw.Text('Phương thức thanh toán: ${order.paymentMethods}',
+            style: styleFontPDF),
+        // pw.Text('Mô tả đơn hà: ${order.paymentMethods}'),
+      ],
     );
   }
 }
