@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:web_app/ui/page/home/admin/components/order_manager/components/dialog_order.dart';
 
+import '../../../../../../constant.dart';
+import '../../../../../component_common/my_dropdown_button2.dart';
 import '../../../../../component_common/paginator_common.dart';
 import '../../../../../component_common/textfield_common.dart';
 import 'order_manager_view_model.dart';
@@ -67,6 +69,22 @@ class _OrderManagerViewState extends State<OrderManagerView> {
                             // DialogAccount().showDialogAdd();
                           },
                           child: const Text('Thêm đơn hàng')),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Obx(
+                    () => MyDropdownButton2StateFull(
+                      hint: '',
+                      value: viewModel.selectedItem.value,
+                      itemHeight: 20,
+                      dropdownItems: pageStep,
+                      onChanged: (value) {
+                        if (value != null) {
+                          viewModel.onStepChange(value);
+                        }
+                      },
                     ),
                   ),
                 ],
