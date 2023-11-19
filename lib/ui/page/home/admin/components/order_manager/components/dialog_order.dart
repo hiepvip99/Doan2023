@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:web_app/ui/page/home/admin/components/order_manager/components/export_pdf.dart';
 
 import '../../../../../../../extendsion/extendsion.dart';
 import '../../../../../../../model/network/order_manager_model.dart';
