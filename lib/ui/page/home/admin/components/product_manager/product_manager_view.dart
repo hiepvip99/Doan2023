@@ -260,12 +260,12 @@ class _ProductManagerViewState extends State<ProductManagerView> {
                                       children: [
                                         ElevatedButton(
                                             onPressed: () {
+                                              final item = viewModel
+                                                  .productList.value[index];
                                               DialogProduct(
                                                       viewModel: viewModel)
                                                   .productDialog(context,
-                                                      itemUpdate: viewModel
-                                                          .productList
-                                                          .value[index]);
+                                                      itemUpdate: item);
                                             },
                                             child: const Text('Sửa')),
                                         const SizedBox(
@@ -344,8 +344,7 @@ class ImageComponent extends StatelessWidget {
     return Container(
       width: 150,
       height: 150,
-      decoration:
-          BoxDecoration(
+      decoration: BoxDecoration(
           // color: Colors.grey,
           border: isShowBorder == false
               ? null

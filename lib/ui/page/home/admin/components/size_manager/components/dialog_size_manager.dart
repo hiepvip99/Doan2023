@@ -38,9 +38,10 @@ class DialogSize {
             ),
             TextFieldCommon(
               controller: txtName,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\s+|\s+$'))
-              ],
+              // inputFormatters: [
+              //   // FilteringTextInputFormatter.allow(RegExp(r'^\s+|\s+$'))
+              // ],
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               validator: (value) {
                 return validateName(value ?? '');
               },

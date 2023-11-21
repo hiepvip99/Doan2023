@@ -58,19 +58,19 @@ class _OrderManagerViewState extends State<OrderManagerView> {
                     child: TextFieldCommon(
                         label: 'Tìm kiếm', controller: TextEditingController()),
                   ),
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  Obx(
-                    () => IgnorePointer(
-                      ignoring: viewModel.loading.value,
-                      child: ElevatedButton(
-                          onPressed: () {
-                            // DialogAccount().showDialogAdd();
-                          },
-                          child: const Text('Thêm đơn hàng')),
-                    ),
-                  ),
+                  // const SizedBox(
+                  //   width: 50,
+                  // ),
+                  // Obx(
+                  //   () => IgnorePointer(
+                  //     ignoring: viewModel.loading.value,
+                  //     child: ElevatedButton(
+                  //         onPressed: () {
+                  //           // DialogAccount().showDialogAdd();
+                  //         },
+                  //         child: const Text('Thêm đơn hàng')),
+                  //   ),
+                  // ),
                   const SizedBox(
                     width: 16,
                   ),

@@ -106,7 +106,7 @@ class ProductManagerViewModel extends GetxController {
         .getAllManufacturer(step: 1000)
         .then((value) => manufacturerList.value = value?.manufacturer ?? []);
     colorNetworkService
-        .getAllColor()
+        .getAllColor(step: 1000)
         .then((value) => colorList.value = value?.color ?? []);
     sizeNetworkService
         .getAllSize()
