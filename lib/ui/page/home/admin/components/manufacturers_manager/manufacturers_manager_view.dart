@@ -33,6 +33,7 @@ class _ManufacturersManagerViewState extends State<ManufacturersManagerView> {
       final text = txtSearch.text.trim();
       print('text:' + text);
       viewModel.keyword.value = text;
+      viewModel.currentPage.value = 1;
       viewModel.getManufacturerList();
     });
   }

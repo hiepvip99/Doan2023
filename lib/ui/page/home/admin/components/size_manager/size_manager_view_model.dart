@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../../model/network/size_model.dart';
@@ -20,7 +21,7 @@ class SizeViewModel extends GetxController {
   void onPageChange(int index) {
     currentPage.value = index + 1;
     getSizeList();
-    print(currentPage.value);
+    // debugPrint('vai that: ' + currentPage.value.toString());
   }
 
   void onStepChange(String? value) {
@@ -51,6 +52,7 @@ class SizeViewModel extends GetxController {
         sizeList.clear();
         sizeList.value = value.size ?? [];
         totalPage.value = value.totalPages ?? 1;
+        // debugPrint('day vao' + value.totalPages.toString());
       }
     });
     loading.value = false;
@@ -62,8 +64,7 @@ class SizeViewModel extends GetxController {
     await networkService.addSize(data).then((value) {
       if (value != null) {
         if (value.statusCode == 200) {
-          dialog.showSuccessDialog(
-              Get.context!, "Thêm size thành công");
+          dialog.showSuccessDialog(Get.context!, "Thêm size thành công");
         }
         getSizeList();
         Get.find<ProductManagerViewModel>().getInfomationForProduct();
