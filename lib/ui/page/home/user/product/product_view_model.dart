@@ -55,10 +55,10 @@ class ProductViewModel extends GetxController {
     //     .getAllManufacturer(step: 1000)
     //     .then((value) => manufacturerList.value = value?.manufacturer ?? []);
     await colorNetworkService
-        .getAllColor()
+        .getAllColor(step: 1000)
         .then((value) => colorList.value = value?.color ?? []);
     await sizeNetworkService
-        .getAllSize()
+        .getAllSize(step: 1000)
         .then((value) => sizeList.value = value?.size ?? []);
     // categoryNetworkService
     //     .getAllCategory(step: 1000)

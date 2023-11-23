@@ -90,9 +90,9 @@ class DialogSize {
             ),
             TextFieldCommon(
               controller: txtName,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\s+|\s+$'))
-              ],
+              // inputFormatters: [
+              //   // FilteringTextInputFormatter.allow(RegExp(r'^\s+|\s+$'))
+              // ],
               validator: (value) {
                 return validateName(value ?? '');
               },

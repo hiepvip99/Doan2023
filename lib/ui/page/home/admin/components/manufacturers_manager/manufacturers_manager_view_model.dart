@@ -21,6 +21,7 @@ class ManufacturersViewModel extends GetxController {
     currentPage.value = index + 1;
     getManufacturerList();
     print(currentPage.value);
+    print(totalPage.value);
   }
 
   void onStepChange(String? value) {
@@ -40,6 +41,8 @@ class ManufacturersViewModel extends GetxController {
   }
 
   Future<void> getManufacturerList() async {
+    print(currentPage.value);
+    print(totalPage.value);
     loading.value = true;
     await networkService
         .getAllManufacturer(

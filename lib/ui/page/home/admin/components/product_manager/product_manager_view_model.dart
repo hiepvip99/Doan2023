@@ -109,7 +109,7 @@ class ProductManagerViewModel extends GetxController {
         .getAllColor(step: 1000)
         .then((value) => colorList.value = value?.color ?? []);
     sizeNetworkService
-        .getAllSize()
+        .getAllSize(step: 1000)
         .then((value) => sizeList.value = value?.size ?? []);
     categoryNetworkService
         .getAllCategory(step: 1000)

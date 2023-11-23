@@ -168,153 +168,159 @@ class DialogProduct {
               height: 10,
             ),
             Container(
-              color: Colors.blue.shade100,
+              color: Colors.blue.shade50,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const SizedBox(width: 100, child: Text('Màu sắc:')),
                   const SizedBox(
                     width: 20,
                   ),
-                  Expanded(
+                  SizedBox(
+                    height: 400,
                     child: Obx(
-                      () => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // ignore: invalid_use_of_protected_member
-                        children: viewModel.colorList.value.map(
-                          (e) {
-                            final colorProductExist = colorSelected
-                                .where((item) => item.colorId == e.id)
-                                .toList();
-                            final isSelected = colorProductExist.isNotEmpty;
+                      () => SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          // ignore: invalid_use_of_protected_member
+                          children: viewModel.colorList.value.map(
+                            (e) {
+                              final colorProductExist = colorSelected
+                                  .where((item) => item.colorId == e.id)
+                                  .toList();
+                              final isSelected = colorProductExist.isNotEmpty;
 
-                            final price =
-                                isSelected ? colorProductExist.first.price : 0;
-                            return Card(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 8),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    SizedBox(
-                                      width: 200,
-                                      child: CheckboxListTile(
-                                        title: Tooltip(
-                                          message: e.name,
-                                          child: Row(
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  e.name ?? '',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                              Container(
-                                                height: 16,
-                                                width: 16,
-                                                decoration: BoxDecoration(
-                                                    // border: Border.all(color: Colors.),
-                                                    color: Color(int.parse(
-                                                            '${e.colorCode}',
-                                                            radix: 16) +
-                                                        0xFF000000),
-                                                    boxShadow: const [
-                                                      BoxShadow(
-                                                        color: Colors.black,
-                                                        blurRadius: 8,
-                                                        offset: Offset(0, 0),
-                                                      ),
-                                                    ]),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        value: isSelected,
-                                        onChanged: (value) {
-                                          if (value == true) {
-                                            colorSelected.add(ColorItemProduct(
-                                                colorId: e.id));
-                                          } else {
-                                            colorSelected.removeWhere(
-                                              (element) =>
-                                                  element.colorId == e.id,
-                                            );
-                                            if (colorSelected.length == 0) {
-                                              sizeSelected.removeRange(
-                                                  0, sizeSelected.length);
-                                              sizeSelected.refresh();
-                                            }
-                                          }
-                                          colorSelected.refresh();
-                                        },
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: isSelected,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              SizedBox(
-                                                width: 150,
-                                                child: Tooltip(
-                                                  message:
-                                                      'Giá của màu ${e.name}',
+                              final price = isSelected
+                                  ? colorProductExist.first.price
+                                  : 0;
+                              return Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 8, horizontal: 8),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        width: 200,
+                                        child: CheckboxListTile(
+                                          title: Tooltip(
+                                            message: e.name,
+                                            child: Row(
+                                              children: [
+                                                Expanded(
                                                   child: Text(
-                                                      'Giá của màu ${e.name}:',
-                                                      overflow: TextOverflow
-                                                          .ellipsis),
+                                                    e.name ?? '',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              SizedBox(
-                                                width: 250,
-                                                child: TextFieldCommon(
-                                                  controller:
-                                                      TextEditingController(
-                                                          text:
-                                                              '${price ?? ''}'),
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .digitsOnly
-                                                  ],
-                                                  onChanged: (value) {
-                                                    colorSelected
-                                                            .firstWhere(
-                                                                (element) =>
-                                                                    element
-                                                                        .colorId ==
-                                                                    e.id)
-                                                            .price =
-                                                        int.tryParse(value);
-                                                  },
-                                                  keyboardType:
-                                                      const TextInputType
-                                                          .numberWithOptions(),
+                                                Container(
+                                                  height: 16,
+                                                  width: 16,
+                                                  decoration: BoxDecoration(
+                                                      // border: Border.all(color: Colors.),
+                                                      color: Color(int.parse(
+                                                              '${e.colorCode}',
+                                                              radix: 16) +
+                                                          0xFF000000),
+                                                      boxShadow: const [
+                                                        BoxShadow(
+                                                          color: Colors.black,
+                                                          blurRadius: 8,
+                                                          offset: Offset(0, 0),
+                                                        ),
+                                                      ]),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ],
+                                          value: isSelected,
+                                          onChanged: (value) {
+                                            if (value == true) {
+                                              colorSelected.add(
+                                                  ColorItemProduct(
+                                                      colorId: e.id));
+                                            } else {
+                                              colorSelected.removeWhere(
+                                                (element) =>
+                                                    element.colorId == e.id,
+                                              );
+                                              if (colorSelected.length == 0) {
+                                                sizeSelected.removeRange(
+                                                    0, sizeSelected.length);
+                                                sizeSelected.refresh();
+                                              }
+                                            }
+                                            colorSelected.refresh();
+                                          },
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      Visibility(
+                                        visible: isSelected,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                SizedBox(
+                                                  width: 150,
+                                                  child: Tooltip(
+                                                    message:
+                                                        'Giá của màu ${e.name}',
+                                                    child: Text(
+                                                        'Giá của màu ${e.name}:',
+                                                        overflow: TextOverflow
+                                                            .ellipsis),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                SizedBox(
+                                                  width: 250,
+                                                  child: TextFieldCommon(
+                                                    controller:
+                                                        TextEditingController(
+                                                            text:
+                                                                '${price ?? ''}'),
+                                                    inputFormatters: [
+                                                      FilteringTextInputFormatter
+                                                          .digitsOnly
+                                                    ],
+                                                    onChanged: (value) {
+                                                      colorSelected
+                                                              .firstWhere(
+                                                                  (element) =>
+                                                                      element
+                                                                          .colorId ==
+                                                                      e.id)
+                                                              .price =
+                                                          int.tryParse(value);
+                                                    },
+                                                    keyboardType:
+                                                        const TextInputType
+                                                            .numberWithOptions(),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ).toList(),
+                              );
+                            },
+                          ).toList(),
+                        ),
                       ),
                     ),
                   )
@@ -328,175 +334,178 @@ class DialogProduct {
                 const SizedBox(
                   width: 20,
                 ),
-                Expanded(
+                SizedBox(
+                  height: 400,
                   child: Obx(
-                    () => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      // ignore: invalid_use_of_protected_member
-                      children: viewModel.sizeList.value.map(
-                        (e) {
-                          final sizeProductExist = sizeSelected
-                              .where((item) => item.sizeId == e.id)
-                              .toList();
-                          final isSelected = sizeProductExist.isNotEmpty;
-                          final SizeItemProduct? sizevalueP =
-                              isSelected ? sizeProductExist.first : null;
-                          return Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                width: 150,
-                                child: CheckboxListTile(
-                                  title: Tooltip(
-                                    message: e.name,
-                                    child: Text(
-                                      e.name ?? '',
-                                      overflow: TextOverflow.ellipsis,
+                    () => SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // ignore: invalid_use_of_protected_member
+                        children: viewModel.sizeList.value.map(
+                          (e) {
+                            final sizeProductExist = sizeSelected
+                                .where((item) => item.sizeId == e.id)
+                                .toList();
+                            final isSelected = sizeProductExist.isNotEmpty;
+                            final SizeItemProduct? sizevalueP =
+                                isSelected ? sizeProductExist.first : null;
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: 150,
+                                  child: CheckboxListTile(
+                                    title: Tooltip(
+                                      message: e.name,
+                                      child: Text(
+                                        e.name ?? '',
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
-                                  ),
-                                  value: isSelected,
-                                  onChanged: (value) {
-                                    if (value == true) {
-                                      for (var elementItem in colorSelected) {
-                                        sizeSelected.add(
-                                          SizeItemProduct(
-                                            sizeId: e.id,
-                                            colorId: elementItem.colorId,
-                                            quantity: 0,
-                                          ),
+                                    value: isSelected,
+                                    onChanged: (value) {
+                                      if (value == true) {
+                                        for (var elementItem in colorSelected) {
+                                          sizeSelected.add(
+                                            SizeItemProduct(
+                                              sizeId: e.id,
+                                              colorId: elementItem.colorId,
+                                              quantity: 0,
+                                            ),
+                                          );
+                                        }
+                                      } else {
+                                        sizeSelected.removeWhere(
+                                          (element) => (element.sizeId ==
+                                              e.id) /* &&
+                                              (element.colorId ==
+                                                  sizevalueP?.colorId) */
+                                          ,
                                         );
                                       }
-                                    } else {
-                                      sizeSelected.removeWhere(
-                                        (element) => (element.sizeId ==
-                                            e.id) /* &&
-                                            (element.colorId ==
-                                                sizevalueP?.colorId) */
-                                        ,
-                                      );
-                                    }
-                                    sizeSelected.refresh();
-                                  },
-                                ),
-                              ),
-                              Visibility(
-                                visible: isSelected,
-                                child: Column(
-                                  children: colorSelected.map(
-                                    (item) {
-                                      final colorName = viewModel.colorList
-                                              .firstWhereOrNull((element) =>
-                                                  element.id == item.colorId)
-                                              ?.name ??
-                                          '';
-                                      // final sizeItem = sizeSelected.firstWhereOrNull((element) => element.colorId == item.colorId);
-                                      final quantity = sizeSelected
-                                              .firstWhereOrNull(
-                                                (element) =>
-                                                    (element.colorId ==
-                                                        item.colorId) &&
-                                                    (element.sizeId == e.id),
-                                              )
-                                              ?.quantity
-                                              .toString() ??
-                                          '';
-                                      // final quantity =
-                                      //     item.colorId == sizevalueP?.colorId
-                                      //         ? sizevalueP?.quantity.toString()
-                                      //         : '';
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              SizedBox(
-                                                width: 150,
-                                                child: Tooltip(
-                                                  message:
-                                                      'Số lượng=> $colorName & ${e.name}:',
-                                                  child: Text(
-                                                      'Số lượng=> $colorName & ${e.name}:',
-                                                      overflow: TextOverflow
-                                                          .ellipsis),
-                                                ),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              SizedBox(
-                                                width: 300,
-                                                child: TextFieldCommon(
-                                                  controller:
-                                                      TextEditingController(
-                                                          text: quantity),
-                                                  inputFormatters: [
-                                                    FilteringTextInputFormatter
-                                                        .digitsOnly
-                                                  ],
-                                                  onChanged: (value) {
-                                                    // .quantity;
-                                                    // sizeSelected.firstWhereOrNull((element) =>
-                                                    //             (element.colorId ==
-                                                    //                 item
-                                                    //                     .colorId) &&
-                                                    //             (element.sizeId ==
-                                                    //                 e.id)) ==
-                                                    //         null
-                                                    //     ? sizeSelected.add(
-                                                    //         SizeItemProduct(
-                                                    //           sizeId: e.id,
-                                                    //           colorId:
-                                                    //               item.colorId,
-                                                    //           quantity:
-                                                    //               int.tryParse(
-                                                    //                   value),
-                                                    //         ),
-                                                    //       )
-                                                    //     : null;
-                                                    sizeSelected
-                                                            .firstWhere(
-                                                              (element) =>
-                                                                  (element.colorId ==
-                                                                      item
-                                                                          .colorId) &&
-                                                                  (element.sizeId ==
-                                                                      e.id),
-                                                            )
-                                                            .quantity =
-                                                        int.tryParse(value);
-                                                    print(sizeSelected
-                                                        .firstWhere(
-                                                          (element) =>
-                                                              (element.colorId ==
-                                                                  item
-                                                                      .colorId) &&
-                                                              (element.sizeId ==
-                                                                  e.id),
-                                                        )
-                                                        .quantity);
-                                                  },
-                                                  keyboardType:
-                                                      const TextInputType
-                                                          .numberWithOptions(),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      );
+                                      sizeSelected.refresh();
                                     },
-                                  ).toList(),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      ).toList(),
+                                Visibility(
+                                  visible: isSelected,
+                                  child: Column(
+                                    children: colorSelected.map(
+                                      (item) {
+                                        final colorName = viewModel.colorList
+                                                .firstWhereOrNull((element) =>
+                                                    element.id == item.colorId)
+                                                ?.name ??
+                                            '';
+                                        // final sizeItem = sizeSelected.firstWhereOrNull((element) => element.colorId == item.colorId);
+                                        final quantity = sizeSelected
+                                                .firstWhereOrNull(
+                                                  (element) =>
+                                                      (element.colorId ==
+                                                          item.colorId) &&
+                                                      (element.sizeId == e.id),
+                                                )
+                                                ?.quantity
+                                                .toString() ??
+                                            '';
+                                        // final quantity =
+                                        //     item.colorId == sizevalueP?.colorId
+                                        //         ? sizevalueP?.quantity.toString()
+                                        //         : '';
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: 150,
+                                                  child: Tooltip(
+                                                    message:
+                                                        'Số lượng=> $colorName & ${e.name}:',
+                                                    child: Text(
+                                                        'Số lượng=> $colorName & ${e.name}:',
+                                                        overflow: TextOverflow
+                                                            .ellipsis),
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                SizedBox(
+                                                  width: 300,
+                                                  child: TextFieldCommon(
+                                                    controller:
+                                                        TextEditingController(
+                                                            text: quantity),
+                                                    inputFormatters: [
+                                                      FilteringTextInputFormatter
+                                                          .digitsOnly
+                                                    ],
+                                                    onChanged: (value) {
+                                                      // .quantity;
+                                                      // sizeSelected.firstWhereOrNull((element) =>
+                                                      //             (element.colorId ==
+                                                      //                 item
+                                                      //                     .colorId) &&
+                                                      //             (element.sizeId ==
+                                                      //                 e.id)) ==
+                                                      //         null
+                                                      //     ? sizeSelected.add(
+                                                      //         SizeItemProduct(
+                                                      //           sizeId: e.id,
+                                                      //           colorId:
+                                                      //               item.colorId,
+                                                      //           quantity:
+                                                      //               int.tryParse(
+                                                      //                   value),
+                                                      //         ),
+                                                      //       )
+                                                      //     : null;
+                                                      sizeSelected
+                                                              .firstWhere(
+                                                                (element) =>
+                                                                    (element.colorId ==
+                                                                        item
+                                                                            .colorId) &&
+                                                                    (element.sizeId ==
+                                                                        e.id),
+                                                              )
+                                                              .quantity =
+                                                          int.tryParse(value);
+                                                      print(sizeSelected
+                                                          .firstWhere(
+                                                            (element) =>
+                                                                (element.colorId ==
+                                                                    item
+                                                                        .colorId) &&
+                                                                (element.sizeId ==
+                                                                    e.id),
+                                                          )
+                                                          .quantity);
+                                                    },
+                                                    keyboardType:
+                                                        const TextInputType
+                                                            .numberWithOptions(),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ).toList(),
+                      ),
                     ),
                   ),
                 )

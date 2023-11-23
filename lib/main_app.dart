@@ -57,6 +57,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       onInit: () => onInit(),
       getPages: appPage,
       themeMode: getTheme(modeTheme.value),

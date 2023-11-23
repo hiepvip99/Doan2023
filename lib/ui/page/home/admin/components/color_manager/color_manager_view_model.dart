@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:web_app/ui/dialog/dialog_common.dart';
 
@@ -21,6 +22,7 @@ class ColorViewModel extends GetxController {
     currentPage.value = index + 1;
     getColorList();
     print(currentPage.value);
+    print(totalPage.value);
   }
 
   void onStepChange(String? value) {
@@ -51,6 +53,7 @@ class ColorViewModel extends GetxController {
         colorList.clear();
         colorList.value = value.color ?? [];
         totalPage.value = value.totalPages ?? 1;
+        debugPrint(totalPage.value.toString());
       }
     });
     loading.value = false;
@@ -62,8 +65,7 @@ class ColorViewModel extends GetxController {
     await networkService.addColor(data).then((value) {
       if (value != null) {
         if (value.statusCode == 200) {
-          dialog.showSuccessDialog(
-              Get.context!, "Thêm màu sắc thành công");
+          dialog.showSuccessDialog(Get.context!, "Thêm màu sắc thành công");
         }
         getColorList();
         Get.find<ProductManagerViewModel>().getInfomationForProduct();
