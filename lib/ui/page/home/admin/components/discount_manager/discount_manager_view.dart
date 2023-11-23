@@ -227,17 +227,17 @@ class _DiscountManagerViewState extends State<DiscountManagerView> {
                 ),
               ),
             ),
-            Obx(
-              () => Visibility(
-                visible: !viewModel.loading.value,
-                child: PaginatorCommon(
-                  totalPage: viewModel.totalPage.value,
-                  initPage: viewModel.currentPage.value - 1,
-                  // onPageChangeCallBack: (index) =>
-                  //     viewModel.onPageChange(index),
-                ),
-              ),
-            ),
+            // Obx(
+            //   () => Visibility(
+            //     visible: !viewModel.loading.value,
+            //     child: PaginatorCommon(
+            //       totalPage: viewModel.totalPage.value,
+            //       initPage: viewModel.currentPage.value - 1,
+            //       // onPageChangeCallBack: (index) =>
+            //       //     viewModel.onPageChange(index),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
