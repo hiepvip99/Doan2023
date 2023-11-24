@@ -235,6 +235,7 @@ class _SearchViewState extends State<SearchView> {
             const SizedBox(height: 16),
             Obx(
               () => DropdownMenu<Manufacturer>(
+                width: 290,
                 // menuHeight: 36,
                 // inputDecorationTheme: InputDecorationTheme(),
                 controller: txtDropManufacture,
@@ -265,6 +266,7 @@ class _SearchViewState extends State<SearchView> {
             const SizedBox(height: 16),
             Obx(
               () => DropdownMenu<Category>(
+                width: 290,
                 controller: txtDropCategory,
                 initialSelection: viewModel.category.value.id != null
                     ? viewModel.categoryList
@@ -291,6 +293,7 @@ class _SearchViewState extends State<SearchView> {
             const Text('Giới tính:'),
             const SizedBox(height: 16),
             DropdownMenu<String>(
+                width: 290,
                 // trailingIcon: Icon(Icons.home),
                 // inputDecorationTheme: InputDecorationTheme(
                 //     contentPadding: EdgeInsets.only(left: 10),
