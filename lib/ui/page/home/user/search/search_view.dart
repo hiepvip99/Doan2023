@@ -191,11 +191,14 @@ class _SearchViewState extends State<SearchView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Chức năng đang làm'),
+            // const Text('Chức năng đang làm'),
             const SizedBox(
-              height: 16,
+              height: 24,
             ),
-            const Text('Tìm theo khoảng giá:'),
+            const Text(
+              'Tìm theo khoảng giá:',
+              style: TextStyle(fontSize: 16),
+            ),
             const SizedBox(
               height: 16,
             ),
@@ -204,7 +207,7 @@ class _SearchViewState extends State<SearchView> {
                 Expanded(
                   child: TextFieldCommon(
                     border: InputBorder.none,
-                    hintText: 'từ',
+                    hintText: 'Từ',
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     backgroundColor: Colors.grey.shade200,
@@ -223,7 +226,7 @@ class _SearchViewState extends State<SearchView> {
                     controller: txtMaxPrice,
                     keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    hintText: 'đến',
+                    hintText: 'Đến',
                     contentPadding:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   ),
@@ -231,7 +234,10 @@ class _SearchViewState extends State<SearchView> {
               ],
             ),
             const SizedBox(height: 16),
-            const Text('Nhà sản xuất:'),
+            const Text(
+              'Nhà sản xuất:',
+              style: TextStyle(fontSize: 16),
+            ),
             const SizedBox(height: 16),
             Obx(
               () => DropdownMenu<Manufacturer>(
@@ -262,7 +268,10 @@ class _SearchViewState extends State<SearchView> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text('Loại giày:'),
+            const Text(
+              'Loại giày:',
+              style: TextStyle(fontSize: 16),
+            ),
             const SizedBox(height: 16),
             Obx(
               () => DropdownMenu<Category>(
@@ -290,7 +299,10 @@ class _SearchViewState extends State<SearchView> {
               ),
             ),
             const SizedBox(height: 16),
-            const Text('Giới tính:'),
+            const Text(
+              'Giới tính:',
+              style: TextStyle(fontSize: 16),
+            ),
             const SizedBox(height: 16),
             DropdownMenu<String>(
                 width: 290,
