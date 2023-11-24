@@ -16,10 +16,26 @@ class OrderService {
   Future<OrderManagerModel?> getAllOrder(
       {int? currentPage, int? step, DateTime? date, String? accountId}) async {
     final queryParameter = <String, dynamic>{};
-    queryParameter['step'] = step;
-    queryParameter['page'] = currentPage;
-    queryParameter['date'] = date;
-    queryParameter['account_id'] = accountId;
+    // Kiểm tra và set giá trị cho step
+    if (step != null) {
+      queryParameter['step'] = step;
+    }
+    // Kiểm tra và set giá trị cho page
+    if (currentPage != null) {
+      queryParameter['page'] = currentPage;
+    }
+    // Kiểm tra và set giá trị cho date
+    if (date != null) {
+      queryParameter['date'] = date;
+    }
+    // Kiểm tra và set giá trị cho account_id
+    if (accountId != null) {
+      queryParameter['account_id'] = accountId;
+    }
+    // queryParameter['step'] = step;
+    // queryParameter['page'] = currentPage;
+    // queryParameter['date'] = date;
+    // queryParameter['account_id'] = accountId;
     final repo = BaseRepository(path: _orderUrl, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => OrderManagerModel.fromJson(e),

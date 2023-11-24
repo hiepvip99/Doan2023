@@ -11,7 +11,8 @@ class OrderSuccessScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Order Success'),
+        title: const Text('Đặt hàng thành công'),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(

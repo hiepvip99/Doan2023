@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:web_app/ui/component_common/loading_widget.dart';
 import 'package:web_app/ui/component_common/textfield_common.dart';
 import 'package:web_app/ui/dialog/dialog_common.dart';
 
@@ -35,7 +36,9 @@ class ShoppingCartScreen extends StatelessWidget {
             child: Obx(
               () => viewModel.productInCart.value.isEmpty
                   ? Center(
-                      child: Column(
+                      child: viewModel.loading.value
+                          ? const LoadingWidget()
+                          : Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image.asset('assets/images/empty_cart.png'),

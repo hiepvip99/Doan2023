@@ -9,9 +9,12 @@ class SizeService {
   Future<SizeProductModel?> getAllSize(
       {int? currentPage, int? step, String? keyword}) async {
     final queryParameter = <String, dynamic>{};
-    queryParameter['step'] = step;
-    queryParameter['page'] = currentPage;
-    queryParameter['keyword'] = keyword;
+    // queryParameter['step'] = step;
+    // queryParameter['page'] = currentPage;
+    // queryParameter['keyword'] = keyword;
+    if (step != null) queryParameter['step'] = step;
+    if (currentPage != null) queryParameter['page'] = currentPage;
+    if (keyword != null) queryParameter['keyword'] = keyword;
     final repo = BaseRepository(path: _sizeUrl, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => SizeProductModel.fromJson(e),
@@ -23,9 +26,12 @@ class SizeService {
   Future<Size?> getSizeById(
       {int? currentPage, int? step, String? keyword}) async {
     final queryParameter = <String, dynamic>{};
-    queryParameter['step'] = step;
-    queryParameter['page'] = currentPage;
-    queryParameter['keyword'] = keyword;
+    // queryParameter['step'] = step;
+    // queryParameter['page'] = currentPage;
+    // queryParameter['keyword'] = keyword;
+    if (step != null) queryParameter['step'] = step;
+    if (currentPage != null) queryParameter['page'] = currentPage;
+    if (keyword != null) queryParameter['keyword'] = keyword;
     final repo = BaseRepository(path: _sizeUrl, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => Size.fromJson(e['object']),

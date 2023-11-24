@@ -18,6 +18,8 @@ class CartViewModel extends GetxController {
 
   CartService cartService = CartService();
 
+  RxBool loading = false.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -55,7 +57,7 @@ class CartViewModel extends GetxController {
   }
 
   Future<void> getAllProductInCart() async {
-    // loading.value = true;
+    loading.value = true;
     // const accId = 3;
     final accountId = DataLocal.getAccountId();
     await cartService.getCartById(accountId).then((value) {
@@ -67,7 +69,7 @@ class CartViewModel extends GetxController {
         }
       }
     });
-    // loading.value = false;
+    loading.value = false;
   }
 
   void selectProduct(int index) {
