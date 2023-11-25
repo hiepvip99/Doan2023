@@ -12,7 +12,7 @@ class ForgotPassView extends StatelessWidget {
 
   final TextEditingController txtEmail = TextEditingController();
   final viewModel = Get.find<ForgotPassViewModel>();
-
+  RxString validate = ''.obs;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -31,13 +31,35 @@ class ForgotPassView extends StatelessWidget {
               const Gap(16),
               TextFieldBeautiful(
                   title: 'Nhập email đăng ký', controller: txtEmail),
+              const Gap(4),
+              Obx(
+                () => Row(
+                  children: [
+                    Text(
+                      validate.value,
+                      style: const TextStyle(color: Colors.red),
+                    ),
+                  ],
+                ),
+              ),
               const Gap(50),
+              
               Center(
                 child: ElevatedButton(
                     onPressed: () {
+                      validate.value = '';
                       final email = txtEmail.text.trim();
-                      viewModel.email = email;
-                      viewModel.forgotPass();
+                      viewModel.email.value = email;
+                      if (viewModel.email.value.trim().isEmpty) {
+                        validate.value = "Email không được để trống";
+                      } else if (!(viewModel.email.value.contains('@') &&
+                          viewModel.email.value.contains('.'))) {
+                        validate.value = "Email không đúng định dạng";
+                      }
+                      if (validate.value.trim().isEmail) {
+                        viewModel.forgotPass();
+                      }
+                      
                     },
                     child: const Text('Gửi mã xác nhận')),
               )

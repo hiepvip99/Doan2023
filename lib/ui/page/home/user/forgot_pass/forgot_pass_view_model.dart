@@ -8,10 +8,10 @@ import '../../../../../service/network/account_service.dart';
 
 class ForgotPassViewModel extends GetxController {
   AccountService accountService = AccountService();
-  String email = '';
+  RxString email = ''.obs;
 
   Future<void> forgotPass() async {
-    accountService.forgotPass(email).then((value) {
+    accountService.forgotPass(email.value).then((value) {
       if (value?.success == true) {
         // Get.
         showConfirmPass();
@@ -21,12 +21,12 @@ class ForgotPassViewModel extends GetxController {
 
   Future<void> hasResetPass(confirmCode) async {
     // final confirmCode = pinController.text.trim();
-    await accountService.hasResetPass(email, confirmCode).then((value) {
+    await accountService.hasResetPass(email.value, confirmCode).then((value) {
       if (value?.hasUpdatePassword == true) {
         // Get.
         // showConfirmPass();
         Get.back();
-        Get.to(() => UpdatePass(email: email));
+        Get.to(() => UpdatePass(email: email.value));
       }
     });
   }
