@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -10,20 +12,36 @@ import '../../constant.dart';
 
 class EditAvatarScreen extends StatelessWidget {
   EditAvatarScreen(
-      {super.key, required this.image, required this.handleUpload});
+      {
+    super.key,
+    required this.image,
+    required this.handleUpload,
+  });
 
   final RxList<File> imageChoose = RxList();
   final String image;
   final Function(List<File> images) handleUpload;
+  final Rx<File?> file = Rxn();
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.bottomRight,
       children: [
         // Hình ảnh avatar tròn
-        ClipRRect(
-          borderRadius: BorderRadius.circular(80),
-          child: ImageComponent(imageUrl: domain + image),
+        // file.value
+        Obx(
+          () => file.value?.path != null
+              ? Image.file(
+                  file.value!,
+                  fit: BoxFit.cover,
+                  filterQuality: FilterQuality.low,
+                  height: 150,
+                  width: 150,
+                )
+              : ClipRRect(
+                  borderRadius: BorderRadius.circular(80),
+                  child: ImageComponent(imageUrl: domain + image),
+                ),
         ),
         // Biểu tượng chụp ảnh ở góc dưới bên phải
         Positioned(
@@ -46,6 +64,7 @@ class EditAvatarScreen extends StatelessWidget {
                 print(imageChoose.length);
                 // ignore: invalid_use_of_protected_member
                 handleUpload(imageChoose.value);
+                file.value = imageChoose.value.first;
               }
             },
           ),
