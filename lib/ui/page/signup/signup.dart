@@ -232,7 +232,7 @@ class _SignupState extends State<Signup> {
                       if (value == null || value.isEmpty) {
                         return "Mật khẩu không được để trống";
                       } else if (value.length < 8) {
-                        return "Password must be at least 8 character.";
+                        return "Mật khẩu phải có ít nhất 8 kí tự.";
                       }
                       return null;
                     },
