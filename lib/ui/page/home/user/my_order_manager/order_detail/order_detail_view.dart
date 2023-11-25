@@ -191,7 +191,9 @@ class OrderDetailView extends StatelessWidget {
               Text('${viewModel.order.value.paymentMethods}'),
               const Divider(),
               Obx(
-                () => viewModel.loading.value
+                () => viewModel.loading.value &&
+                        (viewModel.order.value.paymentMethods ==
+                            'Thanh toán qua Qr')
                     ? const Column(
                         children: [
                           Text('Đang tải qr'),
