@@ -51,6 +51,7 @@ class ProductManagerModel extends BaseEntity {
     data['manufacturer_id'] = item?.manufacturerId;
     data['category_id'] = item?.categoryId;
     data['gender'] = item?.gender;
+    data['description'] = item?.description;
     data['product_size'] = item?.sizes?.map((e) => e.toJson()).toList();
     data['product_color'] = item?.colors?.map((e) => e.toJson()).toList();
 

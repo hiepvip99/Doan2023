@@ -64,6 +64,8 @@ class DialogProduct {
             categoryId: viewModel.categoryList.first.id,
             gender: genderList.first);
     TextEditingController txtName = TextEditingController(text: product.name);
+    TextEditingController txtMota =
+        TextEditingController(text: product.description);
     // TextEditingController txtQuantity = TextEditingController();
     // TextEditingController txtPrice = TextEditingController();
     DialogCommon().showDialogWithBody(
@@ -598,6 +600,23 @@ class DialogProduct {
               height: 10,
             ),
             Row(
+              children: [
+                const SizedBox(width: 100, child: Text('Mô tả sản phẩm:')),
+                const SizedBox(
+                  width: 20,
+                ),
+                SizedBox(
+                    width: 500,
+                    child: TextFieldCommon(
+                      controller: txtMota,
+                      maxLines: 5,
+                    ))
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton(
@@ -612,6 +631,7 @@ class DialogProduct {
                       product.sizes = sizeSelected.value;
 
                       product.name = txtName.text.trim();
+                      product.description = txtMota.text.trim();
                       if (itemUpdate != null) {
                         viewModel.updateProduct(product);
                       } else {

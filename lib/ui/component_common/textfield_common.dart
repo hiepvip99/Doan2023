@@ -18,6 +18,7 @@ class TextFieldCommon extends StatelessWidget {
     this.backgroundColor,
     this.labelColor,
     this.autofocus = false,
+    this.maxLines = 1,
   });
 
   final String? label;
@@ -34,6 +35,7 @@ class TextFieldCommon extends StatelessWidget {
   final InputBorder? border;
   final Color? backgroundColor;
   final Color? labelColor;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class TextFieldCommon extends StatelessWidget {
           child: TextFormField(
             autofocus: autofocus,
             controller: controller,
+            maxLines: maxLines,
             decoration: InputDecoration(
               hintText: hintText,
               focusedBorder: border ??
