@@ -149,7 +149,7 @@ class _SignupState extends State<Signup> {
                         return "Email không được để trống";
                       } else if (!(value.contains('@') &&
                           value.contains('.'))) {
-                        return "Invalid email";
+                        return "Email không đúng định dạng";
                       }
                       return null;
                     },
@@ -334,13 +334,15 @@ class _SignupState extends State<Signup> {
                           ),
                         ),
                         onPressed: () {
-                          final username = _controllerUsername.text.trim();
-                          final password = _controllerPassword.text.trim();
-                          final email = _controllerEmail.text.trim();
-                          loginController.register(RegisterModel(
-                              username: username,
-                              email: email,
-                              password: password));
+                          if (_formKey.currentState?.validate() ?? false) {
+                            final username = _controllerUsername.text.trim();
+                            final password = _controllerPassword.text.trim();
+                            final email = _controllerEmail.text.trim();
+                            loginController.register(RegisterModel(
+                                username: username,
+                                email: email,
+                                password: password));
+                          }
                           // if (_formKey.currentState?.validate() ?? false) {
                           //   // _boxAccounts.put(
                           //   //   _controllerUsername.text,
