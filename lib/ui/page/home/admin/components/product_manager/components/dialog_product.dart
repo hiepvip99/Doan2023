@@ -653,6 +653,7 @@ class DialogProduct {
                       //     element.productId = itemUpdate.id;
                       //   }
                       // }
+                      validateName.value = '';
                       product.colors = colorSelected.value;
                       product.sizes = sizeSelected.value;
 

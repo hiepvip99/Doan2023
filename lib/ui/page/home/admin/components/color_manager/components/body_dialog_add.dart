@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../../../model/network/color_model.dart';
 
@@ -21,6 +22,9 @@ class _ColorInputDialogState extends State<ColorInputDialog> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _hexController = TextEditingController();
   Color _selectedColor = Colors.transparent;
+
+  RxString validateName = ''.obs;
+  RxString validateHexColor = ''.obs;
 
   @override
   void initState() {
@@ -73,27 +77,65 @@ class _ColorInputDialogState extends State<ColorInputDialog> {
           //   textAlign: TextAlign.center,
           // ),
           // const SizedBox(height: 16.0),
-          TextField(
-            controller: _nameController,
-            decoration: InputDecoration(
-              labelText: 'Tên màu',
-              border: const OutlineInputBorder(),
-              filled: true,
-              fillColor: Colors.grey[200],
+          Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Tên màu',
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: validateName.value.isNotEmpty
+                            ? Colors.red
+                            : const Color(0xFF000000),
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
+                ),
+                validateName.value.isNotEmpty
+                    ? Text(
+                        validateName.value,
+                        style: const TextStyle(color: Colors.red),
+                      )
+                    : const SizedBox(),
+              ],
             ),
           ),
           const SizedBox(height: 16.0),
-          TextField(
-            controller: _hexController,
-            decoration: InputDecoration(
-              labelText: 'Mã màu',
-              border: const OutlineInputBorder(),
-              filled: true,
-              fillColor: Colors.grey[200],
+          Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: _hexController,
+                  decoration: InputDecoration(
+                    labelText: 'Mã màu',
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: validateHexColor.value.isNotEmpty
+                            ? Colors.red
+                            : const Color(0xFF000000),
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                  ),
+                  onChanged: (value) {
+                    _updateColor();
+                  },
+                ),
+                validateHexColor.value.isNotEmpty
+                    ? Text(
+                        validateHexColor.value,
+                        style: const TextStyle(color: Colors.red),
+                      )
+                    : const SizedBox(),
+              ],
             ),
-            onChanged: (value) {
-              _updateColor();
-            },
           ),
           const SizedBox(height: 16.0),
           Container(
@@ -125,25 +167,35 @@ class _ColorInputDialogState extends State<ColorInputDialog> {
               const SizedBox(width: 8.0),
               TextButton(
                 onPressed: () {
+                  validateName.value = '';
+                  validateHexColor.value = '';
                   String name = _nameController.text;
                   String hex = _hexController.text;
-                  try {
-                    Color color = Color(int.parse(hex, radix: 16) + 0xFF000000);
-                    widget.colorShoe != null
-                        ? widget.updateColor(ColorShoe(
-                            id: widget.colorShoe?.id,
-                            name: name,
-                            colorCode: hex))
-                        : widget
-                            .addColor(ColorShoe(name: name, colorCode: hex));
-                  } catch (e) {
-                    print(e);
+                  if (name.trim().isEmpty) {
+                    validateName.value = 'Không được để trống';
+                  } else if (!hex.isHexadecimal) {
+                    validateHexColor.value = 'Giá trị không hợp lệ';
+                  } else {
+                    try {
+                      Color color =
+                          Color(int.parse(hex, radix: 16) + 0xFF000000);
+                      widget.colorShoe != null
+                          ? widget.updateColor(ColorShoe(
+                              id: widget.colorShoe?.id,
+                              name: name,
+                              colorCode: hex))
+                          : widget
+                              .addColor(ColorShoe(name: name, colorCode: hex));
+                      Navigator.pop(context);
+                    } catch (e) {
+                      print(e);
+                    }
                   }
 
                   // Do something with the color and name
                   // For example, you can pass the color and name back to the parent widget using Navigator.pop()
 
-                  Navigator.pop(context);
+                  
                 },
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
