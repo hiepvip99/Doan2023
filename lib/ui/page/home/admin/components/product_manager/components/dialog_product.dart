@@ -660,10 +660,19 @@ class DialogProduct {
                       product.name = txtName.text.trim();
                       product.description = txtMota.text.trim();
                       if (product.name?.length != 0) {
-                        if (itemUpdate != null) {
-                          viewModel.updateProduct(product);
+                        if (colorSelected.value.length > 0 &&
+                            sizeSelected.value.length > 0) {
+                          if (itemUpdate != null) {
+                            viewModel.updateProduct(product);
+                          } else {
+                            viewModel.addProduct(product);
+                          }
                         } else {
-                          viewModel.addProduct(product);
+                          DialogCommon().showAlertDialog(
+                              context: context,
+                              title: colorSelected.value.length > 0
+                                  ? 'Bạn chưa chọn size'
+                                  : 'Bạn chưa chọn màu sắc');
                         }
                       } else {
                         validateName.value = 'Tên không được để trống';
