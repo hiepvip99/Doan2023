@@ -33,6 +33,8 @@ class DialogProduct {
     RxList<ColorItemProduct> colorSelected = RxList();
     RxList<SizeItemProduct> sizeSelected = RxList();
 
+    RxString validateName = ''.obs;
+
     if (itemUpdate != null) {
       // for (var i = 0; i < colorSelected.length; i++) {
       // handle logic color
@@ -75,22 +77,26 @@ class DialogProduct {
       bodyDialog: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SizedBox(width: 100, child: Text('Ảnh:')),
-                const SizedBox(
-                  width: 20,
-                ),
-                ImageComponent(
-                    imageUrl: domain +
-                        (product.colors?.length != 0
-                            ? product.colors?.first.images?.length != 0
-                                ? product.colors?.first.images?.first.url ?? ''
-                                : ''
-                            : ''))
-                // Image.memory(),
-              ],
+            Visibility(
+              visible: itemUpdate != null,
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(width: 100, child: Text('Ảnh:')),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ImageComponent(
+                      imageUrl: domain +
+                          (product.colors?.length != 0
+                              ? product.colors?.first.images?.length != 0
+                                  ? product.colors?.first.images?.first.url ??
+                                      ''
+                                  : ''
+                              : ''))
+                  // Image.memory(),
+                ],
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -162,8 +168,28 @@ class DialogProduct {
                 const SizedBox(
                   width: 20,
                 ),
-                SizedBox(
-                    width: 300, child: TextFieldCommon(controller: txtName))
+                Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                          width: 300,
+                          child: TextFieldCommon(
+                            controller: txtName,
+                            border: validateName.value.isNotEmpty
+                                ? const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red))
+                                : null,
+                          )),
+                      validateName.value.isNotEmpty
+                          ? Text(
+                              validateName.value,
+                              style: const TextStyle(color: Colors.red),
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
+                )
               ],
             ),
             const SizedBox(
@@ -632,10 +658,14 @@ class DialogProduct {
 
                       product.name = txtName.text.trim();
                       product.description = txtMota.text.trim();
-                      if (itemUpdate != null) {
-                        viewModel.updateProduct(product);
+                      if (product.name?.length != 0) {
+                        if (itemUpdate != null) {
+                          viewModel.updateProduct(product);
+                        } else {
+                          viewModel.addProduct(product);
+                        }
                       } else {
-                        viewModel.addProduct(product);
+                        validateName.value = 'Tên không được để trống';
                       }
                     },
                     child: const Text('Submit')),
