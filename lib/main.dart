@@ -106,19 +106,19 @@ Future<void> initApp() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     FirebaseMessaging.instance.subscribeToTopic("all");
-    final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
     final customerService = CustomerService();
     final accountId = DataLocal.getAccountId();
 
-    _firebaseMessaging.requestPermission();
-    _firebaseMessaging.getToken().then((token) {
+    firebaseMessaging.requestPermission();
+    firebaseMessaging.getToken().then((token) {
       print('Firebase Token: $token');
       if (token != null) {
         customerService.updateNotificationToken(accountId, token);
       }
     });
 
-    _firebaseMessaging.getInitialMessage().then((RemoteMessage? message) {
+    firebaseMessaging.getInitialMessage().then((RemoteMessage? message) {
       if (message != null) {
         // Xử lý thông báo khi ứng dụng khởi chạy từ thông báo
         // handleNotification(message);

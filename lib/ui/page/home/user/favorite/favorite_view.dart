@@ -99,6 +99,14 @@ class _FavoriteViewState extends State<FavoriteView> {
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10),
                   builderDelegate: PagedChildBuilderDelegate<Product>(
+                    noItemsFoundIndicatorBuilder: (context) {
+                      return Center(
+                        child: Text(
+                          'Bạn chưa thích sản phẩm nào',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      );
+                    },
                     itemBuilder: (context, item, index) => GestureDetector(
                       // onTap: () {},
                       child: Obx(
@@ -135,8 +143,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                     onPressed: () {
                       favoriteSeleted.length < 1
                           ? null
-                          :
-                      viewModel
+                          : viewModel
                               .removeFavorite(favoriteSeleted)
                               .then((value) => _pagingController.refresh());
                       // favoriteSeleted.clear();

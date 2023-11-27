@@ -43,7 +43,7 @@ class _HomeUserState extends State<HomeUser> {
   final PagingController<int, Product> _pagingController =
       PagingController(firstPageKey: 1);
   final accountId = DataLocal.getAccountId();
-  
+
   @override
   void initState() {
     super.initState();
