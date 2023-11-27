@@ -26,186 +26,191 @@ class MyOrderView extends StatelessWidget {
       body: Obx(() => viewModel.loading.value
           ? const LoadingWidget()
           : DefaultTabController(
-          length: viewModel.listStatusOrder.value.length,
-          child: Column(
+              length: viewModel.listStatusOrder.value.length,
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TabBar(
-tabAlignment: TabAlignment.start,
+                children: [
+                  TabBar(
+                      tabAlignment: TabAlignment.start,
                       // padding: EdgeInsets.zero,
-                  labelColor: Colors.black,
-                  isScrollable: true,
-                  tabs: viewModel.listStatusOrder.value
-                      .map((e) => Tab(
-                            text: e.name ?? '',
-                          ))
-                      .toList()),
-              Expanded(
-                  child: TabBarView(
-                      children: viewModel.listStatusOrder.value.map((e) {
-                List<Order> orderList = [];
-                for (var element in viewModel.listOrder.value) {
-                  orderList.add(element);
-                }
-                orderList.retainWhere((element) => e.id == element.statusId);
-                return Card(
-                  color: Colors.white,
-                  margin: EdgeInsets.zero,
-                  elevation: 0,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        ...orderList.map((item) => Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 8, horizontal: 16),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                      labelColor: Colors.black,
+                      isScrollable: true,
+                      tabs: viewModel.listStatusOrder.value
+                          .map((e) => Tab(
+                                text: e.name ?? '',
+                              ))
+                          .toList()),
+                  Expanded(
+                      child: TabBarView(
+                          children: viewModel.listStatusOrder.value.map((e) {
+                    List<Order> orderList = [];
+                    for (var element in viewModel.listOrder.value) {
+                      orderList.add(element);
+                    }
+                    orderList
+                        .retainWhere((element) => e.id == element.statusId);
+                    return Card(
+                      color: Colors.white,
+                      margin: EdgeInsets.zero,
+                      elevation: 0,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            ...orderList.map((item) => Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 16),
+                                      child: Column(
                                         children: [
-                                          Text('Mã đơn hàng: ${item.id}'),
-                                          OutlinedButton(
-                                              onPressed: () {
-                                                viewModel
-                                                    .toDetailOrderScreen(item);
-                                              },
-                                              child:
-                                                  const Text('Xem chi tiết')),
-                                        ],
-                                      ),
-                                      // const SizedBox(
-                                      //   height: 10,
-                                      // ),
-                                      //  if(item.details!= null)
-                                      const Divider(),
-                                      ...item.details!.map(
-                                        (itemDetail) => Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            ListTile(
-                                              contentPadding: EdgeInsets.zero,
-                                              leading: SizedBox(
-                                                width: 50,
-                                                height: 50,
-                                                child: ImageComponent(
-                                                    isShowBorder: false,
-                                                    imageUrl: domain +
-                                                        (itemDetail
-                                                                    .color
-                                                                    ?.images
-                                                                    ?.length !=
-                                                                0
-                                                            ? itemDetail
-                                                                    .color
-                                                                    ?.images
-                                                                    ?.first
-                                                                    .url ??
-                                                                ''
-                                                            : '')),
-                                              ),
-                                              title: Text(
-                                                itemDetail.product?.name ?? '',
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              subtitle: Text(
-                                                  'Số lượng: ${itemDetail.quantity ?? 0} || ${formatMoney(itemDetail.color?.price ?? 0)}'),
-                                            ),
-                                            Row(
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text('Mã đơn hàng: ${item.id}'),
+                                              OutlinedButton(
+                                                  onPressed: () {
+                                                    viewModel
+                                                        .toDetailOrderScreen(
+                                                            item);
+                                                  },
+                                                  child: const Text(
+                                                      'Xem chi tiết')),
+                                            ],
+                                          ),
+                                          // const SizedBox(
+                                          //   height: 10,
+                                          // ),
+                                          //  if(item.details!= null)
+                                          const Divider(),
+                                          ...item.details!.map(
+                                            (itemDetail) => Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                const SizedBox(
-                                                  width: 65,
+                                                ListTile(
+                                                  contentPadding:
+                                                      EdgeInsets.zero,
+                                                  leading: SizedBox(
+                                                    width: 50,
+                                                    height: 50,
+                                                    child: ImageComponent(
+                                                        isShowBorder: false,
+                                                        imageUrl: domain +
+                                                            (itemDetail
+                                                                        .color
+                                                                        ?.images
+                                                                        ?.length !=
+                                                                    0
+                                                                ? itemDetail
+                                                                        .color
+                                                                        ?.images
+                                                                        ?.first
+                                                                        .url ??
+                                                                    ''
+                                                                : '')),
+                                                  ),
+                                                  title: Text(
+                                                    itemDetail.product?.name ??
+                                                        '',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  subtitle: Text(
+                                                      'Số lượng: ${itemDetail.quantity ?? 0} || ${formatMoney(itemDetail.color?.price ?? 0)}'),
                                                 ),
-                                                Obx(
-                                                  () => Text(
-                                                      'Phân loại: ${viewModel.getColorName(itemDetail.color?.colorId)} || ${viewModel.getSizeName(itemDetail.sizeId)}'),
-                                                )
+                                                Row(
+                                                  children: [
+                                                    const SizedBox(
+                                                      width: 65,
+                                                    ),
+                                                    Obx(
+                                                      () => Text(
+                                                          'Phân loại: ${viewModel.getColorName(itemDetail.color?.colorId)} || ${viewModel.getSizeName(itemDetail.sizeId)}'),
+                                                    )
+                                                  ],
+                                                ),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      const Divider(),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                              '${item.totalQuantity} sản phẩm'),
-                                          Text(
-                                              'Tổng giá trị: ${formatMoney(item.totalPrice ?? 0)}'),
+                                          ),
+                                          const Divider(),
+                                          SizedBox(
+                                            height: 8,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                  '${item.totalQuantity} sản phẩm'),
+                                              Text(
+                                                  'Tổng giá trị: ${formatMoney(item.totalPrice ?? 0)}'),
+                                            ],
+                                          ),
+                                          // const Divider(),
+                                          // Container(
+                                          //   color: Colors.green,
+                                          //   child: ListTile(
+                                          //     contentPadding: EdgeInsets.zero,
+                                          //     leading: SizedBox(
+                                          //       width: 50,
+                                          //       height: 50,
+                                          //       child: ImageComponent(
+                                          //           isShowBorder: false,
+                                          //           imageUrl: domain +
+                                          //               (item.details?.first.color?.images
+                                          //                       ?.first.url ??
+                                          //                   '')),
+                                          //     ),
+                                          //     title: Text(
+                                          //       item.details?.first.product?.name ?? '',
+                                          //       overflow: TextOverflow.ellipsis,
+                                          //     ),
+                                          //     subtitle: Text(
+                                          //         'Số lượng: ${item.totalQuantity} || ${item.totalPrice} đ'),
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
-                                      // const Divider(),
-                                      // Container(
-                                      //   color: Colors.green,
-                                      //   child: ListTile(
-                                      //     contentPadding: EdgeInsets.zero,
-                                      //     leading: SizedBox(
-                                      //       width: 50,
-                                      //       height: 50,
-                                      //       child: ImageComponent(
-                                      //           isShowBorder: false,
-                                      //           imageUrl: domain +
-                                      //               (item.details?.first.color?.images
-                                      //                       ?.first.url ??
-                                      //                   '')),
-                                      //     ),
-                                      //     title: Text(
-                                      //       item.details?.first.product?.name ?? '',
-                                      //       overflow: TextOverflow.ellipsis,
-                                      //     ),
-                                      //     subtitle: Text(
-                                      //         'Số lượng: ${item.totalQuantity} || ${item.totalPrice} đ'),
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
-                                ),
+                                    ),
                                     const Divider(thickness: 1),
-                              ],
-                            )),
+                                  ],
+                                )),
 
-                        // ...orderList.map(
-                        //   (item) => ListTile(
-                        //     leading: SizedBox(
-                        //       width: 50,
-                        //       height: 50,
-                        //       child: ImageComponent(
-                        //           isShowBorder: false,
-                        //           imageUrl: domain +
-                        //               (item.details?.first.color?.images?.first
-                        //                       .url ??
-                        //                   '')),
-                        //     ), // Hiển thị hình ảnh sản phẩm
-                        //     title: Text(
-                        //       item.details?.first.product?.name ?? '',
-                        //       overflow: TextOverflow.ellipsis,
-                        //     ), // Hiển thị tên sản phẩm
-                        //     subtitle: Text((item.statusId ?? 0).toString(),
-                        //         overflow: TextOverflow
-                        //             .ellipsis), // Hiển thị trạng thái đơn hàng
-                        //     trailing: Column(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //
-                        //       ],
-                        //     ), // Hiển thị giá cả đơn hàng
-                        //   ),
-                        // )
-                      ],
-                    ),
-                  ),
-                );
-              }).toList()))
-            ],
-          ))),
+                            // ...orderList.map(
+                            //   (item) => ListTile(
+                            //     leading: SizedBox(
+                            //       width: 50,
+                            //       height: 50,
+                            //       child: ImageComponent(
+                            //           isShowBorder: false,
+                            //           imageUrl: domain +
+                            //               (item.details?.first.color?.images?.first
+                            //                       .url ??
+                            //                   '')),
+                            //     ), // Hiển thị hình ảnh sản phẩm
+                            //     title: Text(
+                            //       item.details?.first.product?.name ?? '',
+                            //       overflow: TextOverflow.ellipsis,
+                            //     ), // Hiển thị tên sản phẩm
+                            //     subtitle: Text((item.statusId ?? 0).toString(),
+                            //         overflow: TextOverflow
+                            //             .ellipsis), // Hiển thị trạng thái đơn hàng
+                            //     trailing: Column(
+                            //       mainAxisAlignment: MainAxisAlignment.center,
+                            //       children: [
+                            //
+                            //       ],
+                            //     ), // Hiển thị giá cả đơn hàng
+                            //   ),
+                            // )
+                          ],
+                        ),
+                      ),
+                    );
+                  }).toList()))
+                ],
+              ))),
       // body: ListView.builder(
       //   itemCount: 5,
       //   itemBuilder: (context, index) {
