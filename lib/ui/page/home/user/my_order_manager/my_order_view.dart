@@ -28,8 +28,11 @@ class MyOrderView extends StatelessWidget {
           : DefaultTabController(
           length: viewModel.listStatusOrder.value.length,
           child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TabBar(
+tabAlignment: TabAlignment.start,
+                      // padding: EdgeInsets.zero,
                   labelColor: Colors.black,
                   isScrollable: true,
                   tabs: viewModel.listStatusOrder.value
@@ -165,7 +168,7 @@ class MyOrderView extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                const Divider(thickness: 10),
+                                    const Divider(thickness: 1),
                               ],
                             )),
 

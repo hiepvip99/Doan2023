@@ -107,7 +107,7 @@ class _HomeUserState extends State<HomeUser> {
           child: Obx(() => getBody(context, viewModel.index.value)),
         ),
         bottomNavigationBar: SizedBox(
-          height: 57,
+          height: 58,
           child: Obx(
             () => BottomNavigationBar(
                 currentIndex: viewModel.index.value,
