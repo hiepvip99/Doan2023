@@ -71,7 +71,7 @@ class _HomeUserState extends State<HomeUser> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      viewModel.currentPage.value = pageKey;
+      // viewModel.currentPage.value = pageKey;
       viewModel.selectedItem.value = _pageSize.toString();
       await viewModel.getAllProduct();
       final newItems = viewModel.productList;
@@ -80,6 +80,7 @@ class _HomeUserState extends State<HomeUser> {
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
+        viewModel.currentPage.value += 1;
         final nextPageKey = pageKey + newItems.length;
         _pagingController.appendPage(newItems, nextPageKey);
       }

@@ -41,7 +41,7 @@ class _SearchViewState extends State<SearchView> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      viewModel.currentPage.value = pageKey;
+      // viewModel.currentPage.value = pageKey;
       viewModel.selectedItem.value = _pageSize.toString();
       await viewModel.getAllProduct();
       final newItems = viewModel.productList;
@@ -50,6 +50,7 @@ class _SearchViewState extends State<SearchView> {
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
+        viewModel.currentPage.value += 1;
         final nextPageKey = pageKey + newItems.length;
         _pagingController.appendPage(newItems, nextPageKey);
       }
@@ -128,16 +129,16 @@ class _SearchViewState extends State<SearchView> {
                 )),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                // const Text('Danh sách sản phẩm hiển thị ở đây'),
-                PagedGridView<int, Product>(
-                  shrinkWrap: true,
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              // const Text('Danh sách sản phẩm hiển thị ở đây'),
+              Expanded(
+                child: PagedGridView<int, Product>(
+                  // shrinkWrap: true,
                   // padding: const EdgeInsets.symmetric(vertical: 8),
-                  physics: const NeverScrollableScrollPhysics(),
+                  // physics: const NeverScrollableScrollPhysics(),
                   pagingController: _pagingController,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       childAspectRatio: 3 / 4,
@@ -176,8 +177,8 @@ class _SearchViewState extends State<SearchView> {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -397,8 +398,7 @@ class _SearchViewState extends State<SearchView> {
                   removeFilterButton(),
                 ],
               ),
-            )
-             ,
+            ),
             // DropdownButtonFormField(
             //   decoration: InputDecoration(border: OutlineInputBorder()),
             //   items: genderList
@@ -414,8 +414,6 @@ class _SearchViewState extends State<SearchView> {
             //     // }
             //   },
             // ),
-            
-            
           ],
         ),
       ),

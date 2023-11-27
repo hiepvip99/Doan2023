@@ -69,7 +69,7 @@ class _ProductViewState extends State<ProductView> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      viewModel.currentPage.value = pageKey;
+      // viewModel.currentPage.value = pageKey;
       viewModel.step = _pageSize;
       await viewModel.getAllReview();
       // ignore: invalid_use_of_protected_member
@@ -79,6 +79,7 @@ class _ProductViewState extends State<ProductView> {
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
+        viewModel.currentPage.value += 1;
         final nextPageKey = pageKey + newItems.length;
         _pagingController.appendPage(newItems, nextPageKey);
       }

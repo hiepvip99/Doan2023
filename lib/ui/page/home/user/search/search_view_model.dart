@@ -53,6 +53,7 @@ class SearchViewModel extends GetxController {
 
   Future<void> getAllProduct() async {
     loading.value = true;
+    await Future.delayed(Duration(seconds: 2));
     await networkService
         .getAllProduct(
             currentPage: currentPage.value,
