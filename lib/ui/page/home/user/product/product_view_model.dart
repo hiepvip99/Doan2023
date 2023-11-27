@@ -26,6 +26,7 @@ class ProductViewModel extends GetxController {
   RxList<Review> reviewList = RxList();
   RxDouble averageRating = RxDouble(5);
   RxInt totalRating = 1.obs;
+  RxInt totalRatingS = 0.obs;
 
   RxList<int?> sizeOfProduct = RxList();
   CartService cartService = CartService();
@@ -100,8 +101,10 @@ class ProductViewModel extends GetxController {
       reviewList.value = value?.reviews ?? [];
       averageRating.value = value?.averageRating ?? 5.0;
       totalRating.value = value?.totalRating ?? 1;
+      totalRatingS.value = value?.totalRating ?? 0;
       if (totalRating.value < 1) {
         totalRating.value = 1;
+        // totalRatingS.value = 0;
       }
       ratingCounts.value = value?.ratingCounts ?? RatingCounts();
     });

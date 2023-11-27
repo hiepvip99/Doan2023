@@ -447,7 +447,7 @@ class _ProductViewState extends State<ProductView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Đánh giá trung bình về sản phẩm này: ${viewModel.averageRating.value} / 5.0',
+                      'Đánh giá trung bình về sản phẩm này: ${viewModel.totalRatingS.value == 0 ? 5.0 : viewModel.averageRating.value} / 5.0',
                       style: const TextStyle(fontSize: 16),
                     ),
                     // const SizedBox(height: 16),
@@ -458,7 +458,7 @@ class _ProductViewState extends State<ProductView> {
                     const SizedBox(height: 16),
 
                     Text(
-                      'Tổng số đánh giá: ${viewModel.totalRating.value}',
+                      'Tổng số đánh giá: ${viewModel.totalRatingS.value}',
                       style: const TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 16),
