@@ -44,7 +44,7 @@ class LeftMenu extends StatelessWidget {
     ),
     ItemMenu(
       icon: Icons.groups,
-      title: 'Khách hàng thân thiết',
+      title: 'Quản lý khách hàng',
     ),
     ItemMenu(
       icon: Icons.settings,
