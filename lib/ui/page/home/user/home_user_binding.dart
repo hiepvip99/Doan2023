@@ -10,8 +10,8 @@ class HomeUserBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => HomeUserController());
-    Get.lazyPut(() => FavoriteViewModel());
-    Get.lazyPut(() => NotificationViewModel());
+    Get.lazyPut(() => FavoriteViewModel(), fenix: true);
+    Get.lazyPut(() => NotificationViewModel(), fenix: true);
     Get.lazyPut(() => ProfileViewModel());
     Get.lazyPut(() => ProductReviewModel());
   }

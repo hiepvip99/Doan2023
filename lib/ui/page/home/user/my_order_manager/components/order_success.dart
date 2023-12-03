@@ -49,7 +49,7 @@ class OrderSuccessScreen extends StatelessWidget {
             // const SizedBox(height: 16),
             // ElevatedButton(
             //   onPressed: () {
-            //     Get.toNamed(MyOrderView.route);
+            //     Get.toNamed(HomeUser.route, arguments: 3);
             //   },
             //   child: const Text('Xem lịch sử đơn hàng'),
             // ),

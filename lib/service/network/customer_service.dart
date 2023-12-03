@@ -42,6 +42,7 @@ class CustomerService {
     final response = await repo.queryByPath(
       (e) => Customer.fromJsonCheck(e),
       data: data,
+      showLoading: false
     );
     return response;
   }
