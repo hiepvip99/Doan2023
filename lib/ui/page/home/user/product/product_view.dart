@@ -227,8 +227,7 @@ class _ProductViewState extends State<ProductView> {
                       ...viewModel.product.value.colors!
                           .map((e) => InkWell(
                                 onTap: () {
-                                  indexColorImage.value =
-                                      viewModel
+                                  indexColorImage.value = viewModel
                                       .product.value.colors!
                                       .indexOf(e);
                                   indexImage.value = 1;
@@ -432,6 +431,13 @@ class _ProductViewState extends State<ProductView> {
                 height: 16,
               ),
               const Text(
+                'Freeship cho đơn hàng từ 500.000 đ',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              const Text(
                 'Mô tả: ',
                 style: TextStyle(fontSize: 16),
               ),
@@ -439,7 +445,7 @@ class _ProductViewState extends State<ProductView> {
                 height: 16,
               ),
               Text(
-                '${viewModel.product.value.description}',
+                '${viewModel.product.value.description ?? "Chưa có mô tả"}',
                 style: const TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 16),
@@ -562,7 +568,7 @@ class _ProductViewState extends State<ProductView> {
                                         ),
                                         const SizedBox(height: 8),
                                         Text(
-                                          formatDateTime(
+                                          formatDate(
                                               item.createdAt ?? DateTime(2023)),
                                           style: const TextStyle(
                                               color: Colors.grey),
@@ -604,11 +610,9 @@ class _ProductViewState extends State<ProductView> {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
-                  product.colorId =
-                      viewModel
+                  product.colorId = viewModel
                       .product.value.colors?[indexColorImage.value].colorId;
-                  product.sizeId =
-                      viewModel
+                  product.sizeId = viewModel
                       .product.value.sizes?[indexSizeCkecked.value].sizeId;
                   product.quantity = count.value;
                   viewModel.addToCart(product);

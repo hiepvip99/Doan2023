@@ -139,7 +139,15 @@ class DialogOrder {
                                       (viewModel.listOrder.value[index]
                                                   .statusId ==
                                               6 &&
-                                          e.name == 'Trả hàng')
+                                          e.name == 'Trả hàng') ||
+                                      ((viewModel.listOrder.value[index]
+                                                  .statusId ==
+                                              5) &&
+                                          e.name == 'Yêu cầu hoàn tiền') ||
+                                      (viewModel.listOrder.value[index]
+                                                  .statusId ==
+                                              7 &&
+                                          e.name == 'Đã hoàn tiền')
                                   ? () {
                                       // Order item = order;
 

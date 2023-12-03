@@ -165,6 +165,8 @@ class _OrderViewState extends State<OrderView> {
                             // Text('${viewModel.order.totalQuantity} sản phẩm'),
                             Text(
                                 'Tổng giá trị: ${formatMoney(viewModel.getTotalPrice())}'),
+                            Text(
+                                'Phí ship: ${formatMoney(viewModel.getTotalPrice() > 529999 ? 0 : 30000)}')
                           ],
                         ),
                       ),
@@ -241,59 +243,7 @@ class _OrderViewState extends State<OrderView> {
                     // ),
                   ],
                 ),
-                const SizedBox(height: 16),
-                Obx(
-                  () => viewModel.loading.value
-                      ? const Column(
-                          children: [
-                            Text('Đang tải qr thanh toán cho bạn'),
-                            Gap(16),
-                            LoadingWidget(),
-                          ],
-                        )
-                      : Visibility(
-                          visible: viewModel.radioselectedPaymentMethod.value ==
-                                  'Thanh toán qua Qr' &&
-                              viewModel.base64Image.value.trim().isNotEmpty,
-                          child: Column(
-                            children: [
-                              Column(
-                                children: [
-                                  Image.memory(
-                                    base64Decode(viewModel.base64Image.value
-                                        .split('data:image/png;base64,')
-                                        .last),
-                                  ),
-                                  const Gap(16),
-                                  Row(
-                                    children: [
-                                      const Expanded(
-                                        child: Text(
-                                            'Sau khi thanh toán qua qr bạn hãy gửi ảnh vào zalo của shop nhé zalo là : 098.122.2070'),
-                                      ),
-                                      const Gap(16),
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            Clipboard.setData(
-                                                const ClipboardData(
-                                                    text: '0981222070'));
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content:
-                                                    Text('Đã sao chép zalo'),
-                                              ),
-                                            );
-                                          },
-                                          child: const Text('Sao chép zalo:'))
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                ),
+                
                 const SizedBox(height: 16),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,

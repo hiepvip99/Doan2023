@@ -111,7 +111,7 @@ class OrderViewModel extends GetxController {
           cartService.deleteCart(orderProduct.value[i].productInCart);
         }
         // cartService.deleteCart(orderProduct)
-        Get.toNamed(OrderSuccessScreen.route);
+        Get.offNamed(OrderSuccessScreen.route);
       } else {
         // DialogCommon().showAlertDialog(
         //     context: Get.context!, title: value?.message ?? '');
@@ -152,7 +152,11 @@ class OrderViewModel extends GetxController {
       total += (element.productInCart.price ?? 0) *
           (element.productInCart.quantity ?? 0);
     }
-    return total - discount.value;
+    int ship = 30000;
+    if (total >= 500000) {
+      ship = 0;
+    }
+    return total - discount.value + ship;
   }
 
   int getTotalQuantity() {
