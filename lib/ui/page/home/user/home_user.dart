@@ -44,6 +44,9 @@ class _HomeUserState extends State<HomeUser> {
       PagingController(firstPageKey: 1);
   final accountId = DataLocal.getAccountId();
 
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+
   @override
   void initState() {
     super.initState();
@@ -116,7 +119,11 @@ class _HomeUserState extends State<HomeUser> {
       child: Scaffold(
         backgroundColor: Colors.grey.shade100,
         body: SafeArea(
-          child: Obx(() => getBody(context, viewModel.index.value)),
+          // key: ,
+          child: RefreshIndicator(
+              key: _refreshIndicatorKey,
+              onRefresh: () => viewModel.getAllProduct(),
+              child: Obx(() => getBody(context, viewModel.index.value))),
         ),
         bottomNavigationBar: SizedBox(
           height: 58,
@@ -153,21 +160,21 @@ class _HomeUserState extends State<HomeUser> {
             //       title: const Text("Home"),
             //       selectedColor: Colors.black,
             //     ),
-
+      
             //     /// Likes
             //     SalomonBottomBarItem(
             //       icon: const Icon(Icons.favorite_border),
             //       title: const Text("Likes"),
             //       selectedColor: Colors.black,
             //     ),
-
+      
             //     /// Search
             //     SalomonBottomBarItem(
             //       icon: const Icon(Icons.notifications_none),
             //       title: const Text("Notification"),
             //       selectedColor: Colors.black,
             //     ),
-
+      
             //     /// Profile
             //     SalomonBottomBarItem(
             //       icon: const Icon(Icons.person_outline),
@@ -185,9 +192,12 @@ class _HomeUserState extends State<HomeUser> {
   Widget getBody(BuildContext context, int indexs) {
     switch (indexs) {
       case 0:
-        return SingleChildScrollView(
-          child: Column(
-            children: [header(), body(context)],
+        return RefreshIndicator(
+          onRefresh: () => viewModel.getAllProduct(),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [header(), body(context)],
+            ),
           ),
         );
       case 1:

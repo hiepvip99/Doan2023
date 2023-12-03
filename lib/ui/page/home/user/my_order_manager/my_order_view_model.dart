@@ -33,7 +33,7 @@ class MyOrderViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getAllProduct();
+    getAllOrder();
     getInfomationForProduct();
   }
 
@@ -48,7 +48,7 @@ class MyOrderViewModel extends GetxController {
 
   final accountId = DataLocal.getAccountId();
   
-  Future<void> getAllProduct() async {
+  Future<void> getAllOrder() async {
     loading.value = true;
     await networkService
         .getAllOrder(accountId: accountId, step: 100)

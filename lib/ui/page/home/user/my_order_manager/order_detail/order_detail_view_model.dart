@@ -70,7 +70,7 @@ class OrderDetailViewModel extends GetxController {
                     (element) => element.id == order.value.statusId)
                 ?.name ??
             '';
-        Get.find<MyOrderViewModel>().getAllProduct();
+        Get.find<MyOrderViewModel>().getAllOrder();
       }
     });
     // loading.value = false;
