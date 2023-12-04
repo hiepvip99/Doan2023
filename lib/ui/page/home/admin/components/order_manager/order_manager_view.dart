@@ -21,10 +21,24 @@ class OrderManagerView extends StatefulWidget {
 class _OrderManagerViewState extends State<OrderManagerView> {
   final OrderManagerViewModel viewModel = Get.find<OrderManagerViewModel>();
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   viewModel.getOrderList();
+  // }
+
+  final TextEditingController txtSearch = TextEditingController();
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    viewModel.getOrderList();
+    txtSearch.addListener(() {
+      final text = txtSearch.text.trim();
+      print('text:' + text);
+      viewModel.keyword.value = text;
+      viewModel.currentPage.value = 1;
+      viewModel.getOrderList();
+    });
   }
 
   @override
@@ -56,7 +70,7 @@ class _OrderManagerViewState extends State<OrderManagerView> {
                     //       isDense: true),
                     // ),
                     child: TextFieldCommon(
-                        label: 'Tìm kiếm', controller: TextEditingController()),
+                        label: 'Tìm kiếm', controller: txtSearch),
                   ),
                   // const SizedBox(
                   //   width: 50,

@@ -14,7 +14,11 @@ class OrderService {
   final String _genarateQr = 'https://api.vietqr.io/v2/generate';
 
   Future<OrderManagerModel?> getAllOrder(
-      {int? currentPage, int? step, DateTime? date, String? accountId}) async {
+      {int? currentPage,
+      int? step,
+      DateTime? date,
+      String? accountId,
+      String? id}) async {
     final queryParameter = <String, dynamic>{};
     // Kiểm tra và set giá trị cho step
     if (step != null) {
@@ -31,6 +35,9 @@ class OrderService {
     // Kiểm tra và set giá trị cho account_id
     if (accountId != null) {
       queryParameter['account_id'] = accountId;
+    }
+    if (id != null) {
+      queryParameter['id'] = id;
     }
     // queryParameter['step'] = step;
     // queryParameter['page'] = currentPage;

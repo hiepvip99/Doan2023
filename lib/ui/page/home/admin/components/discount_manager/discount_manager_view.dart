@@ -66,19 +66,20 @@ class _DiscountManagerViewState extends State<DiscountManagerView> {
                   const SizedBox(
                     width: 50,
                   ),
-                  Expanded(
-                    child: TextFieldCommon(
-                      hintText: 'Tìm kiếm',
-                      controller: txtSearch,
-                      // onChanged: (value) {
-                      //   viewModel.keyword.value = txtSearch.text.trim();
-                      //   viewModel.getManufacturerList();
-                      // },
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 50,
-                  ),
+                  const Spacer(),
+                  // Expanded(
+                  //   child: TextFieldCommon(
+                  //     hintText: 'Tìm kiếm',
+                  //     controller: txtSearch,
+                  //     // onChanged: (value) {
+                  //     //   viewModel.keyword.value = txtSearch.text.trim();
+                  //     //   viewModel.getManufacturerList();
+                  //     // },
+                  //   ),
+                  // ),
+                  // const SizedBox(
+                  //   width: 50,
+                  // ),
                   Obx(
                     () => IgnorePointer(
                       ignoring: viewModel.loading.value,
@@ -89,9 +90,9 @@ class _DiscountManagerViewState extends State<DiscountManagerView> {
                           child: const Text('Thêm mã giảm giá')),
                     ),
                   ),
-                  const SizedBox(
-                    width: 50,
-                  ),
+                  // const SizedBox(
+                  //   width: 50,
+                  // ),
                   // Obx(
                   //   () => MyDropdownButton2StateFull(
                   //     hint: '',

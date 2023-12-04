@@ -16,6 +16,7 @@ class OrderManagerViewModel extends GetxController {
   RxString keyword = ''.obs;
   RxString idSearch = ''.obs;
   RxString dateSearch = ''.obs;
+  // RxString dateSearch = ''.obs;
 
   final dialog = DialogCommon();
   OrderService networkService = OrderService();
@@ -42,6 +43,7 @@ class OrderManagerViewModel extends GetxController {
     loading.value = true;
     await networkService
         .getAllOrder(
+      id: keyword.value,
       currentPage: currentPage.value,
       step: int.tryParse(selectedItem.value) ?? 10,
     )
