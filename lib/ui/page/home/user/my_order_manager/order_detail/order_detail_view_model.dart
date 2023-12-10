@@ -82,6 +82,16 @@ class OrderDetailViewModel extends GetxController {
   RxList<ColorShoe> colorList = RxList();
   RxList<Size> sizeList = RxList();
 
+  Future<void> getAllStatusOrder() async {
+    OrderService().getAllStatusOrder().then((value) {
+      if (value != null) {
+        if (value.statusObj != null) {
+          listStatusOrder.value = value.statusObj!;
+        }
+      }
+    });
+  }
+
   Future<void> getInfomationForProduct() async {
     colorNetworkService
         .getAllColor()
@@ -109,7 +119,12 @@ class OrderDetailViewModel extends GetxController {
     final data = Get.arguments;
     if (data is OrderDetailViewArgument) {
       order.value = data.order;
-      listStatusOrder.value = data.status;
+      if (data.status != null) {
+        listStatusOrder.value = data.status;
+      } else {
+        getAllStatusOrder();
+      }
+
       statusName.value = listStatusOrder.value
               .firstWhereOrNull((element) => element.id == order.value.statusId)
               ?.name ??

@@ -105,13 +105,25 @@ class OrderViewModel extends GetxController {
     order.value.orderDate = DateTime.now();
     order.value.deliveryAddress = radioAddressValue.value;
     order.value.statusId = 1; // mặc định chờ xác nhận
-    await orderService.addOrder(order.value).then((value) {
+    await orderService.addOrder(order.value).then((value) async {
       if (value?.statusCode == 200) {
         for (var i = 0; i < orderProduct.value.length; i++) {
           cartService.deleteCart(orderProduct.value[i].productInCart);
         }
-        // cartService.deleteCart(orderProduct)
-        Get.offNamed(OrderSuccessScreen.route);
+        int? maxId;
+        await orderService.getMaxId().then((value) {
+          if (value?.maxId != null) {
+            maxId = value?.maxId;
+          }
+          order.value.id = maxId;
+          // cartService.deleteCart(orderProduct)
+          Get.off(() => OrderSuccessScreen(
+                isQrCode:
+                    radioselectedPaymentMethod.value == 'Thanh toán qua Qr',
+                order: order.value,
+              ));
+        });
+        
       } else {
         // DialogCommon().showAlertDialog(
         //     context: Get.context!, title: value?.message ?? '');

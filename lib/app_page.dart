@@ -82,10 +82,10 @@ final List<GetPage> appPage = [
     page: () => const DiscountCodeView(),
     binding: DiscountBinding(),
   ),
-  GetPage(
-    name: OrderSuccessScreen.route,
-    page: () => const OrderSuccessScreen(),
-  ),
+  // GetPage(
+  //   name: OrderSuccessScreen.route,
+  //   page: () => const OrderSuccessScreen(),
+  // ),
   GetPage(
     name: OrderView.route,
     page: () => const OrderView(),
