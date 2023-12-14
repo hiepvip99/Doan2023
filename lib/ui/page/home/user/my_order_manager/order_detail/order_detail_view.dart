@@ -281,7 +281,7 @@ class OrderDetailView extends StatelessWidget {
                           ? () {
                               DialogCommon().showConfirmDialog(
                                   text:
-                                      'Đơn hàng của bạn sẽ được trả lại và hoàn tiền sau khi xác nhận',
+                                      'Đơn hàng của bạn sẽ được trả lại cho nguời bán và hoàn tiền sau khi xác nhận',
                                   Get.context!,
                                   'Trả hàng', () {
                                 viewModel.changeStatus(6, 'Trả hàng');
@@ -289,6 +289,29 @@ class OrderDetailView extends StatelessWidget {
                             }
                           : null,
                       child: const Text('Trả hàng'))),
+              Visibility(
+                  visible: viewModel.order.value.statusId == 5,
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                          onPressed: viewModel.order.value.statusId == 5
+                              ? () {
+                                  DialogCommon().showConfirmDialog(
+                                      text:
+                                          'Đơn hàng của bạn sẽ được hoàn tiền sau khi xác nhận',
+                                      Get.context!,
+                                      'Yêu cầu hoàn tiền', () {
+                                    viewModel.changeStatus(
+                                        7, 'Yêu cầu hoàn tiền');
+                                  });
+                                }
+                              : null,
+                          child: const Text('Yêu cầu hoàn tiền')),
+                    ],
+                  ))
             ],
           ),
         ),
