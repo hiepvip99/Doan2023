@@ -37,11 +37,11 @@ class CartViewModel extends GetxController {
     // manufacturerNetworkService
     //     .getAllManufacturer(step: 1000)
     //     .then((value) => manufacturerList.value = value?.manufacturer ?? []);
-    colorNetworkService
-        .getAllColor()
+    await colorNetworkService
+        .getAllColor(step: 1000)
         .then((value) => colorList.value = value?.color ?? []);
-    sizeNetworkService
-        .getAllSize()
+    await sizeNetworkService
+        .getAllSize(step: 1000)
         .then((value) => sizeList.value = value?.size ?? []);
     // categoryNetworkService
     //     .getAllCategory(step: 1000)

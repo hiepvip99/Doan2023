@@ -33,8 +33,8 @@ class MyOrderViewModel extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getAllOrder();
     getInfomationForProduct();
+    getAllOrder();
   }
 
   Future<void> getInfomationForProduct() async {

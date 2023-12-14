@@ -57,39 +57,52 @@ class ShoppingCartScreen extends StatelessWidget {
                       ),
                     )
                   : ListView.builder(
-                itemCount: viewModel.productInCart.value.length,
-                itemBuilder: (context, index) {
-                  return ProductCartItem(
-                    showDel: () => viewModel.showDel(index),
-                    initSelected: viewModel.productSelected.any((element) =>
-                        viewModel.productInCart[index].productInCart.id ==
-                        element.productInCart.id),
-                    onCheckChange: (isChecked) {
-                      if (isChecked) {
-                        viewModel.productSelected.addIf(
-                            !viewModel.productSelected.any((element) =>
-                                viewModel
-                                    .productInCart[index].productInCart.id ==
-                                element.productInCart.id),
-                            viewModel.productInCart[index]);
-                      } else {
-                        viewModel.productSelected.removeWhere((element) =>
-                            viewModel.productInCart[index].productInCart.id ==
-                            element.productInCart.id);
-                      }
-                    },
-                    onChangeQuantity: (quantity) =>
-                        viewModel.updateQuantity(index, quantity),
-                    updateQuantityNoRefesh: (quantity) =>
-                        viewModel.updateQuantityNoRefesh(index, quantity),
-                    sizeName: viewModel.getSizeName(viewModel
-                        .productInCart.value[index].productInCart.sizeId),
-                    colorName: viewModel.getColorName(viewModel
-                        .productInCart.value[index].productInCart.colorId),
-                    productCartModel: viewModel.productInCart.value[index],
-                  );
-                },
-              ),
+                      itemCount: viewModel.productInCart.value.length,
+                      itemBuilder: (context, index) {
+                        return Obx(
+                          () => ProductCartItem(
+                            showDel: () => viewModel.showDel(index),
+                            initSelected: viewModel.productSelected.any(
+                                (element) =>
+                                    viewModel.productInCart[index].productInCart
+                                        .id ==
+                                    element.productInCart.id),
+                            onCheckChange: (isChecked) {
+                              if (isChecked) {
+                                viewModel.productSelected.addIf(
+                                    !viewModel.productSelected.any((element) =>
+                                        viewModel.productInCart[index]
+                                            .productInCart.id ==
+                                        element.productInCart.id),
+                                    viewModel.productInCart[index]);
+                              } else {
+                                viewModel.productSelected.removeWhere(
+                                    (element) =>
+                                        viewModel.productInCart[index]
+                                            .productInCart.id ==
+                                        element.productInCart.id);
+                              }
+                            },
+                            onChangeQuantity: (quantity) =>
+                                viewModel.updateQuantity(index, quantity),
+                            updateQuantityNoRefesh: (quantity) => viewModel
+                                .updateQuantityNoRefesh(index, quantity),
+                            sizeName: viewModel.getSizeName(viewModel
+                                .productInCart
+                                .value[index]
+                                .productInCart
+                                .sizeId),
+                            colorName: viewModel.getColorName(viewModel
+                                .productInCart
+                                .value[index]
+                                .productInCart
+                                .colorId),
+                            productCartModel:
+                                viewModel.productInCart.value[index],
+                          ),
+                        );
+                      },
+                    ),
             ),
           ),
         ],
