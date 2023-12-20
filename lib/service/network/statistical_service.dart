@@ -4,6 +4,7 @@ import '../network.dart';
 
 class StatisticalService {
   final _statisticalByDay = "api/statistics/day";
+  final _statisticalProduct = "api/statistics/product";
   final _statisticalByMonth = "api/statistics/month";
 
   Future<StatisticalModel?> getStatisticalByDay(
@@ -29,6 +30,19 @@ class StatisticalService {
         BaseRepository(path: _statisticalByMonth, method: HttpMethod.get);
     final response = await repo.queryByPath(
       (e) => StatisticalModel.fromJsonByMonth(e),
+      queryParameters: queryParameter,
+    );
+    return response;
+  }
+  Future<ProductStatistical?> getStatisticalProduct(
+      {DateTime? fromDate, DateTime? toDate}) async {
+    final queryParameter = <String, dynamic>{};
+    queryParameter['fromDate'] = fromDate?.toIso8601String();
+    queryParameter['toDate'] = toDate?.toIso8601String();
+    final repo =
+        BaseRepository(path: _statisticalProduct, method: HttpMethod.get);
+    final response = await repo.queryByPath(
+      (e) => ProductStatistical.fromJson(e),
       queryParameters: queryParameter,
     );
     return response;

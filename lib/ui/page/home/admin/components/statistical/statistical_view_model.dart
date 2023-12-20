@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:get/get.dart';
 
+import '../../../../../../model/network/statistical_model.dart';
 import '../../../../../../service/network/statistical_service.dart';
 import 'statistical_view.dart';
 
@@ -10,6 +11,10 @@ class StatisticalViewModel extends GetxController {
   RxInt total = 0.obs;
   Rx<DateTime> fromDate = Rx(DateTime.now());
   Rx<DateTime> toDate = Rx(DateTime.now());
+
+  RxList<ProductThongKe> thongkeProduct = RxList();
+
+  RxBool isProduct = false.obs;
 
   RxBool loading = false.obs;
   RxBool isMonth = false.obs;
@@ -22,7 +27,23 @@ class StatisticalViewModel extends GetxController {
     getDataDay();
   }
 
+  Future<void> getProductStatistical() async {
+    isProduct.value = true;
+    loading.value = true;
+    await networkService
+        .getStatisticalProduct(fromDate: fromDate.value, toDate: toDate.value)
+        .then((value) {
+      if (value != null) {
+        if (value.data != null) {
+          thongkeProduct.value = value.data ?? [];
+        }
+      }
+    });
+    loading.value = false;
+  }
+
   Future<void> getDataDay() async {
+    isProduct.value = false;
     loading.value = true;
     isMonth.value = false;
     await networkService
@@ -45,6 +66,7 @@ class StatisticalViewModel extends GetxController {
   }
 
   Future<void> getDataMonth() async {
+    isProduct.value = false;
     loading.value = true;
     isMonth.value = true;
     await networkService

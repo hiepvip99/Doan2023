@@ -122,7 +122,10 @@ class _HomeUserState extends State<HomeUser> {
           // key: ,
           child: RefreshIndicator(
               key: _refreshIndicatorKey,
-              onRefresh: () => viewModel.getAllProduct(),
+              onRefresh: () async {
+                viewModel.currentPage.value = 1;
+                await viewModel.getAllProduct();
+              },
               child: Obx(() => getBody(context, viewModel.index.value))),
         ),
         bottomNavigationBar: SizedBox(
@@ -160,21 +163,21 @@ class _HomeUserState extends State<HomeUser> {
             //       title: const Text("Home"),
             //       selectedColor: Colors.black,
             //     ),
-      
+
             //     /// Likes
             //     SalomonBottomBarItem(
             //       icon: const Icon(Icons.favorite_border),
             //       title: const Text("Likes"),
             //       selectedColor: Colors.black,
             //     ),
-      
+
             //     /// Search
             //     SalomonBottomBarItem(
             //       icon: const Icon(Icons.notifications_none),
             //       title: const Text("Notification"),
             //       selectedColor: Colors.black,
             //     ),
-      
+
             //     /// Profile
             //     SalomonBottomBarItem(
             //       icon: const Icon(Icons.person_outline),

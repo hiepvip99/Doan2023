@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 import '../../../../../../extendsion/extendsion.dart';
+import '../../../../../../model/network/statistical_model.dart';
 import 'statistical_view_model.dart';
 
 class Statistical extends StatefulWidget {
@@ -82,13 +85,23 @@ class _StatisticalState extends State<Statistical> {
                       viewModel.getDataMonth();
                     },
                     child: const Text('Thống kê theo tháng')),
+                const SizedBox(
+                  width: 50,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      viewModel.getProductStatistical();
+                    },
+                    child: const Text('Thống kê sản phẩm')),
               ],
             ),
           ),
           //Initialize the chart widget
+          
           Expanded(
             child: Obx(
-              () => SfCartesianChart(
+              () => !viewModel.isProduct.value
+                  ? SfCartesianChart(
                   primaryXAxis: CategoryAxis(),
                   // Chart title
                   title: ChartTitle(text: 'Biểu đồ thống kê'),
@@ -107,9 +120,30 @@ class _StatisticalState extends State<Statistical> {
                         // Enable data label
                         dataLabelSettings:
                             const DataLabelSettings(isVisible: true))
-                  ]),
+                        ])
+                  : SfCircularChart(
+                      series: <CircularSeries>[
+                        PieSeries<ProductThongKe, String>(
+                            name: 'Sản phẩm bán chạy',
+                            dataLabelMapper: (data, index) =>
+                                '${data.name}\n${data.totalQuantity} chiếc',
+                            dataSource: viewModel.thongkeProduct.value,
+                            xValueMapper: (ProductThongKe data, _) => data.name,
+                            yValueMapper: (ProductThongKe data, _) =>
+                                data.totalQuantity,
+                            // dataLabelMapper: ,
+                            dataLabelSettings: const DataLabelSettings(
+                              isVisible: true,
+                            )),
+                      ],
+                    ),
             ),
           ),
+          // Expanded(
+          //   child: Obx(
+          //     () => ,
+          //   ),
+          // ),
         ]));
   }
 
@@ -164,4 +198,11 @@ class MyCustomScrollBehavior extends MaterialScrollBehavior {
         PointerDeviceKind.mouse,
         // etc.
       };
+}
+
+class PieData {
+  final String category;
+  final double value;
+
+  PieData(this.category, this.value);
 }

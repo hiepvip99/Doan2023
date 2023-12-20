@@ -142,7 +142,7 @@ class _OrderManagerViewState extends State<OrderManagerView> {
                     ),
                   ),
                   SizedBox(
-                    width: 86,
+                    width: 102,
                     child: Text('Chức năng'),
                   ),
                 ],

@@ -68,3 +68,51 @@ class RevenueByMonth {
     return data;
   }
 }
+
+class ProductStatistical extends BaseEntity {
+  List<ProductThongKe>? data;
+  int? status;
+
+  ProductStatistical({this.data, this.status});
+
+  ProductStatistical.fromJson(Map<dynamic, dynamic> json) {
+    if (json['data'] != null) {
+      data = <ProductThongKe>[];
+      json['data'].forEach((v) {
+        data!.add(ProductThongKe.fromJson(v));
+      });
+    }
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    data['status'] = status;
+    return data;
+  }
+}
+
+class ProductThongKe {
+  int? id;
+  String? name;
+  int? totalQuantity;
+
+  ProductThongKe({this.id, this.name, this.totalQuantity});
+
+  ProductThongKe.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    totalQuantity = json['total_quantity'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['total_quantity'] = totalQuantity;
+    return data;
+  }
+}

@@ -33,11 +33,11 @@ class OrderManagerViewModel extends GetxController {
     getOrderList();
   }
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   getOrderList();
-  // }
+  @override
+  void onInit() {
+    super.onInit();
+    getOrderList();
+  }
 
   Future<void> getOrderList() async {
     loading.value = true;
