@@ -13,6 +13,7 @@ import '../my_order_view_model.dart';
 class OrderDetailViewModel extends GetxController {
   Rx<Order> order = Rx(Order());
   final RxList<StatusOrder> listStatusOrder = RxList();
+  RxList<OrderHistoryTimeItem> listTime = RxList();
   RxBool loading = false.obs;
 
   RxString base64Image = ''.obs;
@@ -92,12 +93,23 @@ class OrderDetailViewModel extends GetxController {
     });
   }
 
+  Future<void> getAllOrderHistory() async {
+    OrderService().getAllOrderHistory(order.value.id ?? 0).then((value) {
+      if (value != null) {
+        listTime.value = value.data ?? [];
+        // if (value.statusObj != null) {
+        //   listStatusOrder.value = value.statusObj!;
+        // }
+      }
+    });
+  }
+
   Future<void> getInfomationForProduct() async {
     colorNetworkService
-        .getAllColor()
+        .getAllColor(step: 1000)
         .then((value) => colorList.value = value?.color ?? []);
     sizeNetworkService
-        .getAllSize()
+        .getAllSize(step: 1000)
         .then((value) => sizeList.value = value?.size ?? []);
   }
 
@@ -132,6 +144,7 @@ class OrderDetailViewModel extends GetxController {
     }
     genarateQr();
     getInfomationForProduct();
+    getAllOrderHistory();
   }
 }
 

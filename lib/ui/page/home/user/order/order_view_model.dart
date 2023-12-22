@@ -140,10 +140,10 @@ class OrderViewModel extends GetxController {
       }
     });
     colorNetworkService
-        .getAllColor()
+        .getAllColor(step: 1000)
         .then((value) => colorList.value = value?.color ?? []);
     sizeNetworkService
-        .getAllSize()
+        .getAllSize(step: 1000)
         .then((value) => sizeList.value = value?.size ?? []);
   }
 

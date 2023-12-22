@@ -1,4 +1,7 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -96,6 +99,27 @@ class OrderDetailView extends StatelessWidget {
                         Text(formatDateTime(
                             viewModel.order.value.orderDate ?? DateTime(1990))),
                       ],
+                    ),
+                    Obx(
+                      () => Column(
+                        children: [
+                          ...viewModel.listTime.value
+                              .map(
+                                (e) => Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                        '${viewModel.listStatusOrder.value.firstWhereOrNull((element) => element.id == e.statusId)?.name}:'),
+                                    Text(formatDateTime7(DateTime.tryParse(
+                                            e.changedTime ?? '') ??
+                                        DateTime.now())),
+                                  ],
+                                ),
+                              )
+                              .toList()
+                        ],
+                      ),
                     ),
                     const Divider(),
                     // Text

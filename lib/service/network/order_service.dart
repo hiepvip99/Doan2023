@@ -6,6 +6,7 @@ import '../network.dart';
 class OrderService {
   final String _orderUrl = 'api/order/shoeOrders';
   final String _statusOrderUrl = 'api/order/shoeOrders/status';
+  final String _getAllOrderHistory = 'api/order/getAllOrderHistory';
   final String _orderById = 'api/order/shoeOrderById';
   final String _review = 'api/order/review';
   final String _checkReview = 'api/order/check_review';
@@ -154,6 +155,15 @@ class OrderService {
     final response = await repo.queryByPath(
       (e) => OrderManagerModel.fromJson(e),
     );
+    return response;
+  }
+  Future<OrderHistoryTime?> getAllOrderHistory(int orderId) async {
+    final queryParameter = <String, dynamic>{};
+    queryParameter['order_id'] = orderId;
+    final repo =
+        BaseRepository(path: _getAllOrderHistory, method: HttpMethod.get);
+    final response = await repo.queryByPath((e) => OrderHistoryTime.fromJson(e),
+        queryParameters: queryParameter);
     return response;
   }
 

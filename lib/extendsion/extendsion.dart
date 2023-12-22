@@ -112,6 +112,22 @@ String formatDateTime(DateTime? dateTime) {
   return formattedDate;
 }
 
+String formatDateTime7(DateTime? dateTime) {
+  if (dateTime == null) {
+    return '';
+  }
+
+  // Chuyển múi giờ về UTC+7 bằng cách thêm 7 giờ
+  DateTime localDateTime = dateTime.add(Duration(hours: 7));
+
+  // Định dạng thời gian
+  String formattedDate =
+      '${localDateTime.day}/${localDateTime.month}/${localDateTime.year} ${localDateTime.hour}:${localDateTime.minute}:${localDateTime.second}';
+
+  return formattedDate;
+}
+
+
 // // Sử dụng hàm
 // DateTime currentDateTime = DateTime.now();
 // String formattedDateTime = formatDateTime(currentDateTime);

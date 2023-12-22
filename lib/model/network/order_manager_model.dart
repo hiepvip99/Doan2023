@@ -469,3 +469,55 @@ class RatingCounts {
     return data;
   }
 }
+
+class OrderHistoryTime extends BaseEntity {
+  int? status;
+  List<OrderHistoryTimeItem>? data;
+
+  OrderHistoryTime({this.status, this.data});
+
+  OrderHistoryTime.fromJson(Map<dynamic, dynamic> json) {
+    status = json['status'];
+    if (json['data'] != null) {
+      data = <OrderHistoryTimeItem>[];
+      json['data'].forEach((v) {
+        data!.add(OrderHistoryTimeItem.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['status'] = status;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class OrderHistoryTimeItem {
+  int? id;
+  int? orderId;
+  int? statusId;
+  String? changedTime;
+
+  OrderHistoryTimeItem(
+      {this.id, this.orderId, this.statusId, this.changedTime});
+
+  OrderHistoryTimeItem.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    orderId = json['order_id'];
+    statusId = json['status_id'];
+    changedTime = json['changed_time'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['order_id'] = orderId;
+    data['status_id'] = statusId;
+    data['changed_time'] = changedTime;
+    return data;
+  }
+}
