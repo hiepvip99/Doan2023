@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:web_app/model/network/cart_model.dart';
+import 'package:web_app/model/network/manufacturer_model.dart';
 import 'package:web_app/model/network/order_manager_model.dart';
 import 'package:web_app/model/network/product_manager_model.dart';
 import 'package:web_app/service/network/order_service.dart';
@@ -24,6 +25,7 @@ class ProductViewModel extends GetxController {
   Rx<RatingCounts> ratingCounts = Rx(RatingCounts());
 
   RxList<Review> reviewList = RxList();
+  RxList<Manufacturer> manufacturerList = RxList();
   RxDouble averageRating = RxDouble(5);
   RxInt totalRating = 1.obs;
   RxInt totalRatingS = 0.obs;
@@ -32,7 +34,7 @@ class ProductViewModel extends GetxController {
   CartService cartService = CartService();
   OrderService orderService = OrderService();
   ProductService networkService = ProductService();
-  // ManufacturerService manufacturerNetworkService = ManufacturerService();
+  ManufacturerService manufacturerNetworkService = ManufacturerService();
   ColorService colorNetworkService = ColorService();
   SizeService sizeNetworkService = SizeService();
   RxList<ColorShoe> colorList = RxList();
@@ -52,9 +54,9 @@ class ProductViewModel extends GetxController {
   }
 
   Future<void> getInfomationForProduct() async {
-    // manufacturerNetworkService
-    //     .getAllManufacturer(step: 1000)
-    //     .then((value) => manufacturerList.value = value?.manufacturer ?? []);
+    manufacturerNetworkService
+        .getAllManufacturer(step: 1000)
+        .then((value) => manufacturerList.value = value?.manufacturer ?? []);
     await colorNetworkService
         .getAllColor(step: 1000)
         .then((value) => colorList.value = value?.color ?? []);

@@ -176,11 +176,17 @@ class _ProductViewState extends State<ProductView> {
                   height: 16,
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      viewModel.product.value.name ?? '',
-                      style: const TextStyle(fontSize: 16),
+                    Expanded(
+                      child: Text(
+                        viewModel.product.value.name ?? '',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -204,7 +210,24 @@ class _ProductViewState extends State<ProductView> {
                     ),
                   ],
                 ),
-
+                const SizedBox(
+                  height: 16,
+                ),
+                Obx(
+                  () => Text(
+                    'Thương hiệu: ${viewModel.manufacturerList.value.firstWhereOrNull((element) => element.id == viewModel.product.value.manufacturerId)?.name ?? ''}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Obx(
+                  () => Text(
+                    'Giới tính: ${viewModel.product.value.gender}',
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
                 const SizedBox(
                   height: 16,
                 ),
@@ -451,7 +474,7 @@ class _ProductViewState extends State<ProductView> {
                   height: 16,
                 ),
                 Text(
-                  '${viewModel.product.value.description ?? "Chưa có mô tả"}',
+                  '${viewModel.product.value.description != null ? (viewModel.product.value.description!.isEmpty ? "Chưa có mô tả" : viewModel.product.value.description) : 'Chưa có mô tả'}',
                   style: const TextStyle(fontSize: 16),
                 ),
                 const SizedBox(height: 16),

@@ -113,6 +113,7 @@ class _SearchViewState extends State<SearchView> {
             IconButton(
                 onPressed: () {
                   viewModel.keyword.value = txtSearch.text.trim();
+                  viewModel.currentPage.value = 1;
                   _pagingController.refresh();
                 },
                 icon: const Padding(
@@ -376,6 +377,7 @@ class _SearchViewState extends State<SearchView> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
+                        viewModel.currentPage.value = 1;
                         viewModel.keyword.value = txtSearch.text.trim();
                         validatePrice.value = '';
                         viewModel.minPrice = int.tryParse(txtMinPrice.text);
@@ -386,6 +388,7 @@ class _SearchViewState extends State<SearchView> {
                             validatePrice.value =
                                 'Vui lòng điền khoảng giá phù hợp';
                           } else {
+                            viewModel.currentPage.value = 1;
                             // if (viewModel.minPrice! > viewModel.maxPrice!) {}
                             _pagingController.refresh();
                           }
