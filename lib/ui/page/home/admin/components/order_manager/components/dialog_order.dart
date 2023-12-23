@@ -20,6 +20,8 @@ class DialogOrder {
 
   Future<void> showDetailDialog(BuildContext context, int index) async {
     // orderValue.value = order;
+    viewModel.getAllOrderHistory(viewModel.listOrder.value[index]);
+
     DialogCommon().showDialogWithBody(
       height: 500,
       context,
@@ -62,6 +64,38 @@ class DialogOrder {
                 Text(
                   'Thông tin đơn hàng:',
                   style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Thời gian đặt hàng:'),
+                    Text(formatDateTime(
+                        viewModel.listOrder.value[index].orderDate ??
+                            DateTime(1990))),
+                  ],
+                ),
+                Obx(
+                  () => Column(
+                    children: [
+                      ...viewModel.listTime.value
+                          .map(
+                            (e) => Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                    '${viewModel.listStatusOrder.value.firstWhereOrNull((element) => element.id == e.statusId)?.name}:'),
+                                Text(formatDateTime7(
+                                    DateTime.tryParse(e.changedTime ?? '') ??
+                                        DateTime.now())),
+                              ],
+                            ),
+                          )
+                          .toList()
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 10,

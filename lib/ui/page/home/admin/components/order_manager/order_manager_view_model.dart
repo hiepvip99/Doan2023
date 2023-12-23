@@ -18,6 +18,7 @@ class OrderManagerViewModel extends GetxController {
   RxString dateSearch = ''.obs;
   // RxString dateSearch = ''.obs;
 
+  RxList<OrderHistoryTimeItem> listTime = RxList();
   final dialog = DialogCommon();
   OrderService networkService = OrderService();
   
@@ -31,6 +32,17 @@ class OrderManagerViewModel extends GetxController {
     selectedItem.value = value ?? '10';
     currentPage.value = 1;
     getOrderList();
+  }
+
+  Future<void> getAllOrderHistory(Order order) async {
+    OrderService().getAllOrderHistory(order.id ?? 0).then((value) {
+      if (value != null) {
+        listTime.value = value.data ?? [];
+        // if (value.statusObj != null) {
+        //   listStatusOrder.value = value.statusObj!;
+        // }
+      }
+    });
   }
 
   @override
